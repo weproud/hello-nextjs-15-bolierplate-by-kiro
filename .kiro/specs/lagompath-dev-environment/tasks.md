@@ -86,15 +86,15 @@
     - Configure error handling and logging for server actions
     - _Requirements: 7.1, 7.2, 7.3_
 
-  - [~] 7.2 Implement sample server actions
+  - [x] 7.2 Implement sample server actions
     - Create authenticated action wrapper with user context
     - Implement CRUD operations for Project model
     - Add cache revalidation after successful operations
     - Test server actions with comprehensive error scenarios
     - _Requirements: 7.4, 7.5_
 
-- [ ] 8. Organize project structure and create core directories
-  - [ ] 8.1 Create organized directory structure
+- [-] 8. Organize project structure and create core directories
+  - [~] 8.1 Create organized directory structure
     - Create components directory with auth and ui subdirectories
     - Set up lib directory with actions, cache, prisma, utils, and validations
     - Create providers, services, stores, and types directories

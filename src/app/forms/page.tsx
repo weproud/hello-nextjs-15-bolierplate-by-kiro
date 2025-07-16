@@ -7,6 +7,7 @@ import { MultiStepForm } from '@/components/forms/multi-step-form'
 import { ComprehensiveFormExample } from '@/components/forms/comprehensive-form-example'
 import { SafeActionExamples } from '@/components/forms/safe-action-example'
 import { AdvancedSafeActionExamples } from '@/components/forms/advanced-safe-action-examples'
+import { ProjectCrudExamples } from '@/components/projects/project-crud-examples'
 
 export default function FormsPage() {
   return (
@@ -78,6 +79,20 @@ export default function FormsPage() {
               </p>
             </div>
             <AdvancedSafeActionExamples />
+          </section>
+
+          {/* Project CRUD Examples */}
+          <section className="border-2 border-orange-200 rounded-lg p-6 bg-orange-50/30">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold mb-2 text-orange-800">
+                🗂️ Complete CRUD Operations with Database
+              </h2>
+              <p className="text-orange-600">
+                Prisma + next-safe-action을 사용한 완전한 데이터베이스 CRUD 작업
+                예제
+              </p>
+            </div>
+            <ProjectCrudExamples />
           </section>
 
           {/* Project Form */}
