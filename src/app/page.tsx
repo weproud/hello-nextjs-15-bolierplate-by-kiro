@@ -1,7 +1,12 @@
 import Image from 'next/image'
 import { TestTailwindComponent } from '@/components/test-tailwind'
+import { getCurrentUser } from '@/lib/session'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser()
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -25,6 +30,30 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
         </ol>
+
+        {/* Authentication Section */}
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          {user ? (
+            <>
+              <div className="text-center sm:text-left">
+                <p className="text-sm text-muted-foreground">안녕하세요,</p>
+                <p className="font-medium">{user.name || user.email}</p>
+              </div>
+              <Button asChild>
+                <Link href="/dashboard">대시보드로 이동</Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild>
+                <Link href="/auth/signin">로그인</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/dashboard">보호된 페이지 테스트</Link>
+              </Button>
+            </>
+          )}
+        </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
