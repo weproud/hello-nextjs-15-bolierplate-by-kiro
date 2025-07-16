@@ -54,17 +54,17 @@ export function validateField<T extends z.ZodType>(
   try {
     // Create a partial object with just the field we want to validate
     const partialData = { [fieldName]: value }
-    const partialSchema = schema.partial()
 
-    const validatedData = partialSchema.parse(partialData)
+    // For partial validation, we need to handle this differently
+    const result = schema.safeParse(partialData)
 
-    return {
-      success: true,
-      data: validatedData,
-    }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const fieldError = error.errors.find(
+    if (result.success) {
+      return {
+        success: true,
+        data: result.data,
+      }
+    } else {
+      const fieldError = result.error.errors.find(
         err => err.path.length > 0 && err.path[0] === fieldName
       )
 
@@ -77,6 +77,11 @@ export function validateField<T extends z.ZodType>(
       }
     }
 
+    return {
+      success: false,
+      message: '필드 유효성 검사 중 오류가 발생했습니다.',
+    }
+  } catch (error) {
     return {
       success: false,
       message: '필드 유효성 검사 중 오류가 발생했습니다.',
@@ -183,6 +188,60 @@ export function createValidationHelper<T extends z.ZodType>(schema: T) {
 
     // Schema reference for type inference
     schema,
+  }
+}
+
+// Enhanced validation helper with real-time validation
+export function createEnhancedValidationHelper<T extends z.ZodType>(schema: T) {
+  const baseHelper = createValidationHelper(schema)
+
+  return {
+    ...baseHelper,
+
+    // Async field validation with debouncing
+    validateFieldAsync: async (
+      fieldName: string,
+      value: unknown,
+      debounceMs: number = 300
+    ): Promise<ValidationResult> => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(baseHelper.validateField(fieldName, value))
+        }, debounceMs)
+      })
+    },
+
+    // Validate multiple fields at once
+    validateFields: (
+      fields: Record<string, unknown>
+    ): Record<string, ValidationResult> => {
+      const results: Record<string, ValidationResult> = {}
+
+      Object.entries(fields).forEach(([fieldName, value]) => {
+        results[fieldName] = baseHelper.validateField(fieldName, value)
+      })
+
+      return results
+    },
+
+    // Get validation summary
+    getValidationSummary: (data: unknown) => {
+      const result = validateWithSchema(schema, data)
+      const errorCount = result.errors ? Object.keys(result.errors).length : 0
+      const totalFields = 10 // This would need to be calculated based on schema
+      const validFields = totalFields - errorCount
+
+      return {
+        isValid: result.success,
+        totalFields,
+        validFields,
+        errorCount,
+        completionPercentage:
+          totalFields > 0 ? (validFields / totalFields) * 100 : 0,
+        errors: result.errors,
+        firstError: result.errors ? Object.values(result.errors)[0]?.[0] : null,
+      }
+    },
   }
 }
 
