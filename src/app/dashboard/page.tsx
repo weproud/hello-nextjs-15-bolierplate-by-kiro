@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { signOut } from '@/lib/auth'
+import { signOut } from '@/auth'
 
 export default async function DashboardPage() {
   const user = await getCurrentUser()

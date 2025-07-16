@@ -1,5 +1,5 @@
 // Test file to verify NextAuth.js configuration
-import { auth } from './auth'
+import { auth } from '../auth'
 
 // This file is just to test that the auth configuration loads without errors
 // It can be removed after verification
