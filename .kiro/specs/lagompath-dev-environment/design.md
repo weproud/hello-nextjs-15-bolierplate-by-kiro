@@ -191,17 +191,17 @@ model Project {
 
 ```typescript
 interface User {
-  id: string;
-  name: string | null;
-  email: string;
-  image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  id: string
+  name: string | null
+  email: string
+  image: string | null
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface Session {
-  user: User;
-  expires: string;
+  user: User
+  expires: string
 }
 ```
 
@@ -209,22 +209,22 @@ interface Session {
 
 ```typescript
 interface Project {
-  id: string;
-  title: string;
-  description: string | null;
-  userId: string;
-  currentPhaseId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  id: string
+  title: string
+  description: string | null
+  userId: string
+  currentPhaseId: string | null
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface Phase {
-  id: string;
-  title: string;
-  description: string | null;
-  order: number;
-  projectId: string;
-  missions: Mission[];
+  id: string
+  title: string
+  description: string | null
+  order: number
+  projectId: string
+  missions: Mission[]
 }
 ```
 
@@ -232,11 +232,11 @@ interface Phase {
 
 ```typescript
 const createProjectSchema = z.object({
-  title: z.string().min(1, "제목을 입력해주세요."),
+  title: z.string().min(1, '제목을 입력해주세요.'),
   description: z.string().optional(),
-});
+})
 
-type CreateProjectInput = z.infer<typeof createProjectSchema>;
+type CreateProjectInput = z.infer<typeof createProjectSchema>
 ```
 
 ## Error Handling
@@ -252,16 +252,16 @@ export const createProject = authAction(createProjectSchema).action(
           ...parsedInput,
           userId: ctx.user.id,
         },
-      });
+      })
 
-      revalidatePath("/projects");
-      return { success: true, data: project };
+      revalidatePath('/projects')
+      return { success: true, data: project }
     } catch (error) {
-      console.error("프로젝트 생성 오류:", error);
-      throw new Error("프로젝트를 생성하는 중 오류가 발생했습니다.");
+      console.error('프로젝트 생성 오류:', error)
+      throw new Error('프로젝트를 생성하는 중 오류가 발생했습니다.')
     }
   }
-);
+)
 ```
 
 ### 2. 클라이언트 에러 처리
@@ -269,12 +269,12 @@ export const createProject = authAction(createProjectSchema).action(
 ```typescript
 const { execute, isExecuting, result } = useAction(createProject, {
   onSuccess: ({ data }) => {
-    toast.success("프로젝트가 생성되었습니다.");
+    toast.success('프로젝트가 생성되었습니다.')
   },
   onError: ({ error }) => {
-    toast.error(error.serverError || "오류가 발생했습니다.");
+    toast.error(error.serverError || '오류가 발생했습니다.')
   },
-});
+})
 ```
 
 ### 3. 전역 에러 경계
