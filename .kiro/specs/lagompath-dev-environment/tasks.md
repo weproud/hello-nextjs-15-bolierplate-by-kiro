@@ -48,7 +48,7 @@
     - _Requirements: 4.2, 4.4, 4.5_
 
 - [ ] 5. Implement authentication system with NextAuth.js
-  - [ ] 5.1 Install and configure NextAuth.js 5.0
+  - [x] 5.1 Install and configure NextAuth.js 5.0
     - Install NextAuth.js and required dependencies
     - Create auth configuration with Google OAuth provider
     - Set up JWT session strategy and secret keys
