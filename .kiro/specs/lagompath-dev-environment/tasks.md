@@ -40,7 +40,7 @@
     - Configure database connection string in environment variables
     - _Requirements: 4.1, 4.3_
 
-  - [ ] 4.2 Create core database schema models
+  - [x] 4.2 Create core database schema models
     - Define User model with id, name, email, and timestamps
     - Define Project model with relationships to User
     - Define Phase model with relationships to Project
