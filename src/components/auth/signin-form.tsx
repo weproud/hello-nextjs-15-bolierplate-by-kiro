@@ -2,30 +2,129 @@
 
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
+import { AlertTriangle, RefreshCw, ExternalLink } from 'lucide-react'
+import { useModalErrorHandler } from './modal-error-boundary'
+import { createAuthErrorHandler, type AuthError } from '@/lib/auth-error-utils'
 
-export function SignInForm() {
+interface SignInFormProps {
+  isModal?: boolean
+  onSuccess?: () => void
+  onError?: (error: Error) => void
+  callbackUrl?: string
+}
+
+export function SignInForm({
+  isModal = false,
+  onSuccess,
+  onError,
+  callbackUrl: propCallbackUrl,
+}: SignInFormProps = {}) {
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/'
+  const callbackUrl = propCallbackUrl || searchParams.get('callbackUrl') || '/'
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const { handleError: handleModalError, fallbackToFullPage } =
+    useModalErrorHandler()
 
-  const handleGoogleSignIn = async () => {
+  // Create error handler with consistent behavior
+  const errorHandler = useMemo(
+    () =>
+      createAuthErrorHandler(isModal ? 'modal' : 'page', {
+        maxRetries: 3,
+        fallbackToFullPage: isModal,
+        callbackUrl,
+      }),
+    [isModal, callbackUrl]
+  )
+
+  const handleGoogleSignIn = useCallback(async () => {
     try {
       setIsLoading(true)
-      await signIn('google', {
-        callbackUrl,
-        redirect: true,
-      })
+      setError(null)
+
+      if (isModal) {
+        // For modal, don't redirect automatically
+        const result = await signIn('google', {
+          callbackUrl,
+          redirect: false,
+        })
+
+        // Handle modal success callback
+        if (result?.ok && onSuccess) {
+          onSuccess()
+        } else if (result?.error) {
+          throw new Error(result.error)
+        }
+      } else {
+        // For full page, allow redirect
+        await signIn('google', {
+          callbackUrl,
+          redirect: true,
+        })
+      }
     } catch (error) {
-      console.error('로그인 오류:', error)
+      const authError = error as AuthError
+      console.error('로그인 오류:', authError)
+
+      // Use the error handler to get consistent error handling
+      const errorResult = errorHandler.handleError(authError)
+      setError(errorResult.message)
+
+      // Report error to modal error handler if in modal context
+      if (isModal) {
+        handleModalError(authError, 'signin-form')
+      }
+
+      // Call custom error handler if provided
+      if (onError) {
+        onError(authError)
+      }
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [callbackUrl, isModal, onSuccess, onError, errorHandler, handleModalError])
+
+  const handleRetry = useCallback(() => {
+    errorHandler.incrementRetry()
+    setError(null)
+    handleGoogleSignIn()
+  }, [errorHandler, handleGoogleSignIn])
+
+  const handleFallbackToFullPage = useCallback(() => {
+    fallbackToFullPage(callbackUrl)
+  }, [fallbackToFullPage, callbackUrl])
+
+  // Get current retry state from error handler
+  const errorResult = error
+    ? errorHandler.handleError({
+        name: 'RetryCheck',
+        message: error,
+      } as AuthError)
+    : null
+  const canRetry = errorResult?.canRetry || false
 
   return (
     <div className="space-y-4">
+      {/* Error display */}
+      {error && (
+        <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+          <div className="flex items-start">
+            <AlertTriangle className="w-4 h-4 text-red-600 mt-0.5 mr-2 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm text-red-800">{error}</p>
+              {errorResult && errorResult.retryCount > 0 && (
+                <p className="text-xs text-red-600 mt-1">
+                  재시도 {errorResult.retryCount}/{errorResult.maxRetries}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main signin button */}
       <Button
         onClick={handleGoogleSignIn}
         disabled={isLoading}
@@ -61,6 +160,39 @@ export function SignInForm() {
           </div>
         )}
       </Button>
+
+      {/* Retry and fallback options */}
+      {error && (
+        <div className="space-y-2">
+          {canRetry && (
+            <Button
+              onClick={handleRetry}
+              variant="outline"
+              className="w-full"
+              size="sm"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              다시 시도 (
+              {errorResult
+                ? errorResult.maxRetries - errorResult.retryCount
+                : 3}
+              회 남음)
+            </Button>
+          )}
+
+          {isModal && (
+            <Button
+              onClick={handleFallbackToFullPage}
+              variant="ghost"
+              className="w-full"
+              size="sm"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              전체 페이지에서 로그인
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   )
 }

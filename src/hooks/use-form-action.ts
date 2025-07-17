@@ -103,12 +103,24 @@ export function useFormAction<T = any>(
             if (showToast) {
               toast.error(message)
             }
-          } else {
+            onError?.(message)
+            return
+          }
+
+          // Handle other error formats
+          if (actionResult.error || actionResult.fieldErrors) {
+            const result: ActionResult<T> = {
+              success: false,
+              error: actionResult.error || errorMessage,
+              fieldErrors: actionResult.fieldErrors,
+            }
+            setResult(result)
+
             // Set field errors if available
             if (form && actionResult.fieldErrors) {
               Object.entries(actionResult.fieldErrors).forEach(
                 ([field, errors]) => {
-                  if (errors[0]) {
+                  if (Array.isArray(errors) && errors[0]) {
                     form.setError(field as any, {
                       type: 'server',
                       message: errors[0],
@@ -118,12 +130,11 @@ export function useFormAction<T = any>(
               )
             }
 
-              const message = actionResult.error || errorMessage
-              if (showToast) {
-                toast.error(message)
-              }
-              onError?.(message)
+            const message = actionResult.error || errorMessage
+            if (showToast) {
+              toast.error(message)
             }
+            onError?.(message)
             return
           }
         }
@@ -272,38 +283,41 @@ export function useRetryableFormAction<T = any>(
 ) {
   const { maxRetries = 3, retryDelay = 1000, ...formActionOptions } = options
   const [retryCount, setRetryCount] = useState(0)
-  const { maxRetries = 3, ...formActionOptions } = options
 
-  const executeWithRetry = useCallback(
-    async (formData: FormData) => {
-      const attemptExecution = async (
-        attempt: number
-      ): Promise<ActionResult<T>> => {
-        try {
-          const result = await action(formData)
-          if (result.success) {
-            setRetryCount(0) // Reset retry count on success
-          }
-          return result
-        } catch (error) {
-          if (attempt < maxRetries) {
-            setRetryCount(attempt + 1)
-            // Exponential backoff: wait 1s, 2s, 4s...
-            await new Promise(resolve =>
-              setTimeout(resolve, Math.pow(2, attempt) * 1000)
-            )
-            return attemptExecution(attempt + 1)
-          }
-          throw error
+  const executeWithRetry = async (
+    formData: FormData
+  ): Promise<ActionResult<T>> => {
+    const attemptExecution = async (
+      attempt: number
+    ): Promise<ActionResult<T>> => {
+      try {
+        const result = await action(formData)
+        if (result.success) {
+          setRetryCount(0) // Reset retry count on success
         }
+        return result
+      } catch (error) {
+        if (attempt < maxRetries) {
+          setRetryCount(attempt + 1)
+          // Exponential backoff: wait 1s, 2s, 4s...
+          await new Promise(resolve =>
+            setTimeout(resolve, Math.pow(2, attempt) * 1000)
+          )
+          return attemptExecution(attempt + 1)
+        }
+        throw error
       }
+    }
 
-      return attemptExecution(0)
-    },
-    [action, maxRetries]
-  )
+    return attemptExecution(0)
+  }
 
   const baseFormAction = useFormAction(executeWithRetry, formActionOptions)
+
+  const reset = () => {
+    setRetryCount(0)
+    baseFormAction.reset()
+  }
 
   return {
     ...baseFormAction,
