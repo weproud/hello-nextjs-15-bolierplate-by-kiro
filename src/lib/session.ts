@@ -1,63 +1,54 @@
-import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../auth'
+import type { Session } from 'next-auth'
+import { createAppError, ERROR_CODES } from './error-handling'
 
-/**
- * 서버 컴포넌트에서 현재 세션을 가져옵니다.
- * 인증되지 않은 경우 null을 반환합니다.
- */
-export async function getCurrentSession() {
-  return await auth()
+// Server-side session utilities
+export async function getCurrentSession(): Promise<Session | null> {
+  try {
+    return await getServerSession(authOptions)
+  } catch (error) {
+    console.error('Failed to get session:', error)
+    return null
+  }
 }
 
-/**
- * 서버 컴포넌트에서 현재 사용자를 가져옵니다.
- * 인증되지 않은 경우 null을 반환합니다.
- */
-export async function getCurrentUser() {
-  const session = await auth()
-  return session?.user || null
-}
+export async function requireAuth(): Promise<Session> {
+  const session = await getCurrentSession()
 
-/**
- * 서버 컴포넌트에서 인증이 필요한 페이지를 보호합니다.
- * 인증되지 않은 경우 로그인 페이지로 리다이렉트합니다.
- */
-export async function requireAuth() {
-  const session = await auth()
-
-  if (!session) {
-    redirect('/auth/signin')
+  if (!session?.user) {
+    throw createAppError(ERROR_CODES.UNAUTHORIZED, 'Authentication required')
   }
 
   return session
 }
 
-/**
- * 서버 컴포넌트에서 사용자 정보가 필요한 페이지를 보호합니다.
- * 인증되지 않은 경우 로그인 페이지로 리다이렉트합니다.
- */
+export async function getCurrentUser() {
+  const session = await getCurrentSession()
+  return session?.user || null
+}
+
 export async function requireUser() {
   const session = await requireAuth()
-
-  if (!session.user) {
-    redirect('/auth/signin')
-  }
-
   return session.user
 }
 
-/**
- * 특정 경로로 리다이렉트하면서 현재 URL을 callbackUrl로 설정합니다.
- */
-export function redirectToSignIn(callbackUrl?: string) {
-  const url = new URL(
-    '/auth/signin',
-    process.env['NEXTAUTH_URL'] || 'http://localhost:3000'
-  )
+// Session validation utilities
+export function isValidSession(session: Session | null): session is Session {
+  return !!(session?.user?.id && session.user.email)
+}
 
-  if (callbackUrl) {
-    url.searchParams.set('callbackUrl', callbackUrl)
-  }
+export function hasRole(session: Session | null, role: string): boolean {
+  // For now, we don't have roles in our schema
+  // This is a placeholder for future role-based access control
+  return isValidSession(session)
+}
 
-  redirect(url.toString())
+// Session helpers for client components
+export function getSessionUser(session: Session | null) {
+  return session?.user || null
+}
+
+export function isAuthenticated(session: Session | null): boolean {
+  return isValidSession(session)
 }
