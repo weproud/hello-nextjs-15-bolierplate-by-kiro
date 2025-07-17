@@ -1,5 +1,7 @@
+import { Prisma, PrismaClient } from '@prisma/client'
+
 // Re-export the enhanced prisma client
-export { prisma, extendedPrisma } from './prisma/client'
+export { extendedPrisma } from './prisma/client'
 export { DatabaseConnection } from './prisma/connection'
 export {
   userQueries,
@@ -330,7 +332,11 @@ prisma.$use(async (params, next) => {
     const after = Date.now()
 
     // Log slow queries in development
-    if (process.env.NODE_ENV === 'development' && after - before > 1000) {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV === 'development' &&
+      after - before > 1000
+    ) {
       console.warn(
         `Slow query detected: ${params.model}.${params.action} took ${after - before}ms`
       )
@@ -343,9 +349,11 @@ prisma.$use(async (params, next) => {
   }
 })
 
-// Graceful shutdown
-process.on('beforeExit', async () => {
-  await prisma.$disconnect()
-})
+// Graceful shutdown for Node.js environments
+// if (process.env['NEXT_RUNTIME'] === 'nodejs') {
+//   process.on('beforeExit', async () => {
+//     await prisma.$disconnect()
+//   })
+// }
 
 export default prisma

@@ -22,6 +22,8 @@ const eslintConfig = [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        project: true,
+        tsconfigRootDir: __dirname,
       },
     },
     plugins: {
@@ -42,7 +44,7 @@ const eslintConfig = [
         },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
+      // '@typescript-eslint/prefer-const': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
 

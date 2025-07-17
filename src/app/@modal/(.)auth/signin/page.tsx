@@ -87,16 +87,17 @@ function SuspenseErrorFallback() {
 }
 
 interface InterceptedSigninPageProps {
-  searchParams: {
+  searchParams: Promise<{
     callbackUrl?: string
     error?: string
-  }
+  }>
 }
 
-export default function InterceptedSigninPage({
+export default async function InterceptedSigninPage({
   searchParams,
 }: InterceptedSigninPageProps) {
-  const callbackUrl = searchParams?.callbackUrl || '/'
+  const resolvedSearchParams = await searchParams
+  const callbackUrl = resolvedSearchParams?.callbackUrl || '/'
 
   const handlePageError = (error: Error, errorInfo: any) => {
     console.error('Intercepted signin page error:', error, errorInfo)

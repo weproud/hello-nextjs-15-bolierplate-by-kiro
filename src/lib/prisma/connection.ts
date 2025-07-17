@@ -66,19 +66,5 @@ export class DatabaseConnection {
   }
 }
 
-// Graceful shutdown handling
-if (typeof process !== 'undefined') {
-  process.on('beforeExit', async () => {
-    await DatabaseConnection.disconnect()
-  })
-
-  process.on('SIGINT', async () => {
-    await DatabaseConnection.disconnect()
-    process.exit(0)
-  })
-
-  process.on('SIGTERM', async () => {
-    await DatabaseConnection.disconnect()
-    process.exit(0)
-  })
-}
+// Note: Graceful shutdown handlers removed for Edge Runtime compatibility
+// Database connections will be handled by the runtime environment

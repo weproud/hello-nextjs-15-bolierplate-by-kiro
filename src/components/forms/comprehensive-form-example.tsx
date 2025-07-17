@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFormAction } from '@/hooks/use-form-action'
-import { action } from '@/lib/safe-action'
+import { publicActionClient } from '@/lib/safe-action'
 
 // Comprehensive form schema
 const comprehensiveSchema = z
@@ -38,11 +38,11 @@ const comprehensiveSchema = z
       .or(z.literal('')),
 
     // Boolean field
-    newsletter: z.boolean().default(false),
+    newsletter: z.boolean(),
 
     // Enum field
     role: z.enum(['student', 'professional', 'freelancer'], {
-      required_error: '역할을 선택해주세요.',
+      message: '역할을 선택해주세요.',
     }),
 
     // Conditional validation
@@ -70,7 +70,7 @@ const comprehensiveSchema = z
 type ComprehensiveFormData = z.infer<typeof comprehensiveSchema>
 
 // Create a comprehensive server action
-const submitComprehensiveForm = action
+const submitComprehensiveForm = publicActionClient
   .schema(comprehensiveSchema)
   .action(async ({ parsedInput }) => {
     // Simulate processing time
@@ -147,7 +147,7 @@ export function ComprehensiveFormExample() {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
+              render={({ field }: { field: any }) => (
                 <FormItem>
                   <FormLabel>이름 *</FormLabel>
                   <FormControl>
@@ -162,7 +162,7 @@ export function ComprehensiveFormExample() {
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => (
+              render={({ field }: { field: any }) => (
                 <FormItem>
                   <FormLabel>이메일 *</FormLabel>
                   <FormControl>
@@ -180,7 +180,7 @@ export function ComprehensiveFormExample() {
             <FormField
               control={form.control}
               name="age"
-              render={({ field }) => (
+              render={({ field }: { field: any }) => (
                 <FormItem>
                   <FormLabel>나이 *</FormLabel>
                   <FormControl>
@@ -210,7 +210,7 @@ export function ComprehensiveFormExample() {
             <FormField
               control={form.control}
               name="role"
-              render={({ field }) => (
+              render={({ field }: { field: any }) => (
                 <FormItem>
                   <FormLabel>역할 *</FormLabel>
                   <FormControl>
@@ -233,7 +233,7 @@ export function ComprehensiveFormExample() {
               <FormField
                 control={form.control}
                 name="company"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>회사명 *</FormLabel>
                     <FormControl>
@@ -252,7 +252,7 @@ export function ComprehensiveFormExample() {
               <FormField
                 control={form.control}
                 name="studentId"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>학번 *</FormLabel>
                     <FormControl>
@@ -287,7 +287,7 @@ export function ComprehensiveFormExample() {
                 <FormField
                   control={form.control}
                   name="phone"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>전화번호</FormLabel>
                       <FormControl>
@@ -306,7 +306,7 @@ export function ComprehensiveFormExample() {
                 <FormField
                   control={form.control}
                   name="website"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>웹사이트</FormLabel>
                       <FormControl>
@@ -327,7 +327,7 @@ export function ComprehensiveFormExample() {
                 <FormField
                   control={form.control}
                   name="newsletter"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                       <FormControl>
                         <input

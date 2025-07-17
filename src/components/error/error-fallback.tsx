@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface ErrorFallbackProps {
-  error?: Error
-  resetError?: () => void
-  title?: string
-  message?: string
-  showRetry?: boolean
-  showHome?: boolean
-  className?: string
+  error: Error | undefined
+  resetError: (() => void) | undefined
+  title: string | undefined
+  message: string | undefined
+  showRetry: boolean | undefined
+  showHome: boolean | undefined
+  className: string | undefined
 }
 
 /**
@@ -28,7 +28,15 @@ export function ErrorFallback({
   showRetry = true,
   showHome = true,
   className = '',
-}: ErrorFallbackProps) {
+}: {
+  error?: Error
+  resetError?: () => void
+  title?: string
+  message?: string
+  showRetry?: boolean
+  showHome?: boolean
+  className?: string
+}) {
   const handleReload = () => {
     if (typeof window !== 'undefined') {
       window.location.reload()
@@ -148,7 +156,7 @@ export function NetworkError({
     <ErrorFallback
       title="연결 문제"
       message="네트워크 연결을 확인하고 다시 시도해 주세요."
-      resetError={onRetry}
+      {...(onRetry && { resetError: onRetry })}
       showHome={false}
       className={className}
     />

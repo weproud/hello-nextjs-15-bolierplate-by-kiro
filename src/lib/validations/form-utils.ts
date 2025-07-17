@@ -1,5 +1,13 @@
 import { z } from 'zod'
-import type { FieldErrors, FieldValues } from 'react-hook-form'
+import type { FieldErrors, FieldValues, FieldError } from 'react-hook-form'
+
+// Type definitions
+export interface ValidationResult {
+  success: boolean
+  data?: any
+  errors?: Record<string, string[]>
+  message?: string
+}
 
 // Form validation utilities
 export const formatZodErrors = (
@@ -7,7 +15,7 @@ export const formatZodErrors = (
 ): Record<string, string[]> => {
   const formattedErrors: Record<string, string[]> = {}
 
-  error.errors.forEach(err => {
+  error.issues.forEach((err: z.ZodIssue) => {
     const path = err.path.join('.')
     if (!formattedErrors[path]) {
       formattedErrors[path] = []
@@ -24,7 +32,7 @@ export const formatRHFErrors = (
   const formattedErrors: Record<string, string[]> = {}
 
   Object.entries(errors).forEach(([field, error]) => {
-    if (error?.message) {
+    if (error?.message && typeof error.message === 'string') {
       formattedErrors[field] = [error.message]
     }
   })
@@ -38,13 +46,6 @@ export const getFieldError = (
   fieldName: string
 ): string | undefined => {
   return errors[fieldName]?.[0]
-}
-
-export const hasFieldError = (
-  errors: Record<string, string[]>,
-  fieldName: string
-): boolean => {
-  return !!errors[fieldName]?.length
 }
 
 // Form state helpers
@@ -71,6 +72,36 @@ export const transformFormData = <T extends Record<string, any>>(
       transformed[key as keyof T] = transformer(transformed[key as keyof T])
     }
   })
+
+  return transformed
+}
+
+// Helper to validate with schema
+export function validateWithSchema<T extends z.ZodType>(
+  schema: T,
+  data: unknown
+): ValidationResult {
+  try {
+    const result = schema.safeParse(data)
+    if (result.success) {
+      return {
+        success: true,
+        data: result.data,
+      }
+    } else {
+      return {
+        success: false,
+        errors: formatZodErrors(result.error),
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: '유효성 검사 중 오류가 발생했습니다.',
+    }
+  }
+}
+
 // Helper to validate a single field
 export function validateField<T extends z.ZodType>(
   schema: T,
@@ -90,11 +121,17 @@ export function validateField<T extends z.ZodType>(
         data: result.data,
       }
     } else {
-      const fieldError = result.error.errors.find(
-        err => err.path.length > 0 && err.path[0] === fieldName
-      )
-
-  return transformed
+      return {
+        success: false,
+        errors: formatZodErrors(result.error),
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: '필드 유효성 검사 중 오류가 발생했습니다.',
+    }
+  }
 }
 
 // Common form transformers
@@ -141,46 +178,50 @@ export const createAsyncFormValidator = <T extends z.ZodTypeAny>(
   asyncValidators?: Array<(data: z.infer<T>) => Promise<string | null>>
 ) => {
   return async (data: unknown) => {
-    // First, validate with Zod schema
-    const syncResult = createFormValidator(schema)(data)
-    if (!syncResult.success) {
-      return syncResult
-    }
+    try {
+      // First, validate with Zod schema
+      const syncResult = createFormValidator(schema)(data)
+      if (!syncResult.success) {
+        return syncResult
+      }
 
-    // Then run async validators
-    if (asyncValidators?.length) {
-      const asyncErrors: Record<string, string[]> = {}
+      // Then run async validators
+      if (asyncValidators?.length) {
+        const asyncErrors: Record<string, string[]> = {}
 
-      for (const validator of asyncValidators) {
-        try {
-          const error = await validator(syncResult.data)
-          if (error) {
-            asyncErrors.general = asyncErrors.general || []
-            asyncErrors.general.push(error)
+        for (const validator of asyncValidators) {
+          try {
+            const error = await validator(syncResult.data)
+            if (error) {
+              asyncErrors['general'] = asyncErrors['general'] || []
+              asyncErrors['general'].push(error)
+            }
+          } catch (err) {
+            asyncErrors['general'] = asyncErrors['general'] || []
+            asyncErrors['general'].push('Validation failed')
           }
-        } catch (err) {
-          asyncErrors.general = asyncErrors.general || []
-          asyncErrors.general.push('Validation failed')
+        }
+
+        if (Object.keys(asyncErrors).length > 0) {
+          return {
+            success: false as const,
+            data: null,
+            errors: asyncErrors,
+          }
         }
       }
 
-      if (Object.keys(asyncErrors).length > 0) {
-        return {
-          success: false as const,
-          data: null,
-          errors: asyncErrors,
-        }
+      return {
+        success: true as const,
+        data: syncResult.data,
+        errors: {},
       }
-    }
-
-    return {
-      success: false,
-      message: '필드 유효성 검사 중 오류가 발생했습니다.',
-    }
-  } catch (error) {
-    return {
-      success: false,
-      message: '필드 유효성 검사 중 오류가 발생했습니다.',
+    } catch (error) {
+      return {
+        success: false as const,
+        data: null,
+        message: '필드 유효성 검사 중 오류가 발생했습니다.',
+      }
     }
   }
 }

@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
 // Common validation schemas
-export const idSchema = z.string().cuid()
-export const emailSchema = z.string().email('Invalid email address')
-export const urlSchema = z.string().url('Invalid URL')
+export const idSchema = z.cuid()
+export const emailSchema = z.email('Invalid email address')
+export const urlSchema = z.url('Invalid URL')
 export const slugSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid slug format')
@@ -43,7 +43,7 @@ export const paginationSchema = z.object({
 // Search schema
 export const searchSchema = z.object({
   query: z.string().min(1, 'Search query is required'),
-  filters: z.record(z.any()).optional(),
+  filters: z.record(z.string(), z.any()).optional(),
 })
 
 // File upload schema
@@ -82,6 +82,207 @@ export const createOptionalArraySchema = <T extends z.ZodTypeAny>(
 export const createEnumSchema = <T extends readonly [string, ...string[]]>(
   values: T
 ) => z.enum(values)
+
+// Phone validation
+export const phoneSchema = z
+  .string()
+  .regex(/^[+]?[\d\s\-()]+$/, 'Invalid phone number format')
+  .min(10, 'Phone number too short')
+  .max(20, 'Phone number too long')
+
+// Address validation
+export const addressSchema = z.object({
+  street: z.string().min(1, 'Street address is required'),
+  city: z.string().min(1, 'City is required'),
+  state: z.string().min(1, 'State is required'),
+  zipCode: z.string().min(1, 'ZIP code is required'),
+  country: z.string().min(1, 'Country is required'),
+})
+
+// Project schema
+export const projectSchema = z.object({
+  title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
+  description: z.string().max(500, 'Description too long').optional(),
+})
+
+// Contact form schema
+export const contactSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  subject: z
+    .string()
+    .min(1, 'Subject is required')
+    .max(200, 'Subject too long'),
+  message: z
+    .string()
+    .min(1, 'Message is required')
+    .max(1000, 'Message too long'),
+})
+
+// User registration schema
+export const registerSchema = z
+  .object({
+    name: nameSchema,
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
+
+// Login schema
+export const loginSchema = z.object({
+  email: emailSchema,
+  password: z.string().min(1, 'Password is required'),
+})
+
+// Profile schema
+export const profileSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  bio: z.string().max(500, 'Bio too long').optional(),
+})
+
+// Feedback schema
+export const feedbackSchema = z.object({
+  type: z.enum(['bug', 'feature', 'general'], {
+    message: 'Invalid feedback type',
+  }),
+  title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
+  description: z
+    .string()
+    .min(1, 'Description is required')
+    .max(1000, 'Description too long'),
+})
+
+// Team invite schema
+export const teamInviteSchema = z.object({
+  email: emailSchema,
+  role: z.enum(['admin', 'member', 'viewer'], { message: 'Invalid role' }),
+  message: z.string().max(500, 'Message too long').optional(),
+})
+
+// File upload schema
+export const fileUploadSchema = z.object({
+  file: z.instanceof(File, { message: 'File is required' }),
+  category: z.enum(['document', 'image', 'video'], {
+    message: 'Invalid category',
+  }),
+})
+
+// Date range schema
+export const dateRangeSchema = z
+  .object({
+    from: z.date({ message: 'Start date is required' }),
+    to: z.date({ message: 'End date is required' }),
+  })
+  .refine(data => data.to > data.from, {
+    message: 'End date must be after start date',
+    path: ['to'],
+  })
+
+// Payment schema
+export const paymentSchema = z.object({
+  amount: z.number().positive('Amount must be positive'),
+  currency: z.string().length(3, 'Invalid currency code'),
+  method: z.enum(['card', 'paypal', 'bank'], {
+    message: 'Invalid payment method',
+  }),
+})
+
+// Newsletter schema
+export const newsletterSchema = z.object({
+  email: emailSchema,
+  preferences: z.array(z.string()).min(1, 'Select at least one preference'),
+  frequency: z.enum(['daily', 'weekly', 'monthly'], {
+    message: 'Invalid frequency',
+  }),
+})
+
+// Survey schema
+export const surveySchema = z.object({
+  responses: z
+    .array(
+      z.object({
+        questionId: z.string(),
+        answer: z.union([z.string(), z.number(), z.array(z.string())]),
+      })
+    )
+    .min(1, 'At least one response is required'),
+})
+
+// Personal info schema
+export const personalInfoSchema = z.object({
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  dateOfBirth: z.date({ message: 'Date of birth is required' }),
+  gender: z.enum(['male', 'female', 'other', 'prefer-not-to-say']).optional(),
+})
+
+// Professional info schema
+export const professionalInfoSchema = z.object({
+  company: z.string().min(1, 'Company is required'),
+  position: z.string().min(1, 'Position is required'),
+  experience: z.number().min(0, 'Experience must be non-negative'),
+  skills: z.array(z.string()).min(1, 'At least one skill is required'),
+})
+
+// Dynamic field schema
+export const dynamicFieldSchema = z.object({
+  id: z.string(),
+  type: z.enum(['text', 'number', 'email', 'select', 'checkbox']),
+  label: z.string().min(1, 'Label is required'),
+  value: z.union([z.string(), z.number(), z.boolean(), z.array(z.string())]),
+  required: z.boolean().default(false),
+})
+
+// Reset password schema
+export const resetPasswordSchema = z.object({
+  email: emailSchema,
+})
+
+// Change password schema
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, 'Current password is required'),
+    newPassword: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
+
+// Notification settings schema
+export const notificationSettingsSchema = z.object({
+  email: z.boolean().default(true),
+  push: z.boolean().default(true),
+  sms: z.boolean().default(false),
+  marketing: z.boolean().default(false),
+})
+
+// Conditional form schema
+export const conditionalFormSchema = z
+  .object({
+    userType: z.enum(['individual', 'business']),
+    name: nameSchema,
+    email: emailSchema,
+  })
+  .and(
+    z.discriminatedUnion('userType', [
+      z.object({
+        userType: z.literal('individual'),
+        age: z.number().min(18, 'Must be at least 18 years old'),
+      }),
+      z.object({
+        userType: z.literal('business'),
+        companyName: z.string().min(1, 'Company name is required'),
+        taxId: z.string().min(1, 'Tax ID is required'),
+      }),
+    ])
+  )
 
 // Custom validation functions
 export const isValidCuid = (value: string): boolean => {

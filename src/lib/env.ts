@@ -3,27 +3,28 @@ import { z } from 'zod'
 // Environment variable schema
 const envSchema = z.object({
   // Database
-  DATABASE_URL: z.string().url(),
-  DIRECT_URL: z.string().url().optional(),
+  DATABASE_URL: z.url(),
+  DIRECT_URL: z.url().optional(),
 
   // App Configuration
-  NEXT_PUBLIC_APP_URL: z.string().url(),
+  NEXT_PUBLIC_APP_URL: z.url(),
 
   // Supabase Configuration
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_URL: z.url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
-  NEXT_PUBLIC_SUPABASE_BUCKET_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_BUCKET_URL: z.url(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
 
   // Auth Configuration
   AUTH_SECRET: z.string().min(1),
-  AUTH_URL: z.string().url(),
+  AUTH_URL: z.url(),
 
   // OAuth Providers
   AUTH_GOOGLE_ID: z.string().min(1),
   AUTH_GOOGLE_SECRET: z.string().min(1),
 
   // Environment
+  NEXT_RUNTIME: z.string(),
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),

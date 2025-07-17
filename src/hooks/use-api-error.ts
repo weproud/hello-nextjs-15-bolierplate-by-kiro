@@ -2,8 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
-import { handleError, logError } from '../lib/error-handling'
-import type { AppError } from '../lib/error-handling'
+import { handleError, logError, type AppError } from '../lib/error-handling'
 
 interface ApiErrorOptions {
   showToast?: boolean
@@ -147,7 +146,7 @@ export function useFetchWithError<T = any>(options: ApiErrorOptions = {}) {
         return response.text()
       }, `Fetch: ${url}`)
     },
-    [apiError]
+    [apiError.execute]
   )
 
   return {

@@ -183,7 +183,16 @@ export function MultiStepForm() {
                 required
                 validateOnBlur={true}
               >
-                {field => <Input placeholder="홍길동" {...field} />}
+                {field => (
+                  <Input
+                    placeholder="홍길동"
+                    value={field.value as string}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    disabled={field.disabled}
+                  />
+                )}
               </EnhancedFormField>
 
               <EnhancedFormField
@@ -197,7 +206,11 @@ export function MultiStepForm() {
                   <Input
                     type="email"
                     placeholder="hong@example.com"
-                    {...field}
+                    value={field.value as string}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    disabled={field.disabled}
                   />
                 )}
               </EnhancedFormField>
@@ -210,7 +223,16 @@ export function MultiStepForm() {
               required
               validateOnBlur={true}
             >
-              {field => <Input placeholder="010-1234-5678" {...field} />}
+              {field => (
+                <Input
+                  placeholder="010-1234-5678"
+                  value={field.value as string}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  disabled={field.disabled}
+                />
+              )}
             </EnhancedFormField>
           </FormSection>
         )}
@@ -270,7 +292,11 @@ export function MultiStepForm() {
                 {field => (
                   <select
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    {...field}
+                    value={field.value as string}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    disabled={field.disabled}
                   >
                     <option value="ko">한국어</option>
                     <option value="en">English</option>
@@ -292,7 +318,7 @@ export function MultiStepForm() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={field.value}
+                      checked={Boolean(field.value)}
                       onChange={e => field.onChange(e.target.checked)}
                     />
                     <span>이메일로 알림 받기</span>
@@ -309,7 +335,7 @@ export function MultiStepForm() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={field.value}
+                      checked={Boolean(field.value)}
                       onChange={e => field.onChange(e.target.checked)}
                     />
                     <span>SMS로 알림 받기</span>
@@ -326,7 +352,7 @@ export function MultiStepForm() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={field.value}
+                      checked={Boolean(field.value)}
                       onChange={e => field.onChange(e.target.checked)}
                     />
                     <span>푸시 알림 받기</span>
@@ -354,7 +380,7 @@ export function MultiStepForm() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={field.value}
+                      checked={Boolean(field.value)}
                       onChange={e => field.onChange(e.target.checked)}
                     />
                     <span>이용약관에 동의합니다 (필수)</span>
@@ -372,7 +398,7 @@ export function MultiStepForm() {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      checked={field.value}
+                      checked={Boolean(field.value)}
                       onChange={e => field.onChange(e.target.checked)}
                     />
                     <span>개인정보처리방침에 동의합니다 (필수)</span>
@@ -407,7 +433,15 @@ export function MultiStepForm() {
             >
               {field => (
                 <div className="flex gap-2">
-                  <Input placeholder="123456" maxLength={6} {...field} />
+                  <Input
+                    placeholder="123456"
+                    maxLength={6}
+                    value={field.value as string}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    disabled={field.disabled}
+                  />
                   <Button type="button" variant="outline">
                     인증코드 전송
                   </Button>

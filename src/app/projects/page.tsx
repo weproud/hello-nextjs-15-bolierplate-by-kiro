@@ -36,13 +36,21 @@ export default async function ProjectsPage() {
     return null // This should be handled by ProtectedRoute
   }
 
+  // The user from getCurrentUser() might have optional fields.
+  // The client component expects a specific User shape.
+  const validatedUser = {
+    id: user.id,
+    name: user.name ?? null,
+    email: user.email ?? '',
+  }
+
   const projects = await getProjects(user.id)
 
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
         <NavigationHeader />
-        <ProjectsPageClient initialProjects={projects} user={user} />
+        <ProjectsPageClient initialProjects={projects} user={validatedUser} />
       </div>
     </ProtectedRoute>
   )

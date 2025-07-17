@@ -44,7 +44,7 @@ export class ModalErrorBoundary extends Component<Props, State> {
     }
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Modal Error Boundary caught an error:', error, errorInfo)
 
     this.setState({
@@ -120,7 +120,7 @@ export class ModalErrorBoundary extends Component<Props, State> {
     }
   }
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       const canRetry = this.state.retryCount < this.maxRetries
       const isNetworkError =

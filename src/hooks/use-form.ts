@@ -1,36 +1,44 @@
-import React from 'react'
-import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
+import * as React from 'react'
+import {
+  useForm,
+  UseFormProps,
+  UseFormReturn,
+  FieldValues,
+} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 // Enhanced useForm hook with Zod validation
-export function useFormWithValidation<T extends z.ZodType>(
-  schema: T,
-  options?: Omit<UseFormProps<z.infer<T>>, 'resolver'>
-): UseFormReturn<z.infer<T>> {
-  return useForm<z.infer<T>>({
-    resolver: zodResolver(schema),
+export function useFormWithValidation<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+>(
+  schema: TSchema,
+  options?: Omit<UseFormProps<TFieldValues>, 'resolver'>
+): UseFormReturn<TFieldValues> {
+  return useForm<TFieldValues>({
+    resolver: zodResolver(schema) as any,
     mode: 'onChange',
     ...options,
   })
 }
 
 // Hook for progressive form validation (multi-step forms)
-export function useProgressiveForm<T extends z.ZodType>(
-  schema: T,
-  options?: Omit<UseFormProps<z.infer<T>>, 'resolver'>
-) {
+export function useProgressiveForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+>(schema: TSchema, options?: Omit<UseFormProps<TFieldValues>, 'resolver'>) {
   const form = useFormWithValidation(schema, options)
 
-  const validateStep = async (stepFields: (keyof z.infer<T>)[]) => {
+  const validateStep = async (stepFields: (keyof TFieldValues)[]) => {
     const isValid = await form.trigger(stepFields as any)
     return isValid
   }
 
-  const getStepErrors = (stepFields: (keyof z.infer<T>)[]) => {
+  const getStepErrors = (stepFields: (keyof TFieldValues)[]) => {
     const errors: Record<string, any> = {}
     stepFields.forEach(field => {
-      const fieldError = form.formState.errors[field]
+      const fieldError = form.formState.errors[field as string]
       if (fieldError) {
         errors[field as string] = fieldError
       }
@@ -46,9 +54,12 @@ export function useProgressiveForm<T extends z.ZodType>(
 }
 
 // Hook for real-time validation with debouncing
-export function useRealtimeValidation<T extends z.ZodType>(
-  schema: T,
-  options?: Omit<UseFormProps<z.infer<T>>, 'resolver'> & {
+export function useRealtimeValidation<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+>(
+  schema: TSchema,
+  options?: Omit<UseFormProps<TFieldValues>, 'resolver'> & {
     debounceMs?: number
   }
 ) {
@@ -60,7 +71,7 @@ export function useRealtimeValidation<T extends z.ZodType>(
   })
 
   // Debounced validation trigger
-  const debouncedValidate = (fieldName: keyof z.infer<T>) => {
+  const debouncedValidate = (fieldName: keyof TFieldValues) => {
     const timeoutId = setTimeout(() => {
       form.trigger(fieldName as any)
     }, debounceMs)
@@ -75,15 +86,15 @@ export function useRealtimeValidation<T extends z.ZodType>(
 }
 
 // Hook for conditional form validation
-export function useConditionalForm<T extends z.ZodType>(
-  schema: T,
-  options?: Omit<UseFormProps<z.infer<T>>, 'resolver'>
-) {
+export function useConditionalForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+>(schema: TSchema, options?: Omit<UseFormProps<TFieldValues>, 'resolver'>) {
   const form = useFormWithValidation(schema, options)
 
   const validateConditionally = async (
-    condition: (values: z.infer<T>) => boolean,
-    fields: (keyof z.infer<T>)[]
+    condition: (values: TFieldValues) => boolean,
+    fields: (keyof TFieldValues)[]
   ) => {
     const values = form.getValues()
     if (condition(values)) {
@@ -99,10 +110,13 @@ export function useConditionalForm<T extends z.ZodType>(
 }
 
 // Hook for form with auto-save functionality
-export function useAutoSaveForm<T extends z.ZodType>(
-  schema: T,
-  onAutoSave: (data: z.infer<T>) => Promise<void> | void,
-  options?: Omit<UseFormProps<z.infer<T>>, 'resolver'> & {
+export function useAutoSaveForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+>(
+  schema: TSchema,
+  onAutoSave: (data: z.output<TSchema>) => Promise<void> | void,
+  options?: Omit<UseFormProps<TFieldValues>, 'resolver'> & {
     autoSaveDelay?: number
     enableAutoSave?: boolean
   }
@@ -121,7 +135,9 @@ export function useAutoSaveForm<T extends z.ZodType>(
     const subscription = form.watch(async data => {
       if (form.formState.isValid && form.formState.isDirty) {
         try {
-          await onAutoSave(data as z.infer<T>)
+          // Parse and validate the data before auto-saving
+          const validatedData = schema.parse(data)
+          await onAutoSave(validatedData)
         } catch (error) {
           console.error('Auto-save failed:', error)
         }
@@ -129,19 +145,28 @@ export function useAutoSaveForm<T extends z.ZodType>(
     })
 
     return () => subscription.unsubscribe()
-  }, [form, onAutoSave, enableAutoSave])
+  }, [form, onAutoSave, enableAutoSave, schema])
 
   return form
 }
 
 // Export types for better TypeScript support
-export type FormWithValidation<T extends z.ZodType> = UseFormReturn<z.infer<T>>
-export type ProgressiveForm<T extends z.ZodType> = ReturnType<
-  typeof useProgressiveForm<T>
->
-export type RealtimeForm<T extends z.ZodType> = ReturnType<
-  typeof useRealtimeValidation<T>
->
-export type ConditionalForm<T extends z.ZodType> = ReturnType<
-  typeof useConditionalForm<T>
->
+export type FormWithValidation<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+> = UseFormReturn<TFieldValues>
+
+export type ProgressiveForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+> = ReturnType<typeof useProgressiveForm<TSchema, TFieldValues>>
+
+export type RealtimeForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+> = ReturnType<typeof useRealtimeValidation<TSchema, TFieldValues>>
+
+export type ConditionalForm<
+  TSchema extends z.ZodType<any, any, any>,
+  TFieldValues extends FieldValues = z.input<TSchema>,
+> = ReturnType<typeof useConditionalForm<TSchema, TFieldValues>>

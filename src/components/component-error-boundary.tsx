@@ -14,9 +14,9 @@ interface ComponentErrorBoundaryProps {
 const ComponentErrorFallback: React.FC<{
   error: AppError
   resetError: () => void
-  componentName?: string
-  fallbackMessage?: string
-  showRetry?: boolean
+  componentName: string | undefined
+  fallbackMessage: string | undefined
+  showRetry: boolean | undefined
 }> = ({
   error,
   resetError,

@@ -54,7 +54,7 @@ export class ErrorBoundary extends React.Component<
     this.setState({ hasError: false })
   }
 
-  render() {
+  override render() {
     if (this.state.hasError && this.state.error) {
       const FallbackComponent = this.props.fallback || DefaultErrorFallback
       return (

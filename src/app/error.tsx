@@ -29,7 +29,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
     }
   }, [error])
 
-  const logErrorToService = (error: Error) => {
+  const logErrorToService = (error: Error & { digest?: string }) => {
     // TODO: Implement error logging service (e.g., Sentry, LogRocket)
     const errorData = {
       message: error.message,

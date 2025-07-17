@@ -1,16 +1,17 @@
 import { createSafeActionClient } from 'next-safe-action'
-import { auth } from '@/auth'
+import { auth } from '../auth'
 import {
   ActionError,
   AuthenticationError,
   ActionLogger,
   handleActionError,
-} from '@/lib/error-handling'
+} from './error-handling'
 
 /**
  * Base safe action client with comprehensive error handling and logging
  */
 export const actionClient = createSafeActionClient({
+  defaultValidationErrorsShape: 'flattened',
   // Handle server errors with detailed logging and user-friendly messages
   handleServerError(e, utils) {
     const { clientInput } = utils
@@ -68,6 +69,7 @@ export const authActionClient = actionClient.use(async ({ next }) => {
   // Pass enhanced user context to the action
   return next({
     ctx: {
+      userId: session.user.id,
       user: session.user,
       session,
     },

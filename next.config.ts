@@ -13,19 +13,9 @@ const nextConfig: NextConfig = {
       'tailwind-merge',
       'next-auth',
     ],
-    // Enable turbo mode for faster builds
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
+
     // Enable optimized CSS loading
     optimizeCss: true,
-    // Enable server components external packages optimization
-    serverComponentsExternalPackages: ['next-auth'],
   },
 
   // Compiler optimizations
@@ -77,36 +67,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ]
-  },
-
-  // Webpack optimizations for bundle splitting
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      // Optimize modal component chunks
-      config.optimization.splitChunks = {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks?.cacheGroups,
-          // Separate chunk for auth modal components
-          authModal: {
-            test: /[\\/]components[\\/]auth[\\/](signin-modal|signin-form|modal-error-boundary)\.tsx?$/,
-            name: 'auth-modal',
-            chunks: 'all',
-            priority: 30,
-            reuseExistingChunk: true,
-          },
-          // Separate chunk for UI components used in modals
-          modalUI: {
-            test: /[\\/]components[\\/]ui[\\/](card|button|dialog)\.tsx?$/,
-            name: 'modal-ui',
-            chunks: 'all',
-            priority: 25,
-            reuseExistingChunk: true,
-          },
-        },
-      }
-    }
-    return config
   },
 }
 

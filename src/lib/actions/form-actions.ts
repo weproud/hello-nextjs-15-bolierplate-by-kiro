@@ -2,8 +2,6 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { action, authAction } from '@/lib/safe-action'
-
 import {
   contactSchema,
   projectSchema,
@@ -11,16 +9,20 @@ import {
   profileSchema,
   feedbackSchema,
   teamInviteSchema,
-} from '@/lib/validations/common'
+} from '../validations/common'
 import {
+  actionClient,
   authActionClient,
   publicActionClient,
   createAuthAction,
   createPublicAction,
   createCrudAction,
   createFormAction,
-} from '@/lib/safe-action'
-import { prisma } from '@/lib/prisma'
+} from '../safe-action'
+
+// Create action instances - use base actionClient to access .input() method
+const action = actionClient
+const authAction = actionClient
 
 // Generic action result type
 type ActionResult<T = any> = {
@@ -34,7 +36,7 @@ type ActionResult<T = any> = {
 function handleValidationError(error: z.ZodError): ActionResult {
   const fieldErrors: Record<string, string[]> = {}
 
-  error.errors.forEach(err => {
+  error.issues.forEach(err => {
     const path = err.path.join('.')
     if (!fieldErrors[path]) {
       fieldErrors[path] = []
@@ -61,32 +63,39 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
     // Validate with Zod schema
     const validatedData = projectSchema.parse(rawData)
 
-      // TODO: Replace with actual database operation
-      // For now, simulate a successful creation
-      await new Promise(resolve => setTimeout(resolve, 1000))
+    // TODO: Replace with actual database operation
+    // For now, simulate a successful creation
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
-      const project = {
-        id: Math.random().toString(36).substring(2, 11),
-        ...parsedInput,
-        userId: ctx.userId,
-        createdAt: new Date(),
-      }
-
-      // Revalidate the projects page
-      revalidatePath('/projects')
-
-      console.log(`[${ctx.userId}] Project created successfully:`, project.id)
-      return project
-    } catch (error) {
-      console.error(`[${ctx.userId}] Failed to create project:`, error)
-      throw new Error('프로젝트 생성 중 오류가 발생했습니다.')
+    const project = {
+      id: Math.random().toString(36).substring(2, 11),
+      ...validatedData,
+      createdAt: new Date(),
     }
-  })
+
+    // Revalidate the projects page
+    revalidatePath('/projects')
+
+    console.log('Project created successfully:', project.id)
+    return {
+      success: true,
+      data: project,
+    }
+  } catch (error) {
+    console.error('Failed to create project:', error)
+    if (error instanceof z.ZodError) {
+      return handleValidationError(error)
+    }
+    return {
+      success: false,
+      error: '프로젝트 생성 중 오류가 발생했습니다.',
+    }
+  }
+}
 
 // Contact form submission action using next-safe-action
 export const submitContact = action
-  .schema(contactSchema)
-  .metadata({ actionName: 'submitContact' })
+  .inputSchema(contactSchema)
   .action(async ({ parsedInput }) => {
     try {
       console.log('Contact form submitted:', {
@@ -109,8 +118,7 @@ export const submitContact = action
 
 // User registration action using next-safe-action
 export const registerUser = action
-  .schema(registerSchema)
-  .metadata({ actionName: 'registerUser' })
+  .inputSchema(registerSchema)
   .action(async ({ parsedInput }) => {
     try {
       console.log('User registration attempt:', {
@@ -139,8 +147,23 @@ export const registerUser = action
 
 // Profile update action using authenticated next-safe-action
 export const updateProfile = authAction
-  .schema(profileSchema)
-  .metadata({ actionName: 'updateProfile' })
+  .inputSchema(profileSchema)
+  .use(async ({ next }) => {
+    const { auth } = await import('../../auth')
+    const session = await auth()
+
+    if (!session?.user) {
+      throw new Error('로그인이 필요합니다.')
+    }
+
+    return next({
+      ctx: {
+        userId: session.user.id,
+        user: session.user,
+        session,
+      },
+    })
+  })
   .action(async ({ parsedInput, ctx }) => {
     try {
       console.log(`[${ctx.userId}] Updating profile:`, {
@@ -163,8 +186,23 @@ export const updateProfile = authAction
 
 // Feedback submission action using authenticated next-safe-action
 export const submitFeedback = authAction
-  .schema(feedbackSchema)
-  .metadata({ actionName: 'submitFeedback' })
+  .inputSchema(feedbackSchema)
+  .use(async ({ next }) => {
+    const { auth } = await import('../../auth')
+    const session = await auth()
+
+    if (!session?.user) {
+      throw new Error('로그인이 필요합니다.')
+    }
+
+    return next({
+      ctx: {
+        userId: session.user.id,
+        user: session.user,
+        session,
+      },
+    })
+  })
   .action(async ({ parsedInput, ctx }) => {
     try {
       console.log(`[${ctx.userId}] Submitting feedback:`, {
@@ -196,8 +234,23 @@ export const submitFeedback = authAction
 
 // Team invite action using authenticated next-safe-action
 export const inviteTeamMember = authAction
-  .schema(teamInviteSchema)
-  .metadata({ actionName: 'inviteTeamMember' })
+  .inputSchema(teamInviteSchema)
+  .use(async ({ next }) => {
+    const { auth } = await import('../../auth')
+    const session = await auth()
+
+    if (!session?.user) {
+      throw new Error('로그인이 필요합니다.')
+    }
+
+    return next({
+      ctx: {
+        userId: session.user.id,
+        user: session.user,
+        session,
+      },
+    })
+  })
   .action(async ({ parsedInput, ctx }) => {
     try {
       console.log(`[${ctx.userId}] Inviting team member:`, {
@@ -225,13 +278,28 @@ export const inviteTeamMember = authAction
   })
 // File upload action with validation
 export const uploadFile = authAction
-  .schema(
+  .inputSchema(
     z.object({
       file: z.instanceof(File),
       category: z.enum(['avatar', 'document', 'image']),
     })
   )
-  .metadata({ actionName: 'uploadFile' })
+  .use(async ({ next }) => {
+    const { auth } = await import('../../auth')
+    const session = await auth()
+
+    if (!session?.user) {
+      throw new Error('로그인이 필요합니다.')
+    }
+
+    return next({
+      ctx: {
+        userId: session.user.id,
+        user: session.user,
+        session,
+      },
+    })
+  })
   .action(async ({ parsedInput, ctx }) => {
     try {
       console.log(`[${ctx.userId}] Uploading file:`, {
@@ -292,7 +360,7 @@ export const uploadFile = authAction
 
 // Batch delete action
 export const batchDeleteItems = authAction
-  .schema(
+  .inputSchema(
     z.object({
       ids: z
         .array(z.string())
@@ -301,7 +369,22 @@ export const batchDeleteItems = authAction
       type: z.enum(['projects', 'files', 'comments']),
     })
   )
-  .metadata({ actionName: 'batchDeleteItems' })
+  .use(async ({ next }) => {
+    const { auth } = await import('../../auth')
+    const session = await auth()
+
+    if (!session?.user) {
+      throw new Error('로그인이 필요합니다.')
+    }
+
+    return next({
+      ctx: {
+        userId: session.user.id,
+        user: session.user,
+        session,
+      },
+    })
+  })
   .action(async ({ parsedInput, ctx }) => {
     try {
       console.log(
@@ -337,7 +420,7 @@ export const batchDeleteItems = authAction
 
 // Search action with filters
 export const searchItems = action
-  .schema(
+  .inputSchema(
     z.object({
       query: z.string().min(1, '검색어를 입력해주세요.').max(100),
       filters: z
@@ -357,7 +440,6 @@ export const searchItems = action
       limit: z.number().min(1).max(100).default(20),
     })
   )
-  .metadata({ actionName: 'searchItems' })
   .action(async ({ parsedInput }) => {
     try {
       console.log('Searching items:', {
@@ -408,7 +490,7 @@ export const searchItems = action
 
 // Newsletter subscription with double opt-in
 export const subscribeNewsletter = action
-  .schema(
+  .inputSchema(
     z.object({
       email: z.string().email('올바른 이메일 주소를 입력해주세요.'),
       preferences: z
@@ -417,7 +499,6 @@ export const subscribeNewsletter = action
       frequency: z.enum(['daily', 'weekly', 'monthly']),
     })
   )
-  .metadata({ actionName: 'subscribeNewsletter' })
   .action(async ({ parsedInput }) => {
     try {
       console.log('Newsletter subscription:', {
@@ -452,5 +533,81 @@ export const subscribeNewsletter = action
       console.error('Newsletter subscription failed:', error)
       throw new Error('뉴스레터 구독 중 오류가 발생했습니다.')
     }
-  }
-}
+  })
+
+// Multi-step form submission action
+export const submitMultiStepForm = action
+  .inputSchema(
+    z.object({
+      basicInfo: z.object({
+        name: z.string().min(1, '이름을 입력해주세요.'),
+        email: z.string().email('올바른 이메일 주소를 입력해주세요.'),
+        phone: z.string().min(1, '전화번호를 입력해주세요.'),
+      }),
+      preferences: z.object({
+        interests: z
+          .array(z.string())
+          .min(1, '최소 하나의 관심사를 선택해주세요.'),
+        notifications: z.object({
+          email: z.boolean(),
+          sms: z.boolean(),
+          push: z.boolean(),
+        }),
+        language: z.enum(['ko', 'en', 'ja'], {
+          message: '언어를 선택해주세요.',
+        }),
+      }),
+      verification: z.object({
+        terms: z.boolean().refine(val => val === true, {
+          message: '이용약관에 동의해주세요.',
+        }),
+        privacy: z.boolean().refine(val => val === true, {
+          message: '개인정보처리방침에 동의해주세요.',
+        }),
+        marketing: z.boolean().optional(),
+        verificationCode: z
+          .string()
+          .min(6, '인증코드 6자리를 입력해주세요.')
+          .max(6, '인증코드는 6자리입니다.'),
+      }),
+    })
+  )
+  .action(async ({ parsedInput }) => {
+    try {
+      console.log('Multi-step form submission:', {
+        name: parsedInput.basicInfo.name,
+        email: parsedInput.basicInfo.email,
+        interests: parsedInput.preferences.interests,
+        language: parsedInput.preferences.language,
+      })
+
+      // TODO: Replace with actual user registration logic
+      await new Promise(resolve => setTimeout(resolve, 2000))
+
+      // Simulate verification code validation
+      if (parsedInput.verification.verificationCode !== '123456') {
+        throw new Error('인증코드가 올바르지 않습니다.')
+      }
+
+      const user = {
+        id: Math.random().toString(36).substring(2, 11),
+        name: parsedInput.basicInfo.name,
+        email: parsedInput.basicInfo.email,
+        phone: parsedInput.basicInfo.phone,
+        preferences: parsedInput.preferences,
+        createdAt: new Date(),
+        status: 'active',
+      }
+
+      console.log('Multi-step registration completed:', user.id)
+      return {
+        message: '회원가입이 성공적으로 완료되었습니다!',
+        user,
+      }
+    } catch (error) {
+      console.error('Multi-step form submission failed:', error)
+      throw error instanceof Error
+        ? error
+        : new Error('회원가입 중 오류가 발생했습니다.')
+    }
+  })

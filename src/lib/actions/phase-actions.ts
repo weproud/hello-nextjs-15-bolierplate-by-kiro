@@ -28,74 +28,70 @@ export const createPhaseAction = createAuthAction('createPhase')
     const { user } = ctx
     const { title, description, order, projectId } = parsedInput
 
-    return safeExecute(
-      async () => {
-        ActionLogger.info('createPhase', 'Creating new phase', {
+    return safeExecute(async () => {
+      ActionLogger.info('createPhase', 'Creating new phase', {
+        userId: user.id,
+        projectId,
+        title,
+      })
+
+      // Verify project ownership
+      const project = await prisma.project.findFirst({
+        where: {
+          id: projectId,
           userId: user.id,
-          projectId,
+        },
+      })
+
+      if (!project) {
+        throw new NotFoundError('Project not found or access denied')
+      }
+
+      // Get the next order if not specified
+      let finalOrder = order
+      if (finalOrder === 0) {
+        const lastPhase = await prisma.phase.findFirst({
+          where: { projectId },
+          orderBy: { order: 'desc' },
+        })
+        finalOrder = (lastPhase?.order ?? -1) + 1
+      }
+
+      const phase = await prisma.phase.create({
+        data: {
           title,
-        })
-
-        // Verify project ownership
-        const project = await prisma.project.findFirst({
-          where: {
-            id: projectId,
-            userId: user.id,
-          },
-        })
-
-        if (!project) {
-          throw new NotFoundError('Project not found or access denied')
-        }
-
-        // Get the next order if not specified
-        let finalOrder = order
-        if (finalOrder === 0) {
-          const lastPhase = await prisma.phase.findFirst({
-            where: { projectId },
-            orderBy: { order: 'desc' },
-          })
-          finalOrder = (lastPhase?.order ?? -1) + 1
-        }
-
-        const phase = await prisma.phase.create({
-          data: {
-            title,
-            description: description ?? null,
-            order: finalOrder,
-            projectId,
-          },
-          include: {
-            project: {
-              select: {
-                id: true,
-                title: true,
-                userId: true,
-              },
+          description: description ?? null,
+          order: finalOrder,
+          projectId,
+        },
+        include: {
+          project: {
+            select: {
+              id: true,
+              title: true,
+              userId: true,
             },
           },
-        })
+        },
+      })
 
-        // Revalidate relevant pages
-        revalidatePath('/projects')
-        revalidatePath(`/projects/${projectId}`)
-        revalidatePath('/dashboard')
+      // Revalidate relevant pages
+      revalidatePath('/projects')
+      revalidatePath(`/projects/${projectId}`)
+      revalidatePath('/dashboard')
 
-        ActionLogger.info('createPhase', 'Phase created successfully', {
-          phaseId: phase.id,
-          projectId,
-          userId: user.id,
-        })
+      ActionLogger.info('createPhase', 'Phase created successfully', {
+        phaseId: phase.id,
+        projectId,
+        userId: user.id,
+      })
 
-        return {
-          success: true,
-          phase,
-          message: 'Phase created successfully',
-        }
-      },
-      'createPhase',
-      'Failed to create phase'
-    )
+      return {
+        success: true,
+        phase,
+        message: 'Phase created successfully',
+      }
+    }, 'Failed to create phase')
   })
 
 /**
@@ -107,67 +103,63 @@ export const updatePhaseAction = createAuthAction('updatePhase')
     const { user } = ctx
     const { id, title, description, order } = parsedInput
 
-    return safeExecute(
-      async () => {
-        ActionLogger.info('updatePhase', 'Updating phase', {
-          phaseId: id,
-          userId: user.id,
-        })
+    return safeExecute(async () => {
+      ActionLogger.info('updatePhase', 'Updating phase', {
+        phaseId: id,
+        userId: user.id,
+      })
 
-        // Check if phase exists and user has access
-        const existingPhase = await prisma.phase.findFirst({
-          where: {
-            id,
-            project: {
-              userId: user.id,
+      // Check if phase exists and user has access
+      const existingPhase = await prisma.phase.findFirst({
+        where: {
+          id,
+          project: {
+            userId: user.id,
+          },
+        },
+        include: {
+          project: true,
+        },
+      })
+
+      if (!existingPhase) {
+        throw new NotFoundError('Phase not found or access denied')
+      }
+
+      const phase = await prisma.phase.update({
+        where: { id },
+        data: {
+          ...(title && { title }),
+          ...(description !== undefined && { description }),
+          ...(order !== undefined && { order }),
+        },
+        include: {
+          project: {
+            select: {
+              id: true,
+              title: true,
+              userId: true,
             },
           },
-          include: {
-            project: true,
-          },
-        })
+        },
+      })
 
-        if (!existingPhase) {
-          throw new NotFoundError('Phase not found or access denied')
-        }
+      // Revalidate relevant pages
+      revalidatePath('/projects')
+      revalidatePath(`/projects/${existingPhase.projectId}`)
+      revalidatePath('/dashboard')
 
-        const phase = await prisma.phase.update({
-          where: { id },
-          data: {
-            ...(title && { title }),
-            ...(description !== undefined && { description }),
-            ...(order !== undefined && { order }),
-          },
-          include: {
-            project: {
-              select: {
-                id: true,
-                title: true,
-                userId: true,
-              },
-            },
-          },
-        })
+      ActionLogger.info('updatePhase', 'Phase updated successfully', {
+        phaseId: id,
+        userId: user.id,
+      })
 
-        // Revalidate relevant pages
-        revalidatePath('/projects')
-        revalidatePath(`/projects/${existingPhase.projectId}`)
-        revalidatePath('/dashboard')
-
-        ActionLogger.info('updatePhase', 'Phase updated successfully', {
-          phaseId: id,
-          userId: user.id,
-        })
-
-        return {
-          success: true,
-          phase,
-          message: 'Phase updated successfully',
-        }
-      },
-      'updatePhase',
-      'Failed to update phase'
-    )
+      return {
+        success: true,
+        phase,
+        message: 'Phase updated successfully',
+      }
+    }, 'Failed to update phase')
   })
 
 /**
@@ -179,53 +171,49 @@ export const deletePhaseAction = createAuthAction('deletePhase')
     const { user } = ctx
     const { id } = parsedInput
 
-    return safeExecute(
-      async () => {
-        ActionLogger.info('deletePhase', 'Deleting phase', {
-          phaseId: id,
-          userId: user.id,
-        })
+    return safeExecute(async () => {
+      ActionLogger.info('deletePhase', 'Deleting phase', {
+        phaseId: id,
+        userId: user.id,
+      })
 
-        // Check if phase exists and user has access
-        const existingPhase = await prisma.phase.findFirst({
-          where: {
-            id,
-            project: {
-              userId: user.id,
-            },
+      // Check if phase exists and user has access
+      const existingPhase = await prisma.phase.findFirst({
+        where: {
+          id,
+          project: {
+            userId: user.id,
           },
-          include: {
-            project: true,
-          },
-        })
+        },
+        include: {
+          project: true,
+        },
+      })
 
-        if (!existingPhase) {
-          throw new NotFoundError('Phase not found or access denied')
-        }
+      if (!existingPhase) {
+        throw new NotFoundError('Phase not found or access denied')
+      }
 
-        await prisma.phase.delete({
-          where: { id },
-        })
+      await prisma.phase.delete({
+        where: { id },
+      })
 
-        // Revalidate relevant pages
-        revalidatePath('/projects')
-        revalidatePath(`/projects/${existingPhase.projectId}`)
-        revalidatePath('/dashboard')
+      // Revalidate relevant pages
+      revalidatePath('/projects')
+      revalidatePath(`/projects/${existingPhase.projectId}`)
+      revalidatePath('/dashboard')
 
-        ActionLogger.info('deletePhase', 'Phase deleted successfully', {
-          phaseId: id,
-          projectId: existingPhase.projectId,
-          userId: user.id,
-        })
+      ActionLogger.info('deletePhase', 'Phase deleted successfully', {
+        phaseId: id,
+        projectId: existingPhase.projectId,
+        userId: user.id,
+      })
 
-        return {
-          success: true,
-          message: 'Phase deleted successfully',
-        }
-      },
-      'deletePhase',
-      'Failed to delete phase'
-    )
+      return {
+        success: true,
+        message: 'Phase deleted successfully',
+      }
+    }, 'Failed to delete phase')
   })
 
 /**
@@ -237,38 +225,34 @@ export const getPhaseAction = createAuthAction('getPhase')
     const { user } = ctx
     const { id } = parsedInput
 
-    return safeExecute(
-      async () => {
-        const phase = await prisma.phase.findFirst({
-          where: {
-            id,
-            project: {
-              userId: user.id,
+    return safeExecute(async () => {
+      const phase = await prisma.phase.findFirst({
+        where: {
+          id,
+          project: {
+            userId: user.id,
+          },
+        },
+        include: {
+          project: {
+            select: {
+              id: true,
+              title: true,
+              userId: true,
             },
           },
-          include: {
-            project: {
-              select: {
-                id: true,
-                title: true,
-                userId: true,
-              },
-            },
-          },
-        })
+        },
+      })
 
-        if (!phase) {
-          throw new NotFoundError('Phase not found or access denied')
-        }
+      if (!phase) {
+        throw new NotFoundError('Phase not found or access denied')
+      }
 
-        return {
-          success: true,
-          phase,
-        }
-      },
-      'getPhase',
-      'Failed to get phase'
-    )
+      return {
+        success: true,
+        phase,
+      }
+    }, 'Failed to get phase')
   })
 
 /**
@@ -280,52 +264,48 @@ export const getProjectPhasesAction = createAuthAction('getProjectPhases')
     const { user } = ctx
     const { projectId, limit, offset } = parsedInput
 
-    return safeExecute(
-      async () => {
-        // Verify project ownership
-        const project = await prisma.project.findFirst({
+    return safeExecute(async () => {
+      // Verify project ownership
+      const project = await prisma.project.findFirst({
+        where: {
+          id: projectId,
+          userId: user.id,
+        },
+      })
+
+      if (!project) {
+        throw new NotFoundError('Project not found or access denied')
+      }
+
+      const [phases, totalCount] = await Promise.all([
+        prisma.phase.findMany({
           where: {
-            id: projectId,
-            userId: user.id,
+            projectId,
           },
-        })
-
-        if (!project) {
-          throw new NotFoundError('Project not found or access denied')
-        }
-
-        const [phases, totalCount] = await Promise.all([
-          prisma.phase.findMany({
-            where: {
-              projectId,
-            },
-            orderBy: {
-              order: 'asc',
-            },
-            take: limit,
-            skip: offset,
-          }),
-          prisma.phase.count({
-            where: {
-              projectId,
-            },
-          }),
-        ])
-
-        return {
-          success: true,
-          phases,
-          pagination: {
-            total: totalCount,
-            limit,
-            offset,
-            hasMore: offset + limit < totalCount,
+          orderBy: {
+            order: 'asc',
           },
-        }
-      },
-      'getProjectPhases',
-      'Failed to get project phases'
-    )
+          take: limit,
+          skip: offset,
+        }),
+        prisma.phase.count({
+          where: {
+            projectId,
+          },
+        }),
+      ])
+
+      return {
+        success: true,
+        phases,
+        pagination: {
+          total: totalCount,
+          limit,
+          offset,
+          hasMore: offset + limit < totalCount,
+        },
+      }
+    }, 'Failed to get project phases')
   })
 
 /**
@@ -337,74 +317,76 @@ export const reorderPhasesAction = createAuthAction('reorderPhases')
     const { user } = ctx
     const { projectId, phaseOrders } = parsedInput
 
-    return safeExecute(
-      async () => {
-        ActionLogger.info('reorderPhases', 'Reordering phases', {
-          projectId,
+    return safeExecute(async () => {
+      ActionLogger.info('reorderPhases', 'Reordering phases', {
+        projectId,
+        userId: user.id,
+        phaseCount: phaseOrders.length,
+      })
+
+      // Verify project ownership
+      const project = await prisma.project.findFirst({
+        where: {
+          id: projectId,
           userId: user.id,
-          phaseCount: phaseOrders.length,
-        })
+        },
+      })
 
-        // Verify project ownership
-        const project = await prisma.project.findFirst({
-          where: {
-            id: projectId,
-            userId: user.id,
+      if (!project) {
+        throw new NotFoundError('Project not found or access denied')
+      }
+
+      // Verify all phases belong to the project
+      const existingPhases = await prisma.phase.findMany({
+        where: {
+          id: {
+            in: phaseOrders.map(p => p.id),
           },
-        })
+          projectId,
+        },
+      })
 
-        if (!project) {
-          throw new NotFoundError('Project not found or access denied')
-        }
-
-        // Verify all phases belong to the project
-        const existingPhases = await prisma.phase.findMany({
-          where: {
-            id: {
-              in: phaseOrders.map(p => p.id),
-            },
-            projectId,
+      if (existingPhases.length !== phaseOrders.length) {
+        throw new ValidationError([
+          {
+            field: 'phaseOrders',
+            message: 'Some phases do not belong to this project',
+            code: 'INVALID_PHASE_PROJECT',
           },
-        })
+        ])
+      }
 
-        if (existingPhases.length !== phaseOrders.length) {
-          throw new ValidationError('Some phases do not belong to this project')
-        }
-
-        // Update phases in a transaction
-        await prisma.$transaction(
-          phaseOrders.map(phaseOrder =>
-            prisma.phase.update({
-              where: { id: phaseOrder.id },
-              data: { order: phaseOrder.order },
-            })
-          )
+      // Update phases in a transaction
+      await prisma.$transaction(
+        phaseOrders.map(phaseOrder =>
+          prisma.phase.update({
+            where: { id: phaseOrder.id },
+            data: { order: phaseOrder.order },
+          })
         )
+      )
 
-        // Get updated phases
-        const updatedPhases = await prisma.phase.findMany({
-          where: { projectId },
-          orderBy: { order: 'asc' },
-        })
+      // Get updated phases
+      const updatedPhases = await prisma.phase.findMany({
+        where: { projectId },
+        orderBy: { order: 'asc' },
+      })
 
-        // Revalidate relevant pages
-        revalidatePath('/projects')
-        revalidatePath(`/projects/${projectId}`)
-        revalidatePath('/dashboard')
+      // Revalidate relevant pages
+      revalidatePath('/projects')
+      revalidatePath(`/projects/${projectId}`)
+      revalidatePath('/dashboard')
 
-        ActionLogger.info('reorderPhases', 'Phases reordered successfully', {
-          projectId,
-          userId: user.id,
-          phaseCount: phaseOrders.length,
-        })
+      ActionLogger.info('reorderPhases', 'Phases reordered successfully', {
+        projectId,
+        userId: user.id,
+        phaseCount: phaseOrders.length,
+      })
 
-        return {
-          success: true,
-          phases: updatedPhases,
-          message: 'Phases reordered successfully',
-        }
-      },
-      'reorderPhases',
-      'Failed to reorder phases'
-    )
+      return {
+        success: true,
+        phases: updatedPhases,
+        message: 'Phases reordered successfully',
+      }
+    }, 'Failed to reorder phases')
   })

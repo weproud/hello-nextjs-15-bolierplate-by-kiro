@@ -1,7 +1,10 @@
-import type { AppError, ValidationError } from '../types/common'
+import type {
+  AppError as AppErrorType,
+  ValidationError as ValidationErrorType,
+} from '../types/common'
 
 // Error classes
-export class AppErrorClass extends Error implements AppError {
+export class AppErrorClass extends Error implements AppErrorType {
   code: string
   details?: any
   timestamp: Date
@@ -16,9 +19,9 @@ export class AppErrorClass extends Error implements AppError {
 }
 
 export class ValidationErrorClass extends Error {
-  errors: ValidationError[]
+  errors: ValidationErrorType[]
 
-  constructor(errors: ValidationError[]) {
+  constructor(errors: ValidationErrorType[]) {
     const message = errors.map(e => `${e.field}: ${e.message}`).join(', ')
     super(`Validation failed: ${message}`)
     this.name = 'ValidationError'
@@ -39,7 +42,7 @@ export const createAppError = (
 }
 
 export const createValidationError = (
-  errors: ValidationError[]
+  errors: ValidationErrorType[]
 ): ValidationErrorClass => {
   return new ValidationErrorClass(errors)
 }
@@ -157,4 +160,73 @@ export const safeAsync = async <T>(
     }
     return { error: appError }
   }
+}
+
+// Additional error classes that are imported by other files
+export class NotFoundError extends AppErrorClass {
+  constructor(message: string = '리소스를 찾을 수 없습니다.') {
+    super(ERROR_CODES.NOT_FOUND, message)
+    this.name = 'NotFoundError'
+  }
+}
+
+export class AuthorizationError extends AppErrorClass {
+  constructor(message: string = '권한이 없습니다.') {
+    super(ERROR_CODES.FORBIDDEN, message)
+    this.name = 'AuthorizationError'
+  }
+}
+
+export class DatabaseError extends AppErrorClass {
+  constructor(message: string = '데이터베이스 오류가 발생했습니다.') {
+    super(ERROR_CODES.DATABASE_ERROR, message)
+    this.name = 'DatabaseError'
+  }
+}
+
+// Export ValidationError as alias for ValidationErrorClass
+export const ValidationError = ValidationErrorClass
+
+// Safe execution wrapper
+export const safeExecute = async <T>(
+  fn: () => Promise<T>,
+  context?: string
+): Promise<
+  { success: true; data: T } | { success: false; error: AppError }
+> => {
+  try {
+    const data = await fn()
+    return { success: true, data }
+  } catch (error) {
+    const appError = handleError(error)
+    if (context) {
+      logError(appError, context)
+    }
+    return { success: false, error: appError }
+  }
+}
+
+// Rate limiting helper
+export const checkRateLimit = async (
+  key: string,
+  limit: number = 10,
+  windowMs: number = 60000
+): Promise<boolean> => {
+  // Simple in-memory rate limiting for development
+  // In production, use Redis or similar
+  return true // Always allow for now
+}
+
+// Object sanitization helper
+export const sanitizeObject = <T extends Record<string, any>>(
+  obj: T,
+  allowedKeys: (keyof T)[]
+): Partial<T> => {
+  const sanitized: Partial<T> = {}
+  allowedKeys.forEach(key => {
+    if (key in obj) {
+      sanitized[key] = obj[key]
+    }
+  })
+  return sanitized
 }

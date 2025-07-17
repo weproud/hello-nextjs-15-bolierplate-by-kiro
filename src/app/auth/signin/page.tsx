@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { SigninForm } from '@/components/auth/signin-form'
+import { SignInForm } from '@/components/auth/signin-form'
 import { AuthLayout } from '@/components/auth/auth-layout'
 import {
   Card,
@@ -10,14 +10,15 @@ import {
 } from '@/components/ui/card'
 
 interface SignInPageProps {
-  searchParams: {
+  searchParams: Promise<{
     callbackUrl?: string
     error?: string
-  }
+  }>
 }
 
-export default function SignInPage({ searchParams }: SignInPageProps) {
-  const callbackUrl = searchParams?.callbackUrl || '/'
+export default async function SignInPage({ searchParams }: SignInPageProps) {
+  const resolvedSearchParams = await searchParams
+  const callbackUrl = resolvedSearchParams?.callbackUrl || '/'
 
   return (
     <AuthLayout subtitle="안전하고 간편한 Google 로그인으로 시작하세요">
@@ -40,7 +41,7 @@ export default function SignInPage({ searchParams }: SignInPageProps) {
                 </div>
               }
             >
-              <SigninForm
+              <SignInForm
                 callbackUrl={callbackUrl}
                 onSuccess={() => {
                   // Success handled by SigninForm component

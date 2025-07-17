@@ -59,15 +59,10 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import {
-  createProject,
-  getProjects,
-  updateProject,
-  deleteProject,
-  duplicateProject,
-  getProjectStats,
-  type CreateProjectInput,
-  type UpdateProjectInput,
-  type GetProjectsInput,
+  createProjectAction as createProject,
+  updateProjectAction as updateProject,
+  deleteProjectAction as deleteProject,
+  getUserProjectsAction as getProjects,
 } from '@/lib/actions/project-actions'
 
 // Form schemas
@@ -81,6 +76,10 @@ const updateProjectSchema = z.object({
   title: z.string().min(1, '프로젝트 제목을 입력해주세요.').max(255),
   description: z.string().max(1000).optional(),
 })
+
+// Type definitions
+type CreateProjectInput = z.infer<typeof createProjectSchema>
+type UpdateProjectInput = z.infer<typeof updateProjectSchema>
 
 // Project Creation Form
 function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
@@ -97,7 +96,7 @@ function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
 
   const { execute, status } = useAction(createProject, {
     onSuccess: data => {
-      toast.success(data.message)
+      toast.success(data.data.message)
       reset()
       setIsOpen(false)
       onSuccess?.()
@@ -200,7 +199,7 @@ function ProjectEditForm({
 
   const { execute, status } = useAction(updateProject, {
     onSuccess: data => {
-      toast.success(data.message)
+      toast.success(data.data.message)
       setIsOpen(false)
       onSuccess?.()
     },
@@ -295,7 +294,7 @@ function ProjectDeleteDialog({
 
   const { execute, status } = useAction(deleteProject, {
     onSuccess: data => {
-      toast.success(data.message)
+      toast.success(data.data.message)
       setIsOpen(false)
       onSuccess?.()
     },
@@ -353,21 +352,9 @@ function ProjectCard({
   project: any
   onRefresh: () => void
 }) {
-  const { execute: duplicateExecute, status: duplicateStatus } = useAction(
-    duplicateProject,
-    {
-      onSuccess: data => {
-        toast.success(data.message)
-        onRefresh()
-      },
-      onError: error => {
-        toast.error(error.error.serverError || '프로젝트 복사에 실패했습니다.')
-      },
-    }
-  )
-
+  // Duplicate functionality temporarily disabled - not implemented in actions
   const handleDuplicate = () => {
-    duplicateExecute({ id: project.id })
+    toast.info('복사 기능은 준비 중입니다.')
   }
 
   return (
@@ -392,12 +379,9 @@ function ProjectCard({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <ProjectEditForm project={project} onSuccess={onRefresh} />
-              <DropdownMenuItem
-                onClick={handleDuplicate}
-                disabled={duplicateStatus === 'executing'}
-              >
+              <DropdownMenuItem onClick={handleDuplicate}>
                 <Copy className="h-4 w-4 mr-2" />
-                {duplicateStatus === 'executing' ? '복사 중...' : '복사'}
+                복사
               </DropdownMenuItem>
               <ProjectDeleteDialog project={project} onSuccess={onRefresh} />
             </DropdownMenuContent>
@@ -425,39 +409,9 @@ function ProjectCard({
   )
 }
 
-// Project Statistics Dashboard
+// Project Statistics Dashboard - Simplified version without stats action
 function ProjectStatsDashboard() {
-  const { execute, status, result } = useAction(getProjectStats, {
-    onError: error => {
-      toast.error(error.error.serverError || '통계 조회에 실패했습니다.')
-    },
-  })
-
-  useEffect(() => {
-    execute()
-  }, [execute])
-
-  if (status === 'executing') {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        {[...Array(4)].map((_, i) => (
-          <Card key={i}>
-            <CardContent className="p-6">
-              <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-8 bg-gray-200 rounded w-1/2"></div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
-  if (!result?.data) return null
-
-  const stats = result.data
-
+  // Temporarily disabled - stats action not implemented
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <Card>
@@ -468,7 +422,7 @@ function ProjectStatsDashboard() {
               <p className="text-sm font-medium text-muted-foreground">
                 총 프로젝트
               </p>
-              <p className="text-2xl font-bold">{stats.totalProjects}</p>
+              <p className="text-2xl font-bold">-</p>
             </div>
           </div>
         </CardContent>
@@ -482,7 +436,7 @@ function ProjectStatsDashboard() {
               <p className="text-sm font-medium text-muted-foreground">
                 총 단계
               </p>
-              <p className="text-2xl font-bold">{stats.totalPhases}</p>
+              <p className="text-2xl font-bold">-</p>
             </div>
           </div>
         </CardContent>
@@ -496,9 +450,7 @@ function ProjectStatsDashboard() {
               <p className="text-sm font-medium text-muted-foreground">
                 평균 단계/프로젝트
               </p>
-              <p className="text-2xl font-bold">
-                {stats.averagePhasesPerProject}
-              </p>
+              <p className="text-2xl font-bold">-</p>
             </div>
           </div>
         </CardContent>
@@ -512,15 +464,7 @@ function ProjectStatsDashboard() {
               <p className="text-sm font-medium text-muted-foreground">
                 이번 달
               </p>
-              <p className="text-2xl font-bold">{stats.projectsThisMonth}</p>
-              {stats.monthlyGrowth !== 0 && (
-                <p
-                  className={`text-sm ${stats.monthlyGrowth > 0 ? 'text-green-600' : 'text-red-600'}`}
-                >
-                  {stats.monthlyGrowth > 0 ? '+' : ''}
-                  {stats.monthlyGrowth}%
-                </p>
-              )}
+              <p className="text-2xl font-bold">-</p>
             </div>
           </div>
         </CardContent>
@@ -552,34 +496,25 @@ export function ProjectCrudExamples() {
   const handleSearch = () => {
     setCurrentPage(1)
     execute({
-      page: 1,
       limit: 12,
-      search: searchQuery || undefined,
-      sortBy,
-      sortOrder,
+      offset: 0,
     })
   }
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     execute({
-      page,
       limit: 12,
-      search: searchQuery || undefined,
-      sortBy,
-      sortOrder,
+      offset: (page - 1) * 12,
     })
   }
 
   useEffect(() => {
     execute({
-      page: currentPage,
       limit: 12,
-      search: searchQuery || undefined,
-      sortBy,
-      sortOrder,
+      offset: (currentPage - 1) * 12,
     })
-  }, [execute, currentPage, sortBy, sortOrder, refreshKey])
+  }, [execute, currentPage, refreshKey])
 
   return (
     <div className="container mx-auto py-8">
@@ -658,10 +593,10 @@ export function ProjectCrudExamples() {
             </Card>
           ))}
         </div>
-      ) : result?.data?.projects.length ? (
+      ) : result?.data?.projects?.length ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {result.data.projects.map(project => (
+            {result.data.projects.map((project: any) => (
               <ProjectCard
                 key={project.id}
                 project={project}
@@ -671,55 +606,27 @@ export function ProjectCrudExamples() {
           </div>
 
           {/* Pagination */}
-          {result.data.pagination.totalPages > 1 && (
+          {result.data.pagination.hasMore && (
             <div className="flex items-center justify-center space-x-2 mt-8">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handlePageChange(currentPage - 1)}
-                disabled={!result.data.pagination.hasPreviousPage}
+                disabled={currentPage === 1}
               >
                 <ChevronLeft className="h-4 w-4" />
                 이전
               </Button>
 
-              <div className="flex items-center space-x-1">
-                {[...Array(result.data.pagination.totalPages)].map((_, i) => {
-                  const page = i + 1
-                  if (
-                    page === 1 ||
-                    page === result.data.pagination.totalPages ||
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  ) {
-                    return (
-                      <Button
-                        key={page}
-                        variant={page === currentPage ? 'default' : 'outline'}
-                        size="sm"
-                        onClick={() => handlePageChange(page)}
-                      >
-                        {page}
-                      </Button>
-                    )
-                  } else if (
-                    page === currentPage - 2 ||
-                    page === currentPage + 2
-                  ) {
-                    return (
-                      <span key={page} className="px-2">
-                        ...
-                      </span>
-                    )
-                  }
-                  return null
-                })}
-              </div>
+              <span className="px-4 py-2 text-sm text-muted-foreground">
+                페이지 {currentPage}
+              </span>
 
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={!result.data.pagination.hasNextPage}
+                disabled={!result.data.pagination.hasMore}
               >
                 다음
                 <ChevronRight className="h-4 w-4" />
@@ -728,10 +635,13 @@ export function ProjectCrudExamples() {
           )}
 
           <div className="text-center text-sm text-muted-foreground mt-4">
-            총 {result.data.pagination.totalCount}개 프로젝트 중{' '}
-            {(currentPage - 1) * 12 + 1}-
-            {Math.min(currentPage * 12, result.data.pagination.totalCount)}개
-            표시
+            총 {result.data.pagination.total}개 프로젝트 중{' '}
+            {result.data.pagination.offset + 1}-
+            {Math.min(
+              result.data.pagination.offset + result.data.pagination.limit,
+              result.data.pagination.total
+            )}
+            개 표시
           </div>
         </>
       ) : (
