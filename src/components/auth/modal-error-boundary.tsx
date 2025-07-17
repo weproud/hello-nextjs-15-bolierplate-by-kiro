@@ -136,6 +136,17 @@ export class ModalErrorBoundary extends Component<Props, State> {
           aria-labelledby="modal-error-title"
           aria-describedby="modal-error-description"
         >
+          {/* Screen reader announcement for error */}
+          <div
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            className="sr-only"
+          >
+            로그인 모달에서 오류가 발생했습니다. 다시 시도하거나 전체 페이지에서
+            로그인할 수 있습니다.
+          </div>
+
           <div className="relative w-full max-w-md" role="document">
             <Card className="w-full">
               <CardHeader className="text-center">
@@ -169,7 +180,11 @@ export class ModalErrorBoundary extends Component<Props, State> {
 
                 {/* Error details in development */}
                 {process.env.NODE_ENV === 'development' && this.state.error && (
-                  <div className="bg-gray-100 p-3 rounded text-xs">
+                  <div
+                    className="bg-gray-100 p-3 rounded text-xs"
+                    role="region"
+                    aria-label="개발자 디버그 정보"
+                  >
                     <div className="font-semibold mb-1">개발자 정보:</div>
                     <div className="text-gray-700">
                       <div>
@@ -183,15 +198,20 @@ export class ModalErrorBoundary extends Component<Props, State> {
                   </div>
                 )}
 
-                {/* Action buttons */}
-                <div className="space-y-2">
+                {/* Action buttons with enhanced accessibility */}
+                <div
+                  className="space-y-2"
+                  role="group"
+                  aria-label="오류 해결 옵션"
+                >
                   {canRetry && (
                     <Button
                       onClick={this.handleRetry}
-                      className="w-full"
+                      className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                       variant="default"
+                      aria-label={`로그인 다시 시도. ${this.maxRetries - this.state.retryCount}회 남음`}
                     >
-                      <RefreshCw className="w-4 h-4 mr-2" />
+                      <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
                       다시 시도 ({this.maxRetries - this.state.retryCount}회
                       남음)
                     </Button>
@@ -200,23 +220,29 @@ export class ModalErrorBoundary extends Component<Props, State> {
                   <Button
                     onClick={this.handleFallbackToFullPage}
                     variant="outline"
-                    className="w-full"
+                    className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-label="전체 페이지에서 로그인하기"
                   >
-                    <ExternalLink className="w-4 h-4 mr-2" />
+                    <ExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
                     전체 페이지에서 로그인
                   </Button>
 
                   <Button
                     onClick={this.handleCloseModal}
                     variant="ghost"
-                    className="w-full"
+                    className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-label="모달 닫기"
                   >
                     취소
                   </Button>
                 </div>
 
                 {!canRetry && (
-                  <div className="text-center text-xs text-gray-500 border-t pt-3">
+                  <div
+                    className="text-center text-xs text-gray-500 border-t pt-3"
+                    role="status"
+                    aria-live="polite"
+                  >
                     최대 재시도 횟수에 도달했습니다. 전체 페이지에서 로그인을
                     시도해 주세요.
                   </div>

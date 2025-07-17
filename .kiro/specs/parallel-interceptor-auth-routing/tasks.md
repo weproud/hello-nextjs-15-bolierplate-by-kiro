@@ -40,14 +40,14 @@
   - Ensure error messages display consistently in both modal and full page contexts
   - _Requirements: 4.2, 4.4_
 
-- [ ] 7. Implement accessibility features
+- [x] 7. Implement accessibility features
   - Add proper ARIA labels and roles for modal elements
   - Implement focus management to trap focus within modal when open
   - Add screen reader announcements for modal state changes
   - Ensure keyboard navigation works properly with tab order and ESC key handling
   - _Requirements: 5.4_
 
-- [ ] 8. Create comprehensive test suite
+- [-] 8. Create comprehensive test suite
   - Write unit tests for modal component rendering and event handling
   - Create integration tests for route interception and parameter passing
   - Implement tests for authentication flow in both modal and full page contexts

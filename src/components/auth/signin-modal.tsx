@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SignInForm } from '@/components/auth/signin-form'
@@ -14,18 +14,100 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-// Screen reader announcement component
-function ScreenReaderAnnouncement({ message }: { message: string }) {
+// Screen reader announcement component with enhanced accessibility
+function ScreenReaderAnnouncement({
+  message,
+  priority = 'polite',
+}: {
+  message: string
+  priority?: 'polite' | 'assertive'
+}) {
   return (
     <div
       role="status"
-      aria-live="polite"
+      aria-live={priority}
       aria-atomic="true"
       className="sr-only"
+      aria-relevant="additions text"
     >
       {message}
     </div>
   )
+}
+
+// Enhanced focus management hook
+function useFocusManagement(
+  isOpen: boolean,
+  modalRef: React.RefObject<HTMLDivElement>
+) {
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
+  const firstFocusableElementRef = useRef<HTMLElement | null>(null)
+  const lastFocusableElementRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    // Store the previously focused element
+    previouslyFocusedElementRef.current = document.activeElement as HTMLElement
+
+    const modal = modalRef.current
+    if (!modal) return
+
+    // Get all focusable elements within the modal
+    const focusableElements = modal.querySelectorAll(
+      'button:not([disabled]):not([aria-hidden="true"]), [href]:not([disabled]):not([aria-hidden="true"]), input:not([disabled]):not([aria-hidden="true"]), select:not([disabled]):not([aria-hidden="true"]), textarea:not([disabled]):not([aria-hidden="true"]), [tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"]), [contenteditable="true"]:not([disabled]):not([aria-hidden="true"])'
+    ) as NodeListOf<HTMLElement>
+
+    if (focusableElements.length > 0) {
+      firstFocusableElementRef.current = focusableElements[0]
+      lastFocusableElementRef.current =
+        focusableElements[focusableElements.length - 1]
+    }
+
+    return () => {
+      // Restore focus when modal closes
+      if (
+        previouslyFocusedElementRef.current &&
+        previouslyFocusedElementRef.current.focus
+      ) {
+        // Use setTimeout to ensure the modal is fully removed from DOM
+        setTimeout(() => {
+          previouslyFocusedElementRef.current?.focus()
+        }, 0)
+      }
+    }
+  }, [isOpen, modalRef])
+
+  const trapFocus = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !isOpen) return
+
+      const firstElement = firstFocusableElementRef.current
+      const lastElement = lastFocusableElementRef.current
+
+      if (!firstElement || !lastElement) {
+        e.preventDefault()
+        return
+      }
+
+      if (e.shiftKey) {
+        // Shift + Tab: moving backwards
+        if (document.activeElement === firstElement) {
+          lastElement.focus()
+          e.preventDefault()
+        }
+      } else {
+        // Tab: moving forwards
+        if (document.activeElement === lastElement) {
+          firstElement.focus()
+          e.preventDefault()
+        }
+      }
+    },
+    [isOpen]
+  )
+
+  return { trapFocus, firstFocusableElement: firstFocusableElementRef.current }
 }
 
 export function SigninModal() {
@@ -35,8 +117,17 @@ export function SigninModal() {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const [hasModalError, setHasModalError] = useState(false)
   const [announcement, setAnnouncement] = useState('')
+  const [announcementPriority, setAnnouncementPriority] = useState<
+    'polite' | 'assertive'
+  >('polite')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const callbackUrl = searchParams.get('callbackUrl') || '/'
+
+  // Use enhanced focus management
+  const { trapFocus, firstFocusableElement } = useFocusManagement(
+    isModalOpen,
+    modalRef
+  )
 
   const handleClose = () => {
     setAnnouncement('로그인 모달이 닫혔습니다')
@@ -79,17 +170,29 @@ export function SigninModal() {
     }, 2000)
   }
 
-  // Handle ESC key
+  // Enhanced keyboard event handling
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Handle ESC key for modal dismissal
       if (e.key === 'Escape') {
+        setAnnouncement('ESC 키를 눌러 모달을 닫습니다')
+        setAnnouncementPriority('assertive')
         handleClose()
+        return
       }
+
+      // Handle focus trapping
+      trapFocus(e)
     }
 
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [])
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isModalOpen, trapFocus])
 
   // Modal initialization and accessibility setup
   useEffect(() => {
@@ -97,79 +200,20 @@ export function SigninModal() {
     setAnnouncement(
       '로그인 모달이 열렸습니다. ESC 키를 누르거나 배경을 클릭하여 닫을 수 있습니다.'
     )
+    setAnnouncementPriority('polite')
 
-    // Store the previously focused element to restore focus later
-    const previouslyFocusedElement = document.activeElement as HTMLElement
-
-    return () => {
-      // Restore focus to previously focused element when modal closes
-      if (previouslyFocusedElement && previouslyFocusedElement.focus) {
-        previouslyFocusedElement.focus()
+    // Set initial focus to the close button for better accessibility
+    setTimeout(() => {
+      const closeButton = closeButtonRef.current
+      if (closeButton) {
+        closeButton.focus()
+        setAnnouncement('닫기 버튼에 포커스가 설정되었습니다')
+      } else if (firstFocusableElement) {
+        firstFocusableElement.focus()
+        setAnnouncement('첫 번째 요소에 포커스가 설정되었습니다')
       }
-    }
-  }, [])
-
-  // Enhanced focus trap with better accessibility
-  useEffect(() => {
-    const modal = modalRef.current
-    if (!modal || !isModalOpen) return
-
-    const focusableElements = modal.querySelectorAll(
-      'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled]), [contenteditable="true"]:not([disabled])'
-    )
-    const firstElement = focusableElements[0] as HTMLElement
-    const lastElement = focusableElements[
-      focusableElements.length - 1
-    ] as HTMLElement
-
-    const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return
-
-      // If no focusable elements, prevent tabbing
-      if (focusableElements.length === 0) {
-        e.preventDefault()
-        return
-      }
-
-      // If only one focusable element, keep focus on it
-      if (focusableElements.length === 1) {
-        e.preventDefault()
-        firstElement?.focus()
-        return
-      }
-
-      if (e.shiftKey) {
-        // Shift + Tab: moving backwards
-        if (
-          document.activeElement === firstElement ||
-          !modal.contains(document.activeElement)
-        ) {
-          lastElement?.focus()
-          e.preventDefault()
-        }
-      } else {
-        // Tab: moving forwards
-        if (
-          document.activeElement === lastElement ||
-          !modal.contains(document.activeElement)
-        ) {
-          firstElement?.focus()
-          e.preventDefault()
-        }
-      }
-    }
-
-    // Set initial focus to the close button for better UX
-    const closeButton = closeButtonRef.current
-    if (closeButton) {
-      closeButton.focus()
-    } else if (firstElement) {
-      firstElement.focus()
-    }
-
-    document.addEventListener('keydown', handleTabKey)
-    return () => document.removeEventListener('keydown', handleTabKey)
-  }, [isModalOpen])
+    }, 100) // Small delay to ensure modal is fully rendered
+  }, [firstFocusableElement])
 
   return (
     <ModalErrorBoundary
@@ -177,7 +221,12 @@ export function SigninModal() {
       onError={handleModalError}
     >
       {/* Screen reader announcements */}
-      {announcement && <ScreenReaderAnnouncement message={announcement} />}
+      {announcement && (
+        <ScreenReaderAnnouncement
+          message={announcement}
+          priority={announcementPriority}
+        />
+      )}
 
       <div
         className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
@@ -199,10 +248,16 @@ export function SigninModal() {
                 ref={closeButtonRef}
                 variant="ghost"
                 size="sm"
-                className="absolute right-2 top-2 h-8 w-8 p-0"
+                className="absolute right-2 top-2 h-8 w-8 p-0 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 onClick={handleClose}
                 aria-label="로그인 모달 닫기. ESC 키를 눌러도 닫을 수 있습니다"
                 title="모달 닫기 (ESC)"
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleClose()
+                  }
+                }}
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </Button>

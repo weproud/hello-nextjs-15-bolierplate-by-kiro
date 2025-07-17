@@ -106,16 +106,29 @@ export function SignInForm({
   const canRetry = errorResult?.canRetry || false
 
   return (
-    <div className="space-y-4">
-      {/* Error display */}
+    <div className="space-y-4" role="form" aria-label="Google 로그인 폼">
+      {/* Error display with enhanced accessibility */}
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+        <div
+          className="p-3 bg-red-50 border border-red-200 rounded-md"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
           <div className="flex items-start">
-            <AlertTriangle className="w-4 h-4 text-red-600 mt-0.5 mr-2 flex-shrink-0" />
+            <AlertTriangle
+              className="w-4 h-4 text-red-600 mt-0.5 mr-2 flex-shrink-0"
+              aria-hidden="true"
+            />
             <div className="flex-1">
-              <p className="text-sm text-red-800">{error}</p>
+              <p className="text-sm text-red-800" id="signin-error-message">
+                {error}
+              </p>
               {errorResult && errorResult.retryCount > 0 && (
-                <p className="text-xs text-red-600 mt-1">
+                <p
+                  className="text-xs text-red-600 mt-1"
+                  aria-label={`재시도 횟수: ${errorResult.retryCount}회 중 최대 ${errorResult.maxRetries}회`}
+                >
                   재시도 {errorResult.retryCount}/{errorResult.maxRetries}
                 </p>
               )}
@@ -124,21 +137,31 @@ export function SignInForm({
         </div>
       )}
 
-      {/* Main signin button */}
+      {/* Main signin button with enhanced accessibility */}
       <Button
         onClick={handleGoogleSignIn}
         disabled={isLoading}
-        className="w-full"
+        className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         size="lg"
+        aria-describedby={error ? 'signin-error-message' : undefined}
+        aria-label={isLoading ? '로그인 진행 중' : 'Google 계정으로 로그인'}
       >
         {isLoading ? (
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-            로그인 중...
+            <div
+              className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
+              aria-hidden="true"
+            />
+            <span aria-live="polite">로그인 중...</span>
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path
                 fill="currentColor"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -161,17 +184,22 @@ export function SignInForm({
         )}
       </Button>
 
-      {/* Retry and fallback options */}
+      {/* Retry and fallback options with enhanced accessibility */}
       {error && (
-        <div className="space-y-2">
+        <div
+          className="space-y-2"
+          role="group"
+          aria-label="로그인 재시도 및 대안 옵션"
+        >
           {canRetry && (
             <Button
               onClick={handleRetry}
               variant="outline"
-              className="w-full"
+              className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               size="sm"
+              aria-label={`로그인 다시 시도. ${errorResult ? errorResult.maxRetries - errorResult.retryCount : 3}회 남음`}
             >
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
               다시 시도 (
               {errorResult
                 ? errorResult.maxRetries - errorResult.retryCount
@@ -184,10 +212,11 @@ export function SignInForm({
             <Button
               onClick={handleFallbackToFullPage}
               variant="ghost"
-              className="w-full"
+              className="w-full focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               size="sm"
+              aria-label="전체 페이지에서 로그인하기"
             >
-              <ExternalLink className="w-4 h-4 mr-2" />
+              <ExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
               전체 페이지에서 로그인
             </Button>
           )}
