@@ -31,6 +31,8 @@ export type AppError = {
   message: string
   details?: any
   timestamp: Date
+  name?: string
+  stack?: string
 }
 
 export type ValidationError = {
