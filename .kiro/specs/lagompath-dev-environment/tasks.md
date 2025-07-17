@@ -71,6 +71,7 @@
     - _Requirements: 6.1, 6.5_
 
   - [x] 6.2 Implement form handling with React Hook Form and Zod
+  - [x] 6.2 Implement form handling with React Hook Form and Zod
     - Install React Hook Form and Zod validation library
     - Create validation schemas for common form inputs
     - Implement form components with integrated validation
@@ -87,6 +88,7 @@
     - _Requirements: 7.1, 7.2, 7.3_
 
   - [x] 7.2 Implement sample server actions
+  - [x] 7.2 Implement sample server actions
     - Create authenticated action wrapper with user context
     - Implement CRUD operations for Project model
     - Add cache revalidation after successful operations
@@ -101,6 +103,7 @@
     - Add hooks, contexts, data, and i18n directories for future use
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5_
 
+  - [x] 8.2 Create core utility files and configurations
   - [x] 8.2 Create core utility files and configurations
     - Implement database connection utilities in lib/prisma
     - Create common utility functions in lib/utils

@@ -1,61 +1,107 @@
-'use client'
-
-import { useCallback, useState, useTransition } from 'react'
-import { type UseFormReturn } from 'react-hook-form'
+import { useState, useTransition } from 'react'
+import { UseFormReturn } from 'react-hook-form'
 import { toast } from 'sonner'
 
-type ActionResult<T = any> = {
-  success: boolean
+// Type for server action result (compatible with next-safe-action)
+export interface ActionResult<T = any> {
+  success?: boolean
   data?: T
   error?: string
   fieldErrors?: Record<string, string[]>
+  serverError?: string
+  validationErrors?: Record<string, string[]>
 }
 
-interface UseFormActionOptions<T> {
-  onSuccess?: (data: T) => void
-  onError?: (error: string) => void
+// Options for form action hook
+export interface UseFormActionOptions {
   form?: UseFormReturn<any>
   showToast?: boolean
   successMessage?: string
   errorMessage?: string
+  onSuccess?: (data?: any) => void
+  onError?: (error: string) => void
 }
 
+// Hook for handling server actions with forms (compatible with next-safe-action)
 export function useFormAction<T = any>(
-  action: (formData: FormData) => Promise<ActionResult<T>>,
-  options: UseFormActionOptions<T> = {}
+  action: any, // next-safe-action or traditional action
+  options: UseFormActionOptions = {}
 ) {
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<ActionResult<T> | null>(null)
+
   const {
-    onSuccess,
-    onError,
     form,
-    showToast = false,
+    showToast = true,
     successMessage = '성공적으로 처리되었습니다.',
     errorMessage = '처리 중 오류가 발생했습니다.',
+    onSuccess,
+    onError,
   } = options
 
-  const execute = useCallback(
-    (formData: FormData) => {
-      startTransition(async () => {
-        try {
-          const actionResult = await action(formData)
-          setResult(actionResult)
+  const execute = (formDataOrInput: FormData | any) => {
+    startTransition(async () => {
+      try {
+        let actionResult: any
 
-          if (actionResult.success) {
-            // Clear form errors
-            if (form) {
-              form.clearErrors()
+        // Check if action is a next-safe-action (has execute method) or traditional action
+        if (typeof action === 'function' && action.execute) {
+          // next-safe-action format
+          actionResult = await action.execute(formDataOrInput)
+        } else if (typeof action === 'function') {
+          // Traditional server action format
+          actionResult = await action(formDataOrInput)
+        } else {
+          throw new Error('Invalid action format')
+        }
+
+        // Handle next-safe-action result format
+        if (actionResult && typeof actionResult === 'object') {
+          // next-safe-action success case
+          if (
+            actionResult.data !== undefined &&
+            !actionResult.serverError &&
+            !actionResult.validationErrors
+          ) {
+            const result: ActionResult<T> = {
+              success: true,
+              data: actionResult.data,
             }
+            setResult(result)
 
-            // Show success toast
             if (showToast) {
               toast.success(successMessage)
             }
+            onSuccess?.(actionResult.data)
+            return
+          }
 
-            // Call success callback
-            if (onSuccess && actionResult.data) {
-              onSuccess(actionResult.data)
+          // next-safe-action error case
+          if (actionResult.serverError || actionResult.validationErrors) {
+            const result: ActionResult<T> = {
+              success: false,
+              error: actionResult.serverError || 'Validation failed',
+              fieldErrors: actionResult.validationErrors,
+            }
+            setResult(result)
+
+            // Handle field errors
+            if (actionResult.validationErrors && form) {
+              Object.entries(actionResult.validationErrors).forEach(
+                ([field, errors]) => {
+                  if (Array.isArray(errors) && errors.length > 0) {
+                    form.setError(field as any, {
+                      type: 'server',
+                      message: errors[0],
+                    })
+                  }
+                }
+              )
+            }
+
+            const message = actionResult.serverError || errorMessage
+            if (showToast) {
+              toast.error(message)
             }
           } else {
             // Set field errors if available
@@ -72,61 +118,159 @@ export function useFormAction<T = any>(
               )
             }
 
-            // Show error toast
-            if (showToast) {
-              toast.error(actionResult.error || errorMessage)
+              const message = actionResult.error || errorMessage
+              if (showToast) {
+                toast.error(message)
+              }
+              onError?.(message)
             }
-
-            // Call error callback
-            if (onError) {
-              onError(actionResult.error || errorMessage)
-            }
-          }
-        } catch (error) {
-          const fallbackErrorMessage = '예상치 못한 오류가 발생했습니다.'
-          setResult({
-            success: false,
-            error: fallbackErrorMessage,
-          })
-
-          // Show error toast
-          if (showToast) {
-            toast.error(fallbackErrorMessage)
-          }
-
-          if (onError) {
-            onError(fallbackErrorMessage)
+            return
           }
         }
-      })
-    },
-    [action, form, onSuccess, onError, showToast, successMessage, errorMessage]
-  )
 
-  const reset = useCallback(() => {
+        // If we get here, assume success with the result as data
+        const result: ActionResult<T> = {
+          success: true,
+          data: actionResult,
+        }
+        setResult(result)
+
+        if (showToast) {
+          toast.success(successMessage)
+        }
+        onSuccess?.(actionResult)
+      } catch (error) {
+        const message = error instanceof Error ? error.message : errorMessage
+        setResult({
+          success: false,
+          error: message,
+        })
+
+        if (showToast) {
+          toast.error(message)
+        }
+        onError?.(message)
+      }
+    })
+  }
+
+  const reset = () => {
     setResult(null)
-    if (form) {
-      form.clearErrors()
-    }
-  }, [form])
+  }
 
   return {
     execute,
     isPending,
     result,
     reset,
-    isSuccess: result?.success ?? false,
+    isSuccess: result?.success === true,
     isError: result?.success === false,
-    error: result?.error,
-    data: result?.data,
   }
 }
 
-// Enhanced form action hook with retry functionality
-export function useFormActionWithRetry<T = any>(
+// Hook for optimistic updates with form actions
+export function useOptimisticFormAction<T = any>(
   action: (formData: FormData) => Promise<ActionResult<T>>,
-  options: UseFormActionOptions<T> & { maxRetries?: number } = {}
+  optimisticUpdate: (formData: FormData) => T,
+  options: UseFormActionOptions = {}
 ) {
+  const [optimisticData, setOptimisticData] = useState<T | null>(null)
+  const formAction = useFormAction(action, {
+    ...options,
+    onSuccess: data => {
+      setOptimisticData(null)
+      options.onSuccess?.(data)
+    },
+    onError: error => {
+      setOptimisticData(null)
+      options.onError?.(error)
+    },
+  })
+
+  const executeOptimistic = (formData: FormData) => {
+    // Apply optimistic update immediately
+    const optimistic = optimisticUpdate(formData)
+    setOptimisticData(optimistic)
+
+    // Execute the actual action
+    formAction.execute(formData)
+  }
+
+  return {
+    ...formAction,
+    execute: executeOptimistic,
+    optimisticData,
+  }
+}
+
+// Hook for batch form actions
+export function useBatchFormAction<T = any>(
+  actions: Array<(formData: FormData) => Promise<ActionResult<T>>>,
+  options: UseFormActionOptions = {}
+) {
+  const [isPending, startTransition] = useTransition()
+  const [results, setResults] = useState<ActionResult<T>[]>([])
+
+  const executeBatch = (formDataArray: FormData[]) => {
+    startTransition(async () => {
+      try {
+        const promises = actions.map((action, index) =>
+          action(formDataArray[index] || new FormData())
+        )
+
+        const batchResults = await Promise.all(promises)
+        setResults(batchResults)
+
+        const allSuccessful = batchResults.every(result => result.success)
+
+        if (allSuccessful) {
+          if (options.showToast) {
+            toast.success(
+              options.successMessage || '모든 작업이 성공적으로 완료되었습니다.'
+            )
+          }
+          options.onSuccess?.(batchResults.map(r => r.data))
+        } else {
+          const failedCount = batchResults.filter(r => !r.success).length
+          const message = `${failedCount}개의 작업이 실패했습니다.`
+
+          if (options.showToast) {
+            toast.error(message)
+          }
+          options.onError?.(message)
+        }
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : '배치 처리 중 오류가 발생했습니다.'
+
+        if (options.showToast) {
+          toast.error(message)
+        }
+        options.onError?.(message)
+      }
+    })
+  }
+
+  return {
+    executeBatch,
+    isPending,
+    results,
+    isAllSuccess: results.length > 0 && results.every(r => r.success),
+    hasErrors: results.some(r => !r.success),
+  }
+}
+
+// Hook for form action with retry functionality
+export function useRetryableFormAction<T = any>(
+  action: (formData: FormData) => Promise<ActionResult<T>>,
+  options: UseFormActionOptions & {
+    maxRetries?: number
+    retryDelay?: number
+  } = {}
+) {
+  const { maxRetries = 3, retryDelay = 1000, ...formActionOptions } = options
   const [retryCount, setRetryCount] = useState(0)
   const { maxRetries = 3, ...formActionOptions } = options
 
@@ -164,6 +308,18 @@ export function useFormActionWithRetry<T = any>(
   return {
     ...baseFormAction,
     retryCount,
-    canRetry: retryCount < maxRetries,
+    reset,
   }
 }
+
+// Export types
+export type FormActionHook<T = any> = ReturnType<typeof useFormAction<T>>
+export type OptimisticFormActionHook<T = any> = ReturnType<
+  typeof useOptimisticFormAction<T>
+>
+export type BatchFormActionHook<T = any> = ReturnType<
+  typeof useBatchFormAction<T>
+>
+export type RetryableFormActionHook<T = any> = ReturnType<
+  typeof useRetryableFormAction<T>
+>

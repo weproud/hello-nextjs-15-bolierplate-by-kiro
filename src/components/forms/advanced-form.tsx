@@ -1,12 +1,8 @@
 'use client'
 
-import React, { ReactNode, useCallback, useEffect, useState } from 'react'
-import {
-  UseFormReturn,
-  FieldValues,
-  Path,
-  ControllerRenderProps,
-} from 'react-hook-form'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { UseFormReturn, FieldValues, Path } from 'react-hook-form'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -17,10 +13,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { FormErrorList } from '@/components/ui/form-error'
+import { FormError, FormErrorList } from '@/components/ui/form-error'
+import { Input } from '@/components/ui/input'
 import { useFormAction } from '@/hooks/use-form-action'
+import { toast } from 'sonner'
 
-interface EnhancedFormProps<T extends FieldValues> {
+interface AdvancedFormProps<T extends FieldValues> {
   form: UseFormReturn<T>
   onSubmit: (data: T) => void | Promise<void>
   children: ReactNode
@@ -32,13 +30,15 @@ interface EnhancedFormProps<T extends FieldValues> {
   errorMessage?: string
   serverAction?: (formData: FormData) => Promise<any>
   resetOnSuccess?: boolean
+  validateOnChange?: boolean
+  showFieldErrors?: boolean
   showSummaryErrors?: boolean
   autoSave?: boolean
   autoSaveDelay?: number
   onAutoSave?: (data: T) => void | Promise<void>
 }
 
-export function EnhancedForm<T extends FieldValues>({
+export function AdvancedForm<T extends FieldValues>({
   form,
   onSubmit,
   children,
@@ -50,11 +50,13 @@ export function EnhancedForm<T extends FieldValues>({
   errorMessage = '처리 중 오류가 발생했습니다.',
   serverAction,
   resetOnSuccess = true,
+  validateOnChange = true,
+  showFieldErrors = true,
   showSummaryErrors = true,
   autoSave = false,
   autoSaveDelay = 2000,
   onAutoSave,
-}: EnhancedFormProps<T>) {
+}: AdvancedFormProps<T>) {
   const [autoSaveStatus, setAutoSaveStatus] = useState<
     'idle' | 'saving' | 'saved' | 'error'
   >('idle')
@@ -77,18 +79,22 @@ export function EnhancedForm<T extends FieldValues>({
   useEffect(() => {
     if (!autoSave || !onAutoSave) return
 
-    const subscription = form.watch(async data => {
-      if (form.formState.isValid && form.formState.isDirty) {
-        setAutoSaveStatus('saving')
-        try {
-          await onAutoSave(data as T)
-          setAutoSaveStatus('saved')
-          setTimeout(() => setAutoSaveStatus('idle'), 2000)
-        } catch (error) {
-          setAutoSaveStatus('error')
-          setTimeout(() => setAutoSaveStatus('idle'), 3000)
+    const subscription = form.watch(data => {
+      const timeoutId = setTimeout(async () => {
+        if (form.formState.isValid && form.formState.isDirty) {
+          setAutoSaveStatus('saving')
+          try {
+            await onAutoSave(data as T)
+            setAutoSaveStatus('saved')
+            setTimeout(() => setAutoSaveStatus('idle'), 2000)
+          } catch (error) {
+            setAutoSaveStatus('error')
+            setTimeout(() => setAutoSaveStatus('idle'), 3000)
+          }
         }
-      }
+      }, autoSaveDelay)
+
+      return () => clearTimeout(timeoutId)
     })
 
     return () => subscription.unsubscribe()
@@ -98,19 +104,56 @@ export function EnhancedForm<T extends FieldValues>({
     async (data: T) => {
       try {
         if (serverAction && formAction) {
-          // For next-safe-action, pass the data directly instead of FormData
-          formAction.execute(data)
+          // Convert data to FormData for server action
+          const formData = new FormData()
+          Object.entries(data).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                value.forEach(item => formData.append(key, String(item)))
+              } else if (value instanceof Date) {
+                formData.append(key, value.toISOString().split('T')[0])
+              } else if (typeof value === 'boolean') {
+                formData.append(key, value ? 'on' : 'off')
+              } else if (typeof value === 'object') {
+                // Handle nested objects
+                Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+                  if (nestedValue !== undefined && nestedValue !== null) {
+                    formData.append(`${key}.${nestedKey}`, String(nestedValue))
+                  }
+                })
+              } else {
+                formData.append(key, String(value))
+              }
+            }
+          })
+          formAction.execute(formData)
         } else {
           await onSubmit(data)
+          if (showToast) {
+            toast.success(successMessage)
+          }
           if (resetOnSuccess) {
             form.reset()
           }
         }
       } catch (error) {
+        const message = error instanceof Error ? error.message : errorMessage
+        if (showToast) {
+          toast.error(message)
+        }
         console.error('Form submission error:', error)
       }
     },
-    [onSubmit, serverAction, formAction, resetOnSuccess, form]
+    [
+      onSubmit,
+      serverAction,
+      formAction,
+      showToast,
+      successMessage,
+      errorMessage,
+      resetOnSuccess,
+      form,
+    ]
   )
 
   // Get form errors for summary display
@@ -188,13 +231,13 @@ export function EnhancedForm<T extends FieldValues>({
 }
 
 // Enhanced form field with real-time validation
-interface EnhancedFormFieldProps<T extends FieldValues> {
+interface AdvancedFormFieldProps<T extends FieldValues> {
   form: UseFormReturn<T>
   name: Path<T>
   label: string
   description?: string
   required?: boolean
-  children: (field: ControllerRenderProps<T, Path<T>>) => ReactNode
+  children: (field: any) => ReactNode
   className?: string
   showError?: boolean
   validateOnBlur?: boolean
@@ -202,7 +245,7 @@ interface EnhancedFormFieldProps<T extends FieldValues> {
   debounceMs?: number
 }
 
-export function EnhancedFormField<T extends FieldValues>({
+export function AdvancedFormField<T extends FieldValues>({
   form,
   name,
   label,
@@ -214,7 +257,7 @@ export function EnhancedFormField<T extends FieldValues>({
   validateOnBlur = true,
   validateOnChange = false,
   debounceMs = 300,
-}: EnhancedFormFieldProps<T>) {
+}: AdvancedFormFieldProps<T>) {
   const [isValidating, setIsValidating] = useState(false)
 
   return (
@@ -253,6 +296,13 @@ export function EnhancedFormField<T extends FieldValues>({
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           {showError && <FormMessage />}
+          {fieldState.error?.type === 'server' && (
+            <FormError
+              message={fieldState.error.message}
+              type="error"
+              className="mt-1"
+            />
+          )}
         </FormItem>
       )}
     />

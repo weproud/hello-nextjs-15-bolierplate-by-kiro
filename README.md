@@ -1,4 +1,6 @@
-# LagomPath Development Environment
+# hello-nextjs-15-bolierplate-by-kiro
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 A modern, full-stack Next.js 15 application with TypeScript, Tailwind CSS, Prisma, and NextAuth.js. This project follows strict type safety, code quality standards, and modern development practices.
 
