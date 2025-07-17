@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { SignInForm } from '@/components/auth/signin-form'
+import { SigninForm } from '@/components/auth/signin-form'
 import { AuthLayout } from '@/components/auth/auth-layout'
 import {
   Card,
@@ -9,7 +9,16 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-export default function SignInPage() {
+interface SignInPageProps {
+  searchParams: {
+    callbackUrl?: string
+    error?: string
+  }
+}
+
+export default function SignInPage({ searchParams }: SignInPageProps) {
+  const callbackUrl = searchParams?.callbackUrl || '/'
+
   return (
     <AuthLayout subtitle="안전하고 간편한 Google 로그인으로 시작하세요">
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -31,7 +40,12 @@ export default function SignInPage() {
                 </div>
               }
             >
-              <SignInForm />
+              <SigninForm
+                callbackUrl={callbackUrl}
+                onSuccess={() => {
+                  // Success handled by SigninForm component
+                }}
+              />
             </Suspense>
           </CardContent>
         </Card>

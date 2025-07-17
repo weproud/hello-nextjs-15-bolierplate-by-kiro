@@ -1,10 +1,9 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { SignInForm } from '@/components/auth/signin-form'
 import { ModalErrorBoundary } from '@/components/auth/modal-error-boundary'
 import {
   Card,
@@ -13,6 +12,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { useModalPerformance } from '@/lib/performance-monitor'
+
+// Lazy load the SignInForm component for better performance
+const SignInForm = lazy(() =>
+  import('@/components/auth/signin-form').then(module => ({
+    default: module.SignInForm,
+  }))
+)
 
 // Screen reader announcement component with enhanced accessibility
 function ScreenReaderAnnouncement({
@@ -35,10 +42,24 @@ function ScreenReaderAnnouncement({
   )
 }
 
+// Loading fallback for SignInForm
+function FormLoadingFallback() {
+  return (
+    <div className="space-y-4">
+      <div className="animate-pulse">
+        <div className="h-12 bg-gray-200 rounded-md"></div>
+      </div>
+      <div className="text-center text-sm text-gray-500">
+        로그인 폼을 불러오는 중...
+      </div>
+    </div>
+  )
+}
+
 // Enhanced focus management hook
 function useFocusManagement(
   isOpen: boolean,
-  modalRef: React.RefObject<HTMLDivElement>
+  modalRef: React.RefObject<HTMLDivElement | null>
 ) {
   const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
   const firstFocusableElementRef = useRef<HTMLElement | null>(null)
@@ -59,9 +80,9 @@ function useFocusManagement(
     ) as NodeListOf<HTMLElement>
 
     if (focusableElements.length > 0) {
-      firstFocusableElementRef.current = focusableElements[0]
+      firstFocusableElementRef.current = focusableElements[0] || null
       lastFocusableElementRef.current =
-        focusableElements[focusableElements.length - 1]
+        focusableElements[focusableElements.length - 1] || null
     }
 
     return () => {
@@ -110,18 +131,35 @@ function useFocusManagement(
   return { trapFocus, firstFocusableElement: firstFocusableElementRef.current }
 }
 
-export function SigninModal() {
+interface SigninModalProps {
+  callbackUrl?: string
+  onClose?: () => void
+}
+
+export function SigninModal({
+  callbackUrl: propCallbackUrl,
+  onClose,
+}: SigninModalProps = {}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const [hasModalError, setHasModalError] = useState(false)
+
   const [announcement, setAnnouncement] = useState('')
   const [announcementPriority, setAnnouncementPriority] = useState<
     'polite' | 'assertive'
   >('polite')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const callbackUrl = searchParams.get('callbackUrl') || '/'
+  const callbackUrl = propCallbackUrl || searchParams.get('callbackUrl') || '/'
+
+  // Performance monitoring
+  const {
+    startModalLoad,
+    endModalLoad,
+    startFormLoad,
+    endFormLoad,
+    logMetrics,
+  } = useModalPerformance()
 
   // Use enhanced focus management
   const { trapFocus, firstFocusableElement } = useFocusManagement(
@@ -132,7 +170,11 @@ export function SigninModal() {
   const handleClose = () => {
     setAnnouncement('로그인 모달이 닫혔습니다')
     setIsModalOpen(false)
-    router.back()
+    if (onClose) {
+      onClose()
+    } else {
+      router.back()
+    }
   }
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -162,7 +204,6 @@ export function SigninModal() {
 
   const handleModalError = (error: Error, errorInfo: any) => {
     console.error('Modal component error:', error, errorInfo)
-    setHasModalError(true)
 
     // Auto-fallback to full page after a brief delay
     setTimeout(() => {
@@ -196,6 +237,9 @@ export function SigninModal() {
 
   // Modal initialization and accessibility setup
   useEffect(() => {
+    // Start performance monitoring
+    startModalLoad()
+
     setIsModalOpen(true)
     setAnnouncement(
       '로그인 모달이 열렸습니다. ESC 키를 누르거나 배경을 클릭하여 닫을 수 있습니다.'
@@ -212,8 +256,16 @@ export function SigninModal() {
         firstFocusableElement.focus()
         setAnnouncement('첫 번째 요소에 포커스가 설정되었습니다')
       }
+
+      // End modal load performance monitoring
+      endModalLoad()
+
+      // Log performance metrics in development
+      if (process.env.NODE_ENV === 'development') {
+        setTimeout(() => logMetrics(), 1000)
+      }
     }, 100) // Small delay to ensure modal is fully rendered
-  }, [firstFocusableElement])
+  }, [firstFocusableElement, startModalLoad, endModalLoad, logMetrics])
 
   return (
     <ModalErrorBoundary
@@ -270,12 +322,14 @@ export function SigninModal() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <SignInForm
-                isModal={true}
-                onSuccess={handleAuthSuccess}
-                onError={handleAuthError}
-                callbackUrl={callbackUrl}
-              />
+              <Suspense fallback={<FormLoadingFallback />}>
+                <SignInForm
+                  isModal={true}
+                  onSuccess={handleAuthSuccess}
+                  onError={handleAuthError}
+                  callbackUrl={callbackUrl}
+                />
+              </Suspense>
             </CardContent>
           </Card>
         </div>

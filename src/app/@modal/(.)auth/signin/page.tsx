@@ -1,6 +1,32 @@
-import { Suspense } from 'react'
-import { SigninModal } from '@/components/auth/signin-modal'
+import { Suspense, lazy } from 'react'
 import { ModalErrorBoundary } from '@/components/auth/modal-error-boundary'
+
+// Smart modal loading based on device capabilities
+const SigninModal = lazy(() => {
+  // Check device capabilities for performance optimization
+  const connection =
+    (navigator as any)?.connection ||
+    (navigator as any)?.mozConnection ||
+    (navigator as any)?.webkitConnection
+  const deviceMemory = (navigator as any)?.deviceMemory
+  const isSlowDevice = deviceMemory && deviceMemory < 4
+  const isSlowConnection =
+    connection &&
+    (connection.effectiveType === 'slow-2g' ||
+      connection.effectiveType === '2g')
+
+  // Use lite version for slower devices/connections
+  if (isSlowDevice || isSlowConnection) {
+    return import('@/components/auth/signin-modal-lite').then(module => ({
+      default: module.SigninModalLite,
+    }))
+  }
+
+  // Use full version for capable devices
+  return import('@/components/auth/signin-modal').then(module => ({
+    default: module.SigninModal,
+  }))
+})
 
 // Loading fallback component for the modal
 function ModalLoadingFallback() {
@@ -60,22 +86,36 @@ function SuspenseErrorFallback() {
   )
 }
 
-export default function InterceptedSigninPage() {
+interface InterceptedSigninPageProps {
+  searchParams: {
+    callbackUrl?: string
+    error?: string
+  }
+}
+
+export default function InterceptedSigninPage({
+  searchParams,
+}: InterceptedSigninPageProps) {
+  const callbackUrl = searchParams?.callbackUrl || '/'
+
   const handlePageError = (error: Error, errorInfo: any) => {
     console.error('Intercepted signin page error:', error, errorInfo)
 
     // Auto-redirect to full page signin after error
     setTimeout(() => {
-      const currentUrl = new URL(window.location.href)
-      const callbackUrl = currentUrl.searchParams.get('callbackUrl') || '/'
       window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`
     }, 1000)
   }
 
   const handleFallbackToFullPage = () => {
-    const currentUrl = new URL(window.location.href)
-    const callbackUrl = currentUrl.searchParams.get('callbackUrl') || '/'
     window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`
+  }
+
+  const handleClose = () => {
+    // Use router.back() to return to previous page
+    if (typeof window !== 'undefined') {
+      window.history.back()
+    }
   }
 
   return (
@@ -84,7 +124,7 @@ export default function InterceptedSigninPage() {
       onError={handlePageError}
     >
       <Suspense fallback={<ModalLoadingFallback />}>
-        <SigninModal />
+        <SigninModal callbackUrl={callbackUrl} onClose={handleClose} />
       </Suspense>
     </ModalErrorBoundary>
   )

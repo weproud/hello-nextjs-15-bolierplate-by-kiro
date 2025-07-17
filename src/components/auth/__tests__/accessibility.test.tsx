@@ -1,58 +1,34 @@
 /**
- * Accessibility Tests for Modal Signin Components
- *
- * This test file verifies that the accessibility features implemented
- * in task 7 are working correctly.
+ * @fileoverview Accessibility tests for auth components
+ * Tests focus management, keyboard navigation, and ARIA compliance
  */
 
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { SigninModal } from '../signin-modal'
 
-// Mock DOM environment for testing
-const mockDOM = () => {
-  // Mock document.activeElement
-  Object.defineProperty(document, 'activeElement', {
-    writable: true,
-    value: null,
-  })
+// Mock signin form for modal tests
+vi.mock('../signin-form', () => ({
+  SigninForm: ({ isModal }: { isModal?: boolean }) => (
+    <form data-testid="signin-form">
+      <input type="email" placeholder="Email" aria-label="Email" />
+      <input type="password" placeholder="Password" aria-label="Password" />
+      <button type="submit">Sign In</button>
+    </form>
+  ),
+}))
 
-  // Mock addEventListener/removeEventListener
-  const eventListeners: { [key: string]: Function[] } = {}
-
-  document.addEventListener = jest.fn((event: string, handler: Function) => {
-    if (!eventListeners[event]) {
-      eventListeners[event] = []
-    }
-    eventListeners[event].push(handler)
-  })
-
-  document.removeEventListener = jest.fn((event: string, handler: Function) => {
-    if (eventListeners[event]) {
-      const index = eventListeners[event].indexOf(handler)
-      if (index > -1) {
-        eventListeners[event].splice(index, 1)
-      }
-    }
-  })
-
-  // Helper to trigger events
-  const triggerEvent = (event: string, eventObj: any) => {
-    if (eventListeners[event]) {
-      eventListeners[event].forEach(handler => handler(eventObj))
-    }
-  }
-
-  return { eventListeners, triggerEvent }
-}
-
-describe('Modal Accessibility Features', () => {
-  let mockDOMHelpers: ReturnType<typeof mockDOM>
+describe('Auth Components Accessibility', () => {
+  const user = userEvent.setup()
+  const mockOnClose = vi.fn()
 
   beforeEach(() => {
-    mockDOMHelpers = mockDOM()
+    vi.clearAllMocks()
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   describe('ARIA Labels and Roles', () => {
@@ -109,138 +85,113 @@ describe('Modal Accessibility Features', () => {
   })
 
   describe('Focus Management', () => {
-    it('should trap focus within modal', () => {
-      // Mock focusable elements
-      const mockFocusableElements = [
-        { focus: jest.fn(), tagName: 'BUTTON' },
-        { focus: jest.fn(), tagName: 'BUTTON' },
-        { focus: jest.fn(), tagName: 'BUTTON' },
-      ]
+    it('should trap focus within modal', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
 
-      // Mock querySelector to return focusable elements
-      const mockModal = {
-        querySelectorAll: jest.fn().mockReturnValue(mockFocusableElements),
-        contains: jest.fn().mockReturnValue(true),
-      }
+      const dialog = screen.getByRole('dialog')
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      const emailInput = screen.getByLabelText(/email/i)
+      const passwordInput = screen.getByLabelText(/password/i)
+      const signInButton = screen.getByRole('button', { name: /sign in/i })
 
-      // Test Tab key handling
-      const tabEvent = {
-        key: 'Tab',
-        shiftKey: false,
-        preventDefault: jest.fn(),
-      }
+      // Focus should be trapped within modal
+      closeButton.focus()
+      expect(document.activeElement).toBe(closeButton)
 
-      // Simulate focus trapping logic
-      const currentFocus = mockFocusableElements[2] // Last element
-      Object.defineProperty(document, 'activeElement', {
-        value: currentFocus,
-        writable: true,
-      })
+      await user.tab()
+      expect(document.activeElement).toBe(emailInput)
 
-      // When Tab is pressed on last element, should focus first element
-      if (document.activeElement === mockFocusableElements[2]) {
-        mockFocusableElements[0].focus()
-        tabEvent.preventDefault()
-      }
+      await user.tab()
+      expect(document.activeElement).toBe(passwordInput)
 
-      expect(mockFocusableElements[0].focus).toHaveBeenCalled()
-      expect(tabEvent.preventDefault).toHaveBeenCalled()
+      await user.tab()
+      expect(document.activeElement).toBe(signInButton)
+
+      // Tab from last element should cycle to first
+      await user.tab()
+      expect(document.activeElement).toBe(closeButton)
     })
 
-    it('should handle Shift+Tab for reverse focus trapping', () => {
-      const mockFocusableElements = [
-        { focus: jest.fn(), tagName: 'BUTTON' },
-        { focus: jest.fn(), tagName: 'BUTTON' },
-      ]
+    it('should handle Shift+Tab for reverse focus trapping', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
 
-      const shiftTabEvent = {
-        key: 'Tab',
-        shiftKey: true,
-        preventDefault: jest.fn(),
-      }
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      const signInButton = screen.getByRole('button', { name: /sign in/i })
 
-      // Simulate Shift+Tab on first element should focus last element
-      Object.defineProperty(document, 'activeElement', {
-        value: mockFocusableElements[0],
-        writable: true,
-      })
+      // Start from first element
+      closeButton.focus()
+      expect(document.activeElement).toBe(closeButton)
 
-      if (document.activeElement === mockFocusableElements[0]) {
-        mockFocusableElements[1].focus()
-        shiftTabEvent.preventDefault()
-      }
-
-      expect(mockFocusableElements[1].focus).toHaveBeenCalled()
-      expect(shiftTabEvent.preventDefault).toHaveBeenCalled()
+      // Shift+Tab should go to last element
+      await user.keyboard('{Shift>}{Tab}{/Shift}')
+      expect(document.activeElement).toBe(signInButton)
     })
 
-    it('should restore focus when modal closes', () => {
-      const mockPreviousElement = { focus: jest.fn() }
+    it('should restore focus when modal closes', async () => {
+      const triggerButton = document.createElement('button')
+      triggerButton.textContent = 'Open Modal'
+      document.body.appendChild(triggerButton)
+      triggerButton.focus()
 
-      // Simulate storing previous focus
-      const previouslyFocusedElement = mockPreviousElement
+      const { unmount } = render(<SigninModal onClose={mockOnClose} />)
 
-      // Simulate modal closing and focus restoration
-      setTimeout(() => {
-        if (previouslyFocusedElement && previouslyFocusedElement.focus) {
-          previouslyFocusedElement.focus()
-        }
-      }, 0)
+      // Modal should capture focus
+      expect(document.activeElement).not.toBe(triggerButton)
 
-      // Wait for setTimeout to execute
-      setTimeout(() => {
-        expect(mockPreviousElement.focus).toHaveBeenCalled()
-      }, 10)
+      unmount()
+
+      // Focus should be restored to trigger element
+      expect(document.activeElement).toBe(triggerButton)
+
+      document.body.removeChild(triggerButton)
+    })
+
+    it('should focus first focusable element when modal opens', () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      expect(document.activeElement).toBe(closeButton)
     })
   })
 
   describe('Keyboard Navigation', () => {
-    it('should handle ESC key for modal dismissal', () => {
-      const escEvent = {
-        key: 'Escape',
-        preventDefault: jest.fn(),
-      }
+    it('should handle ESC key for modal dismissal', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
 
-      let modalClosed = false
-      const handleClose = () => {
-        modalClosed = true
-      }
+      await user.keyboard('{Escape}')
 
-      // Simulate ESC key handling
-      if (escEvent.key === 'Escape') {
-        handleClose()
-      }
-
-      expect(modalClosed).toBe(true)
+      expect(mockOnClose).toHaveBeenCalledTimes(1)
     })
 
-    it('should handle Enter and Space keys on close button', () => {
-      const enterEvent = {
-        key: 'Enter',
-        preventDefault: jest.fn(),
-      }
+    it('should handle Enter and Space keys on close button', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
 
-      const spaceEvent = {
-        key: ' ',
-        preventDefault: jest.fn(),
-      }
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      closeButton.focus()
 
-      let buttonActivated = false
-      const handleButtonActivation = (e: any) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          buttonActivated = true
-        }
-      }
+      // Test Enter key
+      await user.keyboard('{Enter}')
+      expect(mockOnClose).toHaveBeenCalledTimes(1)
 
-      handleButtonActivation(enterEvent)
-      expect(buttonActivated).toBe(true)
-      expect(enterEvent.preventDefault).toHaveBeenCalled()
+      vi.clearAllMocks()
 
-      buttonActivated = false
-      handleButtonActivation(spaceEvent)
-      expect(buttonActivated).toBe(true)
-      expect(spaceEvent.preventDefault).toHaveBeenCalled()
+      // Test Space key
+      await user.keyboard(' ')
+      expect(mockOnClose).toHaveBeenCalledTimes(1)
+    })
+
+    it('should handle Tab navigation correctly', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      const emailInput = screen.getByLabelText(/email/i)
+
+      // Start with close button focused
+      expect(document.activeElement).toBe(closeButton)
+
+      // Tab should move to email input
+      await user.tab()
+      expect(document.activeElement).toBe(emailInput)
     })
   })
 
@@ -325,12 +276,66 @@ describe('Modal Accessibility Features', () => {
       expect(buttonWithError['aria-describedby']).toBe('signin-error-message')
     })
   })
+
+  describe('Modal ARIA Compliance', () => {
+    it('should have proper modal dialog attributes', () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const dialog = screen.getByRole('dialog')
+      expect(dialog).toHaveAttribute('aria-modal', 'true')
+      expect(dialog).toHaveAttribute('aria-labelledby')
+      expect(dialog).toHaveAttribute('role', 'dialog')
+    })
+
+    it('should have proper form accessibility', () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const form = screen.getByTestId('signin-form')
+      const emailInput = screen.getByLabelText(/email/i)
+      const passwordInput = screen.getByLabelText(/password/i)
+
+      expect(emailInput).toHaveAttribute('aria-label', 'Email')
+      expect(passwordInput).toHaveAttribute('aria-label', 'Password')
+    })
+
+    it('should announce modal state changes to screen readers', () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const dialog = screen.getByRole('dialog')
+      expect(dialog).toHaveAttribute('aria-live', 'polite')
+    })
+  })
+
+  describe('Mobile Accessibility', () => {
+    it('should handle touch interactions properly', async () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const backdrop = screen.getByTestId('modal-backdrop')
+
+      // Simulate touch events
+      fireEvent.touchStart(backdrop)
+      fireEvent.touchEnd(backdrop)
+
+      expect(mockOnClose).toHaveBeenCalledTimes(1)
+    })
+
+    it('should have proper touch target sizes', () => {
+      render(<SigninModal onClose={mockOnClose} />)
+
+      const closeButton = screen.getByRole('button', { name: /close/i })
+      const computedStyle = window.getComputedStyle(closeButton)
+
+      // Touch targets should be at least 44px
+      expect(
+        parseInt(computedStyle.minHeight) >= 44 ||
+          parseInt(computedStyle.height) >= 44
+      ).toBe(true)
+    })
+  })
 })
 
 // Export test utilities for other test files
 export const accessibilityTestUtils = {
-  mockDOM,
-
   // Helper to check if element has required ARIA attributes
   checkARIAAttributes: (element: any, requiredAttributes: string[]) => {
     return requiredAttributes.every(attr => element[attr] !== undefined)
@@ -341,7 +346,7 @@ export const accessibilityTestUtils = {
     return {
       key,
       shiftKey: options.shiftKey || false,
-      preventDefault: jest.fn(),
+      preventDefault: vi.fn(),
       ...options,
     }
   },
