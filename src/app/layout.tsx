@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SessionProvider } from '@/components/auth/session-provider'
+import { AuthProvider } from '@/components/auth/auth-provider'
 import { GlobalErrorBoundary } from '@/components/global-error-boundary'
 
 const geistSans = Geist({
@@ -32,14 +33,16 @@ export default function RootLayout({
       >
         <GlobalErrorBoundary>
           <SessionProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
+            <AuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                {children}
+              </ThemeProvider>
+            </AuthProvider>
           </SessionProvider>
         </GlobalErrorBoundary>
       </body>

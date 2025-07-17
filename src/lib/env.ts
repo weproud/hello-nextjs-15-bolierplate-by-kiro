@@ -4,16 +4,26 @@ import { z } from 'zod'
 const envSchema = z.object({
   // Database
   DATABASE_URL: z.string().url(),
+  DIRECT_URL: z.string().url().optional(),
 
-  // NextAuth
-  NEXTAUTH_SECRET: z.string().min(1),
-  NEXTAUTH_URL: z.string().url().optional(),
+  // App Configuration
+  NEXT_PUBLIC_APP_URL: z.string().url(),
+
+  // Supabase Configuration
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+  NEXT_PUBLIC_SUPABASE_BUCKET_URL: z.string().url(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
+
+  // Auth Configuration
+  AUTH_SECRET: z.string().min(1),
+  AUTH_URL: z.string().url(),
 
   // OAuth Providers
-  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
-  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+  AUTH_GOOGLE_ID: z.string().min(1),
+  AUTH_GOOGLE_SECRET: z.string().min(1),
 
-  // App
+  // Environment
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),
@@ -25,7 +35,9 @@ function parseEnv() {
     return envSchema.parse(process.env)
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const missingVars = error.errors.map(err => err.path.join('.')).join(', ')
+      const missingVars = error.issues
+        .map((err: any) => err.path.join('.'))
+        .join(', ')
       throw new Error(
         `Missing or invalid environment variables: ${missingVars}`
       )
@@ -47,16 +59,25 @@ export const isTest = env.NODE_ENV === 'test'
 // Database configuration
 export const databaseConfig = {
   url: env.DATABASE_URL,
+  directUrl: env.DIRECT_URL,
+}
+
+// Supabase configuration
+export const supabaseConfig = {
+  url: env.NEXT_PUBLIC_SUPABASE_URL,
+  anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  bucketUrl: env.NEXT_PUBLIC_SUPABASE_BUCKET_URL,
+  serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
 }
 
 // Auth configuration
 export const authConfig = {
-  secret: env.NEXTAUTH_SECRET,
-  url: env.NEXTAUTH_URL,
+  secret: env.AUTH_SECRET,
+  url: env.AUTH_URL,
   providers: {
     google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
     },
   },
 }

@@ -1,9 +1,11 @@
 'use client'
 
 import { SessionProvider } from 'next-auth/react'
+import { Toaster } from 'sonner'
 import { ThemeProvider } from './theme-provider'
 import { AuthProvider } from './auth/auth-provider'
 import { AppStoreProvider } from '../store/provider'
+import { ErrorHandlerProvider } from './error-handler-provider'
 import type { ReactNode } from 'react'
 
 interface ProvidersProps {
@@ -20,7 +22,17 @@ export function Providers({ children }: ProvidersProps) {
         disableTransitionOnChange
       >
         <AuthProvider>
-          <AppStoreProvider>{children}</AppStoreProvider>
+          <AppStoreProvider>
+            <ErrorHandlerProvider />
+            {children}
+            <Toaster
+              position="top-right"
+              expand={false}
+              richColors
+              closeButton
+              duration={4000}
+            />
+          </AppStoreProvider>
         </AuthProvider>
       </ThemeProvider>
     </SessionProvider>

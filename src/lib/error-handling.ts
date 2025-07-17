@@ -26,6 +26,9 @@ export class ValidationErrorClass extends Error {
   }
 }
 
+// Export AppError type alias for easier usage
+export type AppError = AppErrorClass
+
 // Error factory functions
 export const createAppError = (
   code: string,
@@ -97,6 +100,46 @@ export const logError = (error: AppError | Error, context?: string): void => {
     }),
     stack: error.stack,
   })
+}
+
+// Action-specific error classes
+export class ActionError extends AppErrorClass {
+  constructor(message: string, details?: any) {
+    super('ACTION_ERROR', message, details)
+    this.name = 'ActionError'
+  }
+}
+
+export class AuthenticationError extends AppErrorClass {
+  constructor(message: string = '인증이 필요합니다.') {
+    super(ERROR_CODES.UNAUTHORIZED, message)
+    this.name = 'AuthenticationError'
+  }
+}
+
+// Action logger
+export const ActionLogger = {
+  info: (action: string, message: string, details?: any) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[${action}] ${message}`, details)
+    }
+  },
+  warn: (action: string, message: string, details?: any) => {
+    console.warn(`[${action}] ${message}`, details)
+  },
+  error: (action: string, message: string, error: unknown, details?: any) => {
+    console.error(`[${action}] ${message}`, { error, details })
+  },
+}
+
+// Action error handler
+export const handleActionError = (
+  error: unknown,
+  actionName: string
+): never => {
+  const appError = handleError(error)
+  logError(appError, actionName)
+  throw appError
 }
 
 // Safe async wrapper

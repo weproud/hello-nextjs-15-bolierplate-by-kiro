@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react'
+import { toast } from 'sonner'
 import { logError, handleError } from '@/lib/error-handling'
+import { getUserFriendlyErrorMessage } from '@/lib/global-error-handler'
 import type { AppError } from '@/types/common'
 
 interface ErrorBoundaryState {
@@ -33,11 +35,14 @@ export class ErrorBoundary extends React.Component<
     }
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  override componentDidCatch(error: Error, _errorInfo: React.ErrorInfo) {
     const appError = handleError(error)
 
     // Log the error
     logError(appError, this.props.context || 'ErrorBoundary')
+
+    // Show user-friendly toast notification
+    toast.error(getUserFriendlyErrorMessage(appError))
 
     // Call custom error handler if provided
     if (this.props.onError) {
@@ -46,7 +51,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   resetError = () => {
-    this.setState({ hasError: false, error: undefined })
+    this.setState({ hasError: false })
   }
 
   render() {

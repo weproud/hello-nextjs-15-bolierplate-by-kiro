@@ -43,63 +43,53 @@ export const actionClient = createSafeActionClient({
  * Authenticated action client that requires user authentication
  */
 export const authActionClient = actionClient.use(async ({ next }) => {
-  try {
-    // Get current session
-    const session = await auth()
+  // Get current session
+  const session = await auth()
 
-    // Check if authentication is required (always required for auth client)
-    if (!session?.user) {
-      ActionLogger.warn(
-        'auth-action',
-        'Authentication required but no user session found'
-      )
-      throw new AuthenticationError('로그인이 필요합니다.')
-    }
-
-    // Log action execution
-    ActionLogger.info('auth-action', 'Executing authenticated action', {
-      userId: session.user.id,
-      userEmail:
-        process.env.NODE_ENV === 'development'
-          ? session.user.email
-          : '[REDACTED]',
-      timestamp: new Date().toISOString(),
-    })
-
-    // Pass enhanced user context to the action
-    return next({
-      ctx: {
-        user: session.user,
-        session,
-      },
-    })
-  } catch (error) {
-    // Handle and re-throw errors with proper logging
-    handleActionError(error, 'auth-action')
+  // Check if authentication is required (always required for auth client)
+  if (!session?.user) {
+    ActionLogger.warn(
+      'auth-action',
+      'Authentication required but no user session found'
+    )
+    throw new AuthenticationError('로그인이 필요합니다.')
   }
+
+  // Log action execution
+  ActionLogger.info('auth-action', 'Executing authenticated action', {
+    userId: session.user.id,
+    userEmail:
+      process.env.NODE_ENV === 'development'
+        ? session.user.email
+        : '[REDACTED]',
+    timestamp: new Date().toISOString(),
+  })
+
+  // Pass enhanced user context to the action
+  return next({
+    ctx: {
+      user: session.user,
+      session,
+    },
+  })
 })
 
 /**
  * Public action client for actions that don't require authentication
  */
 export const publicActionClient = actionClient.use(async ({ next }) => {
-  try {
-    // Log action execution
-    ActionLogger.info('public-action', 'Executing public action', {
-      actionType: 'public',
-      timestamp: new Date().toISOString(),
-    })
+  // Log action execution
+  ActionLogger.info('public-action', 'Executing public action', {
+    actionType: 'public',
+    timestamp: new Date().toISOString(),
+  })
 
-    // Pass context to the action
-    return next({
-      ctx: {
-        actionType: 'public' as const,
-      },
-    })
-  } catch (error) {
-    // Handle and re-throw errors with proper logging
-    handleActionError(error, 'public-action')
-  }
+  // Pass context to the action
+  return next({
+    ctx: {
+      actionType: 'public' as const,
+    },
+  })
 })
 
 /**

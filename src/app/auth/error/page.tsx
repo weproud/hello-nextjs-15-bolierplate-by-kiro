@@ -1,29 +1,26 @@
 import { Suspense } from 'react'
 import { AuthError } from '@/components/auth/auth-error'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { AuthLayout } from '@/components/auth/auth-layout'
 
 export default function AuthErrorPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-destructive">
-            인증 오류
-          </CardTitle>
-          <CardDescription>로그인 중 문제가 발생했습니다</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Suspense fallback={<div>로딩 중...</div>}>
-            <AuthError />
-          </Suspense>
-        </CardContent>
-      </Card>
-    </div>
+    <AuthLayout
+      subtitle="인증 과정에서 문제가 발생했습니다"
+      showBackButton={true}
+      backUrl="/"
+    >
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center p-4">
+            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <span className="ml-2 text-sm text-muted-foreground">
+              로딩 중...
+            </span>
+          </div>
+        }
+      >
+        <AuthError />
+      </Suspense>
+    </AuthLayout>
   )
 }

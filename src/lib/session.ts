@@ -1,12 +1,11 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth'
+import { auth } from '../auth'
 import type { Session } from 'next-auth'
 import { createAppError, ERROR_CODES } from './error-handling'
 
 // Server-side session utilities
 export async function getCurrentSession(): Promise<Session | null> {
   try {
-    return await getServerSession(authOptions)
+    return await auth()
   } catch (error) {
     console.error('Failed to get session:', error)
     return null
@@ -38,7 +37,7 @@ export function isValidSession(session: Session | null): session is Session {
   return !!(session?.user?.id && session.user.email)
 }
 
-export function hasRole(session: Session | null, role: string): boolean {
+export function hasRole(session: Session | null, _role: string): boolean {
   // For now, we don't have roles in our schema
   // This is a placeholder for future role-based access control
   return isValidSession(session)
