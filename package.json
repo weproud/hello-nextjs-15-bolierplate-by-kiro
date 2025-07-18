@@ -72,6 +72,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.4.1",
+    "@stagewise-plugins/react": "^0.6.1",
+    "@stagewise/toolbar-next": "^0.6.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
