@@ -67,7 +67,7 @@ export const projectQueries = {
   },
 
   async createProject(data: {
-    name: string
+    title: string
     description?: string
     userId: string
   }): Promise<Project> {
@@ -82,7 +82,7 @@ export const projectQueries = {
 
   async updateProject(
     id: string,
-    data: Partial<Pick<Project, 'name' | 'description'>>
+    data: Partial<Pick<Project, 'title' | 'description'>>
   ): Promise<Project> {
     return prisma.project.update({
       where: { id },
@@ -122,7 +122,7 @@ export const phaseQueries = {
   },
 
   async createPhase(data: {
-    name: string
+    title: string
     description?: string
     projectId: string
   }): Promise<Phase> {
@@ -136,7 +136,7 @@ export const phaseQueries = {
 
   async updatePhase(
     id: string,
-    data: Partial<Pick<Phase, 'name' | 'description'>>
+    data: Partial<Pick<Phase, 'title' | 'description'>>
   ): Promise<Phase> {
     return prisma.phase.update({
       where: { id },

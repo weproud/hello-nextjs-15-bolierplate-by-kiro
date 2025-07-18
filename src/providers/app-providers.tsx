@@ -1,8 +1,8 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { ThemeProvider } from '@/components/theme-provider'
-import { StoreProvider } from '@/store/provider'
+import { AppStoreProvider } from '@/store/provider'
 import { SessionProvider } from '@/components/auth/session-provider'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -19,7 +19,7 @@ interface AppProvidersProps {
 export function AppProviders({ children }: AppProvidersProps) {
   return (
     <SessionProvider>
-      <StoreProvider>
+      <AppStoreProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -29,7 +29,7 @@ export function AppProviders({ children }: AppProvidersProps) {
           {children}
           <Toaster />
         </ThemeProvider>
-      </StoreProvider>
+      </AppStoreProvider>
     </SessionProvider>
   )
 }

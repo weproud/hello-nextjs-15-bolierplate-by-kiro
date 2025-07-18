@@ -28,7 +28,7 @@ export const configCache = {
   },
 
   // Set configuration with long TTL
-  set: (key: string, value: any, ttlMs: number = 3600000) => {
+  set: (key: string, value: any, ttlMs = 3600000) => {
     staticCache.set(key, value, ttlMs) // 1 hour default
   },
 

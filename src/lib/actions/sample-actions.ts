@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
-import { createAuthAction, createPublicAction } from '@/lib/safe-action'
+import { authActionClient, publicActionClient } from '@/lib/safe-action'
 import { z } from 'zod'
 import {
   ActionLogger,
@@ -58,8 +58,8 @@ const complexValidationSchema = z.object({
 /**
  * Bulk delete projects with comprehensive error handling
  */
-export const bulkDeleteProjectsAction = createAuthAction('bulkDeleteProjects')
-  .input(bulkDeleteProjectsSchema)
+export const bulkDeleteProjectsAction = authActionClient
+  .inputSchema(bulkDeleteProjectsSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
     const { projectIds } = parsedInput
@@ -132,8 +132,8 @@ export const bulkDeleteProjectsAction = createAuthAction('bulkDeleteProjects')
 /**
  * Duplicate a project with all its phases
  */
-export const duplicateProjectAction = createAuthAction('duplicateProject')
-  .input(duplicateProjectSchema)
+export const duplicateProjectAction = authActionClient
+  .inputSchema(duplicateProjectSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
     const { projectId, newTitle } = parsedInput
@@ -220,8 +220,8 @@ export const duplicateProjectAction = createAuthAction('duplicateProject')
 /**
  * Get comprehensive project statistics
  */
-export const getProjectStatsAction = createAuthAction('getProjectStats')
-  .input(getProjectStatsSchema)
+export const getProjectStatsAction = authActionClient
+  .inputSchema(getProjectStatsSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
     const { projectId } = parsedInput
@@ -295,8 +295,8 @@ export const getProjectStatsAction = createAuthAction('getProjectStats')
 /**
  * Rate-limited action demonstrating rate limiting
  */
-export const rateLimitedAction = createAuthAction('rateLimitedAction')
-  .input(rateLimitedActionSchema)
+export const rateLimitedAction = authActionClient
+  .inputSchema(rateLimitedActionSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
     const { message } = parsedInput
@@ -335,25 +335,33 @@ export const rateLimitedAction = createAuthAction('rateLimitedAction')
 /**
  * Complex validation demonstration
  */
-export const complexValidationAction = createPublicAction('complexValidation')
-  .input(complexValidationSchema)
+export const complexValidationAction = publicActionClient
+  .inputSchema(complexValidationSchema)
   .action(async ({ parsedInput }) => {
     return safeExecute(
       async () => {
         // Sanitize input
-        const sanitizedInput = sanitizeObject(parsedInput)
+        const sanitizedInput = sanitizeObject(parsedInput, [
+          'email',
+          'age',
+          'preferences',
+          'tags',
+        ])
 
         ActionLogger.info(
           'complexValidation',
           'Processing complex validation',
           {
             email: sanitizedInput.email,
-            theme: sanitizedInput.preferences.theme,
+            theme: sanitizedInput.preferences?.theme,
           }
         )
 
         // Additional business logic validation
-        if (sanitizedInput.email.includes('test') && sanitizedInput.age < 25) {
+        if (
+          sanitizedInput.email?.includes('test') &&
+          (sanitizedInput.age ?? 0) < 25
+        ) {
           throw new ValidationError([
             {
               field: 'email',
@@ -364,7 +372,7 @@ export const complexValidationAction = createPublicAction('complexValidation')
         }
 
         if (
-          sanitizedInput.tags.some(tag => tag.toLowerCase().includes('spam'))
+          sanitizedInput.tags?.some(tag => tag.toLowerCase().includes('spam'))
         ) {
           throw new ValidationError([
             {
@@ -396,8 +404,8 @@ export const complexValidationAction = createPublicAction('complexValidation')
 /**
  * Error scenario testing action - deliberately throws different types of errors
  */
-export const errorTestAction = createAuthAction('errorTest')
-  .input(
+export const errorTestAction = authActionClient
+  .inputSchema(
     z.object({
       errorType: z.enum([
         'validation',

@@ -126,7 +126,7 @@ export async function handleFormSubmission<T>(
         handleFormSuccess(result.data, {
           showToast,
           successMessage,
-          onSuccess,
+          onSuccess: onSuccess || undefined,
           form,
         })
       }

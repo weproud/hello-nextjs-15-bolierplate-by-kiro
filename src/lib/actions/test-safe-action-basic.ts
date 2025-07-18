@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { createAuthAction, createPublicAction } from '@/lib/safe-action'
+import { authActionClient, publicActionClient } from '@/lib/safe-action'
 
 // Test schema for input validation
 const testInputSchema = z.object({
@@ -12,7 +12,7 @@ const testInputSchema = z.object({
 /**
  * Basic test authenticated action
  */
-export const basicTestAuthAction = createAuthAction('basicTestAuth')
+export const basicTestAuthAction = authActionClient
   .inputSchema(testInputSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -29,7 +29,7 @@ export const basicTestAuthAction = createAuthAction('basicTestAuth')
 /**
  * Basic test public action
  */
-export const basicTestPublicAction = createPublicAction('basicTestPublic')
+export const basicTestPublicAction = publicActionClient
   .inputSchema(testInputSchema)
   .action(async ({ parsedInput, ctx }) => {
     return {

@@ -2,7 +2,7 @@
  * Prisma query result caching utilities
  */
 
-import { PrismaClient } from '@prisma/client'
+import { type PrismaClient } from '@prisma/client'
 import { MemoryCache } from './memory'
 import { CACHE_TAGS, CACHE_DURATION, createCachedFunction } from './nextjs'
 
@@ -164,7 +164,7 @@ export const prismaMemoryCache = {
   },
 
   // Cache with TTL
-  set: <T>(key: string, value: T, ttlMs: number = 300000) => {
+  set: <T>(key: string, value: T, ttlMs = 300000) => {
     prismaCache.set(key, value, ttlMs)
   },
 
@@ -213,7 +213,7 @@ export const prismaMemoryCache = {
 export function withPrismaCache<T extends any[], R>(
   queryFn: (...args: T) => Promise<R>,
   cacheKey: (...args: T) => string,
-  ttlMs: number = 300000
+  ttlMs = 300000
 ) {
   return async (...args: T): Promise<R> => {
     const key = cacheKey(...args)

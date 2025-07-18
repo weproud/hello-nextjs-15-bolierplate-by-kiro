@@ -2,6 +2,10 @@
  * Performance monitoring utilities for modal components
  */
 
+import { createLogger } from './logger'
+
+const logger = createLogger('performance-monitor')
+
 interface PerformanceMetrics {
   modalLoadTime: number
   formLoadTime: number
@@ -39,7 +43,9 @@ class ModalPerformanceMonitor {
         const lcpObserver = new PerformanceObserver(list => {
           const entries = list.getEntries()
           const lastEntry = entries[entries.length - 1]
-          this.metrics.largestContentfulPaint = lastEntry.startTime
+          if (lastEntry) {
+            this.metrics.largestContentfulPaint = lastEntry.startTime
+          }
         })
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
         this.observers.push(lcpObserver)
@@ -67,7 +73,9 @@ class ModalPerformanceMonitor {
         fidObserver.observe({ entryTypes: ['first-input'] })
         this.observers.push(fidObserver)
       } catch (error) {
-        console.warn('Performance monitoring not supported:', error)
+        logger.warn('Performance monitoring not supported', {
+          error: error as Error,
+        })
       }
     }
   }
@@ -88,7 +96,9 @@ class ModalPerformanceMonitor {
       )
 
       const measure = performance.getEntriesByName('modal-load-time')[0]
-      this.metrics.modalLoadTime = measure.duration
+      if (measure) {
+        this.metrics.modalLoadTime = measure.duration
+      }
     }
   }
 
@@ -104,7 +114,9 @@ class ModalPerformanceMonitor {
       performance.measure('form-load-time', 'form-load-start', 'form-load-end')
 
       const measure = performance.getEntriesByName('form-load-time')[0]
-      this.metrics.formLoadTime = measure.duration
+      if (measure) {
+        this.metrics.formLoadTime = measure.duration
+      }
     }
   }
 
@@ -114,37 +126,14 @@ class ModalPerformanceMonitor {
 
   logMetrics() {
     if (process.env.NODE_ENV === 'development') {
-      console.group('🚀 Modal Performance Metrics')
-      console.log(
-        'Modal Load Time:',
-        this.metrics.modalLoadTime?.toFixed(2),
-        'ms'
-      )
-      console.log(
-        'Form Load Time:',
-        this.metrics.formLoadTime?.toFixed(2),
-        'ms'
-      )
-      console.log(
-        'First Contentful Paint:',
-        this.metrics.firstContentfulPaint?.toFixed(2),
-        'ms'
-      )
-      console.log(
-        'Largest Contentful Paint:',
-        this.metrics.largestContentfulPaint?.toFixed(2),
-        'ms'
-      )
-      console.log(
-        'Cumulative Layout Shift:',
-        this.metrics.cumulativeLayoutShift?.toFixed(4)
-      )
-      console.log(
-        'First Input Delay:',
-        this.metrics.firstInputDelay?.toFixed(2),
-        'ms'
-      )
-      console.groupEnd()
+      logger.debug('Modal Performance Metrics', {
+        modalLoadTime: this.metrics.modalLoadTime?.toFixed(2),
+        formLoadTime: this.metrics.formLoadTime?.toFixed(2),
+        firstContentfulPaint: this.metrics.firstContentfulPaint?.toFixed(2),
+        largestContentfulPaint: this.metrics.largestContentfulPaint?.toFixed(2),
+        cumulativeLayoutShift: this.metrics.cumulativeLayoutShift?.toFixed(4),
+        firstInputDelay: this.metrics.firstInputDelay?.toFixed(2),
+      })
     }
   }
 
@@ -189,12 +178,14 @@ export function analyzeBundleSize() {
         (script as HTMLScriptElement).src.includes('@modal')
     )
 
-    console.group('📦 Modal Bundle Analysis')
-    console.log('Total Scripts:', scripts.length)
-    console.log('Modal-related Scripts:', modalScripts.length)
-    modalScripts.forEach((script, index) => {
-      console.log(`${index + 1}. ${(script as HTMLScriptElement).src}`)
+    const scriptUrls = modalScripts.map(
+      (script, index) => `${index + 1}. ${(script as HTMLScriptElement).src}`
+    )
+
+    logger.debug('Modal Bundle Analysis', {
+      totalScripts: scripts.length,
+      modalScripts: modalScripts.length,
+      scriptUrls,
     })
-    console.groupEnd()
   }
 }

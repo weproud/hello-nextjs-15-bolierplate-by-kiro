@@ -223,7 +223,7 @@ export const cacheBenchmarks = {
   /**
    * Benchmark cache read/write performance
    */
-  async benchmarkReadWrite(iterations: number = 1000) {
+  async benchmarkReadWrite(iterations = 1000) {
     console.log(
       `[Cache Benchmark] Testing read/write performance with ${iterations} iterations...`
     )

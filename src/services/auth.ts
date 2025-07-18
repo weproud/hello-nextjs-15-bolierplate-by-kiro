@@ -7,13 +7,49 @@
 
 import { auth, signIn, signOut } from '@/auth'
 import { redirect } from 'next/navigation'
+import { createLogger } from '@/lib/logger'
+import type { IAuthService, AuthUser } from './interfaces'
 
-export interface AuthUser {
-  id: string
-  name?: string | null
-  email?: string | null
-  image?: string | null
+const logger = createLogger('auth-service')
+
+export type UserRole = 'admin' | 'user' | 'guest'
+
+export interface Permission {
+  resource: string
+  action: string
 }
+
+export interface Session {
+  user: AuthUser
+  expires: string
+}
+
+// 역할별 권한 정의
+const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
+  admin: [
+    'read:profile',
+    'update:profile',
+    'delete:profile',
+    'create:project',
+    'read:project',
+    'update:project',
+    'delete:project',
+    'manage:users',
+    'manage:system',
+  ],
+  user: [
+    'read:profile',
+    'update:profile',
+    'create:project',
+    'read:project',
+    'update:project',
+    'delete:project',
+  ],
+  guest: ['read:profile', 'read:project'],
+}
+
+// 기본 권한 (모든 인증된 사용자)
+const DEFAULT_PERMISSIONS = ROLE_PERMISSIONS.user
 
 /**
  * Get the current authenticated user
@@ -23,7 +59,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     const session = await auth()
     return session?.user || null
   } catch (error) {
-    console.error('Failed to get current user:', error)
+    logger.error('Failed to get current user', error as Error)
     return null
   }
 }
@@ -61,7 +97,7 @@ export async function signInWithProvider(
       redirectTo: redirectTo || '/dashboard',
     })
   } catch (error) {
-    console.error('Sign in failed:', error)
+    logger.error('Sign in failed', error as Error, { provider, redirectTo })
     throw new Error('Authentication failed')
   }
 }
@@ -75,9 +111,23 @@ export async function signOutUser(redirectTo?: string) {
       redirectTo: redirectTo || '/',
     })
   } catch (error) {
-    console.error('Sign out failed:', error)
+    logger.error('Sign out failed', error as Error, { redirectTo })
     throw new Error('Sign out failed')
   }
+}
+
+/**
+ * Get user role from database or session
+ */
+function getUserRole(user: AuthUser): UserRole {
+  // TODO: 실제 구현에서는 데이터베이스에서 사용자 역할을 조회
+  // 현재는 이메일 기반으로 간단한 역할 할당
+  if (user.email?.includes('admin')) {
+    return 'admin'
+  }
+
+  // 기본적으로 모든 인증된 사용자는 'user' 역할
+  return 'user'
 }
 
 /**
@@ -93,18 +143,20 @@ export async function hasPermission(
     return false
   }
 
-  // TODO: Implement role-based permissions
-  // For now, all authenticated users have basic permissions
-  const basicPermissions = [
-    'read:profile',
-    'update:profile',
-    'create:project',
-    'read:project',
-    'update:project',
-    'delete:project',
-  ]
+  try {
+    const userRole = getUserRole(currentUser)
+    const userPermissions = ROLE_PERMISSIONS[userRole] || DEFAULT_PERMISSIONS
 
-  return basicPermissions.includes(permission)
+    return userPermissions.includes(permission)
+  } catch (error) {
+    logger.error('Failed to check user permission', error as Error, {
+      userId: currentUser.id,
+      permission,
+    })
+
+    // 에러 발생 시 기본 권한으로 폴백
+    return DEFAULT_PERMISSIONS.includes(permission)
+  }
 }
 
 /**
@@ -117,16 +169,37 @@ export async function getUserPermissions(user?: AuthUser): Promise<string[]> {
     return []
   }
 
-  // TODO: Implement role-based permissions from database
-  // For now, return basic permissions for all users
-  return [
-    'read:profile',
-    'update:profile',
-    'create:project',
-    'read:project',
-    'update:project',
-    'delete:project',
-  ]
+  try {
+    const userRole = getUserRole(currentUser)
+    return ROLE_PERMISSIONS[userRole] || DEFAULT_PERMISSIONS
+  } catch (error) {
+    logger.error('Failed to get user permissions', error as Error, {
+      userId: currentUser.id,
+    })
+
+    // 에러 발생 시 기본 권한으로 폴백
+    return DEFAULT_PERMISSIONS
+  }
+}
+
+/**
+ * Get current session
+ */
+export async function getCurrentSession(): Promise<Session | null> {
+  try {
+    const session = await auth()
+    return session as Session | null
+  } catch (error) {
+    logger.error('Failed to get session', error as Error)
+    return null
+  }
+}
+
+/**
+ * Check if session is valid
+ */
+export function isValidSession(session: Session | null): boolean {
+  return !!(session?.user?.id && session.user.email)
 }
 
 /**
@@ -134,21 +207,53 @@ export async function getUserPermissions(user?: AuthUser): Promise<string[]> {
  */
 export async function validateSession(): Promise<boolean> {
   try {
-    const session = await auth()
-    return !!session?.user
+    const session = await getCurrentSession()
+    return isValidSession(session)
   } catch (error) {
-    console.error('Session validation failed:', error)
+    logger.error('Session validation failed', error as Error)
     return false
   }
 }
 
 /**
- * Auth utilities for client-side usage
+ * Authentication Service Implementation
  */
-export const authUtils = {
-  isAuthenticated,
-  getCurrentUser,
-  hasPermission,
-  getUserPermissions,
-  validateSession,
+export class AuthService implements IAuthService {
+  async getCurrentUser(): Promise<AuthUser | null> {
+    return getCurrentUser()
+  }
+
+  async isAuthenticated(): Promise<boolean> {
+    return isAuthenticated()
+  }
+
+  async requireAuth(): Promise<AuthUser> {
+    return requireAuth()
+  }
+
+  async signInWithProvider(
+    provider: string,
+    redirectTo?: string
+  ): Promise<void> {
+    return signInWithProvider(provider, redirectTo)
+  }
+
+  async signOutUser(redirectTo?: string): Promise<void> {
+    return signOutUser(redirectTo)
+  }
+
+  async hasPermission(permission: string, user?: AuthUser): Promise<boolean> {
+    return hasPermission(permission, user)
+  }
+
+  async getUserPermissions(user?: AuthUser): Promise<string[]> {
+    return getUserPermissions(user)
+  }
+
+  async validateSession(): Promise<boolean> {
+    return validateSession()
+  }
 }
+
+// Default auth service instance
+export const authService = new AuthService()

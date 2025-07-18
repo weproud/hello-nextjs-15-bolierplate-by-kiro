@@ -8,8 +8,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // Import actual components to test real functionality
-import SigninModal from '../components/auth/signin-modal'
-import SigninForm from '../components/auth/signin-form'
+import { SigninModal } from '../components/auth/signin-modal'
+import { SigninForm } from '../components/auth/signin-form'
 
 // Mock Next.js and NextAuth
 const mockPush = vi.fn()

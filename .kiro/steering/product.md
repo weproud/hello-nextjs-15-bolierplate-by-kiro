@@ -1,26 +1,27 @@
 # Product Overview
 
-This is a modern full-stack Next.js 15 boilerplate application designed as a comprehensive starting point for web applications. The project demonstrates best practices for authentication, database management, form handling, and UI development.
+This is a modern Next.js 15 boilerplate application that serves as a foundation for full-stack web applications. The project demonstrates best practices for building scalable, type-safe applications with authentication, database integration, and modern development tooling.
 
-## Core Features
+## Key Features
 
 - **Authentication System**: Google OAuth integration with NextAuth.js v5
 - **Project Management**: CRUD operations for projects and phases
+- **User Dashboard**: Authenticated user interface with project management
 - **Form Handling**: Advanced form validation and server actions
-- **UI Components**: Modern design system with dark/light mode support
-- **Database Integration**: Type-safe database operations with Prisma
+- **Modal System**: Parallel routing with intercepted routes for modals
+- **Theme Support**: Dark/light mode with next-themes
+- **Performance Optimized**: Bundle analysis, caching strategies, and performance monitoring
 
 ## Target Use Cases
 
-- Rapid prototyping of full-stack applications
-- Learning modern Next.js development patterns
-- Foundation for SaaS applications
-- Demonstration of enterprise-grade code quality standards
+- Starter template for Next.js applications
+- Reference implementation for modern React patterns
+- Educational resource for full-stack development
+- Foundation for project management applications
 
-## Key Value Propositions
+## Architecture Philosophy
 
-- **Type Safety**: Strict TypeScript configuration with runtime validation
-- **Developer Experience**: Hot reload, comprehensive tooling, and quality checks
-- **Performance**: Optimized builds with bundle analysis and caching strategies
-- **Accessibility**: WCAG-compliant components and patterns
-- **Security**: Input validation, authentication, and secure defaults
+- **Type Safety First**: Strict TypeScript configuration with runtime validation
+- **Server-First**: Leverage Next.js App Router and Server Components
+- **Progressive Enhancement**: Client-side interactivity only when needed
+- **Developer Experience**: Comprehensive tooling for quality and productivity

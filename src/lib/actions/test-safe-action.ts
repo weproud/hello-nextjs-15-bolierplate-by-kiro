@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { createAuthAction, createPublicAction } from '@/lib/safe-action'
+import { authActionClient, publicActionClient } from '@/lib/safe-action'
 
 // Test schema for input validation
 const testInputSchema = z.object({
@@ -12,7 +12,7 @@ const testInputSchema = z.object({
 /**
  * Test authenticated action to verify safe-action configuration
  */
-export const testAuthenticatedAction = createAuthAction('testAuthenticated')
+export const testAuthenticatedAction = authActionClient
   .schema(testInputSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -29,14 +29,14 @@ export const testAuthenticatedAction = createAuthAction('testAuthenticated')
 /**
  * Test public action to verify safe-action configuration
  */
-export const testPublicAction = createPublicAction('testPublic')
+export const testPublicAction = publicActionClient
   .schema(testInputSchema)
   .action(async ({ parsedInput, ctx }) => {
     return {
       success: true,
       message: `Public message received: ${parsedInput.message}`,
       priority: parsedInput.priority,
-      actionType: ctx.metadata.actionType,
+      actionType: ctx.actionType,
       timestamp: new Date().toISOString(),
     }
   })
@@ -44,7 +44,7 @@ export const testPublicAction = createPublicAction('testPublic')
 /**
  * Test action with error handling
  */
-export const testErrorAction = createPublicAction('testError')
+export const testErrorAction = publicActionClient
   .schema(
     z.object({
       shouldError: z.boolean().default(false),

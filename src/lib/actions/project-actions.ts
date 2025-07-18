@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
-import { createAuthAction } from '@/lib/safe-action'
+import { authActionClient } from '@/lib/safe-action'
 import {
   createProjectSchema,
   updateProjectSchema,
@@ -15,7 +15,7 @@ import { ActionLogger } from '@/lib/error-handling'
 /**
  * Create a new project
  */
-export const createProjectAction = createAuthAction('createProject')
+export const createProjectAction = authActionClient
   .inputSchema(createProjectSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -75,7 +75,7 @@ export const createProjectAction = createAuthAction('createProject')
 /**
  * Update an existing project
  */
-export const updateProjectAction = createAuthAction('updateProject')
+export const updateProjectAction = authActionClient
   .inputSchema(updateProjectSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -148,7 +148,7 @@ export const updateProjectAction = createAuthAction('updateProject')
 /**
  * Delete a project
  */
-export const deleteProjectAction = createAuthAction('deleteProject')
+export const deleteProjectAction = authActionClient
   .inputSchema(deleteProjectSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -201,7 +201,7 @@ export const deleteProjectAction = createAuthAction('deleteProject')
 /**
  * Get a single project by ID
  */
-export const getProjectAction = createAuthAction('getProject')
+export const getProjectAction = authActionClient
   .inputSchema(getProjectSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -254,7 +254,7 @@ export const getProjectAction = createAuthAction('getProject')
 /**
  * Get user's projects with pagination
  */
-export const getUserProjectsAction = createAuthAction('getUserProjects')
+export const getUserProjectsAction = authActionClient
   .inputSchema(getUserProjectsSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx

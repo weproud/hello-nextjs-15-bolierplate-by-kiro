@@ -1,126 +1,112 @@
-# Project Structure & Organization
+# Project Structure
 
-## Root Directory Structure
+## Root Directory Organization
 
 ```
-├── .kiro/              # Kiro AI assistant configuration
-├── prisma/             # Database schema and migrations
-├── public/             # Static assets
-├── src/                # Application source code
-├── docs/               # Documentation files
-└── [config files]      # Various configuration files
+├── .kiro/                  # Kiro AI assistant configuration
+├── docs/                   # Project documentation
+├── prisma/                 # Database schema and migrations
+├── public/                 # Static assets (SVGs, images)
+├── src/                    # Main application source code
+└── [config files]          # Various configuration files
 ```
 
-## Source Code Organization (`src/`)
+## Source Code Structure (`src/`)
 
-### Core Application (`src/app/`)
+### App Router (`src/app/`)
 
-- **App Router structure** following Next.js 15 conventions
-- **Parallel routes** with `@modal` for modal overlays
-- **Route groups** for organization (e.g., `(.)auth` for intercepted routes)
-- **API routes** in `api/` subdirectory
-- **Page components** with co-located client components when needed
+- **Next.js 15 App Router** with file-based routing
+- **Parallel Routes**: `@modal` slot for intercepted modal routes
+- **Route Groups**: `(.)auth` for intercepting auth routes
+- **API Routes**: `api/` directory for server endpoints
+- **Page Structure**: Each route has `page.tsx` and optional `layout.tsx`
 
 ### Components (`src/components/`)
 
-- **Feature-based organization** (auth/, forms/, projects/)
-- **UI components** in `ui/` (shadcn/ui base components)
-- **Shared components** at root level
-- **Test files** co-located in `__tests__/` subdirectories
+```
+components/
+├── auth/                   # Authentication-related components
+├── forms/                  # Form components with validation
+├── projects/               # Project management components
+├── ui/                     # shadcn/ui base components
+├── error/                  # Error handling components
+└── [shared components]     # Reusable UI components
+```
 
 ### Library Code (`src/lib/`)
 
-- **actions/** - Server actions with type safety
-- **cache/** - Caching strategies and utilities
-- **prisma/** - Database utilities and extensions
-- **validations/** - Zod schemas for data validation
-- **Core utilities** (auth, error handling, performance)
+```
+lib/
+├── actions/                # Server actions for form handling
+├── cache/                  # Caching strategies and utilities
+├── prisma/                 # Database utilities and extensions
+├── validations/            # Zod schemas for validation
+├── auth-error-utils.ts     # Authentication error handling
+├── safe-action.ts          # Type-safe server action setup
+└── utils.ts                # Common utility functions
+```
 
 ### Supporting Directories
 
-- **hooks/** - Custom React hooks
-- **stores/** - Zustand state management
-- **types/** - TypeScript type definitions
-- **contexts/** - React context providers
-- **services/** - External service integrations
+- **`hooks/`**: Custom React hooks for reusable logic
+- **`stores/`**: Zustand store definitions
+- **`types/`**: TypeScript type definitions and interfaces
+- **`contexts/`**: React context providers
+- **`services/`**: External service integrations
+- **`providers/`**: Application-wide providers
 
-## File Naming Conventions
+## Key Architectural Patterns
 
-### Components
+### File Naming Conventions
 
-- **PascalCase** for component files: `SignInForm.tsx`
-- **kebab-case** for page files: `signin/page.tsx`
-- **Descriptive names** that indicate purpose
+- **Pages**: `page.tsx` for route pages
+- **Layouts**: `layout.tsx` for route layouts
+- **Components**: kebab-case (e.g., `signin-form.tsx`)
+- **Utilities**: kebab-case (e.g., `auth-error-utils.ts`)
+- **Types**: kebab-case (e.g., `next-auth.d.ts`)
 
-### Utilities & Actions
+### Component Organization
 
-- **kebab-case** for utility files: `form-actions.ts`
-- **Grouped by feature** when possible
-- **Clear separation** between client and server code
+- **Server Components**: Default for all components
+- **Client Components**: Explicitly marked with `'use client'`
+- **Shared UI**: Base components in `components/ui/`
+- **Feature Components**: Grouped by domain (auth, forms, projects)
 
-### Test Files
+### Import Path Aliases
 
-- **Co-located** with source files in `__tests__/` directories
-- **Descriptive names** ending in `.test.tsx` or `.test.ts`
-- **Integration tests** in dedicated test directories
+- **`@/*`**: Maps to `src/*` for clean imports
+- **Absolute Imports**: Preferred over relative imports
 
-## Architecture Patterns
+### Database Schema Organization
 
-### Component Architecture
+- **Models**: User, Project, Phase, Account, Session
+- **Relations**: Proper foreign key relationships with cascade deletes
+- **UUIDs**: Used for all primary keys with PostgreSQL generation
+- **Timestamps**: `createdAt` and `updatedAt` on all models
 
-- **Server Components by default** for better performance
-- **Client Components** only when interactivity is needed
-- **Composition over inheritance** for reusable components
-- **Props interfaces** defined inline or in separate types
+### Testing Structure
 
-### Data Flow
+- **Component Tests**: Co-located in `__tests__/` directories
+- **Integration Tests**: In `src/app/__tests__/`
+- **Test Setup**: Centralized in `src/test/setup.ts`
 
-- **Server Actions** for mutations with type safety
-- **Zod validation** at API boundaries
-- **Error boundaries** for graceful error handling
-- **Optimistic updates** where appropriate
+## Configuration Files
 
-### State Management
+### Core Configuration
 
-- **Local state** with useState/useReducer for component state
-- **Global state** with Zustand for cross-component data
-- **Form state** with React Hook Form
-- **Server state** cached appropriately
+- **`next.config.ts`**: Next.js configuration with optimizations
+- **`tsconfig.json`**: Strict TypeScript configuration
+- **`eslint.config.mjs`**: ESLint with TypeScript and Prettier rules
+- **`.prettierrc`**: Code formatting rules (no semicolons, single quotes)
 
-## Import Organization
+### Database & Environment
 
-### Import Order
+- **`prisma/schema.prisma`**: Database schema definition
+- **`.env.example`**: Environment variable template
+- **`.env.local`**: Local development environment variables
 
-1. React and Next.js imports
-2. Third-party library imports
-3. Internal imports (components, utilities)
-4. Type-only imports (marked with `type`)
+### Package Management
 
-### Path Aliases
-
-- **`@/`** for src directory imports
-- **Relative imports** for co-located files
-- **Absolute imports** for cross-feature dependencies
-
-## Code Organization Principles
-
-### Separation of Concerns
-
-- **Business logic** separated from UI components
-- **Data access** isolated in service layers
-- **Validation** centralized in schema files
-- **Configuration** in dedicated files
-
-### Feature Organization
-
-- **Vertical slicing** by feature when possible
-- **Shared utilities** in common directories
-- **Clear boundaries** between features
-- **Minimal coupling** between modules
-
-### Testing Strategy
-
-- **Unit tests** for utilities and pure functions
-- **Component tests** for UI behavior
-- **Integration tests** for feature workflows
-- **E2E tests** for critical user journeys
+- **`package.json`**: Dependencies and scripts
+- **`pnpm-lock.yaml`**: Lock file for pnpm
+- **`pnpm-workspace.yaml`**: Workspace configuration

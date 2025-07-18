@@ -2,11 +2,11 @@
 
 ## Core Framework
 
-- **Next.js 15** with App Router and React 19
+- **Next.js 15** with App Router and Turbopack for development
+- **React 19** with latest features and optimizations
 - **TypeScript 5.8+** with strict configuration and enhanced safety rules
-- **Turbopack** for fast development builds
 
-## UI & Styling
+## Styling & UI
 
 - **Tailwind CSS 4.0** with CSS variables and utility-first approach
 - **shadcn/ui** components built on Radix UI primitives
@@ -15,10 +15,10 @@
 
 ## Database & Backend
 
-- **Prisma** ORM with PostgreSQL
-- **NextAuth.js v5** for authentication (Google OAuth)
+- **Prisma** ORM with PostgreSQL database
+- **NextAuth.js 5.0** for authentication (Google OAuth)
 - **next-safe-action** for type-safe server actions
-- **Zod** for runtime validation and schema definition
+- **Zod** for runtime schema validation
 
 ## State Management
 
@@ -28,7 +28,7 @@
 
 ## Development Tools
 
-- **ESLint** with TypeScript rules and Prettier integration
+- **ESLint** with TypeScript-specific rules and Prettier integration
 - **Prettier** with consistent formatting (no semicolons, single quotes)
 - **Vitest** for testing with React Testing Library
 - **Bundle Analyzer** for performance optimization
@@ -38,7 +38,7 @@
 ### Development
 
 ```bash
-npm run dev          # Start dev server with Turbopack
+npm run dev          # Start development server with Turbopack
 npm run build        # Production build
 npm run start        # Start production server
 ```
@@ -46,14 +46,14 @@ npm run start        # Start production server
 ### Code Quality
 
 ```bash
-npm run quality      # Run all quality checks (type-check, lint, format)
+npm run quality      # Run type-check, lint, and format check
 npm run quality:fix  # Fix all quality issues automatically
-npm run type-check   # TypeScript type checking
 npm run lint:fix     # Fix ESLint issues
-npm run format       # Format with Prettier
+npm run format       # Format code with Prettier
+npm run type-check   # TypeScript type checking
 ```
 
-### Database
+### Database Operations
 
 ```bash
 npm run db:push      # Push schema changes to database
@@ -77,3 +77,8 @@ npm run setup        # Complete project setup (install + db setup)
 npm run clean        # Clean build artifacts and cache
 npm run reset        # Full reset and reinstall
 ```
+
+## Package Manager
+
+- **pnpm** is the preferred package manager (see pnpm-lock.yaml and pnpm-workspace.yaml)
+- Use `pnpm` commands instead of `npm` when possible for consistency

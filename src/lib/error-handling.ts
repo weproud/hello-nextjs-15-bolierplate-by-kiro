@@ -6,10 +6,14 @@ import type {
 // Error classes
 export class AppErrorClass extends Error implements AppErrorType {
   code: string
-  details?: any
+  details: Record<string, unknown> | undefined
   timestamp: Date
 
-  constructor(code: string, message: string, details?: any) {
+  constructor(
+    code: string,
+    message: string,
+    details?: Record<string, unknown>
+  ) {
     super(message)
     this.name = 'AppError'
     this.code = code
@@ -36,7 +40,7 @@ export type AppError = AppErrorClass
 export const createAppError = (
   code: string,
   message: string,
-  details?: any
+  details?: Record<string, unknown>
 ): AppErrorClass => {
   return new AppErrorClass(code, message, details)
 }
@@ -75,11 +79,9 @@ export const handleError = (error: unknown): AppError => {
   }
 
   if (error instanceof ValidationErrorClass) {
-    return createAppError(
-      ERROR_CODES.VALIDATION_ERROR,
-      error.message,
-      error.errors
-    )
+    return createAppError(ERROR_CODES.VALIDATION_ERROR, error.message, {
+      errors: error.errors,
+    })
   }
 
   if (error instanceof Error) {
@@ -107,14 +109,14 @@ export const logError = (error: AppError | Error, context?: string): void => {
 
 // Action-specific error classes
 export class ActionError extends AppErrorClass {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super('ACTION_ERROR', message, details)
     this.name = 'ActionError'
   }
 }
 
 export class AuthenticationError extends AppErrorClass {
-  constructor(message: string = '인증이 필요합니다.') {
+  constructor(message = '인증이 필요합니다.') {
     super(ERROR_CODES.UNAUTHORIZED, message)
     this.name = 'AuthenticationError'
   }
@@ -122,15 +124,28 @@ export class AuthenticationError extends AppErrorClass {
 
 // Action logger
 export const ActionLogger = {
-  info: (action: string, message: string, details?: any) => {
+  info: (
+    action: string,
+    message: string,
+    details?: Record<string, unknown>
+  ) => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[${action}] ${message}`, details)
+      console.warn(`[${action}] ${message}`, details)
     }
   },
-  warn: (action: string, message: string, details?: any) => {
+  warn: (
+    action: string,
+    message: string,
+    details?: Record<string, unknown>
+  ) => {
     console.warn(`[${action}] ${message}`, details)
   },
-  error: (action: string, message: string, error: unknown, details?: any) => {
+  error: (
+    action: string,
+    message: string,
+    error: unknown,
+    details?: Record<string, unknown>
+  ) => {
     console.error(`[${action}] ${message}`, { error, details })
   },
 }
@@ -164,21 +179,21 @@ export const safeAsync = async <T>(
 
 // Additional error classes that are imported by other files
 export class NotFoundError extends AppErrorClass {
-  constructor(message: string = '리소스를 찾을 수 없습니다.') {
+  constructor(message = '리소스를 찾을 수 없습니다.') {
     super(ERROR_CODES.NOT_FOUND, message)
     this.name = 'NotFoundError'
   }
 }
 
 export class AuthorizationError extends AppErrorClass {
-  constructor(message: string = '권한이 없습니다.') {
+  constructor(message = '권한이 없습니다.') {
     super(ERROR_CODES.FORBIDDEN, message)
     this.name = 'AuthorizationError'
   }
 }
 
 export class DatabaseError extends AppErrorClass {
-  constructor(message: string = '데이터베이스 오류가 발생했습니다.') {
+  constructor(message = '데이터베이스 오류가 발생했습니다.') {
     super(ERROR_CODES.DATABASE_ERROR, message)
     this.name = 'DatabaseError'
   }
@@ -207,20 +222,20 @@ export const safeExecute = async <T>(
 }
 
 // Rate limiting helper
-export const checkRateLimit = async (
-  key: string,
-  limit: number = 10,
-  windowMs: number = 60000
-): Promise<boolean> => {
+export const checkRateLimit = (
+  _key: string,
+  _limit = 10,
+  _windowMs = 60000
+): boolean => {
   // Simple in-memory rate limiting for development
   // In production, use Redis or similar
   return true // Always allow for now
 }
 
 // Object sanitization helper
-export const sanitizeObject = <T extends Record<string, any>>(
+export const sanitizeObject = <T extends Record<string, unknown>>(
   obj: T,
-  allowedKeys: (keyof T)[]
+  allowedKeys: Array<keyof T>
 ): Partial<T> => {
   const sanitized: Partial<T> = {}
   allowedKeys.forEach(key => {

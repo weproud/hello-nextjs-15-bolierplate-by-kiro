@@ -2,7 +2,7 @@
 
 import { useAuth } from './auth-provider'
 import { useRouter } from 'next/navigation'
-import { useEffect, ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import {
   Card,
   CardContent,

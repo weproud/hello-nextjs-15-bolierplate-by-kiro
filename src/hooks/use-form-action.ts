@@ -1,5 +1,5 @@
 import { useState, useTransition } from 'react'
-import { UseFormReturn } from 'react-hook-form'
+import { type UseFormReturn } from 'react-hook-form'
 import { toast } from 'sonner'
 
 // Type for server action result (compatible with next-safe-action)
@@ -220,7 +220,7 @@ export function useBatchFormAction<T = any>(
   options: UseFormActionOptions = {}
 ) {
   const [isPending, startTransition] = useTransition()
-  const [results, setResults] = useState<ActionResult<T>[]>([])
+  const [results, setResults] = useState<Array<ActionResult<T>>>([])
 
   const executeBatch = (formDataArray: FormData[]) => {
     startTransition(async () => {

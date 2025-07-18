@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {
   useForm,
-  UseFormProps,
-  UseFormReturn,
-  FieldValues,
+  type UseFormProps,
+  type UseFormReturn,
+  type FieldValues,
 } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { type z } from 'zod'
 
 // Enhanced useForm hook with Zod validation
 export function useFormWithValidation<
@@ -30,12 +30,12 @@ export function useProgressiveForm<
 >(schema: TSchema, options?: Omit<UseFormProps<TFieldValues>, 'resolver'>) {
   const form = useFormWithValidation(schema, options)
 
-  const validateStep = async (stepFields: (keyof TFieldValues)[]) => {
+  const validateStep = async (stepFields: Array<keyof TFieldValues>) => {
     const isValid = await form.trigger(stepFields as any)
     return isValid
   }
 
-  const getStepErrors = (stepFields: (keyof TFieldValues)[]) => {
+  const getStepErrors = (stepFields: Array<keyof TFieldValues>) => {
     const errors: Record<string, any> = {}
     stepFields.forEach(field => {
       const fieldError = form.formState.errors[field as string]
@@ -94,7 +94,7 @@ export function useConditionalForm<
 
   const validateConditionally = async (
     condition: (values: TFieldValues) => boolean,
-    fields: (keyof TFieldValues)[]
+    fields: Array<keyof TFieldValues>
   ) => {
     const values = form.getValues()
     if (condition(values)) {

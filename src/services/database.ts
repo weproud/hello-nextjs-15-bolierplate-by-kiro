@@ -35,11 +35,20 @@ export interface SearchOptions {
  * Generic pagination helper
  */
 export async function paginate<T>(
-  model: any,
+  model: {
+    findMany: (args: {
+      where?: Record<string, unknown>
+      include?: Record<string, unknown>
+      orderBy?: Record<string, unknown>
+      skip?: number
+      take?: number
+    }) => Promise<T[]>
+    count: (args: { where?: Record<string, unknown> }) => Promise<number>
+  },
   options: PaginationOptions & {
-    where?: any
-    include?: any
-    orderBy?: any
+    where?: Record<string, unknown>
+    include?: Record<string, unknown>
+    orderBy?: Record<string, unknown>
   }
 ): Promise<PaginationResult<T>> {
   const { page, limit, where, include, orderBy } = options
@@ -358,7 +367,7 @@ export const phaseDb = {
     })
   },
 
-  async reorder(phases: { id: string; order: number }[]) {
+  async reorder(phases: Array<{ id: string; order: number }>) {
     return prisma.$transaction(
       phases.map(phase =>
         prisma.phase.update({
@@ -377,7 +386,11 @@ export const dbUtils = {
   /**
    * Check if record exists
    */
-  async exists(model: any, where: any): Promise<boolean> {
+  async exists<
+    T extends {
+      count: (args: { where: Record<string, unknown> }) => Promise<number>
+    },
+  >(model: T, where: Record<string, unknown>): Promise<boolean> {
     const count = await model.count({ where })
     return count > 0
   },
@@ -385,7 +398,14 @@ export const dbUtils = {
   /**
    * Soft delete (if your models support it)
    */
-  async softDelete(model: any, id: string) {
+  async softDelete<
+    T extends {
+      update: (args: {
+        where: { id: string }
+        data: Record<string, unknown>
+      }) => Promise<unknown>
+    },
+  >(model: T, id: string) {
     return model.update({
       where: { id },
       data: {
@@ -398,14 +418,34 @@ export const dbUtils = {
   /**
    * Batch operations
    */
-  async batchCreate(model: any, data: any[]) {
+  async batchCreate<
+    T extends {
+      createMany: (args: {
+        data: Record<string, unknown>[]
+        skipDuplicates: boolean
+      }) => Promise<unknown>
+    },
+  >(model: T, data: Record<string, unknown>[]) {
     return model.createMany({
       data,
       skipDuplicates: true,
     })
   },
 
-  async batchUpdate(model: any, updates: { where: any; data: any }[]) {
+  async batchUpdate<
+    T extends {
+      updateMany: (args: {
+        where: Record<string, unknown>
+        data: Record<string, unknown>
+      }) => Promise<unknown>
+    },
+  >(
+    model: T,
+    updates: Array<{
+      where: Record<string, unknown>
+      data: Record<string, unknown>
+    }>
+  ) {
     return prisma.$transaction(
       updates.map(update =>
         model.updateMany({
@@ -416,7 +456,13 @@ export const dbUtils = {
     )
   },
 
-  async batchDelete(model: any, ids: string[]) {
+  async batchDelete<
+    T extends {
+      deleteMany: (args: {
+        where: { id: { in: string[] } }
+      }) => Promise<unknown>
+    },
+  >(model: T, ids: string[]) {
     return model.deleteMany({
       where: {
         id: {

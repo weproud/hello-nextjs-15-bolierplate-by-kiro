@@ -62,42 +62,43 @@ export function formatDate(
   )
 }
 
+// Helper function to calculate time differences
+function getTimeDifference(date: Date): {
+  seconds: number
+  minutes: number
+  hours: number
+  days: number
+  months: number
+  years: number
+} {
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+
+  return {
+    seconds: diffInSeconds,
+    minutes: Math.floor(diffInSeconds / 60),
+    hours: Math.floor(diffInSeconds / 3600),
+    days: Math.floor(diffInSeconds / 86400),
+    months: Math.floor(diffInSeconds / 2592000), // 30 days
+    years: Math.floor(diffInSeconds / 31536000), // 365 days
+  }
+}
+
 export function formatRelativeTime(
   date: Date | string,
   locale = 'ko-KR'
 ): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date
-  const now = new Date()
-  const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000)
-
+  const diff = getTimeDifference(dateObj)
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' })
 
-  if (diffInSeconds < 60) {
-    return rtf.format(-diffInSeconds, 'second')
-  }
+  if (diff.seconds < 60) return rtf.format(-diff.seconds, 'second')
+  if (diff.minutes < 60) return rtf.format(-diff.minutes, 'minute')
+  if (diff.hours < 24) return rtf.format(-diff.hours, 'hour')
+  if (diff.days < 30) return rtf.format(-diff.days, 'day')
+  if (diff.months < 12) return rtf.format(-diff.months, 'month')
 
-  const diffInMinutes = Math.floor(diffInSeconds / 60)
-  if (diffInMinutes < 60) {
-    return rtf.format(-diffInMinutes, 'minute')
-  }
-
-  const diffInHours = Math.floor(diffInMinutes / 60)
-  if (diffInHours < 24) {
-    return rtf.format(-diffInHours, 'hour')
-  }
-
-  const diffInDays = Math.floor(diffInHours / 24)
-  if (diffInDays < 30) {
-    return rtf.format(-diffInDays, 'day')
-  }
-
-  const diffInMonths = Math.floor(diffInDays / 30)
-  if (diffInMonths < 12) {
-    return rtf.format(-diffInMonths, 'month')
-  }
-
-  const diffInYears = Math.floor(diffInMonths / 12)
-  return rtf.format(-diffInYears, 'year')
+  return rtf.format(-diff.years, 'year')
 }
 
 // Array utilities
@@ -186,7 +187,7 @@ export function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
-  let inThrottle: boolean = false
+  let inThrottle = false
 
   return (...args: Parameters<T>) => {
     if (!inThrottle) {

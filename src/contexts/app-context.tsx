@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useReducer, ReactNode } from 'react'
+import { createContext, useContext, useReducer, type ReactNode } from 'react'
 
 // App state interface
 export interface AppState {

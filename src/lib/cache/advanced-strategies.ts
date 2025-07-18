@@ -229,7 +229,7 @@ export const cacheCompression = {
   /**
    * Check if data should be compressed based on size
    */
-  shouldCompress: (data: any, threshold: number = 10000): boolean => {
+  shouldCompress: (data: any, threshold = 10000): boolean => {
     try {
       const size = JSON.stringify(data).length
       return size > threshold
@@ -354,7 +354,7 @@ export const cacheWarmingScheduler = {
   /**
    * Schedule cache warming for active users
    */
-  scheduleUserWarming: (userIds: string[], intervalMs: number = 1800000) => {
+  scheduleUserWarming: (userIds: string[], intervalMs = 1800000) => {
     // 30 minutes
     const warmingInterval = setInterval(async () => {
       console.log('[Cache] Starting scheduled user cache warming...')
@@ -381,7 +381,7 @@ export const cacheWarmingScheduler = {
   /**
    * Schedule cache cleanup
    */
-  scheduleCleanup: (intervalMs: number = 600000) => {
+  scheduleCleanup: (intervalMs = 600000) => {
     // 10 minutes
     const cleanupInterval = setInterval(() => {
       console.log('[Cache] Starting scheduled cache cleanup...')

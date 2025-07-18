@@ -3,6 +3,7 @@
  * Validates all requirements from the specification
  */
 
+import React from 'react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -47,7 +48,7 @@ const MockModalSigninPage = ({ searchParams }: { searchParams: any }) => {
       if (result?.error) {
         setError(result.error)
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Network error')
     } finally {
       setIsLoading(false)
@@ -83,7 +84,7 @@ const MockFullSigninPage = ({ searchParams }: { searchParams: any }) => {
       if (result?.error) {
         setError(result.error)
       }
-    } catch (err) {
+    } catch (_err) {
       setError('Network error')
     } finally {
       setIsLoading(false)
@@ -120,9 +121,10 @@ describe('E2E Integration Tests - Parallel Interceptor Auth Routing', () => {
       replace: mockReplace,
       forward: vi.fn(),
       refresh: mockRefresh,
+      prefetch: vi.fn(),
     })
     vi.mocked(usePathname).mockReturnValue('/')
-    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams())
+    vi.mocked(useSearchParams).mockReturnValue(new URLSearchParams() as any)
     vi.mocked(useSession).mockReturnValue({
       data: null,
       status: 'unauthenticated',
@@ -178,7 +180,7 @@ describe('E2E Integration Tests - Parallel Interceptor Auth Routing', () => {
       // Requirement 1.4: Success handling
       mockSignIn.mockResolvedValue({ ok: true, error: null })
       vi.mocked(useSession).mockReturnValue({
-        data: { user: { email: 'test@example.com' } },
+        data: { user: { id: '1', email: 'test@example.com' } },
         status: 'authenticated',
         update: vi.fn(),
       })
@@ -225,7 +227,7 @@ describe('E2E Integration Tests - Parallel Interceptor Auth Routing', () => {
       // Requirement 2.3: Bookmark handling
       vi.mocked(usePathname).mockReturnValue('/auth/signin')
       vi.mocked(useSearchParams).mockReturnValue(
-        new URLSearchParams({ callbackUrl: '/projects' })
+        new URLSearchParams({ callbackUrl: '/projects' }) as any
       )
 
       render(<MockFullSigninPage searchParams={{ callbackUrl: '/projects' }} />)
@@ -236,9 +238,9 @@ describe('E2E Integration Tests - Parallel Interceptor Auth Routing', () => {
 
     it('should display full page when URL is shared', () => {
       // Requirement 2.4: Shared URL handling
-      const sharedUrl = '/auth/signin?callbackUrl=/settings'
+      const _sharedUrl = '/auth/signin?callbackUrl=/settings'
       vi.mocked(useSearchParams).mockReturnValue(
-        new URLSearchParams({ callbackUrl: '/settings' })
+        new URLSearchParams({ callbackUrl: '/settings' }) as any
       )
 
       render(<MockFullSigninPage searchParams={{ callbackUrl: '/settings' }} />)

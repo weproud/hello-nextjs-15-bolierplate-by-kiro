@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
-import { createAuthAction } from '@/lib/safe-action'
+import { authActionClient } from '@/lib/safe-action'
 import {
   createPhaseSchema,
   updatePhaseSchema,
@@ -22,7 +22,7 @@ import {
 /**
  * Create a new phase
  */
-export const createPhaseAction = createAuthAction('createPhase')
+export const createPhaseAction = authActionClient
   .inputSchema(createPhaseSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -97,7 +97,7 @@ export const createPhaseAction = createAuthAction('createPhase')
 /**
  * Update an existing phase
  */
-export const updatePhaseAction = createAuthAction('updatePhase')
+export const updatePhaseAction = authActionClient
   .inputSchema(updatePhaseSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -165,7 +165,7 @@ export const updatePhaseAction = createAuthAction('updatePhase')
 /**
  * Delete a phase
  */
-export const deletePhaseAction = createAuthAction('deletePhase')
+export const deletePhaseAction = authActionClient
   .inputSchema(deletePhaseSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -219,7 +219,7 @@ export const deletePhaseAction = createAuthAction('deletePhase')
 /**
  * Get a single phase by ID
  */
-export const getPhaseAction = createAuthAction('getPhase')
+export const getPhaseAction = authActionClient
   .inputSchema(getPhaseSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -258,7 +258,7 @@ export const getPhaseAction = createAuthAction('getPhase')
 /**
  * Get phases for a project with pagination
  */
-export const getProjectPhasesAction = createAuthAction('getProjectPhases')
+export const getProjectPhasesAction = authActionClient
   .inputSchema(getProjectPhasesSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx
@@ -311,7 +311,7 @@ export const getProjectPhasesAction = createAuthAction('getProjectPhases')
 /**
  * Reorder phases within a project
  */
-export const reorderPhasesAction = createAuthAction('reorderPhases')
+export const reorderPhasesAction = authActionClient
   .inputSchema(reorderPhasesSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { user } = ctx

@@ -10,7 +10,7 @@ export const APP_NAME = 'LagomPath'
 export const APP_DESCRIPTION =
   'Modern Next.js development environment with TypeScript, Prisma, and NextAuth'
 export const APP_VERSION = '1.0.0'
-export const APP_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+export const APP_URL = process.env['NEXTAUTH_URL'] || 'http://localhost:3000'
 
 // API endpoints
 export const API_ENDPOINTS = {

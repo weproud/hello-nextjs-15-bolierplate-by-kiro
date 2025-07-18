@@ -1,9 +1,14 @@
 'use client'
 
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import React, { Component, type ErrorInfo, type ReactNode } from 'react'
 import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  errorHandler,
+  type AppError,
+  type ErrorContext,
+} from '@/lib/error-handler'
 
 interface Props {
   children: ReactNode
@@ -44,9 +49,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error details
-    console.error('Error Boundary caught an error:', error, errorInfo)
-
     // Update state with error info
     this.setState({
       error,
@@ -58,33 +60,24 @@ export class ErrorBoundary extends Component<Props, State> {
       this.props.onError(error, errorInfo)
     }
 
-    // Report error to monitoring service
+    // Report error using unified error handler
     this.reportError(error, errorInfo)
   }
 
-  private reportError = (error: Error, errorInfo: ErrorInfo) => {
-    // In a real application, you would send this to an error reporting service
-    // like Sentry, LogRocket, or Bugsnag
-    const errorReport = {
-      message: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
-      timestamp: new Date().toISOString(),
+  private reportError = async (error: Error, errorInfo: ErrorInfo) => {
+    const context: ErrorContext = {
+      component: 'ErrorBoundary',
+      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
       userAgent:
         typeof window !== 'undefined' ? window.navigator.userAgent : 'SSR',
-      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
+      additionalData: {
+        componentStack: errorInfo.componentStack,
+      },
     }
 
-    // For now, just log to console
-    console.error('Error Report:', errorReport)
-
-    // TODO: Send to error reporting service
-    // errorReportingService.captureException(error, {
-    //   extra: errorReport,
-    //   tags: {
-    //     component: 'ErrorBoundary',
-    //   },
-    // })
+    // Use unified error handler
+    const appError = errorHandler.handleError(error, context)
+    await errorHandler.reportError(appError, context)
   }
 
   private handleRetry = () => {
@@ -243,21 +236,19 @@ export function withErrorBoundary<P extends object>(
  * Hook for error boundary (for functional components)
  */
 export function useErrorHandler() {
-  return (error: Error, errorInfo?: ErrorInfo) => {
-    console.error('Manual error report:', error, errorInfo)
-
-    // Report to error service
-    const errorReport = {
-      message: error.message,
-      stack: error.stack,
-      timestamp: new Date().toISOString(),
+  return async (error: Error, errorInfo?: ErrorInfo) => {
+    const context: ErrorContext = {
+      component: 'useErrorHandler',
+      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
       userAgent:
         typeof window !== 'undefined' ? window.navigator.userAgent : 'SSR',
-      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
+      additionalData: errorInfo
+        ? { componentStack: errorInfo.componentStack }
+        : undefined,
     }
 
-    console.error('Error Report:', errorReport)
-
-    // TODO: Send to error reporting service
+    // Use unified error handler
+    const appError = errorHandler.handleError(error, context)
+    await errorHandler.reportError(appError, context)
   }
 }

@@ -3,14 +3,14 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>
 
 // Form types
-export type FormState<T = any> = {
+export interface FormState<T = any> {
   data: T
   errors: Record<string, string[]>
   isSubmitting: boolean
   isValid: boolean
 }
 
-export type FormAction<T = any> = {
+export interface FormAction<T = any> {
   type: 'SET_DATA' | 'SET_ERRORS' | 'SET_SUBMITTING' | 'RESET'
   payload?: any
 }
@@ -18,7 +18,7 @@ export type FormAction<T = any> = {
 // API types
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
-export type RequestConfig = {
+export interface RequestConfig {
   method?: HttpMethod
   headers?: Record<string, string>
   body?: any
@@ -26,7 +26,7 @@ export type RequestConfig = {
 }
 
 // Error types
-export type AppError = {
+export interface AppError {
   code: string
   message: string
   details?: any
@@ -35,7 +35,7 @@ export type AppError = {
   stack?: string
 }
 
-export type ValidationError = {
+export interface ValidationError {
   field: string
   message: string
   code: string

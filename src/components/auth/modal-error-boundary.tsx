@@ -1,9 +1,14 @@
 'use client'
 
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import React, { Component, type ErrorInfo, type ReactNode } from 'react'
 import { AlertTriangle, RefreshCw, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  errorHandler,
+  type AppError,
+  type ErrorContext,
+} from '@/lib/error-handler'
 
 interface Props {
   children: ReactNode
@@ -45,8 +50,6 @@ export class ModalErrorBoundary extends Component<Props, State> {
   }
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Modal Error Boundary caught an error:', error, errorInfo)
-
     this.setState({
       error,
       errorInfo,
@@ -61,29 +64,22 @@ export class ModalErrorBoundary extends Component<Props, State> {
     this.reportModalError(error, errorInfo)
   }
 
-  private reportModalError = (error: Error, errorInfo: ErrorInfo) => {
-    const errorReport = {
-      message: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
-      timestamp: new Date().toISOString(),
-      context: 'modal-signin',
-      retryCount: this.state.retryCount,
+  private reportModalError = async (error: Error, errorInfo: ErrorInfo) => {
+    const context: ErrorContext = {
+      component: 'ModalErrorBoundary',
+      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
       userAgent:
         typeof window !== 'undefined' ? window.navigator.userAgent : 'SSR',
-      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
+      additionalData: {
+        componentStack: errorInfo.componentStack,
+        context: 'modal-signin',
+        retryCount: this.state.retryCount,
+      },
     }
 
-    console.error('Modal Error Report:', errorReport)
-
-    // TODO: Send to error reporting service with modal context
-    // errorReportingService.captureException(error, {
-    //   extra: errorReport,
-    //   tags: {
-    //     component: 'ModalErrorBoundary',
-    //     context: 'auth-modal',
-    //   },
-    // })
+    // Use unified error handler
+    const appError = errorHandler.handleError(error, context)
+    await errorHandler.reportError(appError, context)
   }
 
   private handleRetry = () => {
@@ -262,24 +258,24 @@ export class ModalErrorBoundary extends Component<Props, State> {
  * Hook for handling modal errors in functional components
  */
 export function useModalErrorHandler() {
-  const handleError = React.useCallback((error: Error, context?: string) => {
-    console.error(`Modal error${context ? ` in ${context}` : ''}:`, error)
+  const handleError = React.useCallback(
+    async (error: Error, context?: string) => {
+      const errorContext: ErrorContext = {
+        component: 'useModalErrorHandler',
+        url: typeof window !== 'undefined' ? window.location.href : 'SSR',
+        userAgent:
+          typeof window !== 'undefined' ? window.navigator.userAgent : 'SSR',
+        additionalData: {
+          context: `modal-${context || 'unknown'}`,
+        },
+      }
 
-    // Report error with modal context
-    const errorReport = {
-      message: error.message,
-      stack: error.stack,
-      timestamp: new Date().toISOString(),
-      context: `modal-${context || 'unknown'}`,
-      userAgent:
-        typeof window !== 'undefined' ? window.navigator.userAgent : 'SSR',
-      url: typeof window !== 'undefined' ? window.location.href : 'SSR',
-    }
-
-    console.error('Modal Error Report:', errorReport)
-
-    // TODO: Send to error reporting service
-  }, [])
+      // Use unified error handler
+      const appError = errorHandler.handleError(error, errorContext)
+      await errorHandler.reportError(appError, errorContext)
+    },
+    []
+  )
 
   const fallbackToFullPage = React.useCallback((callbackUrl?: string) => {
     const url =

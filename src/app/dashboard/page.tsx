@@ -1,6 +1,6 @@
 import { ProtectedRoute } from '@/components/auth/protected-route'
 import { NavigationHeader } from '@/components/auth/navigation-header'
-import { getCurrentUser } from '@/lib/session'
+import { getCurrentUser } from '@/services/auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,

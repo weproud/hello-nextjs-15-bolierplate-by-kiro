@@ -83,7 +83,7 @@ export function FormFieldError({ error, className }: FormFieldErrorProps) {
     <FormError
       message={error.message}
       type={error.type === 'server' ? 'error' : 'error'}
-      className={className || undefined}
+      className={className}
     />
   )
 }

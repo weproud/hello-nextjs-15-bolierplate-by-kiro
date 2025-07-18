@@ -1,5 +1,5 @@
 import { createSafeActionClient } from 'next-safe-action'
-import { auth } from '../auth'
+import { getCurrentSession } from '../services/auth'
 import {
   ActionError,
   AuthenticationError,
@@ -45,7 +45,7 @@ export const actionClient = createSafeActionClient({
  */
 export const authActionClient = actionClient.use(async ({ next }) => {
   // Get current session
-  const session = await auth()
+  const session = await getCurrentSession()
 
   // Check if authentication is required (always required for auth client)
   if (!session?.user) {
@@ -93,52 +93,3 @@ export const publicActionClient = actionClient.use(async ({ next }) => {
     },
   })
 })
-
-/**
- * Helper function to create authenticated actions
- */
-export function createAuthAction(_actionName: string) {
-  return authActionClient
-}
-
-/**
- * Helper function to create public actions
- */
-export function createPublicAction(_actionName: string) {
-  return publicActionClient
-}
-
-/**
- * Convenience function to create a standard CRUD authenticated action
- */
-export function createCrudAction(actionName: string) {
-  return createAuthAction(actionName)
-}
-
-/**
- * Convenience function to create a contact/form submission action
- */
-export function createFormAction(
-  _actionName: string,
-  options?: {
-    requiresAuth?: boolean
-  }
-) {
-  return options?.requiresAuth ? authActionClient : publicActionClient
-}
-
-/**
- * Type-safe action wrapper that ensures proper error handling
- */
-export function withActionErrorHandling<T extends (...args: any[]) => any>(
-  actionFn: T,
-  actionName: string
-): T {
-  return (async (...args: Parameters<T>) => {
-    try {
-      return await actionFn(...args)
-    } catch (error) {
-      handleActionError(error, actionName)
-    }
-  }) as T
-}

@@ -4,7 +4,7 @@ import {
   createContext,
   useContext,
   useReducer,
-  ReactNode,
+  type ReactNode,
   useEffect,
 } from 'react'
 import { useUser } from './user-context'

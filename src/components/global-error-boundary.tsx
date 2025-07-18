@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ErrorBoundary } from './error-boundary'
+import { ErrorBoundary } from './error/error-boundary'
 import type { AppError } from '@/types/common'
 
 interface GlobalErrorBoundaryProps {
@@ -119,7 +119,7 @@ export const GlobalErrorBoundary: React.FC<GlobalErrorBoundaryProps> = ({
     <ErrorBoundary
       fallback={GlobalErrorFallback}
       context="Global"
-      onError={error => {
+      onError={(error: AppError) => {
         // Global error reporting could go here
         console.error('Global application error:', error)
 

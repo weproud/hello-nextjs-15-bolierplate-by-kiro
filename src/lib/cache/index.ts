@@ -2,6 +2,9 @@
  * Cache utilities and strategies index
  */
 
+import { unstable_cache } from 'next/cache'
+import { revalidateTag, revalidatePath } from 'next/cache'
+
 // Memory cache
 export * from './memory'
 
@@ -30,18 +33,11 @@ export * from './examples'
 export * from './validate'
 
 // Re-export commonly used utilities
-export {
-  MemoryCache,
-  globalCache,
-  userCache,
-  projectCache,
-  cacheUtils,
-} from './memory'
+export { MemoryCache, globalCache, userCache, projectCache } from './memory'
 
 export {
   CACHE_TAGS,
   CACHE_DURATION,
-  createCachedFunction,
   cacheInvalidation,
   routeConfig,
   pageCache,
@@ -265,64 +261,8 @@ export const cachedFetchers = {
   ),
 }
 
-/**
- * Memory cache for client-side caching
- */
-class MemoryCache {
-  private cache = new Map<string, { data: any; expires: number }>()
-
-  set(
-    key: string,
-    data: any,
-    ttl: number = CACHE_CONFIG.DEFAULT_DURATION * 1000
-  ) {
-    const expires = Date.now() + ttl
-    this.cache.set(key, { data, expires })
-  }
-
-  get<T = any>(key: string): T | null {
-    const item = this.cache.get(key)
-    if (!item) return null
-
-    if (Date.now() > item.expires) {
-      this.cache.delete(key)
-      return null
-    }
-
-    return item.data
-  }
-
-  delete(key: string) {
-    this.cache.delete(key)
-  }
-
-  clear() {
-    this.cache.clear()
-  }
-
-  has(key: string): boolean {
-    const item = this.cache.get(key)
-    if (!item) return false
-
-    if (Date.now() > item.expires) {
-      this.cache.delete(key)
-      return false
-    }
-
-    return true
-  }
-
-  size(): number {
-    return this.cache.size
-  }
-
-  keys(): string[] {
-    return Array.from(this.cache.keys())
-  }
-}
-
-// Export memory cache instance
-export const memoryCache = new MemoryCache()
+// Export memory cache instance from memory module
+export { memoryCache } from './memory'
 
 /**
  * Local storage cache utilities

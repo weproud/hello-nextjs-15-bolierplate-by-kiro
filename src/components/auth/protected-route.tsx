@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { requireAuth } from '@/lib/session'
+import { type ReactNode } from 'react'
+import { requireAuth } from '@/services/auth'
 
 interface ProtectedRouteProps {
   children: ReactNode

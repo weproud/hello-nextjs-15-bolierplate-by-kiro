@@ -15,7 +15,7 @@ export type PhaseWithProject = Phase & {
 }
 
 // API response types
-export type ApiResponse<T = any> = {
+export interface ApiResponse<T = any> {
   success: boolean
   data?: T
   error?: string
@@ -37,32 +37,32 @@ export type CreateUserInput = Pick<User, 'email'> &
   Partial<Pick<User, 'name' | 'image'>>
 export type UpdateUserInput = Partial<Pick<User, 'name' | 'email' | 'image'>>
 
-export type CreateProjectInput = Pick<Project, 'name' | 'userId'> &
+export type CreateProjectInput = Pick<Project, 'title' | 'userId'> &
   Partial<Pick<Project, 'description'>>
-export type UpdateProjectInput = Partial<Pick<Project, 'name' | 'description'>>
+export type UpdateProjectInput = Partial<Pick<Project, 'title' | 'description'>>
 
-export type CreatePhaseInput = Pick<Phase, 'name' | 'projectId'> &
+export type CreatePhaseInput = Pick<Phase, 'title' | 'projectId'> &
   Partial<Pick<Phase, 'description'>>
-export type UpdatePhaseInput = Partial<Pick<Phase, 'name' | 'description'>>
+export type UpdatePhaseInput = Partial<Pick<Phase, 'title' | 'description'>>
 
 // Query filter types
-export type UserFilters = {
+export interface UserFilters {
   email?: string
   name?: string
 }
 
-export type ProjectFilters = {
+export interface ProjectFilters {
   userId?: string
   name?: string
 }
 
-export type PhaseFilters = {
+export interface PhaseFilters {
   projectId?: string
   name?: string
 }
 
 // Pagination types
-export type PaginationParams = {
+export interface PaginationParams {
   page?: number
   limit?: number
   sortBy?: string

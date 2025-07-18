@@ -169,7 +169,7 @@ export async function onProjectStatusChange(
   const { prisma } = await import('../prisma')
   await prisma.project.update({
     where: { id: projectId },
-    data: { status: newStatus },
+    data: { title: newStatus },
   })
 
   // Smart invalidation with cascade

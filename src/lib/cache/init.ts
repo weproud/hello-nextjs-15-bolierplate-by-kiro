@@ -3,7 +3,7 @@
  */
 
 import { cacheWarming, cacheHealth } from './strategies'
-import { PerformanceMonitor } from '../performance'
+import { PerformanceMonitor } from '../performance-monitor'
 
 /**
  * Cache initialization configuration

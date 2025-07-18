@@ -5,6 +5,10 @@
  * across modal and full page contexts.
  */
 
+import { createLogger } from './logger'
+
+const logger = createLogger('auth-error-utils')
+
 export interface AuthError extends Error {
   type?: string
   code?: string
@@ -109,9 +113,13 @@ export function createFallbackUrl(callbackUrl?: string): string {
 export function handleGracefulDegradation(
   error: AuthError,
   callbackUrl?: string,
-  delay: number = 0
+  delay = 0
 ): void {
-  console.warn('Graceful degradation triggered:', error.message)
+  logger.warn('Graceful degradation triggered', {
+    errorMessage: error.message,
+    callbackUrl,
+    delay,
+  })
 
   const fallbackUrl = createFallbackUrl(callbackUrl)
 
@@ -145,7 +153,7 @@ export function reportAuthError(
     ...additionalInfo,
   }
 
-  console.error('Auth Error Report:', errorReport)
+  logger.error('Auth error report', undefined, errorReport)
 
   // TODO: Send to error reporting service
   // Example:

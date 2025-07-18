@@ -5,19 +5,19 @@
  * with proper error handling and type safety.
  */
 
-import { auth } from '@/auth'
+import { getCurrentSession } from './auth'
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data?: T
   error?: string
   message?: string
   status: number
 }
 
-export interface ApiRequestOptions {
+export interface ApiRequestOptions<TBody = unknown> {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   headers?: Record<string, string>
-  body?: any
+  body?: TBody
   cache?: RequestCache
   next?: NextFetchRequestConfig
 }
@@ -28,19 +28,19 @@ export interface ApiRequestOptions {
 export class ApiClient {
   private baseUrl: string
 
-  constructor(baseUrl: string = '') {
+  constructor(baseUrl = '') {
     this.baseUrl = baseUrl
   }
 
   /**
    * Make an authenticated API request
    */
-  async request<T = any>(
+  async request<T = unknown, TBody = unknown>(
     endpoint: string,
-    options: ApiRequestOptions = {}
+    options: ApiRequestOptions<TBody> = {}
   ): Promise<ApiResponse<T>> {
     try {
-      const session = await auth()
+      const session = await getCurrentSession()
 
       const url = `${this.baseUrl}${endpoint}`
       const headers: Record<string, string> = {
@@ -50,14 +50,14 @@ export class ApiClient {
 
       // Add authorization header if user is authenticated
       if (session?.user) {
-        headers.Authorization = `Bearer ${session.user.id}`
+        headers['Authorization'] = `Bearer ${session.user.id}`
       }
 
       const config: RequestInit = {
         method: options.method || 'GET',
         headers,
-        cache: options.cache,
-        next: options.next,
+        ...(options.cache && { cache: options.cache }),
+        ...(options.next && { next: options.next }),
       }
 
       // Add body for non-GET requests
@@ -67,7 +67,7 @@ export class ApiClient {
 
       const response = await fetch(url, config)
 
-      let data: any
+      let data: T | null = null
       try {
         data = await response.json()
       } catch {
@@ -99,7 +99,7 @@ export class ApiClient {
   /**
    * GET request
    */
-  async get<T = any>(
+  async get<T = unknown>(
     endpoint: string,
     options?: Omit<ApiRequestOptions, 'method' | 'body'>
   ) {
@@ -109,29 +109,33 @@ export class ApiClient {
   /**
    * POST request
    */
-  async post<T = any>(
+  async post<T = unknown, TBody = unknown>(
     endpoint: string,
-    body?: any,
-    options?: Omit<ApiRequestOptions, 'method'>
+    body?: TBody,
+    options?: Omit<ApiRequestOptions<TBody>, 'method'>
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'POST', body })
+    return this.request<T, TBody>(endpoint, {
+      ...options,
+      method: 'POST',
+      body,
+    })
   }
 
   /**
    * PUT request
    */
-  async put<T = any>(
+  async put<T = unknown, TBody = unknown>(
     endpoint: string,
-    body?: any,
-    options?: Omit<ApiRequestOptions, 'method'>
+    body?: TBody,
+    options?: Omit<ApiRequestOptions<TBody>, 'method'>
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'PUT', body })
+    return this.request<T, TBody>(endpoint, { ...options, method: 'PUT', body })
   }
 
   /**
    * DELETE request
    */
-  async delete<T = any>(
+  async delete<T = unknown>(
     endpoint: string,
     options?: Omit<ApiRequestOptions, 'method' | 'body'>
   ) {
@@ -141,12 +145,16 @@ export class ApiClient {
   /**
    * PATCH request
    */
-  async patch<T = any>(
+  async patch<T = unknown, TBody = unknown>(
     endpoint: string,
-    body?: any,
-    options?: Omit<ApiRequestOptions, 'method'>
+    body?: TBody,
+    options?: Omit<ApiRequestOptions<TBody>, 'method'>
   ) {
-    return this.request<T>(endpoint, { ...options, method: 'PATCH', body })
+    return this.request<T, TBody>(endpoint, {
+      ...options,
+      method: 'PATCH',
+      body,
+    })
   }
 }
 

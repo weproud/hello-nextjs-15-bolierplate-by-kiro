@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session({ session, token }) {
       if (token.id) {
-        session.user.id = token.id as string
+        session.user.id = token.id
       }
       return session
     },

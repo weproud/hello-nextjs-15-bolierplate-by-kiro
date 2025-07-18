@@ -10,9 +10,9 @@ export class MemoryCache<T = any> {
   private compressionThreshold: number
 
   constructor(
-    name: string = 'default',
-    maxSize: number = 1000,
-    compressionThreshold: number = 10000 // bytes
+    name = 'default',
+    maxSize = 1000,
+    compressionThreshold = 10000 // bytes
   ) {
     this.name = name
     this.maxSize = maxSize
@@ -77,7 +77,7 @@ export class MemoryCache<T = any> {
   private trackCacheHit(hit: boolean): void {
     if (process.env.NODE_ENV === 'development') {
       // Import performance monitor dynamically to avoid circular dependencies
-      import('../performance')
+      import('../performance-monitor')
         .then(({ PerformanceMonitor }) => {
           const monitor = PerformanceMonitor.getInstance()
           monitor.trackCacheHit(this.name, hit)

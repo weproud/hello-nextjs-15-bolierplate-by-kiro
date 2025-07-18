@@ -5,7 +5,7 @@ import {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode,
 } from 'react'
 import { useSession } from 'next-auth/react'
 
@@ -100,9 +100,9 @@ export function UserProvider({ children }: UserProviderProps) {
     if (session?.user) {
       setUser({
         id: session.user.id || '',
-        name: session.user.name,
-        email: session.user.email,
-        image: session.user.image,
+        name: session.user.name || null,
+        email: session.user.email || null,
+        image: session.user.image || null,
       })
 
       // Load user preferences from localStorage or API

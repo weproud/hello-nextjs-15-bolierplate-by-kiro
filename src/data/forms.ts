@@ -25,6 +25,17 @@ export const FORM_FIELD_TYPES = [
 
 export type FormFieldType = (typeof FORM_FIELD_TYPES)[number]
 
+// Validation rules interface
+export interface ValidationRules {
+  required?: boolean
+  pattern?: RegExp
+  patternMessage?: string
+  minLength?: number
+  maxLength?: number
+  min?: number
+  max?: number
+}
+
 // Common form options
 export const FORM_OPTIONS = {
   // Priority levels
@@ -329,7 +340,10 @@ export const formUtils = {
   /**
    * Get validation message
    */
-  getValidationMessage(type: keyof typeof VALIDATION_MESSAGES, ...args: any[]) {
+  getValidationMessage(
+    type: keyof typeof VALIDATION_MESSAGES,
+    ...args: (string | number)[]
+  ) {
     const message = VALIDATION_MESSAGES[type]
     return typeof message === 'function' ? message(...args) : message
   },
@@ -337,7 +351,7 @@ export const formUtils = {
   /**
    * Validate field value
    */
-  validateField(value: any, rules: any) {
+  validateField(value: unknown, rules: ValidationRules) {
     const errors: string[] = []
 
     if (rules.required && (!value || value.toString().trim() === '')) {

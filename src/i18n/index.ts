@@ -292,11 +292,15 @@ export const i18nUtils = {
    */
   t(key: string, locale: Locale = DEFAULT_LOCALE): string {
     const keys = key.split('.')
-    let value: any = translations[locale]
+    let value: unknown = translations[locale]
 
     for (const k of keys) {
-      value = value?.[k]
-      if (value === undefined) break
+      if (typeof value === 'object' && value !== null && k in value) {
+        value = (value as Record<string, unknown>)[k]
+      } else {
+        value = undefined
+        break
+      }
     }
 
     return value || key

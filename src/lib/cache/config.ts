@@ -73,8 +73,7 @@ export const cacheConfig = {
  */
 export async function setupCache(userId?: string) {
   const env = process.env.NODE_ENV || 'development'
-  const config =
-    cacheConfig[env as keyof typeof cacheConfig] || cacheConfig.development
+  const config = cacheConfig[env] || cacheConfig.development
 
   // Add userId to warmUp config if provided
   if (userId && config.warmUp.user) {

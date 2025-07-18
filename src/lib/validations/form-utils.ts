@@ -339,7 +339,7 @@ export function createEnhancedValidationHelper<T extends z.ZodType>(schema: T) {
     validateFieldAsync: async (
       fieldName: string,
       value: unknown,
-      debounceMs: number = 300
+      debounceMs = 300
     ): Promise<ValidationResult> => {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -387,7 +387,7 @@ export const createFormValidation = createValidationHelper
 
 // Helper to merge validation errors
 export function mergeValidationErrors(
-  ...errorObjects: (Record<string, string[]> | undefined)[]
+  ...errorObjects: Array<Record<string, string[]> | undefined>
 ): Record<string, string[]> {
   const merged: Record<string, string[]> = {}
 

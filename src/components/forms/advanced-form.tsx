@@ -1,7 +1,11 @@
 'use client'
 
-import { ReactNode, useCallback, useEffect, useState } from 'react'
-import { UseFormReturn, FieldValues, Path } from 'react-hook-form'
+import { type ReactNode, useCallback, useEffect, useState } from 'react'
+import {
+  type UseFormReturn,
+  type FieldValues,
+  type Path,
+} from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import {
@@ -370,7 +374,7 @@ export function ConditionalFormField<T extends FieldValues>({
   children,
 }: ConditionalFormFieldProps<T>) {
   const values = form.watch()
-  const shouldShow = condition(values as T)
+  const shouldShow = condition(values)
 
   if (!shouldShow) return null
 

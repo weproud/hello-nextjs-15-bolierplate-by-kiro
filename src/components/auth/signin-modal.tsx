@@ -77,7 +77,7 @@ function useFocusManagement(
     // Get all focusable elements within the modal
     const focusableElements = modal.querySelectorAll(
       'button:not([disabled]):not([aria-hidden="true"]), [href]:not([disabled]):not([aria-hidden="true"]), input:not([disabled]):not([aria-hidden="true"]), select:not([disabled]):not([aria-hidden="true"]), textarea:not([disabled]):not([aria-hidden="true"]), [tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"]), [contenteditable="true"]:not([disabled]):not([aria-hidden="true"])'
-    ) as NodeListOf<HTMLElement>
+    )
 
     if (focusableElements.length > 0) {
       firstFocusableElementRef.current = focusableElements[0] || null

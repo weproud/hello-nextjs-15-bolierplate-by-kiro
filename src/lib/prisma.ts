@@ -233,7 +233,7 @@ export const queryUtils = {
   /**
    * Build pagination options
    */
-  buildPagination(page: number = 1, limit: number = 10) {
+  buildPagination(page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return {
       skip,
@@ -244,7 +244,7 @@ export const queryUtils = {
   /**
    * Build sort options
    */
-  buildSort(sortBy: string = 'createdAt', sortOrder: 'asc' | 'desc' = 'desc') {
+  buildSort(sortBy = 'createdAt', sortOrder: 'asc' | 'desc' = 'desc') {
     return {
       [sortBy]: sortOrder,
     }

@@ -32,7 +32,10 @@ export function setupGlobalErrorHandling() {
 }
 
 // Error boundary fallback component error handler
-export function handleErrorBoundaryError(error: Error, errorInfo: any) {
+export function handleErrorBoundaryError(
+  error: Error,
+  errorInfo: { componentStack: string }
+) {
   const appError = handleError(error)
   logError(appError, 'Error Boundary')
 
