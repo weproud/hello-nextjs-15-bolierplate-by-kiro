@@ -80,9 +80,10 @@ function useFocusManagement(
     )
 
     if (focusableElements.length > 0) {
-      firstFocusableElementRef.current = focusableElements[0] || null
+      firstFocusableElementRef.current =
+        (focusableElements[0] as HTMLElement) || null
       lastFocusableElementRef.current =
-        focusableElements[focusableElements.length - 1] || null
+        (focusableElements[focusableElements.length - 1] as HTMLElement) || null
     }
 
     return () => {
@@ -153,13 +154,7 @@ export function SigninModal({
   const callbackUrl = propCallbackUrl || searchParams.get('callbackUrl') || '/'
 
   // Performance monitoring
-  const {
-    startModalLoad,
-    endModalLoad,
-    startFormLoad,
-    endFormLoad,
-    logMetrics,
-  } = useModalPerformance()
+  const { startModalLoad, endModalLoad, logMetrics } = useModalPerformance()
 
   // Use enhanced focus management
   const { trapFocus, firstFocusableElement } = useFocusManagement(
@@ -317,8 +312,8 @@ export function SigninModal({
                 로그인
               </CardTitle>
               <CardDescription id="signin-modal-description">
-                Google 계정으로 LagomPath에 로그인하세요. 배경을 클릭하거나 ESC
-                키를 눌러 모달을 닫을 수 있습니다.
+                Google 계정으로 로그인하세요. 배경을 클릭하거나 ESC 키를 눌러
+                모달을 닫을 수 있습니다.
               </CardDescription>
             </CardHeader>
             <CardContent>

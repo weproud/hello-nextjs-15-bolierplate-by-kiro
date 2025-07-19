@@ -354,7 +354,7 @@ export const distributedCachePrep = {
    * Generate cache keys for distributed storage
    */
   generateDistributedKey: (namespace: string, key: string) => {
-    return `lagompath:${namespace}:${key}`
+    return `cache:${namespace}:${key}`
   },
 }
 

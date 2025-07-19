@@ -1,4 +1,4 @@
-# LagomPath UI/UX 및 개발 워크플로우 가이드
+# UI/UX 및 개발 워크플로우 가이드
 
 ## 7. UI/UX 패턴
 

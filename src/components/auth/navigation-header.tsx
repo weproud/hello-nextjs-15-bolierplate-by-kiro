@@ -13,7 +13,7 @@ interface NavigationHeaderProps {
 }
 
 export function NavigationHeader({
-  title = 'LagomPath',
+  title = 'NavigationHeader',
   showAuthButton = true,
 }: NavigationHeaderProps) {
   const { isAuthenticated, isLoading } = useAuth()

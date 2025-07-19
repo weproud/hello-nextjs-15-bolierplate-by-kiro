@@ -2,7 +2,7 @@
 
 ## Overview
 
-Comprehensive caching system implemented for the LagomPath development environment with multiple layers of caching strategies, performance optimization, and monitoring capabilities.
+Comprehensive caching system implemented for the development environment with multiple layers of caching strategies, performance optimization, and monitoring capabilities.
 
 ## Architecture
 

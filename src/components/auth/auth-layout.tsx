@@ -18,7 +18,7 @@ interface AuthLayoutProps {
  */
 export function AuthLayout({
   children,
-  title = 'LagomPath',
+  title = 'Auth',
   subtitle,
   showBackButton = true,
   backUrl = '/',
@@ -62,7 +62,7 @@ export function AuthLayout({
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <div className="text-center text-sm text-muted-foreground md:text-left">
-              © 2024 LagomPath. 개인 성장을 위한 프로젝트 관리 플랫폼
+              © 2024 개인 성장을 위한 프로젝트 관리 플랫폼
             </div>
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
               <Link

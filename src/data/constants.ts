@@ -6,7 +6,7 @@
  */
 
 // App metadata
-export const APP_NAME = 'LagomPath'
+export const APP_NAME = 'Nextjs 15`'
 export const APP_DESCRIPTION =
   'Modern Next.js development environment with TypeScript, Prisma, and NextAuth'
 export const APP_VERSION = '1.0.0'

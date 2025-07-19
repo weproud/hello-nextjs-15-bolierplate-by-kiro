@@ -26,9 +26,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold">로그인</CardTitle>
-            <CardDescription>
-              Google 계정으로 LagomPath에 로그인하세요
-            </CardDescription>
+            <CardDescription>Google 계정으로 로그인하세요</CardDescription>
           </CardHeader>
           <CardContent>
             <Suspense
@@ -41,12 +39,7 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
                 </div>
               }
             >
-              <SignInForm
-                callbackUrl={callbackUrl}
-                onSuccess={() => {
-                  // Success handled by SigninForm component
-                }}
-              />
+              <SignInForm callbackUrl={callbackUrl} />
             </Suspense>
           </CardContent>
         </Card>

@@ -1,35 +1,23 @@
-import { auth } from '@/auth'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export default auth(req => {
-  const { nextUrl } = req
-  const isLoggedIn = !!req.auth
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
 
   // 보호된 경로들
   const protectedRoutes = ['/dashboard', '/profile', '/projects']
   const isProtectedRoute = protectedRoutes.some(route =>
-    nextUrl.pathname.startsWith(route)
+    pathname.startsWith(route)
   )
 
   // 인증 관련 경로들
   const authRoutes = ['/auth/signin', '/auth/error']
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+  const isAuthRoute = authRoutes.includes(pathname)
 
-  // 이미 로그인한 사용자가 인증 페이지에 접근하려는 경우 홈으로 리다이렉트
-  if (isLoggedIn && isAuthRoute) {
-    return NextResponse.redirect(new URL('/', nextUrl))
-  }
-
-  // 보호된 경로에 인증되지 않은 사용자가 접근하려는 경우 로그인 페이지로 리다이렉트
-  if (!isLoggedIn && isProtectedRoute) {
-    const callbackUrl = nextUrl.pathname + nextUrl.search
-    const signInUrl = new URL('/auth/signin', nextUrl)
-    signInUrl.searchParams.set('callbackUrl', callbackUrl)
-    return NextResponse.redirect(signInUrl)
-  }
+  // 임시로 인증 체크를 비활성화하고 모든 요청을 통과시킵니다
+  // TODO: NextAuth.js 설정이 완료되면 인증 로직을 다시 활성화해야 합니다
 
   return NextResponse.next()
-})
+}
 
 // 미들웨어가 실행될 경로 설정
 export const config = {

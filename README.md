@@ -19,7 +19,6 @@ A modern, full-stack Next.js 15 application with TypeScript, Tailwind CSS, Prism
 
    ```bash
    git clone <repository-url>
-   cd lagompath
    npm run setup
    ```
 

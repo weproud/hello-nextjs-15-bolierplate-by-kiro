@@ -20,7 +20,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="text-center space-y-6 mb-16">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            Welcome to <span className="text-primary">LagomPath</span>
+            Welcome to <span className="text-primary">Nextjs 15</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             개인 성장과 목표 달성을 위한 체계적인 프로젝트 관리 플랫폼

@@ -35,7 +35,7 @@ export const configCache = {
   // Application configuration
   app: createCachedFunction(
     async () => ({
-      name: 'LagomPath',
+      name: 'Hello',
       version: process.env['npm_package_version'] || '1.0.0',
       environment: process.env.NODE_ENV || 'development',
       baseUrl: process.env['NEXTAUTH_URL'] || 'http://localhost:3000',

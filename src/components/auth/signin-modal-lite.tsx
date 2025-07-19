@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SignInForm } from '@/components/auth/signin-form'
@@ -85,7 +85,7 @@ export function SigninModalLite() {
             </Button>
           </div>
           <p className="text-sm text-gray-600 mb-6">
-            Google 계정으로 LagomPath에 로그인하세요.
+            Google 계정으로 로그인하세요.
           </p>
           <SignInForm
             isModal={true}

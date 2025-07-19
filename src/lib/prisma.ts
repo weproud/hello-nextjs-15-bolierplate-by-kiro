@@ -329,31 +329,32 @@ export const dbErrors = {
   },
 }
 
-// Middleware for logging and monitoring
-prisma.$use(async (params, next) => {
-  const before = Date.now()
+// Middleware for logging and monitoring (only in Node.js runtime)
+if (typeof process !== 'undefined' && process.env.NEXT_RUNTIME !== 'edge') {
+  prisma.$use(async (params, next) => {
+    const before = Date.now()
 
-  try {
-    const result = await next(params)
-    const after = Date.now()
+    try {
+      const result = await next(params)
+      const after = Date.now()
 
-    // Log slow queries in development
-    if (
-      typeof process !== 'undefined' &&
-      process.env.NODE_ENV === 'development' &&
-      after - before > 1000
-    ) {
-      console.warn(
-        `Slow query detected: ${params.model}.${params.action} took ${after - before}ms`
+      // Log slow queries in development
+      if (process.env.NODE_ENV === 'development' && after - before > 1000) {
+        console.warn(
+          `Slow query detected: ${params.model}.${params.action} took ${after - before}ms`
+        )
+      }
+
+      return result
+    } catch (error) {
+      console.error(
+        `Database error in ${params.model}.${params.action}:`,
+        error
       )
+      throw error
     }
-
-    return result
-  } catch (error) {
-    console.error(`Database error in ${params.model}.${params.action}:`, error)
-    throw error
-  }
-})
+  })
+}
 
 // Graceful shutdown for Node.js environments
 // if (process.env['NEXT_RUNTIME'] === 'nodejs') {

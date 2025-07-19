@@ -52,8 +52,11 @@ export function SignInForm({
         })
 
         // Handle modal success callback
-        if (result?.ok && onSuccess) {
-          onSuccess()
+        if (result?.ok) {
+          if (onSuccess) {
+            onSuccess()
+          }
+          // For non-modal usage, success is handled by NextAuth redirect
         } else if (result?.error) {
           throw new Error(result.error)
         }
