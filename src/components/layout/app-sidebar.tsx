@@ -66,12 +66,8 @@ const data = {
           url: '/dashboard',
         },
         {
-          title: '분석',
-          url: '/dashboard/analytics',
-        },
-        {
-          title: '설정',
-          url: '/dashboard/settings',
+          title: '게시글',
+          url: '/posts',
         },
       ],
     },

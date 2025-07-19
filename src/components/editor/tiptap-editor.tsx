@@ -31,12 +31,13 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
       onChange,
       placeholder = '내용을 입력하세요...',
       editable = true,
-      showToolbar = true,
+      showToolbar = false,
       className,
     },
     ref
   ) => {
     const editor = useEditor({
+      immediatelyRender: false,
       extensions: [
         StarterKit.configure({
           heading: false, // Heading 확장을 별도로 설정하므로 비활성화

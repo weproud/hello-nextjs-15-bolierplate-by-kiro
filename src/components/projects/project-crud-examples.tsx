@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
 import { toast } from 'sonner'
-import { z } from 'zod'
+
 import {
   Plus,
   Search,
@@ -64,22 +64,16 @@ import {
   deleteProjectAction as deleteProject,
   getUserProjectsAction as getProjects,
 } from '@/lib/actions/project-actions'
-
-// Form schemas
-const createProjectSchema = z.object({
-  title: z.string().min(1, '프로젝트 제목을 입력해주세요.').max(255),
-  description: z.string().max(1000).optional(),
-})
-
-const updateProjectSchema = z.object({
-  id: z.string().uuid(),
-  title: z.string().min(1, '프로젝트 제목을 입력해주세요.').max(255),
-  description: z.string().max(1000).optional(),
-})
+import {
+  createProjectFormSchema,
+  updateProjectFormSchema,
+  type CreateProjectFormInput,
+  type UpdateProjectFormInput,
+} from '@/lib/validations/component-schemas'
 
 // Type definitions
-type CreateProjectInput = z.infer<typeof createProjectSchema>
-type UpdateProjectInput = z.infer<typeof updateProjectSchema>
+type CreateProjectInput = CreateProjectFormInput
+type UpdateProjectInput = UpdateProjectFormInput
 
 // Project Creation Form
 const ProjectCreateForm = memo(function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
@@ -91,7 +85,7 @@ const ProjectCreateForm = memo(function ProjectCreateForm({ onSuccess }: { onSuc
     reset,
     formState: { errors },
   } = useForm<CreateProjectInput>({
-    resolver: zodResolver(createProjectSchema),
+    resolver: zodResolver(createProjectFormSchema),
   })
 
   const { execute, status } = useAction(createProject, {
@@ -189,7 +183,7 @@ const ProjectEditForm = memo(function ProjectEditForm({
     reset,
     formState: { errors },
   } = useForm<UpdateProjectInput>({
-    resolver: zodResolver(updateProjectSchema),
+    resolver: zodResolver(updateProjectFormSchema),
     defaultValues: {
       id: project.id,
       title: project.title,

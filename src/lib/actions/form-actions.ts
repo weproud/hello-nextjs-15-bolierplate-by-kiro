@@ -11,8 +11,14 @@ import {
   feedbackSchema,
   teamInviteSchema,
 } from '../validations/common'
-import { ApiResponse, safeAsync, isNotNull } from '@/lib/type-utils'
-import { isFile, isString } from '@/lib/type-guards'
+import {
+  fileUploadSchema,
+  batchDeleteSchema,
+  searchItemsSchema,
+  newsletterSubscriptionSchema,
+  multiStepFormSchema,
+} from '../validations/form-action-schemas'
+import { ApiResponse } from '@/lib/type-utils'
 
 const logger = createLogger('form-actions')
 import { actionClient } from '../safe-action'
@@ -65,7 +71,7 @@ function handleValidationError(error: z.ZodError): ActionResult {
   return {
     success: false,
     error: '입력 데이터가 올바르지 않습니다.',
-    fieldErrors,
+    details: fieldErrors,
   }
 }
 
@@ -157,6 +163,7 @@ export const submitContact = action
 export const registerUser = action
   .inputSchema(registerSchema)
   .action(async ({ parsedInput }) => {
+    'use server'
     try {
       logger.info('User registration attempt', {
         name: parsedInput.name,
@@ -210,6 +217,7 @@ export const updateProfile = authAction
     })
   })
   .action(async ({ parsedInput, ctx }) => {
+    'use server'
     try {
       logger.info('Updating profile', {
         userId: ctx.userId,
@@ -260,6 +268,7 @@ export const submitFeedback = authAction
     })
   })
   .action(async ({ parsedInput, ctx }) => {
+    'use server'
     try {
       logger.info('Submitting feedback', {
         userId: ctx.userId,
@@ -312,6 +321,7 @@ export const inviteTeamMember = authAction
     })
   })
   .action(async ({ parsedInput, ctx }) => {
+    'use server'
     try {
       logger.info('Inviting team member', {
         userId: ctx.userId,
@@ -344,12 +354,7 @@ export const inviteTeamMember = authAction
   })
 // File upload action with validation
 export const uploadFile = authAction
-  .inputSchema(
-    z.object({
-      file: z.instanceof(File),
-      category: z.enum(['avatar', 'document', 'image']),
-    })
-  )
+  .inputSchema(fileUploadSchema)
   .use(async ({ next }) => {
     const { getCurrentSession } = await import('@/services/auth')
     const session = await getCurrentSession()
@@ -367,6 +372,7 @@ export const uploadFile = authAction
     })
   })
   .action(async ({ parsedInput, ctx }) => {
+    'use server'
     try {
       logger.info('Uploading file', {
         userId: ctx.userId,
@@ -415,15 +421,7 @@ export const uploadFile = authAction
 
 // Batch delete action
 export const batchDeleteItems = authAction
-  .inputSchema(
-    z.object({
-      ids: z
-        .array(z.string())
-        .min(1, '삭제할 항목을 선택해주세요.')
-        .max(50, '한 번에 최대 50개까지 삭제 가능합니다.'),
-      type: z.enum(['projects', 'files', 'comments']),
-    })
-  )
+  .inputSchema(batchDeleteSchema)
   .use(async ({ next }) => {
     const { getCurrentSession } = await import('@/services/auth')
     const session = await getCurrentSession()
@@ -441,6 +439,7 @@ export const batchDeleteItems = authAction
     })
   })
   .action(async ({ parsedInput, ctx }) => {
+    'use server'
     try {
       logger.info('Batch deleting items', {
         userId: ctx.userId,
@@ -494,27 +493,9 @@ export const batchDeleteItems = authAction
 
 // Search action with filters
 export const searchItems = action
-  .inputSchema(
-    z.object({
-      query: z.string().min(1, '검색어를 입력해주세요.').max(100),
-      filters: z
-        .object({
-          category: z.string().optional(),
-          dateRange: z
-            .object({
-              from: z.date().optional(),
-              to: z.date().optional(),
-            })
-            .optional(),
-          sortBy: z.enum(['relevance', 'date', 'name']).default('relevance'),
-          sortOrder: z.enum(['asc', 'desc']).default('desc'),
-        })
-        .optional(),
-      page: z.number().min(1).default(1),
-      limit: z.number().min(1).max(100).default(20),
-    })
-  )
+  .inputSchema(searchItemsSchema)
   .action(async ({ parsedInput }) => {
+    'use server'
     try {
       logger.info('Searching items', {
         query: parsedInput.query,
@@ -564,16 +545,9 @@ export const searchItems = action
 
 // Newsletter subscription with double opt-in
 export const subscribeNewsletter = action
-  .inputSchema(
-    z.object({
-      email: z.string().email('올바른 이메일 주소를 입력해주세요.'),
-      preferences: z
-        .array(z.enum(['tech', 'design', 'business', 'marketing']))
-        .min(1, '최소 하나의 관심사를 선택해주세요.'),
-      frequency: z.enum(['daily', 'weekly', 'monthly']),
-    })
-  )
+  .inputSchema(newsletterSubscriptionSchema)
   .action(async ({ parsedInput }) => {
+    'use server'
     try {
       logger.info('Newsletter subscription', {
         email: parsedInput.email,
@@ -615,42 +589,9 @@ export const subscribeNewsletter = action
 
 // Multi-step form submission action
 export const submitMultiStepForm = action
-  .inputSchema(
-    z.object({
-      basicInfo: z.object({
-        name: z.string().min(1, '이름을 입력해주세요.'),
-        email: z.string().email('올바른 이메일 주소를 입력해주세요.'),
-        phone: z.string().min(1, '전화번호를 입력해주세요.'),
-      }),
-      preferences: z.object({
-        interests: z
-          .array(z.string())
-          .min(1, '최소 하나의 관심사를 선택해주세요.'),
-        notifications: z.object({
-          email: z.boolean(),
-          sms: z.boolean(),
-          push: z.boolean(),
-        }),
-        language: z.enum(['ko', 'en', 'ja'], {
-          message: '언어를 선택해주세요.',
-        }),
-      }),
-      verification: z.object({
-        terms: z.boolean().refine(val => val === true, {
-          message: '이용약관에 동의해주세요.',
-        }),
-        privacy: z.boolean().refine(val => val === true, {
-          message: '개인정보처리방침에 동의해주세요.',
-        }),
-        marketing: z.boolean().optional(),
-        verificationCode: z
-          .string()
-          .min(6, '인증코드 6자리를 입력해주세요.')
-          .max(6, '인증코드는 6자리입니다.'),
-      }),
-    })
-  )
+  .inputSchema(multiStepFormSchema)
   .action(async ({ parsedInput }) => {
+    'use server'
     try {
       logger.info('Multi-step form submission', {
         name: parsedInput.basicInfo.name,

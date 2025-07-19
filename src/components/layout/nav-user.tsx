@@ -101,19 +101,8 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                프리미엄으로 업그레이드
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
                 <BadgeCheck />
                 계정
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                결제
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />

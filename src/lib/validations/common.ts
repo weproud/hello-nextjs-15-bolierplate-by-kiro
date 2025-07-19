@@ -449,47 +449,13 @@ export const conditionalValidationSchema = z.discriminatedUnion('userType', [
   }),
 ])
 
-// Multi-step form schemas
-export const step1Schema = z.object({
-  basicInfo: z.object({
-    name: nameSchema,
-    email: emailSchema,
-    phone: phoneSchema,
-  }),
-})
-
-export const step2Schema = z.object({
-  preferences: z.object({
-    interests: z.array(z.string()).min(1, '최소 하나의 관심사를 선택해주세요.'),
-    notifications: z.object({
-      email: z.boolean(),
-      sms: z.boolean(),
-      push: z.boolean(),
-    }),
-    language: z.enum(['ko', 'en', 'ja'], { message: '언어를 선택해주세요.' }),
-  }),
-})
-
-export const step3Schema = z.object({
-  verification: z.object({
-    terms: z.boolean().refine(val => val === true, {
-      message: '이용약관에 동의해주세요.',
-    }),
-    privacy: z.boolean().refine(val => val === true, {
-      message: '개인정보처리방침에 동의해주세요.',
-    }),
-    marketing: z.boolean().optional(),
-    verificationCode: z
-      .string()
-      .min(6, '인증코드 6자리를 입력해주세요.')
-      .max(6, '인증코드는 6자리입니다.'),
-  }),
-})
-
-// Combined multi-step schema
-export const multiStepFormSchema = step1Schema
-  .merge(step2Schema)
-  .merge(step3Schema)
+// Multi-step form schemas - re-exported from form-action-schemas
+export {
+  basicInfoSchema as step1Schema,
+  preferencesSchema as step2Schema,
+  verificationSchema as step3Schema,
+  multiStepFormSchema,
+} from './form-action-schemas'
 
 // Dynamic form builder schema
 export const formBuilderSchema = z.object({
@@ -570,8 +536,11 @@ export type BookingInput = z.infer<typeof bookingSchema>
 export type ConditionalValidationInput = z.infer<
   typeof conditionalValidationSchema
 >
-export type Step1Input = z.infer<typeof step1Schema>
-export type Step2Input = z.infer<typeof step2Schema>
-export type Step3Input = z.infer<typeof step3Schema>
-export type MultiStepFormInput = z.infer<typeof multiStepFormSchema>
+// Multi-step form types - re-exported from form-action-schemas
+export type {
+  BasicInfoInput as Step1Input,
+  PreferencesInput as Step2Input,
+  VerificationInput as Step3Input,
+  MultiStepFormInput,
+} from './form-action-schemas'
 export type FormBuilderInput = z.infer<typeof formBuilderSchema>

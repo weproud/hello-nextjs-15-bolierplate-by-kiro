@@ -1,13 +1,7 @@
 'use server'
 
-import { z } from 'zod'
 import { authActionClient, publicActionClient } from '@/lib/safe-action'
-
-// Test schema for input validation
-const testInputSchema = z.object({
-  message: z.string().min(1, 'Message is required'),
-  priority: z.enum(['low', 'medium', 'high']).default('medium'),
-})
+import { testInputSchema } from '@/lib/validations/component-schemas'
 
 /**
  * Test authenticated action to verify safe-action configuration

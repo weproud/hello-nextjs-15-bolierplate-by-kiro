@@ -3,7 +3,6 @@
 import React, { useState, memo, useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,61 +16,16 @@ import {
 } from '@/components/ui/form'
 import { useFormAction } from '@/hooks/use-form-action'
 import { publicActionClient } from '@/lib/safe-action'
+import {
+  comprehensiveFormSchema,
+  type ComprehensiveFormInput,
+} from '@/lib/validations/component-schemas'
 
-// Comprehensive form schema
-const comprehensiveSchema = z
-  .object({
-    // Basic fields
-    name: z.string().min(2, '이름은 최소 2자 이상이어야 합니다.'),
-    email: z.string().email('올바른 이메일 주소를 입력하세요.'),
-    age: z
-      .number()
-      .min(18, '18세 이상이어야 합니다.')
-      .max(100, '100세 이하여야 합니다.'),
-
-    // Optional fields
-    phone: z.string().optional(),
-    website: z
-      .string()
-      .url('올바른 URL을 입력하세요.')
-      .optional()
-      .or(z.literal('')),
-
-    // Boolean field
-    newsletter: z.boolean(),
-
-    // Enum field
-    role: z.enum(['student', 'professional', 'freelancer'], {
-      message: '역할을 선택해주세요.',
-    }),
-
-    // Conditional validation
-    company: z.string().optional(),
-    studentId: z.string().optional(),
-  })
-  .refine(
-    data => {
-      // Conditional validation: if role is professional, company is required
-      if (data.role === 'professional' && !data.company) {
-        return false
-      }
-      // If role is student, studentId is required
-      if (data.role === 'student' && !data.studentId) {
-        return false
-      }
-      return true
-    },
-    {
-      message: '선택한 역할에 따른 필수 정보를 입력해주세요.',
-      path: ['company'], // This will show the error on the company field
-    }
-  )
-
-type ComprehensiveFormData = z.infer<typeof comprehensiveSchema>
+type ComprehensiveFormData = ComprehensiveFormInput
 
 // Create a comprehensive server action
 const submitComprehensiveForm = publicActionClient
-  .schema(comprehensiveSchema)
+  .schema(comprehensiveFormSchema)
   .action(async ({ parsedInput }) => {
     // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, 2000))
@@ -110,7 +64,7 @@ export const ComprehensiveFormExample = memo(
     )
 
     const form = useForm<ComprehensiveFormData>({
-      resolver: zodResolver(comprehensiveSchema),
+      resolver: zodResolver(comprehensiveFormSchema),
       defaultValues,
     })
 

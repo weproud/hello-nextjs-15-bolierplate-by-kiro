@@ -14,11 +14,11 @@ export const createPhaseSchema = z.object({
     .max(1000, 'Description must be less than 1000 characters')
     .optional(),
   order: z.number().int().min(0).default(0),
-  projectId: z.string().uuid('Invalid project ID'),
+  projectId: z.uuid('Invalid project ID'),
 })
 
 export const updatePhaseSchema = z.object({
-  id: z.string().uuid('Invalid phase ID'),
+  id: z.uuid('Invalid phase ID'),
   title: z
     .string()
     .min(1, 'Phase title is required')
@@ -32,24 +32,24 @@ export const updatePhaseSchema = z.object({
 })
 
 export const deletePhaseSchema = z.object({
-  id: z.string().uuid('Invalid phase ID'),
+  id: z.uuid('Invalid phase ID'),
 })
 
 export const getPhaseSchema = z.object({
-  id: z.string().uuid('Invalid phase ID'),
+  id: z.uuid('Invalid phase ID'),
 })
 
 export const getProjectPhasesSchema = z.object({
-  projectId: z.string().uuid('Invalid project ID'),
+  projectId: z.uuid('Invalid project ID'),
   limit: z.number().min(1).max(100).default(50),
   offset: z.number().min(0).default(0),
 })
 
 export const reorderPhasesSchema = z.object({
-  projectId: z.string().uuid('Invalid project ID'),
+  projectId: z.uuid('Invalid project ID'),
   phaseOrders: z.array(
     z.object({
-      id: z.string().uuid('Invalid phase ID'),
+      id: z.uuid('Invalid phase ID'),
       order: z.number().int().min(0),
     })
   ),

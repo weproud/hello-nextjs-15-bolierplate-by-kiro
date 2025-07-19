@@ -355,12 +355,21 @@ import {
 Create custom validation schemas:
 
 ```tsx
-const customSchema = z.object({
+// Create schemas in dedicated validation files
+// src/lib/validations/my-schemas.ts
+import { z } from 'zod'
+
+export const customSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
   priority: z.enum(['low', 'medium', 'high']),
   dueDate: z.date().min(new Date(), 'Due date must be in the future'),
 })
+
+export type CustomInput = z.infer<typeof customSchema>
+
+// Then import in your component
+import { customSchema, type CustomInput } from '@/lib/validations/my-schemas'
 ```
 
 ## Error Handling

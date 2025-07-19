@@ -3,7 +3,6 @@
 import React, { memo, useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Form } from '@/components/ui/form'
 import {
   TextField,
@@ -13,18 +12,12 @@ import {
   FormActions,
 } from './form-field-components'
 import { useFormAction } from '@/hooks/use-form-action'
+import {
+  simpleFormSchema,
+  type SimpleFormInput,
+} from '@/lib/validations/component-schemas'
 
-// Simple form schema
-const simpleSchema = z.object({
-  name: z.string().min(2, '이름은 최소 2자 이상이어야 합니다.'),
-  email: z.string().email('올바른 이메일 주소를 입력하세요.'),
-  role: z.enum(['student', 'professional', 'freelancer'], {
-    message: '역할을 선택해주세요.',
-  }),
-  newsletter: z.boolean().default(false),
-})
-
-type SimpleFormData = z.infer<typeof simpleSchema>
+type SimpleFormData = SimpleFormInput
 
 const roleOptions = [
   { value: 'student', label: '학생' },
@@ -44,7 +37,7 @@ export const SimpleFormExample = memo(function SimpleFormExample() {
   )
 
   const form = useForm<SimpleFormData>({
-    resolver: zodResolver(simpleSchema),
+    resolver: zodResolver(simpleFormSchema),
     defaultValues,
   })
 

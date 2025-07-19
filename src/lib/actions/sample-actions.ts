@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { authActionClient, publicActionClient } from '@/lib/safe-action'
-import { z } from 'zod'
 import {
   ActionLogger,
   NotFoundError,
@@ -14,46 +13,20 @@ import {
   checkRateLimit,
   sanitizeObject,
 } from '@/lib/error-handling'
+import {
+  bulkDeleteProjectsSchema,
+  complexValidationSchema,
+  duplicateProjectSchema,
+  getProjectStatsSchema,
+  rateLimitedActionSchema,
+} from '@/lib/validations/component-schemas'
 
 /**
  * Sample server actions demonstrating comprehensive error scenarios
  * and various patterns for testing purposes
  */
 
-// Validation schemas for sample actions
-const bulkDeleteProjectsSchema = z.object({
-  projectIds: z
-    .array(z.string().uuid('Invalid project ID'))
-    .min(1, 'At least one project ID is required')
-    .max(10, 'Cannot delete more than 10 projects at once'),
-})
-
-const duplicateProjectSchema = z.object({
-  projectId: z.string().uuid('Invalid project ID'),
-  newTitle: z
-    .string()
-    .min(1, 'New title is required')
-    .max(255, 'Title must be less than 255 characters'),
-})
-
-const getProjectStatsSchema = z.object({
-  projectId: z.string().uuid('Invalid project ID'),
-})
-
-const rateLimitedActionSchema = z.object({
-  message: z.string().min(1).max(100),
-})
-
-const complexValidationSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  age: z.number().int().min(18, 'Must be at least 18').max(120, 'Invalid age'),
-  preferences: z.object({
-    theme: z.enum(['light', 'dark', 'auto']),
-    notifications: z.boolean(),
-    language: z.string().length(2, 'Language must be 2 characters'),
-  }),
-  tags: z.array(z.string().min(1).max(20)).max(5, 'Maximum 5 tags allowed'),
-})
+// All validation schemas are now imported from component-schemas.ts
 
 /**
  * Bulk delete projects with comprehensive error handling

@@ -29,15 +29,18 @@ import {
   subscribeNewsletter,
 } from '@/lib/actions/form-actions'
 
-// File Upload Form
-const fileUploadSchema = z.object({
-  file: z.instanceof(File, { message: '파일을 선택해주세요.' }),
-  category: z.enum(['avatar', 'document', 'image'], {
-    message: '카테고리를 선택해주세요.',
-  }),
-})
+import {
+  fileUploadFormSchema,
+  type FileUploadFormInput,
+  batchDeleteFormSchema,
+  type BatchDeleteFormInput,
+  newsletterFormSchema,
+  type NewsletterFormInput,
+  searchFormSchema,
+  type SearchFormInput,
+} from '@/lib/validations/component-schemas'
 
-type FileUploadInput = z.infer<typeof fileUploadSchema>
+type FileUploadInput = FileUploadFormInput
 
 export function FileUploadForm() {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -51,7 +54,7 @@ export function FileUploadForm() {
     setValue,
     formState: { errors },
   } = useForm<FileUploadInput>({
-    resolver: zodResolver(fileUploadSchema),
+    resolver: zodResolver(fileUploadFormSchema),
   })
 
   const { execute, status, result } = useAction(uploadFile, {
@@ -184,12 +187,7 @@ export function FileUploadForm() {
 }
 
 // Batch Delete Form
-const batchDeleteSchema = z.object({
-  ids: z.array(z.string()).min(1, '삭제할 항목을 선택해주세요.'),
-  type: z.enum(['projects', 'files', 'comments']),
-})
-
-type BatchDeleteInput = z.infer<typeof batchDeleteSchema>
+type BatchDeleteInput = BatchDeleteFormInput
 
 export function BatchDeleteForm() {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
@@ -207,7 +205,7 @@ export function BatchDeleteForm() {
     reset,
     formState: { errors },
   } = useForm<BatchDeleteInput>({
-    resolver: zodResolver(batchDeleteSchema),
+    resolver: zodResolver(batchDeleteFormSchema),
   })
 
   const { execute, status, result } = useAction(batchDeleteItems, {
@@ -330,13 +328,7 @@ export function BatchDeleteForm() {
 }
 
 // Search Form
-const searchSchema = z.object({
-  query: z.string().min(1, '검색어를 입력해주세요.'),
-  category: z.string().optional(),
-  sortBy: z.enum(['relevance', 'date', 'name']).default('relevance'),
-})
-
-type SearchInput = z.infer<typeof searchSchema>
+type SearchInput = SearchFormInput
 
 export function SearchForm() {
   const {
@@ -345,7 +337,7 @@ export function SearchForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<SearchInput>({
-    resolver: zodResolver(searchSchema),
+    resolver: zodResolver(searchFormSchema),
     defaultValues: {
       sortBy: 'relevance',
     },
@@ -482,15 +474,7 @@ export function SearchForm() {
 }
 
 // Newsletter Subscription Form
-const newsletterSchema = z.object({
-  email: z.string().email('올바른 이메일 주소를 입력해주세요.'),
-  preferences: z
-    .array(z.enum(['tech', 'design', 'business', 'marketing']))
-    .min(1, '최소 하나의 관심사를 선택해주세요.'),
-  frequency: z.enum(['daily', 'weekly', 'monthly']),
-})
-
-type NewsletterInput = z.infer<typeof newsletterSchema>
+type NewsletterInput = NewsletterFormInput
 
 export function NewsletterForm() {
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>([])
@@ -502,7 +486,7 @@ export function NewsletterForm() {
     reset,
     formState: { errors },
   } = useForm<NewsletterInput>({
-    resolver: zodResolver(newsletterSchema),
+    resolver: zodResolver(newsletterFormSchema),
   })
 
   const { execute, status, result } = useAction(subscribeNewsletter, {
