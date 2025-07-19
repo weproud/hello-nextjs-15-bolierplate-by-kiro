@@ -272,7 +272,9 @@ export const dbErrors = {
   /**
    * Check if error is a unique constraint violation
    */
-  isUniqueConstraintError(error: any): boolean {
+  isUniqueConstraintError(
+    error: unknown
+  ): error is Prisma.PrismaClientKnownRequestError {
     return (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2002'
@@ -282,7 +284,9 @@ export const dbErrors = {
   /**
    * Check if error is a foreign key constraint violation
    */
-  isForeignKeyConstraintError(error: any): boolean {
+  isForeignKeyConstraintError(
+    error: unknown
+  ): error is Prisma.PrismaClientKnownRequestError {
     return (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2003'
@@ -292,7 +296,9 @@ export const dbErrors = {
   /**
    * Check if error is a record not found error
    */
-  isRecordNotFoundError(error: any): boolean {
+  isRecordNotFoundError(
+    error: unknown
+  ): error is Prisma.PrismaClientKnownRequestError {
     return (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2025'
@@ -302,7 +308,7 @@ export const dbErrors = {
   /**
    * Get user-friendly error message
    */
-  getUserFriendlyMessage(error: any): string {
+  getUserFriendlyMessage(error: unknown): string {
     if (this.isUniqueConstraintError(error)) {
       return '이미 존재하는 데이터입니다.'
     }

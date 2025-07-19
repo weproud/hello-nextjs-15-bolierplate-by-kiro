@@ -2,9 +2,9 @@ import { z } from 'zod'
 import type { FieldErrors, FieldValues, FieldError } from 'react-hook-form'
 
 // Type definitions
-export interface ValidationResult {
+export interface ValidationResult<T = unknown> {
   success: boolean
-  data?: any
+  data?: T
   errors?: Record<string, string[]>
   message?: string
 }
@@ -61,15 +61,17 @@ export const getErrorCount = (errors: Record<string, string[]>): number => {
 }
 
 // Form data transformers
-export const transformFormData = <T extends Record<string, any>>(
+export const transformFormData = <T extends Record<string, unknown>>(
   data: T,
-  transformers: Partial<Record<keyof T, (value: any) => any>>
+  transformers: Partial<Record<keyof T, (value: unknown) => unknown>>
 ): T => {
   const transformed = { ...data }
 
   Object.entries(transformers).forEach(([key, transformer]) => {
     if (key in transformed && transformer) {
-      transformed[key as keyof T] = transformer(transformed[key as keyof T])
+      transformed[key as keyof T] = transformer(
+        transformed[key as keyof T]
+      ) as T[keyof T]
     }
   })
 
@@ -80,7 +82,7 @@ export const transformFormData = <T extends Record<string, any>>(
 export function validateWithSchema<T extends z.ZodType>(
   schema: T,
   data: unknown
-): ValidationResult {
+): ValidationResult<z.infer<T>> {
   try {
     const result = schema.safeParse(data)
     if (result.success) {
@@ -107,7 +109,7 @@ export function validateField<T extends z.ZodType>(
   schema: T,
   fieldName: string,
   value: unknown
-): ValidationResult {
+): ValidationResult<z.infer<T>> {
   try {
     // Create a partial object with just the field we want to validate
     const partialData = { [fieldName]: value }
@@ -227,8 +229,8 @@ export const createAsyncFormValidator = <T extends z.ZodTypeAny>(
 }
 
 // Helper to convert FormData to object with proper type handling
-export function formDataToObject(formData: FormData): Record<string, any> {
-  const obj: Record<string, any> = {}
+export function formDataToObject(formData: FormData): Record<string, unknown> {
+  const obj: Record<string, unknown> = {}
 
   for (const [key, value] of formData.entries()) {
     if (obj[key]) {
@@ -289,18 +291,21 @@ export function formDataToObject(formData: FormData): Record<string, any> {
 export function createValidationHelper<T extends z.ZodType>(schema: T) {
   return {
     // Validate form data (for server actions)
-    validateFormData: (formData: FormData): ValidationResult => {
+    validateFormData: (formData: FormData): ValidationResult<z.infer<T>> => {
       const data = formDataToObject(formData)
       return validateWithSchema(schema, data)
     },
 
     // Validate object data (for client-side)
-    validateData: (data: unknown): ValidationResult => {
+    validateData: (data: unknown): ValidationResult<z.infer<T>> => {
       return validateWithSchema(schema, data)
     },
 
     // Validate single field
-    validateField: (fieldName: string, value: unknown): ValidationResult => {
+    validateField: (
+      fieldName: string,
+      value: unknown
+    ): ValidationResult<z.infer<T>> => {
       return validateField(schema, fieldName, value)
     },
 
@@ -340,7 +345,7 @@ export function createEnhancedValidationHelper<T extends z.ZodType>(schema: T) {
       fieldName: string,
       value: unknown,
       debounceMs = 300
-    ): Promise<ValidationResult> => {
+    ): Promise<ValidationResult<z.infer<T>>> => {
       return new Promise(resolve => {
         setTimeout(() => {
           resolve(baseHelper.validateField(fieldName, value))
@@ -351,8 +356,8 @@ export function createEnhancedValidationHelper<T extends z.ZodType>(schema: T) {
     // Validate multiple fields at once
     validateFields: (
       fields: Record<string, unknown>
-    ): Record<string, ValidationResult> => {
-      const results: Record<string, ValidationResult> = {}
+    ): Record<string, ValidationResult<z.infer<T>>> => {
+      const results: Record<string, ValidationResult<z.infer<T>>> = {}
 
       Object.entries(fields).forEach(([fieldName, value]) => {
         results[fieldName] = baseHelper.validateField(fieldName, value)

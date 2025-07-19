@@ -7,7 +7,7 @@ export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 export type Environment = 'development' | 'production' | 'test'
 
 export interface LogMetadata {
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export interface LogEntry {

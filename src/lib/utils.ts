@@ -166,7 +166,7 @@ export function range(start: number, end?: number, step = 1): number[] {
 }
 
 // Function utilities
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -183,7 +183,7 @@ export function debounce<T extends (...args: any[]) => any>(
   }
 }
 
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
@@ -214,7 +214,7 @@ export function generateUUID(): string {
 }
 
 // Object utilities
-export function isEmpty(value: any): boolean {
+export function isEmpty(value: unknown): boolean {
   if (value == null) return true
   if (typeof value === 'string') return value.trim() === ''
   if (Array.isArray(value)) return value.length === 0
@@ -228,10 +228,10 @@ export function deepClone<T>(obj: T): T {
   if (obj instanceof Array)
     return obj.map(item => deepClone(item)) as unknown as T
   if (typeof obj === 'object') {
-    const clonedObj = {} as { [key: string]: any }
+    const clonedObj = {} as Record<string, unknown>
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        clonedObj[key] = deepClone(obj[key])
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clonedObj[key] = deepClone((obj as Record<string, unknown>)[key])
       }
     }
     return clonedObj as T
@@ -239,31 +239,44 @@ export function deepClone<T>(obj: T): T {
   return obj
 }
 
-export function get(obj: any, path: string, defaultValue?: any): any {
+export function get<T = unknown>(
+  obj: Record<string, unknown>,
+  path: string,
+  defaultValue?: T
+): T | undefined {
   const keys = path.split('.')
-  let result = obj
+  let result: unknown = obj
 
   for (const key of keys) {
     if (result == null || typeof result !== 'object') {
       return defaultValue
     }
-    result = result[key]
+    result = (result as Record<string, unknown>)[key]
   }
 
-  return result !== undefined ? result : defaultValue
+  return result !== undefined ? (result as T) : defaultValue
 }
 
-export function set(obj: any, path: string, value: any): void {
+export function set(
+  obj: Record<string, unknown>,
+  path: string,
+  value: unknown
+): void {
   const keys = path.split('.')
-  let current = obj
+  let current: Record<string, unknown> = obj
 
   for (let i = 0; i < keys.length - 1; i++) {
     const key = keys[i]
-    if (key && (!(key in current) || typeof current[key] !== 'object')) {
+    if (
+      key &&
+      (!(key in current) ||
+        typeof current[key] !== 'object' ||
+        current[key] === null)
+    ) {
       current[key] = {}
     }
     if (key) {
-      current = current[key]
+      current = current[key] as Record<string, unknown>
     }
   }
 

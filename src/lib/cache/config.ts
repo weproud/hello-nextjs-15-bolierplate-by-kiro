@@ -158,7 +158,7 @@ export const cacheKeys = {
   },
 
   component: {
-    data: (componentName: string, props: any) =>
+    data: (componentName: string, props: Record<string, unknown>) =>
       `component:${componentName}:${JSON.stringify(props)}`,
   },
 }

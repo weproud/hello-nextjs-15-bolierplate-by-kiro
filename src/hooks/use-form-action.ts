@@ -1,9 +1,12 @@
 import { useState, useTransition } from 'react'
-import { type UseFormReturn } from 'react-hook-form'
+import { type UseFormReturn, type FieldValues } from 'react-hook-form'
 import { toast } from 'sonner'
+import { T } from 'vitest/dist/reporters-w_64AS5f.js'
+import { T } from 'vitest/dist/reporters-w_64AS5f.js'
+import { T } from 'vitest/dist/reporters-w_64AS5f.js'
 
 // Type for server action result (compatible with next-safe-action)
-export interface ActionResult<T = any> {
+export interface ActionResult<T = unknown> {
   success?: boolean
   data?: T
   error?: string
@@ -12,23 +15,57 @@ export interface ActionResult<T = any> {
   validationErrors?: Record<string, string[]>
 }
 
+// Type for next-safe-action compatible actions
+export interface SafeAction<TInput, TOutput> {
+  execute: (input: TInput) => Promise<ActionResult<TOutput>>
+}
+
+// Type for traditional server actions
+export type ServerAction<TInput, TOutput> = (
+  input: TInput
+) => Promise<ActionResult<TOutput>>
+
+// Union type for all supported action types
+export type FormAction<TInput, TOutput> =
+  | SafeAction<TInput, TOutput>
+  | ServerAction<TInput, TOutput>
+
 // Options for form action hook
-export interface UseFormActionOptions {
-  form?: UseFormReturn<any>
+export interface UseFormActionOptions<
+  TFormData extends FieldValues = FieldValues,
+  TResult = unknown,
+> {
+  form?: UseFormReturn<TFormData>
   showToast?: boolean
   successMessage?: string
   errorMessage?: string
-  onSuccess?: (data?: any) => void
+  onSuccess?: (data?: TResult) => void
   onError?: (error: string) => void
 }
 
+// Type guard to check if action is a SafeAction
+function isSafeAction<TInput, TOutput>(
+  action: FormAction<TInput, TOutput>
+): action is SafeAction<TInput, TOutput> {
+  return (
+    typeof action === 'object' &&
+    action !== null &&
+    'execute' in action &&
+    typeof action.execute === 'function'
+  )
+}
+
 // Hook for handling server actions with forms (compatible with next-safe-action)
-export function useFormAction<T = any>(
-  action: any, // next-safe-action or traditional action
-  options: UseFormActionOptions = {}
+export function useFormAction<
+  TInput = FormData,
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+>(
+  action: FormAction<TInput, TOutput>,
+  options: UseFormActionOptions<TFormData, TOutput> = {}
 ) {
   const [isPending, startTransition] = useTransition()
-  const [result, setResult] = useState<ActionResult<T> | null>(null)
+  const [result, setResult] = useState<ActionResult<TOutput> | null>(null)
 
   const {
     form,
@@ -39,20 +76,18 @@ export function useFormAction<T = any>(
     onError,
   } = options
 
-  const execute = (formDataOrInput: FormData | any) => {
+  const execute = (formDataOrInput: TInput) => {
     startTransition(async () => {
       try {
-        let actionResult: any
+        let actionResult: ActionResult<TOutput>
 
         // Check if action is a next-safe-action (has execute method) or traditional action
-        if (typeof action === 'function' && action.execute) {
+        if (isSafeAction(action)) {
           // next-safe-action format
           actionResult = await action.execute(formDataOrInput)
-        } else if (typeof action === 'function') {
+        } else {
           // Traditional server action format
           actionResult = await action(formDataOrInput)
-        } else {
-          throw new Error('Invalid action format')
         }
 
         // Handle next-safe-action result format
@@ -90,7 +125,7 @@ export function useFormAction<T = any>(
               Object.entries(actionResult.validationErrors).forEach(
                 ([field, errors]) => {
                   if (Array.isArray(errors) && errors.length > 0) {
-                    form.setError(field as any, {
+                    form.setError(field as keyof TFormData, {
                       type: 'server',
                       message: errors[0],
                     })
@@ -121,7 +156,7 @@ export function useFormAction<T = any>(
               Object.entries(actionResult.fieldErrors).forEach(
                 ([field, errors]) => {
                   if (Array.isArray(errors) && errors[0]) {
-                    form.setError(field as any, {
+                    form.setError(field as keyof TFormData, {
                       type: 'server',
                       message: errors[0],
                     })
@@ -140,16 +175,16 @@ export function useFormAction<T = any>(
         }
 
         // If we get here, assume success with the result as data
-        const result: ActionResult<T> = {
+        const result: ActionResult<TOutput> = {
           success: true,
-          data: actionResult,
+          data: actionResult as TOutput,
         }
         setResult(result)
 
         if (showToast) {
           toast.success(successMessage)
         }
-        onSuccess?.(actionResult)
+        onSuccess?.(actionResult as TOutput)
       } catch (error) {
         const message = error instanceof Error ? error.message : errorMessage
         setResult({
@@ -180,13 +215,16 @@ export function useFormAction<T = any>(
 }
 
 // Hook for optimistic updates with form actions
-export function useOptimisticFormAction<T = any>(
-  action: (formData: FormData) => Promise<ActionResult<T>>,
-  optimisticUpdate: (formData: FormData) => T,
-  options: UseFormActionOptions = {}
+export function useOptimisticFormAction<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+>(
+  action: ServerAction<FormData, TOutput>,
+  optimisticUpdate: (formData: FormData) => TOutput,
+  options: UseFormActionOptions<TFormData, TOutput> = {}
 ) {
-  const [optimisticData, setOptimisticData] = useState<T | null>(null)
-  const formAction = useFormAction(action, {
+  const [optimisticData, setOptimisticData] = useState<TOutput | null>(null)
+  const formAction = useFormAction<FormData, TOutput, TFormData>(action, {
     ...options,
     onSuccess: data => {
       setOptimisticData(null)
@@ -215,12 +253,15 @@ export function useOptimisticFormAction<T = any>(
 }
 
 // Hook for batch form actions
-export function useBatchFormAction<T = any>(
-  actions: Array<(formData: FormData) => Promise<ActionResult<T>>>,
-  options: UseFormActionOptions = {}
+export function useBatchFormAction<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+>(
+  actions: Array<ServerAction<FormData, TOutput>>,
+  options: UseFormActionOptions<TFormData, TOutput[]> = {}
 ) {
   const [isPending, startTransition] = useTransition()
-  const [results, setResults] = useState<Array<ActionResult<T>>>([])
+  const [results, setResults] = useState<Array<ActionResult<TOutput>>>([])
 
   const executeBatch = (formDataArray: FormData[]) => {
     startTransition(async () => {
@@ -274,9 +315,12 @@ export function useBatchFormAction<T = any>(
 }
 
 // Hook for form action with retry functionality
-export function useRetryableFormAction<T = any>(
-  action: (formData: FormData) => Promise<ActionResult<T>>,
-  options: UseFormActionOptions & {
+export function useRetryableFormAction<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+>(
+  action: ServerAction<FormData, TOutput>,
+  options: UseFormActionOptions<TFormData, TOutput> & {
     maxRetries?: number
     retryDelay?: number
   } = {}
@@ -286,10 +330,10 @@ export function useRetryableFormAction<T = any>(
 
   const executeWithRetry = async (
     formData: FormData
-  ): Promise<ActionResult<T>> => {
+  ): Promise<ActionResult<TOutput>> => {
     const attemptExecution = async (
       attempt: number
-    ): Promise<ActionResult<T>> => {
+    ): Promise<ActionResult<TOutput>> => {
       try {
         const result = await action(formData)
         if (result.success) {
@@ -312,7 +356,10 @@ export function useRetryableFormAction<T = any>(
     return attemptExecution(0)
   }
 
-  const baseFormAction = useFormAction(executeWithRetry, formActionOptions)
+  const baseFormAction = useFormAction<FormData, TOutput, TFormData>(
+    executeWithRetry,
+    formActionOptions
+  )
 
   const reset = () => {
     setRetryCount(0)
@@ -327,13 +374,20 @@ export function useRetryableFormAction<T = any>(
 }
 
 // Export types
-export type FormActionHook<T = any> = ReturnType<typeof useFormAction<T>>
-export type OptimisticFormActionHook<T = any> = ReturnType<
-  typeof useOptimisticFormAction<T>
->
-export type BatchFormActionHook<T = any> = ReturnType<
-  typeof useBatchFormAction<T>
->
-export type RetryableFormActionHook<T = any> = ReturnType<
-  typeof useRetryableFormAction<T>
->
+export type FormActionHook<
+  TInput = FormData,
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+> = ReturnType<typeof useFormAction<TInput, TOutput, TFormData>>
+export type OptimisticFormActionHook<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+> = ReturnType<typeof useOptimisticFormAction<TOutput, TFormData>>
+export type BatchFormActionHook<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+> = ReturnType<typeof useBatchFormAction<TOutput, TFormData>>
+export type RetryableFormActionHook<
+  TOutput = unknown,
+  TFormData extends FieldValues = FieldValues,
+> = ReturnType<typeof useRetryableFormAction<TOutput, TFormData>>

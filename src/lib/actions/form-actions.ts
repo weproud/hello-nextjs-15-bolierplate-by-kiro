@@ -11,6 +11,8 @@ import {
   feedbackSchema,
   teamInviteSchema,
 } from '../validations/common'
+import { ApiResponse, safeAsync, isNotNull } from '@/lib/type-utils'
+import { isFile, isString } from '@/lib/type-guards'
 
 const logger = createLogger('form-actions')
 import { actionClient } from '../safe-action'
@@ -45,13 +47,8 @@ function validateFileType(
 const action = actionClient
 const authAction = actionClient
 
-// Generic action result type
-interface ActionResult<T = unknown> {
-  success: boolean
-  data?: T
-  error?: string
-  fieldErrors?: Record<string, string[]>
-}
+// Use the improved ApiResponse type from type-utils
+type ActionResult<T = unknown> = ApiResponse<T>
 
 // Helper function to handle validation errors
 function handleValidationError(error: z.ZodError): ActionResult {

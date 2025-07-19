@@ -268,7 +268,7 @@ export { memoryCache } from './memory'
  * Local storage cache utilities
  */
 export const localStorageCache = {
-  set(key: string, data: any, ttl?: number) {
+  set(key: string, data: unknown, ttl?: number) {
     if (typeof window === 'undefined') return
 
     const item = {

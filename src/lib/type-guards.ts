@@ -82,7 +82,7 @@ export function isApiResponse<T = unknown>(
   value: unknown
 ): value is ApiResponse<T> {
   return (
-    isObject(value) && hasProperty(value, 'status') && isNumber(value.status)
+    isObject(value) && hasProperty(value, 'status') && isNumber(value['status'])
   )
 }
 
@@ -134,9 +134,9 @@ export function isPrismaError(error: unknown): error is PrismaError {
   return (
     isObject(error) &&
     hasProperty(error, 'code') &&
-    isString(error.code) &&
+    isString(error['code']) &&
     hasProperty(error, 'message') &&
-    isString(error.message)
+    isString(error['message'])
   )
 }
 
@@ -223,6 +223,124 @@ export function isRecordOf<T>(
   guard: (item: unknown) => item is T
 ): value is Record<string, T> {
   return isObject(value) && Object.values(value).every(guard)
+}
+
+// Enhanced type guards for better type safety
+export function isNonEmptyString(value: unknown): value is string {
+  return isString(value) && value.trim().length > 0
+}
+
+export function isPositiveNumber(value: unknown): value is number {
+  return isNumber(value) && value > 0
+}
+
+export function isNonNegativeNumber(value: unknown): value is number {
+  return isNumber(value) && value >= 0
+}
+
+export function isInteger(value: unknown): value is number {
+  return isNumber(value) && Number.isInteger(value)
+}
+
+export function isArrayOfStrings(value: unknown): value is string[] {
+  return isArrayOf(value, isString)
+}
+
+export function isArrayOfNumbers(value: unknown): value is number[] {
+  return isArrayOf(value, isNumber)
+}
+
+export function isStringRecord(
+  value: unknown
+): value is Record<string, string> {
+  return isRecordOf(value, isString)
+}
+
+// Form-specific type guards
+export function isFormDataEntry(value: unknown): value is FormDataEntryValue {
+  return isString(value) || isFile(value)
+}
+
+export function isValidFormDataObject(
+  value: unknown
+): value is Record<string, FormDataEntryValue | FormDataEntryValue[]> {
+  return (
+    isObject(value) &&
+    Object.values(value).every(
+      val =>
+        isFormDataEntry(val) || (isArray(val) && val.every(isFormDataEntry))
+    )
+  )
+}
+
+// JSON type guards
+export function isJsonValue(
+  value: unknown
+): value is string | number | boolean | null | JsonObject | JsonArray {
+  if (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  ) {
+    return true
+  }
+  if (isArray(value)) {
+    return value.every(isJsonValue)
+  }
+  if (isObject(value)) {
+    return Object.values(value).every(isJsonValue)
+  }
+  return false
+}
+
+export interface JsonObject {
+  [key: string]: string | number | boolean | null | JsonObject | JsonArray
+}
+
+export interface JsonArray
+  extends Array<string | number | boolean | null | JsonObject | JsonArray> {}
+
+export function isJsonObject(value: unknown): value is JsonObject {
+  return isObject(value) && Object.values(value).every(isJsonValue)
+}
+
+export function isJsonArray(value: unknown): value is JsonArray {
+  return isArray(value) && value.every(isJsonValue)
+}
+
+// HTTP-specific type guards
+export function isHttpMethod(
+  value: unknown
+): value is 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' {
+  return isOneOf(value, [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'PATCH',
+    'HEAD',
+    'OPTIONS',
+  ])
+}
+
+export function isHttpStatus(value: unknown): value is number {
+  return isInteger(value) && value >= 100 && value < 600
+}
+
+// Database-specific type guards
+export function isValidId(value: unknown): value is string {
+  return (
+    isNonEmptyString(value) &&
+    (isValidUuid(value) || /^[a-zA-Z0-9_-]+$/.test(value))
+  )
+}
+
+// Environment type guards with better specificity
+export function isNodeEnvironment(
+  value: unknown
+): value is 'development' | 'production' | 'test' {
+  return isOneOf(value, ['development', 'production', 'test'])
 }
 
 // Email validation type guard

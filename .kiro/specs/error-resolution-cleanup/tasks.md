@@ -138,13 +138,13 @@
   - 일관된 코딩 스타일 적용
   - _Requirements: 6.1_
 
-- [ ] 6.2 TypeScript 타입 안전성 강화
+- [x] 6.2 TypeScript 타입 안전성 강화
   - any 타입 사용 최소화 및 구체적 타입 정의
   - 타입 가드 함수 구현
   - 제네릭 타입 활용 개선
   - _Requirements: 6.2_
 
-- [ ] 6.3 성능 최적화
+- [-] 6.3 성능 최적화
   - 불필요한 리렌더링 방지를 위한 React.memo 적용
   - useMemo, useCallback 훅 적절한 사용
   - 번들 크기 최적화를 위한 동적 import 적용

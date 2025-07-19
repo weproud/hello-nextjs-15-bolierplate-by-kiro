@@ -205,7 +205,7 @@ export const cacheCompression = {
   /**
    * Compress data before caching (simple JSON stringification for now)
    */
-  compress: (data: any): string => {
+  compress: (data: unknown): string => {
     try {
       return JSON.stringify(data)
     } catch (error) {
@@ -229,7 +229,7 @@ export const cacheCompression = {
   /**
    * Check if data should be compressed based on size
    */
-  shouldCompress: (data: any, threshold = 10000): boolean => {
+  shouldCompress: (data: unknown, threshold = 10000): boolean => {
     try {
       const size = JSON.stringify(data).length
       return size > threshold
@@ -284,7 +284,12 @@ export const cacheAnalytics = {
   /**
    * Generate cache optimization recommendations
    */
-  generateRecommendations: (stats: any) => {
+  generateRecommendations: (stats: {
+    hitRate: number
+    totalSize: number
+    missCount: number
+    hitCount: number
+  }) => {
     const recommendations: string[] = []
 
     if (stats.hitRate < 0.6) {
@@ -315,7 +320,7 @@ export const distributedCachePrep = {
   /**
    * Serialize cache data for external storage
    */
-  serialize: (data: any) => {
+  serialize: (data: unknown) => {
     return {
       data: cacheCompression.compress(data),
       timestamp: Date.now(),
@@ -326,7 +331,13 @@ export const distributedCachePrep = {
   /**
    * Deserialize cache data from external storage
    */
-  deserialize: <T>(serializedData: any): T | null => {
+  deserialize: <T>(
+    serializedData: {
+      data?: string
+      timestamp?: number
+      version?: string
+    } | null
+  ): T | null => {
     try {
       if (!serializedData || !serializedData.data) {
         return null

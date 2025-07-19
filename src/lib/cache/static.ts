@@ -22,7 +22,7 @@ export const configCache = {
   },
 
   // Get configuration with caching
-  get: (key: string, defaultValue?: any): any => {
+  get: <T = unknown>(key: string, defaultValue?: T): T | undefined => {
     const cached = staticCache.get(key)
     return cached !== undefined ? cached : defaultValue
   },
