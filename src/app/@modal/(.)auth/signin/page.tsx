@@ -1,4 +1,7 @@
+'use client'
+
 import { Suspense, lazy } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { ModalErrorBoundary } from '@/components/auth/modal-error-boundary'
 
 // Smart modal loading based on device capabilities
@@ -86,18 +89,9 @@ function SuspenseErrorFallback() {
   )
 }
 
-interface InterceptedSigninPageProps {
-  searchParams: Promise<{
-    callbackUrl?: string
-    error?: string
-  }>
-}
-
-export default async function InterceptedSigninPage({
-  searchParams,
-}: InterceptedSigninPageProps) {
-  const resolvedSearchParams = await searchParams
-  const callbackUrl = resolvedSearchParams?.callbackUrl || '/'
+export default function InterceptedSigninPage() {
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
 
   const handlePageError = (error: Error, errorInfo: any) => {
     console.error('Intercepted signin page error:', error, errorInfo)

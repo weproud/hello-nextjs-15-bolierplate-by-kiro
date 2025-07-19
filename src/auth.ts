@@ -21,18 +21,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: 'database',
   },
   callbacks: {
-    jwt({ token, user }) {
+    session({ session, user }) {
       if (user) {
-        token.id = user.id
-      }
-      return token
-    },
-    session({ session, token }) {
-      if (token.id) {
-        session.user.id = token.id
+        session.user.id = user.id
       }
       return session
     },

@@ -1,5 +1,5 @@
 import { ProtectedRoute } from '@/components/auth/protected-route'
-import { NavigationHeader } from '@/components/auth/navigation-header'
+import { SidebarLayout } from '@/components/layout/sidebar-layout'
 import { getCurrentUser } from '@/services/auth'
 import { prisma } from '@/lib/prisma'
 import { ProjectsPageClient } from './projects-client'
@@ -46,12 +46,13 @@ export default async function ProjectsPage() {
 
   const projects = await getProjects(user.id)
 
+  const breadcrumbs = [{ label: '홈', href: '/' }, { label: '프로젝트' }]
+
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-background">
-        <NavigationHeader />
+      <SidebarLayout breadcrumbs={breadcrumbs}>
         <ProjectsPageClient initialProjects={projects} user={validatedUser} />
-      </div>
+      </SidebarLayout>
     </ProtectedRoute>
   )
 }
