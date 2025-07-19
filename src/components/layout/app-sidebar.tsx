@@ -39,7 +39,7 @@ const data = {
   },
   teams: [
     {
-      name: 'My Workspace',
+      name: '내 워크스페이스',
       logo: GalleryVerticalEnd,
       plan: 'Free',
     },
@@ -94,44 +94,44 @@ const data = {
         },
       ],
     },
-    {
-      title: '문서',
-      url: '/docs',
-      icon: BookOpen,
-      items: [
-        {
-          title: '시작하기',
-          url: '/docs/getting-started',
-        },
-        {
-          title: 'API 참조',
-          url: '/docs/api',
-        },
-        {
-          title: '가이드',
-          url: '/docs/guides',
-        },
-      ],
-    },
-    {
-      title: '설정',
-      url: '/settings',
-      icon: Settings2,
-      items: [
-        {
-          title: '일반',
-          url: '/settings',
-        },
-        {
-          title: '프로필',
-          url: '/settings/profile',
-        },
-        {
-          title: '보안',
-          url: '/settings/security',
-        },
-      ],
-    },
+    //   {
+    //     title: '문서',
+    //     url: '/docs',
+    //     icon: BookOpen,
+    //     items: [
+    //       {
+    //         title: '시작하기',
+    //         url: '/docs/getting-started',
+    //       },
+    //       {
+    //         title: 'API 참조',
+    //         url: '/docs/api',
+    //       },
+    //       {
+    //         title: '가이드',
+    //         url: '/docs/guides',
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     title: '설정',
+    //     url: '/settings',
+    //     icon: Settings2,
+    //     items: [
+    //       {
+    //         title: '일반',
+    //         url: '/settings',
+    //       },
+    //       {
+    //         title: '프로필',
+    //         url: '/settings/profile',
+    //       },
+    //       {
+    //         title: '보안',
+    //         url: '/settings/security',
+    //       },
+    //     ],
+    //   },
   ],
   projects: [
     {

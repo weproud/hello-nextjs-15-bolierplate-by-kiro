@@ -63,6 +63,7 @@ model User {
   accounts Account[]
   sessions Session[]
   projects Project[]
+  posts    Post[]
 
   @@map("users")
 }
@@ -91,4 +92,27 @@ model Phase {
   updatedAt   DateTime @updatedAt
 
   @@map("phases")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String   @db.VarChar(255)
+  content   String   @db.Text
+  excerpt   String?  @db.VarChar(300)
+  slug      String?  @unique @db.VarChar(255)
+  published Boolean  @default(false)
+
+  // 관계
+  authorId  String   @map("author_id")
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // 메타데이터
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // 인덱스
+  @@index([authorId])
+  @@index([published])
+  @@index([createdAt])
+  @@map("posts")
 }

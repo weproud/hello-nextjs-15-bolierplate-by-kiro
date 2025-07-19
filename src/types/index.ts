@@ -8,6 +8,12 @@
 // Re-export NextAuth types
 export * from './next-auth'
 
+// Re-export Editor types
+export * from './editor'
+
+// Re-export Post types
+export * from './post'
+
 // Common utility types
 export type Prettify<T> = {
   [K in keyof T]: T[K]
