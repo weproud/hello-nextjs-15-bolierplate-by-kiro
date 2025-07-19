@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, memo, useCallback, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useFormWithValidation } from '@/hooks/use-form'
@@ -29,22 +29,32 @@ const submitSurvey = createTypedFormAction(
   }
 )
 
-export function SurveyForm() {
+export const SurveyForm = memo(function SurveyForm() {
   const [showResults, setShowResults] = useState(false)
 
-  const form = useFormWithValidation(surveySchema, {
-    defaultValues: {
+  const defaultValues = useMemo(
+    () => ({
       rating: 0,
       feedback: '',
       recommend: false,
       improvements: [],
-    },
+    }),
+    []
+  )
+
+  const form = useFormWithValidation(surveySchema, {
+    defaultValues,
   })
 
-  const handleSubmit = async (data: SurveyInput) => {
+  const handleSubmit = useCallback(async (data: SurveyInput) => {
     console.log('Survey submitted:', data)
     setShowResults(true)
-  }
+  }, [])
+
+  const resetSurvey = useCallback(() => {
+    setShowResults(false)
+    form.reset()
+  }, [form])
 
   const watchedRating = form.watch('rating')
   const watchedRecommend = form.watch('recommend')
@@ -254,13 +264,7 @@ export function SurveyForm() {
             소중한 의견을 주셔서 감사합니다. 더 나은 서비스를 위해
             노력하겠습니다.
           </p>
-          <Button
-            onClick={() => {
-              setShowResults(false)
-              form.reset()
-            }}
-            variant="outline"
-          >
+          <Button onClick={resetSurvey} variant="outline">
             다시 작성하기
           </Button>
         </div>
@@ -297,4 +301,4 @@ export function SurveyForm() {
       </details>
     </div>
   )
-}
+})

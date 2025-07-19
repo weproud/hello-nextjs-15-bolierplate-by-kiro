@@ -5,6 +5,8 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
+  memo,
   type ReactNode,
 } from 'react'
 import { useSession } from 'next-auth/react'
@@ -23,7 +25,9 @@ export interface AuthProviderProps {
   children: ReactNode
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = memo(function AuthProvider({
+  children,
+}: AuthProviderProps) {
   const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(true)
 
@@ -31,15 +35,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoading(status === 'loading')
   }, [status])
 
-  const value: AuthContextType = {
-    session,
-    isLoading,
-    isAuthenticated: !!session?.user,
-    user: session?.user || null,
-  }
+  const value: AuthContextType = useMemo(
+    () => ({
+      session,
+      isLoading,
+      isAuthenticated: !!session?.user,
+      user: session?.user || null,
+    }),
+    [session, isLoading]
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
+})
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext)

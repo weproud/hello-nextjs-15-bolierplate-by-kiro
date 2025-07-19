@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo, useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
@@ -82,7 +82,7 @@ type CreateProjectInput = z.infer<typeof createProjectSchema>
 type UpdateProjectInput = z.infer<typeof updateProjectSchema>
 
 // Project Creation Form
-function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
+const ProjectCreateForm = memo(function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -106,9 +106,9 @@ function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
     },
   })
 
-  const onSubmit = (data: CreateProjectInput) => {
+  const onSubmit = useCallback((data: CreateProjectInput) => {
     execute(data)
-  }
+  }, [execute])
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -171,10 +171,10 @@ function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
       </DialogContent>
     </Dialog>
   )
-}
+})
 
 // Project Edit Form
-function ProjectEditForm({
+const ProjectEditForm = memo(function ProjectEditForm({
   project,
   onSuccess,
 }: {

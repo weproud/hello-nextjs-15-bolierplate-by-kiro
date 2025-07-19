@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'sonner'
 import { ThemeProvider } from './theme-provider'
@@ -12,7 +13,7 @@ interface ProvidersProps {
   children: ReactNode
 }
 
-export function Providers({ children }: ProvidersProps) {
+export const Providers = memo(function Providers({ children }: ProvidersProps) {
   return (
     <SessionProvider>
       <ThemeProvider
@@ -37,4 +38,4 @@ export function Providers({ children }: ProvidersProps) {
       </ThemeProvider>
     </SessionProvider>
   )
-}
+})

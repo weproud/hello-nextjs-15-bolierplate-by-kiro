@@ -1,5 +1,10 @@
 import type { NextConfig } from 'next'
 
+// Bundle analyzer for performance optimization
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
@@ -70,4 +75,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

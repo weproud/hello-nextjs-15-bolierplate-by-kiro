@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
@@ -55,38 +55,163 @@ interface ProjectListProps {
   onDelete?: (projectId: string) => void
 }
 
-export function ProjectList({ projects, onEdit, onDelete }: ProjectListProps) {
+// ProjectCard 컴포넌트를 별도로 분리하여 최적화
+const ProjectCard = memo(function ProjectCard({
+  project,
+  onEdit,
+  onDelete,
+  deletingId,
+}: {
+  project: Project
+  onEdit?: (project: Project) => void
+  onDelete: (project: Project) => Promise<void>
+  deletingId: string | null
+}) {
+  const handleEditClick = useCallback(() => {
+    onEdit?.(project)
+  }, [onEdit, project])
+
+  const handleDeleteClick = useCallback(() => {
+    onDelete(project)
+  }, [onDelete, project])
+
+  const formattedDate = useMemo(
+    () =>
+      formatDistanceToNow(new Date(project.updatedAt), {
+        addSuffix: true,
+        locale: ko,
+      }),
+    [project.updatedAt]
+  )
+
+  return (
+    <Card className="hover:shadow-md transition-shadow">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-lg line-clamp-2 mb-1">
+              {project.title}
+            </CardTitle>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <User className="h-3 w-3" />
+              <span className="truncate">
+                {project.user.name || project.user.email}
+              </span>
+            </div>
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0"
+                disabled={deletingId === project.id}
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href={`/projects/${project.id}`}>
+                  <Eye className="mr-2 h-4 w-4" />
+                  보기
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleEditClick}>
+                <Edit className="mr-2 h-4 w-4" />
+                수정
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleDeleteClick}
+                className="text-destructive focus:text-destructive"
+                disabled={deletingId === project.id}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                {deletingId === project.id ? '삭제 중...' : '삭제'}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </CardHeader>
+
+      <CardContent className="pt-0">
+        {project.description && (
+          <CardDescription className="line-clamp-3 mb-4">
+            {project.description}
+          </CardDescription>
+        )}
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="text-xs">
+              {project._count.phases}개 단계
+            </Badge>
+          </div>
+
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Calendar className="h-3 w-3" />
+            <span>{formattedDate}</span>
+          </div>
+        </div>
+
+        <div className="mt-4 pt-4 border-t">
+          <Link href={`/projects/${project.id}`}>
+            <Button variant="outline" size="sm" className="w-full">
+              <Eye className="mr-2 h-4 w-4" />
+              프로젝트 보기
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  )
+})
+
+export const ProjectList = memo(function ProjectList({
+  projects,
+  onEdit,
+  onDelete,
+}: ProjectListProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
-  const handleDelete = async (project: Project) => {
-    if (!confirm(`"${project.title}" 프로젝트를 정말 삭제하시겠습니까?`)) {
-      return
-    }
-
-    setDeletingId(project.id)
-
-    try {
-      const result = await deleteProjectAction({ id: project.id })
-
-      if (result?.data?.success) {
-        toast.success('프로젝트가 삭제되었습니다.')
-        onDelete?.(project.id)
-      } else {
-        throw new Error(
-          result?.data?.message || '프로젝트 삭제에 실패했습니다.'
-        )
+  const handleDelete = useCallback(
+    async (project: Project) => {
+      if (!confirm(`"${project.title}" 프로젝트를 정말 삭제하시겠습니까?`)) {
+        return
       }
-    } catch (error) {
-      console.error('Delete project error:', error)
-      toast.error(
-        error instanceof Error ? error.message : '삭제 중 오류가 발생했습니다.'
-      )
-    } finally {
-      setDeletingId(null)
-    }
-  }
 
-  if (projects.length === 0) {
+      setDeletingId(project.id)
+
+      try {
+        const result = await deleteProjectAction({ id: project.id })
+
+        if (result?.data?.success) {
+          toast.success('프로젝트가 삭제되었습니다.')
+          onDelete?.(project.id)
+        } else {
+          throw new Error(
+            result?.data?.message || '프로젝트 삭제에 실패했습니다.'
+          )
+        }
+      } catch (error) {
+        console.error('Delete project error:', error)
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : '삭제 중 오류가 발생했습니다.'
+        )
+      } finally {
+        setDeletingId(null)
+      }
+    },
+    [onDelete]
+  )
+
+  const emptyState = useMemo(() => {
+    if (projects.length !== 0) return null
+
     return (
       <Card className="text-center py-16">
         <CardContent>
@@ -105,98 +230,29 @@ export function ProjectList({ projects, onEdit, onDelete }: ProjectListProps) {
         </CardContent>
       </Card>
     )
+  }, [projects.length])
+
+  if (emptyState) {
+    return emptyState
   }
+
+  const projectCards = useMemo(
+    () =>
+      projects.map(project => (
+        <ProjectCard
+          key={project.id}
+          project={project}
+          onEdit={onEdit}
+          onDelete={handleDelete}
+          deletingId={deletingId}
+        />
+      )),
+    [projects, onEdit, handleDelete, deletingId]
+  )
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {projects.map(project => (
-        <Card key={project.id} className="hover:shadow-md transition-shadow">
-          <CardHeader className="pb-3">
-            <div className="flex items-start justify-between">
-              <div className="flex-1 min-w-0">
-                <CardTitle className="text-lg line-clamp-2 mb-1">
-                  {project.title}
-                </CardTitle>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <User className="h-3 w-3" />
-                  <span className="truncate">
-                    {project.user.name || project.user.email}
-                  </span>
-                </div>
-              </div>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    disabled={deletingId === project.id}
-                  >
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
-                    <Link href={`/projects/${project.id}`}>
-                      <Eye className="mr-2 h-4 w-4" />
-                      보기
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onEdit?.(project)}>
-                    <Edit className="mr-2 h-4 w-4" />
-                    수정
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => handleDelete(project)}
-                    className="text-destructive focus:text-destructive"
-                    disabled={deletingId === project.id}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    {deletingId === project.id ? '삭제 중...' : '삭제'}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </CardHeader>
-
-          <CardContent className="pt-0">
-            {project.description && (
-              <CardDescription className="line-clamp-3 mb-4">
-                {project.description}
-              </CardDescription>
-            )}
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="text-xs">
-                  {project._count.phases}개 단계
-                </Badge>
-              </div>
-
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Calendar className="h-3 w-3" />
-                <span>
-                  {formatDistanceToNow(new Date(project.updatedAt), {
-                    addSuffix: true,
-                    locale: ko,
-                  })}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-4 border-t">
-              <Link href={`/projects/${project.id}`}>
-                <Button variant="outline" size="sm" className="w-full">
-                  <Eye className="mr-2 h-4 w-4" />
-                  프로젝트 보기
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+      {projectCards}
     </div>
   )
-}
+})

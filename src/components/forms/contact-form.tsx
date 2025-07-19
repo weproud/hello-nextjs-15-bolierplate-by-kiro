@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useFormWithValidation } from '@/hooks/use-form'
@@ -8,20 +8,25 @@ import { EnhancedForm, EnhancedFormField, FormSection } from './enhanced-form'
 import { contactSchema, type ContactInput } from '@/lib/validations/common'
 import { submitContact } from '@/lib/actions/form-actions'
 
-export function ContactForm() {
-  const form = useFormWithValidation(contactSchema, {
-    defaultValues: {
+export const ContactForm = memo(function ContactForm() {
+  const defaultValues = useMemo(
+    () => ({
       name: '',
       email: '',
       subject: '',
       message: '',
-    },
+    }),
+    []
+  )
+
+  const form = useFormWithValidation(contactSchema, {
+    defaultValues,
   })
 
-  const handleSubmit = async (data: ContactInput) => {
+  const handleSubmit = useCallback(async (data: ContactInput) => {
     console.log('Contact form submitted:', data)
     // Handle client-side submission if needed
-  }
+  }, [])
 
   return (
     <div className="max-w-2xl mx-auto p-6">
@@ -108,4 +113,4 @@ export function ContactForm() {
       </EnhancedForm>
     </div>
   )
-}
+})

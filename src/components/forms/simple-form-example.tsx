@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -32,27 +32,35 @@ const roleOptions = [
   { value: 'freelancer', label: '프리랜서' },
 ]
 
-export function SimpleFormExample() {
-  const form = useForm<SimpleFormData>({
-    resolver: zodResolver(simpleSchema),
-    defaultValues: {
+export const SimpleFormExample = memo(function SimpleFormExample() {
+  const defaultValues = useMemo(
+    () => ({
       name: '',
       email: '',
-      role: undefined,
+      role: undefined as any,
       newsletter: false,
-    },
+    }),
+    []
+  )
+
+  const form = useForm<SimpleFormData>({
+    resolver: zodResolver(simpleSchema),
+    defaultValues,
   })
 
   const { executeAction, isExecuting } = useFormAction()
 
-  const onSubmit = async (data: SimpleFormData) => {
-    await executeAction(async () => {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log('Form submitted:', data)
-      return { success: true, message: '성공적으로 제출되었습니다!' }
-    })
-  }
+  const onSubmit = useCallback(
+    async (data: SimpleFormData) => {
+      await executeAction(async () => {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log('Form submitted:', data)
+        return { success: true, message: '성공적으로 제출되었습니다!' }
+      })
+    },
+    [executeAction]
+  )
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow">
@@ -99,4 +107,4 @@ export function SimpleFormExample() {
       </Form>
     </div>
   )
-}
+})

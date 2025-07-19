@@ -1,8 +1,9 @@
 'use client'
 
+import { memo, useCallback } from 'react'
 import { useAppStore } from '@/store'
 
-export function StoreExample() {
+export const StoreExample = memo(function StoreExample() {
   const sidebarOpen = useAppStore(state => state.sidebarOpen)
   const theme = useAppStore(state => state.theme)
   const preferences = useAppStore(state => state.preferences)
@@ -11,6 +12,30 @@ export function StoreExample() {
   const updatePreferences = useAppStore(state => state.updatePreferences)
   const resetState = useAppStore(state => state.resetState)
 
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen(!sidebarOpen)
+  }, [sidebarOpen, setSidebarOpen])
+
+  const setLightTheme = useCallback(() => {
+    setTheme('light')
+  }, [setTheme])
+
+  const setDarkTheme = useCallback(() => {
+    setTheme('dark')
+  }, [setTheme])
+
+  const setSystemTheme = useCallback(() => {
+    setTheme('system')
+  }, [setTheme])
+
+  const toggleNotifications = useCallback(() => {
+    updatePreferences({ notifications: !preferences.notifications })
+  }, [preferences.notifications, updatePreferences])
+
+  const toggleAutoSave = useCallback(() => {
+    updatePreferences({ autoSave: !preferences.autoSave })
+  }, [preferences.autoSave, updatePreferences])
+
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl font-bold">Zustand Store Example</h2>
@@ -18,7 +43,7 @@ export function StoreExample() {
       <div className="space-y-2">
         <p>Sidebar Open: {sidebarOpen ? 'Yes' : 'No'}</p>
         <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
+          onClick={toggleSidebar}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Toggle Sidebar
@@ -29,19 +54,19 @@ export function StoreExample() {
         <p>Theme: {theme}</p>
         <div className="space-x-2">
           <button
-            onClick={() => setTheme('light')}
+            onClick={setLightTheme}
             className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
           >
             Light
           </button>
           <button
-            onClick={() => setTheme('dark')}
+            onClick={setDarkTheme}
             className="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700"
           >
             Dark
           </button>
           <button
-            onClick={() => setTheme('system')}
+            onClick={setSystemTheme}
             className="px-3 py-1 bg-blue-200 rounded hover:bg-blue-300"
           >
             System
@@ -57,17 +82,13 @@ export function StoreExample() {
         </ul>
         <div className="space-x-2">
           <button
-            onClick={() =>
-              updatePreferences({ notifications: !preferences.notifications })
-            }
+            onClick={toggleNotifications}
             className="px-3 py-1 bg-green-200 rounded hover:bg-green-300"
           >
             Toggle Notifications
           </button>
           <button
-            onClick={() =>
-              updatePreferences({ autoSave: !preferences.autoSave })
-            }
+            onClick={toggleAutoSave}
             className="px-3 py-1 bg-yellow-200 rounded hover:bg-yellow-300"
           >
             Toggle Auto Save
@@ -83,4 +104,4 @@ export function StoreExample() {
       </button>
     </div>
   )
-}
+})
