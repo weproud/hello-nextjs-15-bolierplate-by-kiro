@@ -28,6 +28,9 @@ export interface PostFormData {
 export interface PostCardProps {
   post: Post
   className?: string
+  showActions?: boolean
+  onEdit?: (postId: string) => void
+  onDelete?: (postId: string) => void
 }
 
 // 포스트 폼 컴포넌트 props 타입
@@ -50,8 +53,12 @@ export interface UseInfinitePostsReturn {
   posts: Post[]
   isLoading: boolean
   isError: boolean
+  error: string | null
   hasMore: boolean
   loadMore: () => void
+  refresh: () => void
+  retry: () => void
+  observerRef: (node: HTMLElement | null) => void
 }
 
 // 포스트 에러 타입

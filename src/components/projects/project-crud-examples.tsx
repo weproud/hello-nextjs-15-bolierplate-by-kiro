@@ -283,6 +283,7 @@ function ProjectDeleteDialog({
 }: {
   project: any
   onSuccess?: () => void
+})
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
