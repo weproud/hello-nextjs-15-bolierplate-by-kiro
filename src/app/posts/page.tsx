@@ -1,17 +1,118 @@
-import { EditorTest } from '@/components/editor/editor-test'
-import { PostCardTest } from '@/components/posts/post-card-test'
-import { InfinitePostsDemo } from '@/components/posts/infinite-posts-demo'
+import { Suspense } from 'react'
+import { Plus } from 'lucide-react'
+import Link from 'next/link'
 
-export default function EditorTestPage() {
+import { InfinitePostList } from '@/components/posts/infinite-post-list'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getPostsAction } from '@/lib/actions/post-actions'
+import { auth } from '@/auth'
+
+// 로딩 스켈레톤 컴포넌트
+function PostListSkeleton() {
   return (
-    <div className="container mx-auto py-8 space-y-12">
-      <EditorTest />
-      <div className="border-t pt-12">
-        <PostCardTest />
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }, (_, index) => (
+        <div
+          key={index}
+          className="border border-border/50 rounded-lg p-6 bg-card/50 backdrop-blur-sm"
+        >
+          <div className="space-y-3 mb-4">
+            <Skeleton className="h-6 w-3/4" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="h-4 w-4/6" />
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-6 w-6 rounded-full" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+              <div className="flex items-center gap-1">
+                <Skeleton className="h-4 w-4" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            </div>
+            <Skeleton className="h-5 w-12" />
+          </div>
+          <div className="mt-4 pt-3 border-t border-border/50">
+            <Skeleton className="h-4 w-20" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// 포스트 목록 컴포넌트
+async function PostListContent() {
+  try {
+    const result = await getPostsAction({
+      limit: 10,
+      published: true,
+    })
+
+    if (!result.success) {
+      throw new Error('포스트를 불러오는데 실패했습니다.')
+    }
+
+    const { posts, pagination } = result
+
+    return (
+      <InfinitePostList
+        initialPosts={posts}
+        initialHasMore={pagination.hasMore}
+        limit={10}
+        published={true}
+        className="w-full"
+      />
+    )
+  } catch (error) {
+    console.error('Failed to load posts:', error)
+    return (
+      <div className="text-center py-12">
+        <div className="text-muted-foreground">
+          <div className="text-lg font-medium mb-2">
+            포스트를 불러올 수 없습니다
+          </div>
+          <p className="text-sm">잠시 후 다시 시도해주세요.</p>
+        </div>
       </div>
-      <div className="border-t pt-12">
-        <InfinitePostsDemo />
+    )
+  }
+}
+
+export default async function PostsPage() {
+  const session = await auth()
+
+  return (
+    <div className="container mx-auto py-8">
+      {/* 헤더 섹션 */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">포스트</h1>
+          <p className="text-muted-foreground mt-2">
+            다양한 주제의 포스트를 탐색해보세요
+          </p>
+        </div>
+
+        {/* 포스트 작성 버튼 (인증된 사용자만) */}
+        {session?.user && (
+          <Button asChild>
+            <Link href="/posts/new">
+              <Plus className="h-4 w-4 mr-2" />새 포스트 작성
+            </Link>
+          </Button>
+        )}
       </div>
+
+      {/* 포스트 목록 */}
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostListContent />
+      </Suspense>
     </div>
   )
 }
