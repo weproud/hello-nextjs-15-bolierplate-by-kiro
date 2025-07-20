@@ -56,6 +56,7 @@ export function EditorTest() {
             content={content}
             onChange={handleContentChange}
             placeholder="여기에 내용을 입력하세요..."
+            showToolbar={true}
             className="min-h-[300px]"
           />
 
