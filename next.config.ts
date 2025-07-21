@@ -32,20 +32,20 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
 
     // Enable Turbo for faster builds
-    turbo: {
-      rules: {
-        // Optimize SVG imports
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-        // Optimize image imports
-        '*.{png,jpg,jpeg,gif,webp,avif}': {
-          loaders: ['next-optimized-images-loader'],
-          as: '*.js',
-        },
-      },
-    },
+    // turbo: {
+    //   rules: {
+    //     // Optimize SVG imports
+    //     '*.svg': {
+    //       loaders: ['@svgr/webpack'],
+    //       as: '*.js',
+    //     },
+    //     // Optimize image imports
+    //     '*.{png,jpg,jpeg,gif,webp,avif}': {
+    //       loaders: ['next-optimized-images-loader'],
+    //       as: '*.js',
+    //     },
+    //   },
+    // },
   },
 
   // Compiler optimizations

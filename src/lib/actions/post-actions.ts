@@ -334,13 +334,27 @@ export const getPostsAction = publicActionClient
         },
       }
     } catch (error) {
+      console.error('getPostsAction 상세 오류:', {
+        error,
+        cursor,
+        limit,
+        published,
+        authorId,
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
+        errorStack: error instanceof Error ? error.stack : undefined,
+      })
+
       ActionLogger.error('getPosts', 'Failed to get posts', error, {
         cursor,
         limit,
         published,
         authorId,
       })
-      throw error
+
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }
     }
   })
 

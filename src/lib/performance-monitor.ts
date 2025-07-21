@@ -33,11 +33,8 @@ export class PerformanceMonitor {
   private initializeWebVitals() {
     if (typeof window === 'undefined') return
 
-    // Cumulative Layout Shift
-    onLCP(this.handleMetric.bind(this))
-
-    // First Input Delay
-    onFID(this.handleMetric.bind(this))
+    // Interaction to Next Paint (FID 대체)
+    onINP(this.handleMetric.bind(this))
 
     // First Contentful Paint
     onFCP(this.handleMetric.bind(this))
@@ -98,8 +95,8 @@ export class PerformanceMonitor {
             domContentLoaded:
               navEntry.domContentLoadedEventEnd -
               navEntry.domContentLoadedEventStart,
-            domComplete: navEntry.domComplete - navEntry.navigationStart,
-            loadComplete: navEntry.loadEventEnd - navEntry.navigationStart,
+            domComplete: navEntry.domComplete - navEntry.fetchStart,
+            loadComplete: navEntry.loadEventEnd - navEntry.fetchStart,
             firstByte: navEntry.responseStart - navEntry.requestStart,
           }
 
@@ -337,6 +334,75 @@ export function usePerformanceMonitor() {
   }, [])
 
   return report
+}
+
+// React Hook for modal performance monitoring
+export function useModalPerformance() {
+  const [startTime, setStartTime] = useState<number | null>(null)
+  const [endTime, setEndTime] = useState<number | null>(null)
+  const [loadDuration, setLoadDuration] = useState<number | null>(null)
+
+  const startModalLoad = () => {
+    const now = performance.now()
+    setStartTime(now)
+    setEndTime(null)
+    setLoadDuration(null)
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[Modal Performance] 모달 로딩 시작:', now)
+    }
+  }
+
+  const endModalLoad = () => {
+    const now = performance.now()
+    setEndTime(now)
+
+    if (startTime) {
+      const duration = now - startTime
+      setLoadDuration(duration)
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[Modal Performance] 모달 로딩 완료:', now)
+      }
+    }
+  }
+
+  const logMetrics = () => {
+    if (startTime && endTime && loadDuration) {
+      const metrics = {
+        startTime,
+        endTime,
+        loadDuration,
+        timestamp: Date.now(),
+      }
+
+      if (process.env.NODE_ENV === 'development') {
+      }
+
+      // 프로덕션 환경에서는 분석 서비스로 전송
+      if (process.env.NODE_ENV === 'production') {
+        fetch('/api/analytics/modal-performance', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...metrics,
+            url: window.location.href,
+            userAgent: navigator.userAgent,
+          }),
+        }).catch(console.error)
+      }
+    }
+  }
+
+  return {
+    startModalLoad,
+    endModalLoad,
+    logMetrics,
+    loadDuration,
+    isLoading: startTime !== null && endTime === null,
+  }
 }
 
 // 글로벌 선언

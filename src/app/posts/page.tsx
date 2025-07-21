@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getPostsAction } from '@/lib/actions/post-actions'
 import { auth } from '@/auth'
-import { prisma } from '@/lib/prisma'
+import { db, prisma } from '@/lib/prisma'
 
 // 로딩 스켈레톤 컴포넌트
 function PostListSkeleton() {
@@ -54,39 +54,51 @@ function PostListSkeleton() {
  */
 async function getPostsWithStats() {
   try {
-    const [result, totalCount, publishedCount] = await Promise.all([
-      getPostsAction({
-        limit: 10,
-        published: true,
-      }),
+    console.log('포스트 데이터 로딩 시작...')
 
-      // 총 포스트 수 (게시된 것만)
-      prisma.post.count({
-        where: { published: true },
-      }),
+    // 직접 Prisma로 포스트 가져오기 (getPostsAction 우회)
+    const posts = await prisma.post.findMany({
+      where: { published: true },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    })
 
-      // 게시된 포스트 수
-      prisma.post.count({
-        where: { published: true },
-      }),
+    console.log('직접 조회한 포스트 수:', posts.length)
+
+    // 통계 정보
+    const [totalCount, publishedCount] = await Promise.all([
+      prisma.post.count({ where: { published: true } }),
+      prisma.post.count({ where: { published: true } }),
     ])
 
-    if (!result.success) {
-      throw new Error('포스트를 불러오는데 실패했습니다.')
-    }
-
-    const { posts, pagination } = result
+    console.log(`통계 - 총: ${totalCount}, 게시됨: ${publishedCount}`)
 
     return {
       posts,
-      pagination,
+      pagination: {
+        hasMore: posts.length === 10,
+        nextCursor: posts.length > 0 ? posts[posts.length - 1].id : null,
+        limit: 10,
+      },
       stats: {
         total: totalCount,
         published: publishedCount,
       },
     }
   } catch (error) {
-    console.error('Failed to load posts:', error)
+    console.error('포스트 로딩 실패:', error)
     throw error
   }
 }

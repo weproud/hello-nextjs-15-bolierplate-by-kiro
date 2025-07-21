@@ -54,12 +54,7 @@ export default async function NewPostPage() {
       </div>
 
       {/* 포스트 작성 폼 */}
-      <PostForm
-        mode="create"
-        onSuccess={() => {
-          // 성공 시 처리는 PostForm 컴포넌트 내부에서 처리됨
-        }}
-      />
+      <PostForm mode="create" />
 
       {/* 도움말 카드 */}
       <Card className="mt-8 border-dashed">

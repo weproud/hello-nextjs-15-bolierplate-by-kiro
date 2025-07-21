@@ -154,13 +154,6 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
           excerpt: post.excerpt,
           published: post.published,
         }}
-        onSuccess={() => {
-          // 성공 시 처리는 PostForm 컴포넌트 내부에서 처리됨
-        }}
-        onCancel={() => {
-          // 취소 시 포스트 목록 페이지로 이동
-          window.location.href = '/posts'
-        }}
       />
 
       {/* 편집 도움말 카드 */}

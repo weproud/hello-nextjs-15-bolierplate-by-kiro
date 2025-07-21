@@ -74,6 +74,21 @@ CREATE TABLE "phases" (
     CONSTRAINT "phases_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "posts" (
+    "id" TEXT NOT NULL,
+    "title" VARCHAR(255) NOT NULL,
+    "content" TEXT NOT NULL,
+    "excerpt" VARCHAR(300),
+    "slug" VARCHAR(255),
+    "published" BOOLEAN NOT NULL DEFAULT false,
+    "author_id" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "accounts_provider_provider_account_id_key" ON "accounts"("provider", "provider_account_id");
 
@@ -89,6 +104,18 @@ CREATE UNIQUE INDEX "verificationtokens_identifier_token_key" ON "verificationto
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "posts_slug_key" ON "posts"("slug");
+
+-- CreateIndex
+CREATE INDEX "posts_author_id_idx" ON "posts"("author_id");
+
+-- CreateIndex
+CREATE INDEX "posts_published_idx" ON "posts"("published");
+
+-- CreateIndex
+CREATE INDEX "posts_created_at_idx" ON "posts"("created_at");
+
 -- AddForeignKey
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -100,3 +127,6 @@ ALTER TABLE "projects" ADD CONSTRAINT "projects_user_id_fkey" FOREIGN KEY ("user
 
 -- AddForeignKey
 ALTER TABLE "phases" ADD CONSTRAINT "phases_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "projects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "posts" ADD CONSTRAINT "posts_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
