@@ -66,7 +66,7 @@ const PostCardSkeleton = memo(function PostCardSkeleton() {
 
 // 로딩 스켈레톤 그리드
 const LoadingSkeleton = memo(function LoadingSkeleton({
-  count = 6,
+  count = 3,
 }: {
   count?: number
 }) {
@@ -134,12 +134,16 @@ const NoMorePosts = memo(function NoMorePosts() {
 // 로딩 더보기 인디케이터
 const LoadMoreIndicator = memo(function LoadMoreIndicator() {
   return (
-    <div className="col-span-full text-center py-6">
-      <div className="flex items-center justify-center gap-2 text-muted-foreground">
-        <RefreshCw className="h-4 w-4 animate-spin" />
-        <span className="text-sm">포스트를 불러오는 중...</span>
+    <>
+      {/* 추가 로딩 스켈레톤 */}
+      <LoadingSkeleton count={3} />
+      <div className="col-span-full text-center py-4">
+        <div className="flex items-center justify-center gap-2 text-muted-foreground">
+          <RefreshCw className="h-4 w-4 animate-spin" />
+          <span className="text-sm">더 많은 포스트를 불러오는 중...</span>
+        </div>
       </div>
-    </div>
+    </>
   )
 })
 
@@ -150,7 +154,7 @@ export const InfinitePostList = memo(function InfinitePostList({
   showActions = false,
   onEdit,
   onDelete,
-  limit = 10,
+  limit = 6,
   published = true,
   authorId,
 }: InfinitePostListProps) {
@@ -203,9 +207,13 @@ export const InfinitePostList = memo(function InfinitePostList({
       {hasMore && !isLoading && !isError && (
         <div
           ref={observerRef}
-          className="h-10 flex items-center justify-center"
+          className="h-20 flex items-center justify-center"
           aria-hidden="true"
-        />
+        >
+          <div className="text-muted-foreground text-sm">
+            스크롤하여 더 많은 포스트 보기
+          </div>
+        </div>
       )}
     </div>
   )

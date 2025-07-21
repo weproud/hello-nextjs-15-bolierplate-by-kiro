@@ -72,7 +72,7 @@ async function getPostsWithStats() {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 10,
+      take: 6, // 초기 로딩을 6개로 줄여서 무한 스크롤 효과를 더 잘 보이게 함
     })
 
     console.log('직접 조회한 포스트 수:', posts.length)
@@ -84,13 +84,16 @@ async function getPostsWithStats() {
     ])
 
     console.log(`통계 - 총: ${totalCount}, 게시됨: ${publishedCount}`)
+    console.log(
+      `hasMore 계산: ${totalCount} > ${posts.length} = ${totalCount > posts.length}`
+    )
 
     return {
       posts,
       pagination: {
-        hasMore: posts.length === 10,
+        hasMore: totalCount > posts.length, // 총 개수가 현재 가져온 개수보다 많으면 더 있음
         nextCursor: posts.length > 0 ? posts[posts.length - 1].id : null,
-        limit: 10,
+        limit: 6,
       },
       stats: {
         total: totalCount,
@@ -137,7 +140,7 @@ async function PostListContent() {
         <InfinitePostList
           initialPosts={posts}
           initialHasMore={pagination.hasMore}
-          limit={10}
+          limit={6}
           published={true}
           className="w-full"
         />

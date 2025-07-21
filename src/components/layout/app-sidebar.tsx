@@ -3,19 +3,13 @@
 import * as React from 'react'
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
-  Settings2,
   SquareTerminal,
   Home,
   FolderKanban,
-  User,
-  LogOut,
 } from 'lucide-react'
 
 import { NavProjects } from '@/components/layout/nav-projects'

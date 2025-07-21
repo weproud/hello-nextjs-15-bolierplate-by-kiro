@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
-import { SessionProvider } from '@/components/auth/session-provider'
-import { AuthProvider } from '@/components/auth/auth-provider'
-import { GlobalErrorBoundary } from '@/components/error/hierarchical-error-boundary'
-import { StagewiseToolbar } from '@stagewise/toolbar-next'
-import ReactPlugin from '@stagewise-plugins/react'
+import { ClientProviders } from '@/providers/client-providers'
+import { ServerProviders } from '@/providers/server-providers'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,22 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <GlobalErrorBoundary>
-          <SessionProvider>
-            <AuthProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                {children}
-                {modal}
-                <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
-              </ThemeProvider>
-            </AuthProvider>
-          </SessionProvider>
-        </GlobalErrorBoundary>
+        <ServerProviders>
+          <ClientProviders>
+            {children}
+            {modal}
+          </ClientProviders>
+        </ServerProviders>
       </body>
     </html>
   )

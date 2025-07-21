@@ -31,7 +31,7 @@ interface UseInfinitePostsReturn {
 export function useInfinitePosts({
   initialPosts = [],
   initialHasMore = true,
-  limit = 10,
+  limit = 6,
   published = true,
   authorId,
 }: UseInfinitePostsOptions = {}): UseInfinitePostsReturn {
@@ -70,9 +70,11 @@ export function useInfinitePosts({
           authorId,
         })
 
-        if (result?.success && result.posts) {
-          const newPosts = result.posts
-          const pagination = result.pagination
+        console.log('getPostsAction result:', result)
+
+        if (result?.data?.success && Array.isArray(result.data.posts)) {
+          const newPosts = result.data.posts
+          const pagination = result.data.pagination
 
           if (isRefresh) {
             setPosts(newPosts)
@@ -95,8 +97,13 @@ export function useInfinitePosts({
 
           setHasMore(pagination?.hasMore || false)
         } else {
+          console.error('getPostsAction failed:', result)
           throw new Error(
-            result?.error?.message || '포스트를 불러오는데 실패했습니다.'
+            result?.data?.error?.message ||
+              result?.data?.error ||
+              result?.error?.message ||
+              result?.error ||
+              '포스트를 불러오는데 실패했습니다.'
           )
         }
       } catch (err) {
@@ -169,7 +176,7 @@ export function useInfinitePosts({
         },
         {
           threshold: 0.1,
-          rootMargin: '100px', // 100px 전에 미리 로드
+          rootMargin: '200px', // 200px 전에 미리 로드하여 더 부드러운 경험 제공
         }
       )
 
