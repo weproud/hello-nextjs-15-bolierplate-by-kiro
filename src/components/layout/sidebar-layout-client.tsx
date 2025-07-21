@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { AppSidebar } from './app-sidebar'
 import {
   SidebarProvider,
@@ -81,8 +81,8 @@ export function SidebarLayoutClient({
 
       // Customize titles for known routes
       switch (segments[i]) {
-        case 'dashboard':
-          title = '대시보드'
+        case 'workspace':
+          title = '워크스페이스'
           break
         case 'projects':
           title = '프로젝트'

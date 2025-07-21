@@ -4,7 +4,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // 보호된 경로들
-  const protectedRoutes = ['/dashboard', '/profile', '/projects']
+  const protectedRoutes = ['/dashboard', '/workspace', '/profile', '/projects']
   const isProtectedRoute = protectedRoutes.some(route =>
     pathname.startsWith(route)
   )

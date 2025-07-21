@@ -59,7 +59,7 @@ export function HybridExamplesClient({
   const [streamData, setStreamData] = useState(initialData)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Example 1: User Dashboard with dynamic interactions
+  // Example 1: User Workspace with dynamic interactions
   const filteredProjects = useMemo(() => {
     if (!searchQuery) return projects
     return projects.filter(project =>

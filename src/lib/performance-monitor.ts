@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { onLCP, onINP, onFCP, onTTFB } from 'web-vitals'
 
 // Core Web Vitals 메트릭 타입
@@ -342,7 +342,7 @@ export function useModalPerformance() {
   const [endTime, setEndTime] = useState<number | null>(null)
   const [loadDuration, setLoadDuration] = useState<number | null>(null)
 
-  const startModalLoad = () => {
+  const startModalLoad = useCallback(() => {
     const now = performance.now()
     setStartTime(now)
     setEndTime(null)
@@ -351,9 +351,9 @@ export function useModalPerformance() {
     if (process.env.NODE_ENV === 'development') {
       console.log('[Modal Performance] 모달 로딩 시작:', now)
     }
-  }
+  }, [])
 
-  const endModalLoad = () => {
+  const endModalLoad = useCallback(() => {
     const now = performance.now()
     setEndTime(now)
 
@@ -365,9 +365,9 @@ export function useModalPerformance() {
         console.log('[Modal Performance] 모달 로딩 완료:', now)
       }
     }
-  }
+  }, [startTime])
 
-  const logMetrics = () => {
+  const logMetrics = useCallback(() => {
     if (startTime && endTime && loadDuration) {
       const metrics = {
         startTime,
@@ -394,7 +394,7 @@ export function useModalPerformance() {
         }).catch(console.error)
       }
     }
-  }
+  }, [startTime, endTime, loadDuration])
 
   return {
     startModalLoad,

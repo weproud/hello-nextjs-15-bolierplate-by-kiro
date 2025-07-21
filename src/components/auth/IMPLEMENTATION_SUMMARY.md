@@ -154,8 +154,8 @@ src/
 
 ```typescript
 // User navigates from /dashboard to /auth/signin
-// → Modal opens over dashboard content
-// → User signs in → Modal closes → Dashboard refreshes
+// → Modal opens over Workspace content
+// → User signs in → Modal closes → Workspace refreshes
 ```
 
 ### Full Page Experience

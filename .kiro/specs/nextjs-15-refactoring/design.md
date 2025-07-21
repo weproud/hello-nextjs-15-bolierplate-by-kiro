@@ -38,7 +38,7 @@ graph TB
         B --> C[(app) - Main Routes]
         B --> D[@modal - Parallel Routes]
 
-        C --> E[Dashboard]
+        C --> E[dashboard]
         C --> F[Projects]
         C --> G[Posts]
         C --> H[Auth]

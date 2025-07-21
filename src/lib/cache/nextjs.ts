@@ -124,6 +124,11 @@ export const pageCache = {
     revalidate: CACHE_DURATION.SHORT,
   },
 
+  // Workspace - dynamic with short cache
+  workspace: {
+    revalidate: CACHE_DURATION.SHORT,
+  },
+
   // Project pages - medium cache
   project: {
     revalidate: CACHE_DURATION.MEDIUM,

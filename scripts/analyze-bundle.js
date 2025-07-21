@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
+import fs from 'fs'
+import path from 'path'
+import { execSync } from 'child_process'
 
 // Bundle size limits (in bytes)
 const BUNDLE_SIZE_LIMITS = {
@@ -10,6 +10,7 @@ const BUNDLE_SIZE_LIMITS = {
   'pages/_app': 250 * 1024, // 250KB
   'pages/index': 100 * 1024, // 100KB
   'pages/dashboard': 150 * 1024, // 150KB
+  'pages/workspace': 150 * 1024, // 150KB
   'pages/projects': 120 * 1024, // 120KB
   'pages/posts': 120 * 1024, // 120KB
 
@@ -191,6 +192,7 @@ class BundleAnalyzer {
     if (filename.includes('pages/_app')) return 'pages/_app'
     if (filename.includes('pages/index')) return 'pages/index'
     if (filename.includes('pages/dashboard')) return 'pages/dashboard'
+    if (filename.includes('pages/workspace')) return 'pages/workspace'
     if (filename.includes('pages/projects')) return 'pages/projects'
     if (filename.includes('pages/posts')) return 'pages/posts'
     if (filename.includes('ui-components')) return 'ui-components'
@@ -395,9 +397,9 @@ class BundleAnalyzer {
 }
 
 // Run analysis if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const analyzer = new BundleAnalyzer()
   analyzer.analyze().catch(console.error)
 }
 
-module.exports = BundleAnalyzer
+export default BundleAnalyzer

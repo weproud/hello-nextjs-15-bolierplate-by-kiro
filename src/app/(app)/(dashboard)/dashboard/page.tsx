@@ -28,7 +28,7 @@ const DashboardActivity = lazy(() =>
 )
 
 /**
- * Server Component - Dashboard data fetching
+ * Server Component - Workspace data fetching
  * 대시보드 데이터를 서버에서 가져오는 함수
  */
 async function getDashboardData(userId: string) {

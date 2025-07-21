@@ -81,7 +81,7 @@ src/
 ├── app/                    # Next.js 15 App Router
 │   ├── api/               # API routes
 │   ├── auth/              # Authentication pages
-│   ├── dashboard/         # Dashboard pages
+│   ├── dashboard/         # dashboard pages
 │   ├── projects/          # Project management pages
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Home page

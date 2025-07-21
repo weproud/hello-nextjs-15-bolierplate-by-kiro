@@ -43,7 +43,7 @@ const data = {
     },
     // {
     //   title: '내 워크스페이스',
-    //   url: '/workspace',
+    //   url: '/dashboard',
     //   icon: SquareTerminal,
     //   items: [
     //     {
@@ -149,7 +149,6 @@ export function AppSidebar({ projects = [], ...props }: AppSidebarProps) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <ProjectSwitcher projects={projects} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

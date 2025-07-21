@@ -13,17 +13,20 @@ interface NavigationHeaderProps {
 }
 
 export function NavigationHeader({
-  title = '마데인눜',
+  title = 'NEXTJS 15',
   showAuthButton = true,
 }: NavigationHeaderProps) {
   const { isAuthenticated, isLoading } = useAuth()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-colors">
       <div className="flex h-14 items-center justify-between px-4 w-full max-w-none">
         <div className="flex">
-          <Link href="/" className="flex items-center">
-            <span className="font-bold text-xl">{title}</span>
+          <Link
+            href="/"
+            className="flex items-center hover:opacity-80 transition-opacity"
+          >
+            <span className="font-bold text-xl text-foreground">{title}</span>
           </Link>
         </div>
 

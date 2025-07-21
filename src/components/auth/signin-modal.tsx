@@ -247,9 +247,19 @@ export function SigninModal({
       if (closeButton) {
         closeButton.focus()
         setAnnouncement('닫기 버튼에 포커스가 설정되었습니다')
-      } else if (firstFocusableElement) {
-        firstFocusableElement.focus()
-        setAnnouncement('첫 번째 요소에 포커스가 설정되었습니다')
+      } else {
+        // Find the first focusable element dynamically
+        const modal = modalRef.current
+        if (modal) {
+          const focusableElements = modal.querySelectorAll(
+            'button:not([disabled]):not([aria-hidden="true"]), [href]:not([disabled]):not([aria-hidden="true"]), input:not([disabled]):not([aria-hidden="true"]), select:not([disabled]):not([aria-hidden="true"]), textarea:not([disabled]):not([aria-hidden="true"]), [tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"]), [contenteditable="true"]:not([disabled]):not([aria-hidden="true"])'
+          )
+          const firstElement = focusableElements[0] as HTMLElement
+          if (firstElement) {
+            firstElement.focus()
+            setAnnouncement('첫 번째 요소에 포커스가 설정되었습니다')
+          }
+        }
       }
 
       // End modal load performance monitoring
@@ -260,7 +270,7 @@ export function SigninModal({
         setTimeout(() => logMetrics(), 1000)
       }
     }, 100) // Small delay to ensure modal is fully rendered
-  }, [firstFocusableElement, startModalLoad, endModalLoad, logMetrics])
+  }, []) // Empty dependency array - only run once on mount
 
   return (
     <ModalErrorBoundary

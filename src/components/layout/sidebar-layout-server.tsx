@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { SidebarLayoutClient } from './sidebar-layout-client'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
@@ -45,7 +45,7 @@ export async function SidebarLayoutServer({
     ],
     navMain: [
       {
-        title: '대시보드',
+        title: '워크스페이스',
         url: '/dashboard',
         icon: 'LayoutDashboard' as const,
       },

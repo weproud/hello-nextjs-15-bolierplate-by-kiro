@@ -23,16 +23,16 @@ import Link from 'next/link'
 export function NavMain({
   items,
 }: {
-  items: {
+  items: Array<{
     title: string
     url: string
     icon?: LucideIcon
     isActive?: boolean
-    items?: {
+    items?: Array<{
       title: string
       url: string
-    }[]
-  }[]
+    }>
+  }>
 }) {
   const pathname = usePathname()
 
@@ -47,7 +47,7 @@ export function NavMain({
             subItem => pathname === subItem.url
           )
           const shouldBeOpen =
-            isCurrentPath || hasActiveSubItem || item.isActive
+            isCurrentPath || hasActiveSubItem || Boolean(item.isActive)
 
           return (
             <Collapsible
