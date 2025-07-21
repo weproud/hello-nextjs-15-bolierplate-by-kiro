@@ -33,7 +33,7 @@ export function NavUser({
   user: {
     name: string
     email: string
-    avatar: string
+    image: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -53,7 +53,7 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={displayUser.image || displayUser.avatar}
+                  src={displayUser.image}
                   alt={displayUser.name || '사용자'}
                 />
                 <AvatarFallback className="rounded-lg">

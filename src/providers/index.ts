@@ -16,12 +16,9 @@ export { ServerProviders } from './server-providers'
 // 개별 provider들 (필요시 직접 사용 가능)
 export { ThemeProvider } from '@/components/theme-provider'
 export { AppStoreProvider } from '@/store/provider'
-export { SessionProvider } from '@/components/auth/session-provider'
+export { SessionProvider } from '@/providers/session-provider'
 export { AuthProvider } from '@/components/auth/auth-provider'
 export { LoadingProvider } from '@/contexts/loading-context'
-
-// 레거시 지원 (하위 호환성)
-export { AppProviders } from './app-providers'
 
 // Re-export provider types
 export type { ThemeProviderProps } from 'next-themes'

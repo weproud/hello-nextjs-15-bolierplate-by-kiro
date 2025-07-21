@@ -49,6 +49,9 @@ export function NavMain({
           const shouldBeOpen =
             isCurrentPath || hasActiveSubItem || Boolean(item.isActive)
 
+          // isActive가 false인 경우 비활성화
+          const isDisabled = item.isActive === false
+
           return (
             <Collapsible
               key={item.title}
@@ -61,13 +64,23 @@ export function NavMain({
                   <SidebarMenuButton
                     tooltip={item.title}
                     isActive={isCurrentPath && !item.items}
-                    asChild={!item.items}
+                    asChild={!item.items && !isDisabled}
+                    disabled={isDisabled}
+                    className={
+                      isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                    }
                   >
                     {item.items ? (
                       <>
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>
                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </>
+                    ) : isDisabled ? (
+                      // 비활성화된 경우 Link 대신 span 사용
+                      <>
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
                       </>
                     ) : (
                       <Link href={item.url}>
@@ -77,7 +90,7 @@ export function NavMain({
                     )}
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
-                {item.items && (
+                {item.items && !isDisabled && (
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {item.items?.map(subItem => (

@@ -21,7 +21,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import type { Project } from '@/types'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { ProjectForm } from '@/components/forms/project-form'
 
 interface ProjectSwitcherProps {
   projects: Array<{
@@ -34,12 +41,24 @@ interface ProjectSwitcherProps {
   }>
 }
 
-export function ProjectSwitcher({ projects }: ProjectSwitcherProps) {
+export function ProjectSwitcher({
+  projects: initialProjects,
+}: ProjectSwitcherProps) {
   const { isMobile } = useSidebar()
   const router = useRouter()
+  const [projects, setProjects] = React.useState(initialProjects)
   const [activeProject, setActiveProject] = React.useState(
-    projects.length > 0 ? projects[0] : null
+    initialProjects.length > 0 ? initialProjects[0] : null
   )
+  const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false)
+
+  // Update projects when initialProjects changes
+  React.useEffect(() => {
+    setProjects(initialProjects)
+    if (initialProjects.length > 0 && !activeProject) {
+      setActiveProject(initialProjects[0])
+    }
+  }, [initialProjects, activeProject])
 
   const handleProjectSelect = (project: (typeof projects)[0]) => {
     setActiveProject(project)
@@ -47,7 +66,26 @@ export function ProjectSwitcher({ projects }: ProjectSwitcherProps) {
   }
 
   const handleCreateProject = () => {
-    router.push('/projects/new')
+    setIsCreateModalOpen(true)
+  }
+
+  const handleCreateSuccess = (newProject?: any) => {
+    setIsCreateModalOpen(false)
+
+    // 새로운 프로젝트가 전달되면 즉시 목록에 추가
+    if (newProject) {
+      const projectForSwitcher = {
+        id: newProject.id,
+        title: newProject.title,
+        description: newProject.description,
+        _count: newProject._count || { phases: 0 },
+      }
+      setProjects(prev => [projectForSwitcher, ...prev])
+      setActiveProject(projectForSwitcher)
+    }
+
+    // 페이지를 새로고침하여 서버 데이터도 동기화
+    router.refresh()
   }
 
   // 프로젝트가 없는 경우 기본 상태 표시
@@ -101,6 +139,23 @@ export function ProjectSwitcher({ projects }: ProjectSwitcherProps) {
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
+
+        {/* 프로젝트 생성 모달 */}
+        <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>새 프로젝트 만들기</DialogTitle>
+              <DialogDescription>
+                새로운 프로젝트를 만들어 목표를 체계적으로 관리해보세요.
+              </DialogDescription>
+            </DialogHeader>
+            <ProjectForm
+              mode="create"
+              onSuccess={handleCreateSuccess}
+              onCancel={() => setIsCreateModalOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
       </SidebarGroup>
     )
   }
@@ -177,6 +232,23 @@ export function ProjectSwitcher({ projects }: ProjectSwitcherProps) {
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
+
+      {/* 프로젝트 생성 모달 */}
+      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>새 프로젝트 만들기</DialogTitle>
+            <DialogDescription>
+              새로운 프로젝트를 만들어 목표를 체계적으로 관리해보세요.
+            </DialogDescription>
+          </DialogHeader>
+          <ProjectForm
+            mode="create"
+            onSuccess={handleCreateSuccess}
+            onCancel={() => setIsCreateModalOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </SidebarGroup>
   )
 }

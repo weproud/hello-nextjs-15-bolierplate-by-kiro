@@ -1,7 +1,7 @@
 'use client'
 
 import { memo, type ReactNode } from 'react'
-import { SessionProvider } from '@/components/auth/session-provider'
+import { SessionProvider } from '@/providers/session-provider'
 import { AuthProvider } from '@/components/auth/auth-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AppStoreProvider } from '@/store/provider'

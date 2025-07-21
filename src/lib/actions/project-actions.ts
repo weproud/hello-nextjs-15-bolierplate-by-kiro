@@ -49,9 +49,10 @@ export const createProjectAction = authActionClient
         },
       })
 
-      // Revalidate projects page
+      // Revalidate projects page and sidebar data
       revalidatePath('/projects')
       revalidatePath('/dashboard')
+      revalidatePath('/', 'layout') // Revalidate layout to update sidebar
 
       ActionLogger.info('createProject', 'Project created successfully', {
         projectId: project.id,

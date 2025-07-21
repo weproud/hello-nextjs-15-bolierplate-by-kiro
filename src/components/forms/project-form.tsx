@@ -48,7 +48,7 @@ interface ProjectFormProps {
     title: string
     description?: string | null
   }
-  onSuccess?: () => void
+  onSuccess?: (project?: any) => void
   onCancel?: () => void
 }
 
@@ -118,12 +118,15 @@ export function ProjectForm({
 
           toast.success('프로젝트가 성공적으로 생성되었습니다!')
           form.reset()
-          onSuccess?.()
+          onSuccess?.(result.data.project)
 
           // 완료 후 잠시 대기
           setTimeout(() => {
             clearProgress()
-            router.push('/projects')
+            // 모달에서 사용되는 경우 페이지 이동하지 않음
+            if (!onSuccess) {
+              router.push('/projects')
+            }
           }, 500)
         } else {
           throw new Error(
@@ -149,7 +152,7 @@ export function ProjectForm({
           })
 
           toast.success('프로젝트가 성공적으로 수정되었습니다!')
-          onSuccess?.()
+          onSuccess?.(result.data.project)
 
           setTimeout(() => {
             clearProgress()
