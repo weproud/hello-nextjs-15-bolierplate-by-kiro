@@ -300,7 +300,7 @@ export function SigninModal({
           role="document"
         >
           <Card className="w-full">
-            <CardHeader className="text-center relative">
+            <CardHeader className="text-center relative items-center justify-center">
               <Button
                 ref={closeButtonRef}
                 variant="ghost"

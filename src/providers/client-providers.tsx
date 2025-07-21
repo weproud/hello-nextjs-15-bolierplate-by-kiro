@@ -17,10 +17,10 @@ interface ClientProvidersProps {
 
 /**
  * Client Providers Component
- * 
+ *
  * 클라이언트 사이드에서 실행되는 모든 provider들을 통합합니다.
  * Next.js 15의 최적화된 렌더링을 위해 'use client' 지시어를 사용합니다.
- * 
+ *
  * Provider 순서:
  * 1. GlobalErrorBoundary - 전역 에러 처리
  * 2. SessionProvider - NextAuth 세션 관리
@@ -30,8 +30,8 @@ interface ClientProvidersProps {
  * 6. ThemeProvider - 테마 관리
  * 7. UI 컴포넌트들 (Toaster, StagewiseToolbar)
  */
-export const ClientProviders = memo(function ClientProviders({ 
-  children 
+export const ClientProviders = memo(function ClientProviders({
+  children,
 }: ClientProvidersProps) {
   return (
     <GlobalErrorBoundary>
@@ -46,14 +46,14 @@ export const ClientProviders = memo(function ClientProviders({
                 disableTransitionOnChange
               >
                 {children}
-                <Toaster 
+                <Toaster
                   position="top-right"
                   expand={false}
                   richColors
                   closeButton
                   duration={4000}
                 />
-                <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
+                {/* <StagewiseToolbar config={{ plugins: [ReactPlugin] }} /> */}
               </ThemeProvider>
             </AppStoreProvider>
           </LoadingProvider>

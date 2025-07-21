@@ -41,22 +41,24 @@ export function SignInForm({
 
   const handleGoogleSignIn = useCallback(async () => {
     try {
+      console.log('Google 로그인 시도 - 모달:', isModal)
       setIsLoading(true)
       setError(null)
 
       if (isModal) {
-        // For modal, don't redirect automatically
+        // 모달에서도 Google OAuth 팝업이 열리도록 수정
+        // 팝업 방식으로 인증 시도
         const result = await signIn('google', {
           callbackUrl,
-          redirect: false,
+          redirect: true,
         })
+        console.log(result)
 
         // Handle modal success callback
         if (result?.ok) {
           if (onSuccess) {
             onSuccess()
           }
-          // For non-modal usage, success is handled by NextAuth redirect
         } else if (result?.error) {
           throw new Error(result.error)
         }
