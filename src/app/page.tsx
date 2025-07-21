@@ -35,15 +35,6 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/projects">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    프로젝트 보기
-                  </Button>
-                </Link>
               </div>
             }
             unauthenticated={

@@ -45,30 +45,11 @@ export function SignInForm({
       setIsLoading(true)
       setError(null)
 
-      if (isModal) {
-        // 모달에서도 Google OAuth 팝업이 열리도록 수정
-        // 팝업 방식으로 인증 시도
-        const result = await signIn('google', {
-          callbackUrl,
-          redirect: true,
-        })
-        console.log(result)
-
-        // Handle modal success callback
-        if (result?.ok) {
-          if (onSuccess) {
-            onSuccess()
-          }
-        } else if (result?.error) {
-          throw new Error(result.error)
-        }
-      } else {
-        // For full page, allow redirect
-        await signIn('google', {
-          callbackUrl,
-          redirect: true,
-        })
-      }
+      // 모달과 일반 페이지 모두 redirect: true를 사용하여 Google OAuth 플로우가 정상 작동하도록 함
+      await signIn('google', {
+        callbackUrl,
+        redirect: true,
+      })
     } catch (error) {
       const authError = error as AuthError
       console.error('로그인 오류:', authError)
