@@ -1,20 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import {
-  AudioWaveform,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  SquareTerminal,
-  Home,
-  FolderKanban,
-} from 'lucide-react'
+import { AudioWaveform, GalleryVerticalEnd, Home } from 'lucide-react'
 
-import { NavProjects } from '@/components/layout/nav-projects'
 import { NavUser } from '@/components/layout/nav-user'
-import { TeamSwitcher } from '@/components/layout/team-switcher'
+import { ProjectSwitcher } from '@/components/layout/project-switcher'
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +13,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { NavMain } from '@/components/layout/nav-main'
+import { Logo } from '@/components/ui/logo'
 
 // Default data - will be replaced with real data
 const data = {
@@ -50,40 +41,36 @@ const data = {
       icon: Home,
       isActive: true,
     },
-    {
-      title: '대시보드',
-      url: '/dashboard',
-      icon: SquareTerminal,
-      items: [
-        {
-          title: '개요',
-          url: '/dashboard',
-        },
-        {
-          title: '게시글',
-          url: '/posts',
-        },
-      ],
-    },
-    {
-      title: '프로젝트',
-      url: '/projects',
-      icon: FolderKanban,
-      items: [
-        {
-          title: '모든 프로젝트',
-          url: '/projects',
-        },
-        {
-          title: '새 프로젝트',
-          url: '/projects/new',
-        },
-        {
-          title: '아카이브',
-          url: '/projects/archive',
-        },
-      ],
-    },
+    // {
+    //   title: '내 워크스페이스',
+    //   url: '/workspace',
+    //   icon: SquareTerminal,
+    //   items: [
+    //     {
+    //       title: '게시글',
+    //       url: '/posts',
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: '프로젝트',
+    //   url: '/projects',
+    //   icon: FolderKanban,
+    //   items: [
+    //     {
+    //       title: '모든 프로젝트',
+    //       url: '/projects',
+    //     },
+    //     {
+    //       title: '새 프로젝트',
+    //       url: '/projects/new',
+    //     },
+    //     {
+    //       title: '아카이브',
+    //       url: '/projects/archive',
+    //     },
+    //   ],
+    // },
     //   {
     //     title: '문서',
     //     url: '/docs',
@@ -123,34 +110,46 @@ const data = {
     //     ],
     //   },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '/projects/design-engineering',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '/projects/sales-marketing',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '/projects/travel',
-      icon: Map,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: 'Design Engineering',
+  //     url: '/projects/design-engineering',
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: 'Sales & Marketing',
+  //     url: '/projects/sales-marketing',
+  //     icon: PieChart,
+  //   },
+  //   {
+  //     name: 'Travel',
+  //     url: '/projects/travel',
+  //     icon: Map,
+  //   },
+  // ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  projects?: Array<{
+    id: string
+    title: string
+    description?: string | null
+    _count?: {
+      phases: number
+    }
+  }>
+}
+
+export function AppSidebar({ projects = [], ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props} variant="inset">
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <Logo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <ProjectSwitcher projects={projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

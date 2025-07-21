@@ -22,12 +22,24 @@ interface SidebarLayoutProps {
     label: string
     href?: string
   }[]
+  projects?: Array<{
+    id: string
+    title: string
+    description?: string | null
+    _count?: {
+      phases: number
+    }
+  }>
 }
 
-export function SidebarLayout({ children, breadcrumbs }: SidebarLayoutProps) {
+export function SidebarLayout({
+  children,
+  breadcrumbs,
+  projects = [],
+}: SidebarLayoutProps) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar projects={projects} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
