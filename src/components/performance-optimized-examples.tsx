@@ -1,9 +1,17 @@
 'use client'
 
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+  lazy,
+  Suspense,
+} from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   useDebounce,
   useThrottle,
@@ -11,6 +19,70 @@ import {
   useRenderCount,
   PerformanceTracker,
 } from '@/lib/performance-utils'
+
+// Loading skeletons for heavy components
+function TodoListSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-32 mb-2" />
+        <Skeleton className="h-4 w-48" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex gap-2">
+          <Skeleton className="h-10 flex-1" />
+          <Skeleton className="h-10 w-16" />
+        </div>
+        <div className="space-y-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-2 p-2 border rounded">
+              <Skeleton className="h-4 w-4" />
+              <Skeleton className="h-4 flex-1" />
+              <Skeleton className="h-8 w-12" />
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function CounterSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-32" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="text-center">
+          <Skeleton className="h-12 w-16 mx-auto mb-2" />
+          <Skeleton className="h-4 w-24 mx-auto" />
+        </div>
+        <div className="flex gap-2 justify-center">
+          <Skeleton className="h-8 w-12" />
+          <Skeleton className="h-8 w-12" />
+          <Skeleton className="h-8 w-12" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function ScrollComponentSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-24" />
+      </CardHeader>
+      <CardContent>
+        <div className="text-center">
+          <Skeleton className="h-8 w-16 mx-auto mb-2" />
+          <Skeleton className="h-4 w-24 mx-auto" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
 
 // 성능 최적화된 검색 컴포넌트
 const OptimizedSearchComponent = memo(function OptimizedSearchComponent({
@@ -313,6 +385,19 @@ const OptimizedScrollComponent = memo(function OptimizedScrollComponent() {
   )
 })
 
+// Lazy load heavy components
+const LazyOptimizedCounter = lazy(() =>
+  Promise.resolve().then(() => ({ default: OptimizedCounter }))
+)
+
+const LazyOptimizedTodoList = lazy(() =>
+  Promise.resolve().then(() => ({ default: OptimizedTodoList }))
+)
+
+const LazyOptimizedScrollComponent = lazy(() =>
+  Promise.resolve().then(() => ({ default: OptimizedScrollComponent }))
+)
+
 // 메인 성능 최적화 예제 컴포넌트
 export const PerformanceOptimizedExamples = memo(
   function PerformanceOptimizedExamples() {
@@ -363,11 +448,18 @@ export const PerformanceOptimizedExamples = memo(
             </CardContent>
           </Card>
 
-          <OptimizedCounter initialValue={5} step={2} />
-          <OptimizedScrollComponent />
+          <Suspense fallback={<CounterSkeleton />}>
+            <LazyOptimizedCounter initialValue={5} step={2} />
+          </Suspense>
+
+          <Suspense fallback={<ScrollComponentSkeleton />}>
+            <LazyOptimizedScrollComponent />
+          </Suspense>
         </div>
 
-        <OptimizedTodoList />
+        <Suspense fallback={<TodoListSkeleton />}>
+          <LazyOptimizedTodoList />
+        </Suspense>
 
         <Card>
           <CardHeader>

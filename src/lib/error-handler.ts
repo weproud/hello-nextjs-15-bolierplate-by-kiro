@@ -6,6 +6,12 @@
  */
 
 import { createLogger } from './logger'
+import {
+  classifyErrorAdvanced,
+  determineErrorSeverityAdvanced,
+  createUserFriendlyErrorMessage,
+  type ErrorContext as ErrorTypeContext,
+} from './error-types'
 
 const logger = createLogger('error-handler')
 
@@ -113,15 +119,16 @@ class UnifiedErrorHandler implements ErrorHandler {
     }
 
     // 일반 Error를 AppError로 변환
+    const errorType = this.classifyError(error, context)
     const appError: AppError = {
       id: this.generateErrorId(),
-      type: this.classifyError(error),
+      type: errorType,
       message: error.message || 'Unknown error occurred',
       originalError: error,
       stack: error.stack || '',
       context: context?.component || context?.action,
       timestamp: new Date(),
-      severity: this.determineSeverity(error),
+      severity: this.determineSeverity(error, errorType, context),
       metadata: {
         name: error.name,
         ...context?.additionalData,
@@ -139,28 +146,22 @@ class UnifiedErrorHandler implements ErrorHandler {
   }
 
   /**
-   * 사용자 친화적 에러 메시지 생성
+   * 사용자 친화적 에러 메시지 생성 (개선된 버전)
    */
-  createUserFriendlyMessage(error: AppError): string {
-    switch (error.type) {
-      case 'validation':
-        return '입력하신 정보를 다시 확인해 주세요.'
-
-      case 'network':
-        return '네트워크 연결을 확인하고 다시 시도해 주세요.'
-
-      case 'auth':
-        return '로그인이 필요하거나 권한이 없습니다.'
-
-      case 'database':
-        return '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'
-
-      case 'permission':
-        return '이 작업을 수행할 권한이 없습니다.'
-
-      default:
-        return '오류가 발생했습니다. 문제가 지속되면 고객지원에 문의해 주세요.'
+  createUserFriendlyMessage(error: AppError, context?: ErrorContext): string {
+    const typeContext: ErrorTypeContext = {
+      component: context?.component,
+      action: context?.action,
+      route: context?.url,
     }
+
+    const friendlyError = createUserFriendlyErrorMessage(
+      error.type,
+      error.message,
+      typeContext
+    )
+
+    return friendlyError.actionMessage
   }
 
   /**
@@ -193,103 +194,33 @@ class UnifiedErrorHandler implements ErrorHandler {
   }
 
   /**
-   * 에러 분류
+   * 에러 분류 (개선된 버전)
    */
-  private classifyError(error: Error): ErrorType {
-    const message = error.message.toLowerCase()
-    const name = error.name.toLowerCase()
-
-    // 네트워크 에러
-    if (
-      message.includes('network') ||
-      message.includes('fetch') ||
-      message.includes('timeout') ||
-      name.includes('networkerror')
-    ) {
-      return 'network'
+  private classifyError(error: Error, context?: ErrorContext): ErrorType {
+    const typeContext: ErrorTypeContext = {
+      component: context?.component,
+      action: context?.action,
+      route: context?.url,
     }
 
-    // 인증 에러
-    if (
-      message.includes('unauthorized') ||
-      message.includes('authentication') ||
-      message.includes('login') ||
-      message.includes('token') ||
-      name.includes('autherror')
-    ) {
-      return 'auth'
-    }
-
-    // 권한 에러
-    if (
-      message.includes('forbidden') ||
-      message.includes('permission') ||
-      message.includes('access denied')
-    ) {
-      return 'permission'
-    }
-
-    // 유효성 검사 에러
-    if (
-      message.includes('validation') ||
-      message.includes('invalid') ||
-      message.includes('required') ||
-      name.includes('validationerror') ||
-      name.includes('zodError')
-    ) {
-      return 'validation'
-    }
-
-    // 데이터베이스 에러
-    if (
-      message.includes('database') ||
-      message.includes('connection') ||
-      message.includes('query') ||
-      name.includes('prismaerror') ||
-      name.includes('databaseerror')
-    ) {
-      return 'database'
-    }
-
-    return 'unknown'
+    return classifyErrorAdvanced(error, typeContext)
   }
 
   /**
-   * 에러 심각도 결정
+   * 에러 심각도 결정 (개선된 버전)
    */
-  private determineSeverity(error: Error): ErrorSeverity {
-    const message = error.message.toLowerCase()
-    const name = error.name.toLowerCase()
-
-    // Critical: 시스템 전체에 영향을 주는 에러
-    if (
-      message.includes('database connection') ||
-      message.includes('server error') ||
-      name.includes('systemerror')
-    ) {
-      return 'critical'
+  private determineSeverity(
+    error: Error,
+    errorType: ErrorType,
+    context?: ErrorContext
+  ): ErrorSeverity {
+    const typeContext: ErrorTypeContext = {
+      component: context?.component,
+      action: context?.action,
+      route: context?.url,
     }
 
-    // High: 주요 기능에 영향을 주는 에러
-    if (
-      message.includes('authentication failed') ||
-      message.includes('payment') ||
-      message.includes('security')
-    ) {
-      return 'high'
-    }
-
-    // Medium: 일부 기능에 영향을 주는 에러
-    if (
-      message.includes('validation') ||
-      message.includes('permission') ||
-      message.includes('network')
-    ) {
-      return 'medium'
-    }
-
-    // Low: 사용자 경험에 미미한 영향
-    return 'low'
+    return determineErrorSeverityAdvanced(error, errorType, typeContext)
   }
 
   /**

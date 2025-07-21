@@ -12,6 +12,21 @@ import {
 import { User, Mail, Calendar, Activity } from 'lucide-react'
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import { Suspense, lazy } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
+
+// Dynamic imports for heavy dashboard components
+const DashboardStats = lazy(() =>
+  import('@/components/dashboard/dashboard-stats').then(module => ({
+    default: module.DashboardStats,
+  }))
+)
+
+const DashboardActivity = lazy(() =>
+  import('@/components/dashboard/dashboard-activity').then(module => ({
+    default: module.DashboardActivity,
+  }))
+)
 
 /**
  * Server Component - Dashboard data fetching
@@ -189,171 +204,77 @@ export default async function DashboardPage() {
             </Card>
           </div>
 
-          {/* Stats Overview - Real data from server */}
-          <div className="grid gap-4 md:grid-cols-4">
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.totalProjects}
+          {/* Stats Overview - Dynamically loaded */}
+          <Suspense
+            fallback={
+              <div className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-4">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <Card key={i}>
+                      <CardContent className="p-6">
+                        <Skeleton className="h-8 w-16 mb-2" />
+                        <Skeleton className="h-3 w-20" />
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-                <p className="text-xs text-muted-foreground">총 프로젝트</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.activeProjects}
+                <div className="grid gap-4 md:grid-cols-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Card key={i}>
+                      <CardContent className="p-6">
+                        <Skeleton className="h-8 w-16 mb-2" />
+                        <Skeleton className="h-3 w-20" />
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-                <p className="text-xs text-muted-foreground">진행 중</p>
-              </CardContent>
-            </Card>
+              </div>
+            }
+          >
+            <DashboardStats stats={dashboardData.stats} />
+          </Suspense>
 
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.completedProjects}
-                </div>
-                <p className="text-xs text-muted-foreground">완료됨</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.completionRate}%
-                </div>
-                <p className="text-xs text-muted-foreground">완료율</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Additional Stats - Posts and Phases */}
-          <div className="grid gap-4 md:grid-cols-3">
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.totalPosts}
-                </div>
-                <p className="text-xs text-muted-foreground">총 게시글</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.publishedPosts}
-                </div>
-                <p className="text-xs text-muted-foreground">게시된 글</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-2xl font-bold">
-                  {dashboardData.stats.totalPhases}
-                </div>
-                <p className="text-xs text-muted-foreground">총 단계</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Recent Activity */}
+          {/* Recent Activity - Dynamically loaded */}
           {(dashboardData.projects.length > 0 ||
             dashboardData.posts.length > 0) && (
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Recent Projects */}
-              {dashboardData.projects.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>최근 프로젝트</CardTitle>
-                    <CardDescription>
-                      최근 업데이트된 프로젝트들입니다.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {dashboardData.projects.map(project => (
-                        <div
-                          key={project.id}
-                          className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <Link
-                              href={`/projects/${project.id}`}
-                              className="text-sm font-medium hover:underline truncate block"
+            <Suspense
+              fallback={
+                <div className="grid gap-6 md:grid-cols-2">
+                  {Array.from({ length: 2 }).map((_, i) => (
+                    <Card key={i}>
+                      <CardHeader>
+                        <Skeleton className="h-6 w-32 mb-2" />
+                        <Skeleton className="h-4 w-48" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          {Array.from({ length: 3 }).map((_, j) => (
+                            <div
+                              key={j}
+                              className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
                             >
-                              {project.title}
-                            </Link>
-                            <p className="text-xs text-muted-foreground">
-                              {project._count.phases}개 단계
-                            </p>
-                          </div>
-                          <span className="text-xs text-muted-foreground">
-                            {new Date(project.updatedAt).toLocaleDateString(
-                              'ko-KR'
-                            )}
-                          </span>
+                              <div className="flex-1 min-w-0">
+                                <Skeleton className="h-4 w-32 mb-1" />
+                                <Skeleton className="h-3 w-16" />
+                              </div>
+                              <Skeleton className="h-3 w-20" />
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                    <div className="mt-4">
-                      <Link href="/projects">
-                        <Button variant="outline" size="sm" className="w-full">
-                          모든 프로젝트 보기
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Recent Posts */}
-              {dashboardData.posts.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>최근 게시글</CardTitle>
-                    <CardDescription>
-                      최근 작성한 게시글들입니다.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {dashboardData.posts.map(post => (
-                        <div
-                          key={post.id}
-                          className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <Link
-                              href={`/posts/${post.id}`}
-                              className="text-sm font-medium hover:underline truncate block"
-                            >
-                              {post.title}
-                            </Link>
-                            <p className="text-xs text-muted-foreground">
-                              {post.published ? '게시됨' : '초안'}
-                            </p>
-                          </div>
-                          <span className="text-xs text-muted-foreground">
-                            {new Date(post.updatedAt).toLocaleDateString(
-                              'ko-KR'
-                            )}
-                          </span>
+                        <div className="mt-4">
+                          <Skeleton className="h-8 w-full" />
                         </div>
-                      ))}
-                    </div>
-                    <div className="mt-4">
-                      <Link href="/posts">
-                        <Button variant="outline" size="sm" className="w-full">
-                          모든 게시글 보기
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              }
+            >
+              <DashboardActivity
+                projects={dashboardData.projects}
+                posts={dashboardData.posts}
+              />
+            </Suspense>
           )}
         </div>
       </SidebarLayout>

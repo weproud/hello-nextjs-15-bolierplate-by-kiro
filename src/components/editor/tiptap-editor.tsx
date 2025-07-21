@@ -4,9 +4,21 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Heading from '@tiptap/extension-heading'
 import Placeholder from '@tiptap/extension-placeholder'
-import { forwardRef, useImperativeHandle, useEffect } from 'react'
+import {
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+  lazy,
+  Suspense,
+} from 'react'
 import { cn } from '@/lib/utils'
-import { EditorToolbar } from './editor-toolbar'
+
+// Lazy load the editor toolbar for better performance
+const EditorToolbar = lazy(() =>
+  import('./editor-toolbar').then(module => ({
+    default: module.EditorToolbar,
+  }))
+)
 
 interface TiptapEditorProps {
   content: string
@@ -116,7 +128,24 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
           className
         )}
       >
-        {showToolbar && <EditorToolbar editor={editor} />}
+        {showToolbar && (
+          <Suspense
+            fallback={
+              <div className="flex items-center gap-1 p-2 border-b border-border bg-muted/50 h-12">
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-8 w-8 bg-muted rounded animate-pulse"
+                    />
+                  ))}
+                </div>
+              </div>
+            }
+          >
+            <EditorToolbar editor={editor} />
+          </Suspense>
+        )}
         <EditorContent editor={editor} className="tiptap-editor" />
       </div>
     )

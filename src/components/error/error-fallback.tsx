@@ -28,6 +28,7 @@ export function ErrorFallback({
   showRetry = true,
   showHome = true,
   className = '',
+  children,
 }: {
   error?: Error
   resetError?: () => void
@@ -36,6 +37,7 @@ export function ErrorFallback({
   showRetry?: boolean
   showHome?: boolean
   className?: string
+  children?: React.ReactNode
 }) {
   const handleReload = () => {
     if (typeof window !== 'undefined') {
@@ -93,6 +95,9 @@ export function ErrorFallback({
               </Button>
             )}
           </div>
+
+          {/* 추가 컨텐츠 */}
+          {children}
         </CardContent>
       </Card>
     </div>

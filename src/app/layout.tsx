@@ -4,7 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SessionProvider } from '@/components/auth/session-provider'
 import { AuthProvider } from '@/components/auth/auth-provider'
-import { GlobalErrorBoundary } from '@/components/global-error-boundary'
+import { GlobalErrorBoundary } from '@/components/error/hierarchical-error-boundary'
 import { StagewiseToolbar } from '@stagewise/toolbar-next'
 import ReactPlugin from '@stagewise-plugins/react'
 

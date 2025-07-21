@@ -2,10 +2,18 @@ import { ProtectedRoute } from '@/components/auth/protected-route'
 import { SidebarLayout } from '@/components/layout/sidebar-layout'
 import { getCurrentUser } from '@/services/auth'
 import { prisma } from '@/lib/prisma'
-import { ProjectListServer } from '@/components/projects/project-list-server'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense, lazy } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
+
+// Dynamic import for heavy project list component
+const ProjectListServer = lazy(() =>
+  import('@/components/projects/project-list-server').then(module => ({
+    default: module.ProjectListServer,
+  }))
+)
 
 /**
  * Server Component - Enhanced project data fetching with statistics
@@ -115,11 +123,35 @@ export default async function ProjectsPage({
             </div>
           )}
 
-          {/* Server component with client interactions */}
-          <ProjectListServer
-            projects={projects}
-            searchParams={resolvedSearchParams}
-          />
+          {/* Server component with client interactions - Dynamically loaded */}
+          <Suspense
+            fallback={
+              <div className="space-y-4">
+                <div className="flex items-center justify-between mb-4">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-10 w-24" />
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="border rounded-lg p-6">
+                      <Skeleton className="h-6 w-3/4 mb-3" />
+                      <Skeleton className="h-4 w-full mb-2" />
+                      <Skeleton className="h-4 w-2/3 mb-4" />
+                      <div className="flex items-center justify-between">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-8 w-16" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            }
+          >
+            <ProjectListServer
+              projects={projects}
+              searchParams={resolvedSearchParams}
+            />
+          </Suspense>
         </div>
       </SidebarLayout>
     </ProtectedRoute>

@@ -8,7 +8,7 @@ export function useDebounce<T extends (...args: any[]) => any>(
   callback: T,
   delay: number
 ): T {
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   return useCallback(
     ((...args: Parameters<T>) => {
@@ -142,11 +142,11 @@ export class PerformanceTracker {
 
     const duration = performance.now() - startTime
     this.measurements.delete(label)
-    
+
     if (process.env.NODE_ENV === 'development') {
       console.log(`⏱️ ${label}: ${duration.toFixed(2)}ms`)
     }
-    
+
     return duration
   }
 
@@ -157,7 +157,10 @@ export class PerformanceTracker {
     return result
   }
 
-  static async measureAsync<T>(label: string, fn: () => Promise<T>): Promise<T> {
+  static async measureAsync<T>(
+    label: string,
+    fn: () => Promise<T>
+  ): Promise<T> {
     this.start(label)
     const result = await fn()
     this.end(label)
@@ -170,7 +173,7 @@ export class PerformanceTracker {
  */
 export function useRenderCount(componentName: string): void {
   const renderCount = useRef(0)
-  
+
   if (process.env.NODE_ENV === 'development') {
     renderCount.current += 1
     console.log(`🔄 ${componentName} rendered ${renderCount.current} times`)
@@ -186,7 +189,7 @@ export function logMemoryUsage(label?: string): void {
     const used = Math.round((memory.usedJSHeapSize / 1024 / 1024) * 100) / 100
     const total = Math.round((memory.totalJSHeapSize / 1024 / 1024) * 100) / 100
     const limit = Math.round((memory.jsHeapSizeLimit / 1024 / 1024) * 100) / 100
-    
+
     console.log(
       `🧠 Memory Usage${label ? ` (${label})` : ''}: ${used}MB / ${total}MB (limit: ${limit}MB)`
     )
@@ -196,17 +199,19 @@ export function logMemoryUsage(label?: string): void {
 /**
  * 번들 크기 최적화를 위한 동적 import 헬퍼
  */
-export function createLazyComponent<T extends React.ComponentType<any>>(
+export function createLazyComponent<T extends React.ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   fallback?: React.ComponentType
 ) {
   const LazyComponent = React.lazy(importFn)
-  
+
   return function LazyWrapper(props: React.ComponentProps<T>) {
-    return (
-      <React.Suspense fallback={fallback ? React.createElement(fallback) : null}>
-        <LazyComponent {...props} />
-      </React.Suspense>
+    return React.createElement(
+      React.Suspense,
+      {
+        fallback: fallback ? React.createElement(fallback) : null,
+      },
+      React.createElement(LazyComponent, props)
     )
   }
 }
