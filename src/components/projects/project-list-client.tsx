@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
 import { deleteProjectAction } from '@/lib/actions/project-actions'
 import { toast } from 'sonner'
 import {
@@ -29,6 +30,7 @@ import {
   User,
   FolderOpen,
   Plus,
+  Search,
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -49,8 +51,9 @@ interface Project {
   }
 }
 
-interface ProjectListProps {
+interface ProjectListClientProps {
   projects: Project[]
+  initialSearch?: string
   onEdit?: (project: Project) => void
   onDelete?: (projectId: string) => void
 }
@@ -175,12 +178,31 @@ const ProjectCard = memo(function ProjectCard({
   )
 })
 
-export const ProjectList = memo(function ProjectList({
-  projects,
+/**
+ * Client Component - Interactive project list
+ * 상호작용이 가능한 프로젝트 목록 클라이언트 컴포넌트
+ */
+export const ProjectListClient = memo(function ProjectListClient({
+  projects: initialProjects,
+  initialSearch = '',
   onEdit,
   onDelete,
-}: ProjectListProps) {
+}: ProjectListClientProps) {
+  const [projects, setProjects] = useState(initialProjects)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState(initialSearch)
+
+  // Filter projects based on search query
+  const filteredProjects = useMemo(() => {
+    if (!searchQuery.trim()) return projects
+
+    const query = searchQuery.toLowerCase()
+    return projects.filter(
+      project =>
+        project.title.toLowerCase().includes(query) ||
+        project.description?.toLowerCase().includes(query)
+    )
+  }, [projects, searchQuery])
 
   const handleDelete = useCallback(
     async (project: Project) => {
@@ -195,6 +217,7 @@ export const ProjectList = memo(function ProjectList({
 
         if (result?.data?.success) {
           toast.success('프로젝트가 삭제되었습니다.')
+          setProjects(prev => prev.filter(p => p.id !== project.id))
           onDelete?.(project.id)
         } else {
           throw new Error(
@@ -215,8 +238,34 @@ export const ProjectList = memo(function ProjectList({
     [onDelete]
   )
 
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value)
+    },
+    []
+  )
+
   const emptyState = useMemo(() => {
-    if (projects.length !== 0) return null
+    if (filteredProjects.length !== 0) return null
+
+    if (searchQuery.trim()) {
+      return (
+        <Card className="text-center py-16">
+          <CardContent>
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+              <Search className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <CardTitle className="mb-2">검색 결과가 없습니다</CardTitle>
+            <CardDescription className="mb-4">
+              "{searchQuery}"에 대한 프로젝트를 찾을 수 없습니다.
+            </CardDescription>
+            <Button variant="outline" onClick={() => setSearchQuery('')}>
+              검색 초기화
+            </Button>
+          </CardContent>
+        </Card>
+      )
+    }
 
     return (
       <Card className="text-center py-16">
@@ -236,15 +285,11 @@ export const ProjectList = memo(function ProjectList({
         </CardContent>
       </Card>
     )
-  }, [projects.length])
-
-  if (emptyState) {
-    return emptyState
-  }
+  }, [filteredProjects.length, searchQuery])
 
   const projectCards = useMemo(
     () =>
-      projects.map(project => (
+      filteredProjects.map(project => (
         <ProjectCard
           key={project.id}
           project={project}
@@ -253,12 +298,28 @@ export const ProjectList = memo(function ProjectList({
           deletingId={deletingId}
         />
       )),
-    [projects, onEdit, handleDelete, deletingId]
+    [filteredProjects, onEdit, handleDelete, deletingId]
   )
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {projectCards}
+    <div className="space-y-6">
+      {/* Search input */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="프로젝트 검색..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="pl-10"
+        />
+      </div>
+
+      {/* Project grid or empty state */}
+      {emptyState || (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projectCards}
+        </div>
+      )}
     </div>
   )
 })

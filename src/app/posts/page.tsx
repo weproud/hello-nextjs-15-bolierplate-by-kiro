@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getPostsAction } from '@/lib/actions/post-actions'
 import { auth } from '@/auth'
+import { prisma } from '@/lib/prisma'
 
 // 로딩 스켈레톤 컴포넌트
 function PostListSkeleton() {
@@ -47,13 +48,28 @@ function PostListSkeleton() {
   )
 }
 
-// 포스트 목록 컴포넌트
-async function PostListContent() {
+/**
+ * Server Component - Enhanced post data fetching with statistics
+ * 통계와 함께 포스트 데이터를 가져오는 서버 컴포넌트
+ */
+async function getPostsWithStats() {
   try {
-    const result = await getPostsAction({
-      limit: 10,
-      published: true,
-    })
+    const [result, totalCount, publishedCount] = await Promise.all([
+      getPostsAction({
+        limit: 10,
+        published: true,
+      }),
+
+      // 총 포스트 수 (게시된 것만)
+      prisma.post.count({
+        where: { published: true },
+      }),
+
+      // 게시된 포스트 수
+      prisma.post.count({
+        where: { published: true },
+      }),
+    ])
 
     if (!result.success) {
       throw new Error('포스트를 불러오는데 실패했습니다.')
@@ -61,14 +77,59 @@ async function PostListContent() {
 
     const { posts, pagination } = result
 
+    return {
+      posts,
+      pagination,
+      stats: {
+        total: totalCount,
+        published: publishedCount,
+      },
+    }
+  } catch (error) {
+    console.error('Failed to load posts:', error)
+    throw error
+  }
+}
+
+// 포스트 목록 컴포넌트
+async function PostListContent() {
+  try {
+    const { posts, pagination, stats } = await getPostsWithStats()
+
     return (
-      <InfinitePostList
-        initialPosts={posts}
-        initialHasMore={pagination.hasMore}
-        limit={10}
-        published={true}
-        className="w-full"
-      />
+      <div className="space-y-6">
+        {/* Statistics section */}
+        {stats.total > 0 && (
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-lg border p-4">
+              <div className="text-2xl font-bold">{stats.total}</div>
+              <p className="text-xs text-muted-foreground">총 포스트</p>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-2xl font-bold">{stats.published}</div>
+              <p className="text-xs text-muted-foreground">게시된 포스트</p>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-2xl font-bold">
+                {stats.total > 0
+                  ? Math.round((stats.published / stats.total) * 100)
+                  : 0}
+                %
+              </div>
+              <p className="text-xs text-muted-foreground">게시율</p>
+            </div>
+          </div>
+        )}
+
+        {/* Post list */}
+        <InfinitePostList
+          initialPosts={posts}
+          initialHasMore={pagination.hasMore}
+          limit={10}
+          published={true}
+          className="w-full"
+        />
+      </div>
     )
   } catch (error) {
     console.error('Failed to load posts:', error)
