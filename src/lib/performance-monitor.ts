@@ -1,5 +1,5 @@
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals'
 import { useState, useEffect } from 'react'
+import { onLCP, onINP, onFCP, onTTFB } from 'web-vitals'
 
 // Core Web Vitals 메트릭 타입
 export interface WebVitalsMetric {
@@ -34,19 +34,19 @@ export class PerformanceMonitor {
     if (typeof window === 'undefined') return
 
     // Cumulative Layout Shift
-    getCLS(this.handleMetric.bind(this))
+    onLCP(this.handleMetric.bind(this))
 
     // First Input Delay
-    getFID(this.handleMetric.bind(this))
+    onFID(this.handleMetric.bind(this))
 
     // First Contentful Paint
-    getFCP(this.handleMetric.bind(this))
+    onFCP(this.handleMetric.bind(this))
 
     // Largest Contentful Paint
-    getLCP(this.handleMetric.bind(this))
+    onLCP(this.handleMetric.bind(this))
 
     // Time to First Byte
-    getTTFB(this.handleMetric.bind(this))
+    onTTFB(this.handleMetric.bind(this))
   }
 
   // 커스텀 메트릭 초기화

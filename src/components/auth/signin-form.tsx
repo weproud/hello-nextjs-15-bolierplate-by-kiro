@@ -77,7 +77,7 @@ export function SignInForm({
 
       // Report error to modal error handler if in modal context
       if (isModal) {
-        handleModalError(authError, 'signin-form')
+        await handleModalError(authError, 'signin-form')
       }
 
       // Call custom error handler if provided
@@ -89,10 +89,10 @@ export function SignInForm({
     }
   }, [callbackUrl, isModal, onSuccess, onError, errorHandler, handleModalError])
 
-  const handleRetry = useCallback(() => {
+  const handleRetry = useCallback(async () => {
     errorHandler.incrementRetry()
     setError(null)
-    handleGoogleSignIn()
+    await handleGoogleSignIn()
   }, [errorHandler, handleGoogleSignIn])
 
   const handleFallbackToFullPage = useCallback(() => {

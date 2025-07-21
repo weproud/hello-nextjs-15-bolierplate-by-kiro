@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, memo, useCallback, useMemo } from 'react'
+import { useState, useEffect, memo, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
@@ -76,7 +76,11 @@ type CreateProjectInput = CreateProjectFormInput
 type UpdateProjectInput = UpdateProjectFormInput
 
 // Project Creation Form
-const ProjectCreateForm = memo(function ProjectCreateForm({ onSuccess }: { onSuccess?: () => void }) {
+const ProjectCreateForm = memo(function ProjectCreateForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void
+}) {
   const [isOpen, setIsOpen] = useState(false)
 
   const {
@@ -100,9 +104,12 @@ const ProjectCreateForm = memo(function ProjectCreateForm({ onSuccess }: { onSuc
     },
   })
 
-  const onSubmit = useCallback((data: CreateProjectInput) => {
-    execute(data)
-  }, [execute])
+  const onSubmit = useCallback(
+    (data: CreateProjectInput) => {
+      execute(data)
+    },
+    [execute]
+  )
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -274,16 +281,15 @@ const ProjectEditForm = memo(function ProjectEditForm({
       </DialogContent>
     </Dialog>
   )
-}
+})
 
 // Project Delete Confirmation
-function ProjectDeleteDialog({
+const ProjectDeleteDialog = memo(function ProjectDeleteDialog({
   project,
   onSuccess,
 }: {
   project: any
   onSuccess?: () => void
-})
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -318,7 +324,7 @@ function ProjectDeleteDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>프로젝트 삭제</AlertDialogTitle>
           <AlertDialogDescription>
-            "{project.title}" 프로젝트를 정말 삭제하시겠습니까?
+            &quot;{project.title}&quot; 프로젝트를 정말 삭제하시겠습니까?
             <br />이 작업은 되돌릴 수 없으며, 모든 관련 데이터가 삭제됩니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -337,7 +343,7 @@ function ProjectDeleteDialog({
       </AlertDialogContent>
     </AlertDialog>
   )
-}
+})
 
 // Project Card Component
 function ProjectCard({

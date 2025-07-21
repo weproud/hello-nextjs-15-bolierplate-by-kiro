@@ -232,7 +232,7 @@ describe('Comprehensive Validation Suite', () => {
         { width: 1920, height: 1080, name: 'Desktop' },
       ]
 
-      screenSizes.forEach(({ width, height, name }) => {
+      screenSizes.forEach(({ width, height }) => {
         Object.defineProperty(window, 'innerWidth', {
           writable: true,
           configurable: true,

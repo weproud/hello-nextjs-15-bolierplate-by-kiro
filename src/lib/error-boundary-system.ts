@@ -1,383 +1,426 @@
 /**
  * 계층적 에러 바운더리 시스템
  *
- * Global → Route Group → Page → Component → Modal 순서로
- * 에러를 계층적으로 처리하는 시스템
+ * Global → Route → Component 순서로 에러를 처리하고
+ * 각 레벨에서 적절한 복구 메커니즘을 제공합니다.
  */
 
+import { type ErrorInfo } from 'react'
 import { errorHandler, type AppError, type ErrorContext } from './error-handler'
+import { type ErrorType } from './error-types'
 
-export type ErrorBoundaryLevel =
-  | 'global'
-  | 'route-group'
-  | 'page'
-  | 'component'
-  | 'modal'
+export type ErrorBoundaryLevel = 'global' | 'route' | 'component'
 
-export interface ErrorBoundaryConfig {
+export interface ErrorBoundaryContext {
   level: ErrorBoundaryLevel
   name: string
-  fallbackComponent?: React.ComponentType<ErrorFallbackProps>
-  onError?: (error: AppError, context: ErrorContext) => void
-  retryable?: boolean
-  autoRetry?: boolean
-  maxRetries?: number
-  retryDelay?: number
-  escalateToParent?: boolean
+  route?: string
+  component?: string
+  parentBoundary?: string
 }
 
-export interface ErrorFallbackProps {
-  error: AppError
-  resetError: () => void
-  retry?: () => void
-  canRetry?: boolean
-  level: ErrorBoundaryLevel
-  config: ErrorBoundaryConfig
+export interface ErrorRecoveryAction {
+  id: string
+  label: string
+  type: 'retry' | 'fallback' | 'reload' | 'redirect' | 'dismiss'
+  primary?: boolean
+  href?: string
+  handler?: () => void | Promise<void>
 }
 
-export interface ErrorRecoveryOptions {
-  retry: () => void
-  fallback: () => void
-  escalate: () => void
-  dismiss: () => void
-}
-
-/**
- * 에러 복구 전략
- */
-export class ErrorRecoveryStrategy {
-  private retryCount = 0
-  private maxRetries: number
-  private retryDelay: number
-  private autoRetry: boolean
-
-  constructor(maxRetries = 3, retryDelay = 1000, autoRetry = false) {
-    this.maxRetries = maxRetries
-    this.retryDelay = retryDelay
-    this.autoRetry = autoRetry
-  }
-
-  canRetry(): boolean {
-    return this.retryCount < this.maxRetries
-  }
-
-  async retry(fn: () => Promise<void> | void): Promise<boolean> {
-    if (!this.canRetry()) {
-      return false
-    }
-
-    try {
-      this.retryCount++
-
-      if (this.retryDelay > 0) {
-        await new Promise(resolve => setTimeout(resolve, this.retryDelay))
-      }
-
-      await fn()
-      this.retryCount = 0 // 성공시 카운트 리셋
-      return true
-    } catch (error) {
-      console.warn(`Retry ${this.retryCount}/${this.maxRetries} failed:`, error)
-      return false
-    }
-  }
-
-  reset(): void {
-    this.retryCount = 0
-  }
-
-  getRetryCount(): number {
-    return this.retryCount
-  }
-
-  getRemainingRetries(): number {
-    return Math.max(0, this.maxRetries - this.retryCount)
-  }
+export interface ErrorBoundaryState {
+  hasError: boolean
+  error: AppError | null
+  errorInfo: ErrorInfo | null
+  retryCount: number
+  lastRetryTime: number
+  recoveryActions: ErrorRecoveryAction[]
 }
 
 /**
- * 계층적 에러 컨텍스트 관리
+ * 에러 바운더리 레지스트리
+ * 계층적 에러 바운더리들을 관리하고 에러 전파를 제어합니다.
  */
-export class ErrorBoundaryContext {
-  private static instance: ErrorBoundaryContext
-  private boundaryStack: ErrorBoundaryConfig[] = []
-  private recoveryStrategies = new Map<string, ErrorRecoveryStrategy>()
+class ErrorBoundaryRegistry {
+  private boundaries = new Map<string, ErrorBoundaryContext>()
+  private errorHistory = new Map<string, AppError[]>()
+  private retryLimits = new Map<ErrorType, number>()
 
-  static getInstance(): ErrorBoundaryContext {
-    if (!ErrorBoundaryContext.instance) {
-      ErrorBoundaryContext.instance = new ErrorBoundaryContext()
-    }
-    return ErrorBoundaryContext.instance
+  constructor() {
+    // 에러 타입별 재시도 제한 설정
+    this.retryLimits.set('network', 3)
+    this.retryLimits.set('database', 2)
+    this.retryLimits.set('unknown', 1)
+    this.retryLimits.set('validation', 0)
+    this.retryLimits.set('auth', 0)
+    this.retryLimits.set('permission', 0)
   }
 
-  registerBoundary(config: ErrorBoundaryConfig): void {
-    this.boundaryStack.push(config)
-
-    // 복구 전략 초기화
-    const strategyKey = `${config.level}-${config.name}`
-    if (!this.recoveryStrategies.has(strategyKey)) {
-      this.recoveryStrategies.set(
-        strategyKey,
-        new ErrorRecoveryStrategy(
-          config.maxRetries,
-          config.retryDelay,
-          config.autoRetry
-        )
-      )
-    }
+  /**
+   * 에러 바운더리 등록
+   */
+  register(id: string, context: ErrorBoundaryContext): void {
+    this.boundaries.set(id, context)
   }
 
-  unregisterBoundary(config: ErrorBoundaryConfig): void {
-    const index = this.boundaryStack.findIndex(
-      b => b.level === config.level && b.name === config.name
-    )
-    if (index !== -1) {
-      this.boundaryStack.splice(index, 1)
-    }
+  /**
+   * 에러 바운더리 해제
+   */
+  unregister(id: string): void {
+    this.boundaries.delete(id)
+    this.errorHistory.delete(id)
   }
 
-  getCurrentBoundary(): ErrorBoundaryConfig | null {
-    return this.boundaryStack[this.boundaryStack.length - 1] || null
-  }
-
-  getParentBoundary(
-    currentLevel: ErrorBoundaryLevel
-  ): ErrorBoundaryConfig | null {
-    const levelHierarchy: ErrorBoundaryLevel[] = [
-      'modal',
-      'component',
-      'page',
-      'route-group',
-      'global',
-    ]
-
-    const currentIndex = levelHierarchy.indexOf(currentLevel)
-    if (currentIndex === -1 || currentIndex === levelHierarchy.length - 1) {
-      return null
-    }
-
-    // 현재 레벨보다 상위 레벨의 바운더리 찾기
-    for (let i = currentIndex + 1; i < levelHierarchy.length; i++) {
-      const parentLevel = levelHierarchy[i]
-      const parentBoundary = this.boundaryStack.find(
-        b => b.level === parentLevel
-      )
-      if (parentBoundary) {
-        return parentBoundary
-      }
-    }
-
-    return null
-  }
-
-  getRecoveryStrategy(config: ErrorBoundaryConfig): ErrorRecoveryStrategy {
-    const strategyKey = `${config.level}-${config.name}`
-    let strategy = this.recoveryStrategies.get(strategyKey)
-
-    if (!strategy) {
-      strategy = new ErrorRecoveryStrategy(
-        config.maxRetries,
-        config.retryDelay,
-        config.autoRetry
-      )
-      this.recoveryStrategies.set(strategyKey, strategy)
-    }
-
-    return strategy
-  }
-
-  async handleError(
+  /**
+   * 에러 처리 및 복구 액션 생성
+   */
+  handleError(
+    boundaryId: string,
     error: Error,
-    config: ErrorBoundaryConfig,
-    context?: Partial<ErrorContext>
-  ): Promise<{
+    errorInfo: ErrorInfo,
+    retryCount: number = 0
+  ): {
     appError: AppError
-    shouldEscalate: boolean
-    recoveryOptions: ErrorRecoveryOptions
-  }> {
+    recoveryActions: ErrorRecoveryAction[]
+    shouldPropagate: boolean
+  } {
+    const boundary = this.boundaries.get(boundaryId)
+    if (!boundary) {
+      throw new Error(`Error boundary ${boundaryId} not found`)
+    }
+
     // 에러를 AppError로 변환
-    const fullContext: ErrorContext = {
-      component: config.name,
-      ...context,
+    const context: ErrorContext = {
+      component: boundary.component || boundary.name,
+      url: typeof window !== 'undefined' ? window.location.href : '',
+      userAgent:
+        typeof window !== 'undefined' ? window.navigator.userAgent : '',
       additionalData: {
-        ...context?.additionalData,
-        boundaryLevel: config.level,
-        boundaryStack: this.boundaryStack.map(b => `${b.level}:${b.name}`),
+        boundaryLevel: boundary.level,
+        boundaryId,
+        componentStack: errorInfo.componentStack,
+        retryCount,
       },
     }
 
-    const appError = errorHandler.handleError(error, fullContext)
+    const appError = errorHandler.handleError(error, context)
 
-    // 에러 리포팅
-    await errorHandler.reportError(appError, fullContext)
+    // 에러 히스토리에 추가
+    const history = this.errorHistory.get(boundaryId) || []
+    history.push(appError)
+    this.errorHistory.set(boundaryId, history.slice(-10)) // 최근 10개만 유지
 
-    // 커스텀 에러 핸들러 호출
-    if (config.onError) {
-      config.onError(appError, fullContext)
-    }
-
-    // 복구 전략 가져오기
-    const recoveryStrategy = this.getRecoveryStrategy(config)
-
-    // 에스컬레이션 여부 결정
-    const shouldEscalate = this.shouldEscalateError(
+    // 복구 액션 생성
+    const recoveryActions = this.createRecoveryActions(
       appError,
-      config,
-      recoveryStrategy
+      boundary,
+      retryCount
     )
 
-    // 복구 옵션 생성
-    const recoveryOptions = this.createRecoveryOptions(
+    // 상위 바운더리로 전파할지 결정
+    const shouldPropagate = this.shouldPropagateError(
       appError,
-      config,
-      recoveryStrategy
+      boundary,
+      retryCount
     )
 
-    return {
-      appError,
-      shouldEscalate,
-      recoveryOptions,
-    }
+    return { appError, recoveryActions, shouldPropagate }
   }
 
-  private shouldEscalateError(
+  /**
+   * 복구 액션 생성
+   */
+  private createRecoveryActions(
     error: AppError,
-    config: ErrorBoundaryConfig,
-    strategy: ErrorRecoveryStrategy
+    boundary: ErrorBoundaryContext,
+    retryCount: number
+  ): ErrorRecoveryAction[] {
+    const actions: ErrorRecoveryAction[] = []
+    const maxRetries = this.retryLimits.get(error.type) || 0
+
+    // 재시도 액션 (재시도 가능한 에러이고 제한에 걸리지 않은 경우)
+    if (errorHandler.isRetryable(error) && retryCount < maxRetries) {
+      actions.push({
+        id: 'retry',
+        label: '다시 시도',
+        type: 'retry',
+        primary: true,
+      })
+    }
+
+    // 레벨별 특화 액션
+    switch (boundary.level) {
+      case 'component':
+        actions.push(
+          {
+            id: 'fallback',
+            label: '기본 화면으로',
+            type: 'fallback',
+          },
+          {
+            id: 'reload-component',
+            label: '컴포넌트 새로고침',
+            type: 'reload',
+          }
+        )
+        break
+
+      case 'route':
+        actions.push(
+          {
+            id: 'reload-page',
+            label: '페이지 새로고침',
+            type: 'reload',
+          },
+          {
+            id: 'go-back',
+            label: '이전 페이지',
+            type: 'redirect',
+            handler: () => {
+              if (typeof window !== 'undefined') {
+                window.history.back()
+              }
+            },
+          }
+        )
+        break
+
+      case 'global':
+        actions.push(
+          {
+            id: 'reload-app',
+            label: '앱 새로고침',
+            type: 'reload',
+          },
+          {
+            id: 'go-home',
+            label: '홈으로 이동',
+            type: 'redirect',
+            href: '/',
+          }
+        )
+        break
+    }
+
+    // 에러 타입별 특화 액션
+    if (error.type === 'auth') {
+      actions.push({
+        id: 'login',
+        label: '로그인',
+        type: 'redirect',
+        href: '/auth/signin',
+        primary: !actions.some(a => a.primary),
+      })
+    }
+
+    if (error.type === 'network') {
+      actions.push({
+        id: 'check-connection',
+        label: '연결 확인',
+        type: 'dismiss',
+      })
+    }
+
+    // 항상 제공되는 액션
+    actions.push({
+      id: 'dismiss',
+      label: '닫기',
+      type: 'dismiss',
+    })
+
+    return actions
+  }
+
+  /**
+   * 에러를 상위 바운더리로 전파할지 결정
+   */
+  private shouldPropagateError(
+    error: AppError,
+    boundary: ErrorBoundaryContext,
+    retryCount: number
   ): boolean {
-    // 설정에서 에스컬레이션을 비활성화한 경우
-    if (config.escalateToParent === false) {
+    // 전역 바운더리에서는 전파하지 않음
+    if (boundary.level === 'global') {
       return false
     }
 
-    // 재시도 가능하고 아직 재시도 횟수가 남은 경우
-    if (config.retryable && strategy.canRetry()) {
-      return false
-    }
-
-    // Critical 에러는 항상 에스컬레이션
+    // 치명적 에러는 항상 전파
     if (error.severity === 'critical') {
       return true
     }
 
-    // 모달 레벨에서는 페이지로 에스컬레이션
-    if (config.level === 'modal') {
+    // 재시도 횟수가 많으면 전파
+    const maxRetries = this.retryLimits.get(error.type) || 0
+    if (retryCount >= maxRetries) {
       return true
     }
 
-    // 컴포넌트 레벨에서는 페이지로 에스컬레이션 (선택적)
-    if (config.level === 'component' && error.severity === 'high') {
+    // 특정 에러 타입은 상위로 전파
+    const propagateTypes: ErrorType[] = ['auth', 'permission']
+    if (propagateTypes.includes(error.type)) {
       return true
     }
 
     return false
   }
 
-  private createRecoveryOptions(
-    error: AppError,
-    config: ErrorBoundaryConfig,
-    strategy: ErrorRecoveryStrategy
-  ): ErrorRecoveryOptions {
-    return {
-      retry: () => {
-        if (strategy.canRetry()) {
-          // 실제 재시도 로직은 컴포넌트에서 구현
-          console.warn(
-            `Retrying... (${strategy.getRemainingRetries()} attempts left)`
-          )
-        }
-      },
+  /**
+   * 에러 히스토리 조회
+   */
+  getErrorHistory(boundaryId: string): AppError[] {
+    return this.errorHistory.get(boundaryId) || []
+  }
 
-      fallback: () => {
-        // Graceful degradation 로직
-        console.warn('Falling back to degraded mode')
-      },
+  /**
+   * 재시도 제한 확인
+   */
+  canRetry(errorType: ErrorType, currentRetryCount: number): boolean {
+    const maxRetries = this.retryLimits.get(errorType) || 0
+    return currentRetryCount < maxRetries
+  }
 
-      escalate: () => {
-        const parentBoundary = this.getParentBoundary(config.level)
-        if (parentBoundary) {
-          console.warn(
-            `Escalating to parent boundary: ${parentBoundary.level}:${parentBoundary.name}`
-          )
-          // 부모 바운더리로 에러 전파
-        }
-      },
-
-      dismiss: () => {
-        // 에러 무시 (모달 등에서 사용)
-        console.warn('Dismissing error')
-        strategy.reset()
-      },
+  /**
+   * 전체 에러 통계
+   */
+  getErrorStats(): {
+    totalBoundaries: number
+    totalErrors: number
+    errorsByType: Record<ErrorType, number>
+    errorsByLevel: Record<ErrorBoundaryLevel, number>
+  } {
+    const stats = {
+      totalBoundaries: this.boundaries.size,
+      totalErrors: 0,
+      errorsByType: {} as Record<ErrorType, number>,
+      errorsByLevel: {} as Record<ErrorBoundaryLevel, number>,
     }
+
+    // 모든 에러 히스토리를 순회하여 통계 생성
+    for (const [boundaryId, errors] of this.errorHistory) {
+      const boundary = this.boundaries.get(boundaryId)
+      if (!boundary) continue
+
+      stats.totalErrors += errors.length
+
+      // 레벨별 통계
+      stats.errorsByLevel[boundary.level] =
+        (stats.errorsByLevel[boundary.level] || 0) + errors.length
+
+      // 타입별 통계
+      for (const error of errors) {
+        stats.errorsByType[error.type] =
+          (stats.errorsByType[error.type] || 0) + 1
+      }
+    }
+
+    return stats
+  }
+}
+
+// 전역 에러 바운더리 레지스트리 인스턴스
+export const errorBoundaryRegistry = new ErrorBoundaryRegistry()
+
+/**
+ * 에러 바운더리 훅 생성 함수
+ */
+export function createErrorBoundaryHook(
+  level: ErrorBoundaryLevel,
+  name: string,
+  options?: {
+    route?: string
+    component?: string
+    parentBoundary?: string
+  }
+) {
+  const boundaryId = `${level}-${name}-${Date.now()}`
+
+  return {
+    boundaryId,
+    register: () => {
+      errorBoundaryRegistry.register(boundaryId, {
+        level,
+        name,
+        route: options?.route,
+        component: options?.component,
+        parentBoundary: options?.parentBoundary,
+      })
+    },
+    unregister: () => {
+      errorBoundaryRegistry.unregister(boundaryId)
+    },
+    handleError: (
+      error: Error,
+      errorInfo: ErrorInfo,
+      retryCount: number = 0
+    ) => {
+      return errorBoundaryRegistry.handleError(
+        boundaryId,
+        error,
+        errorInfo,
+        retryCount
+      )
+    },
+    getHistory: () => {
+      return errorBoundaryRegistry.getErrorHistory(boundaryId)
+    },
   }
 }
 
 /**
- * 에러 바운더리 레벨별 기본 설정
+ * 에러 복구 실행 함수
  */
-export const DEFAULT_BOUNDARY_CONFIGS: Record<
-  ErrorBoundaryLevel,
-  Partial<ErrorBoundaryConfig>
-> = {
-  global: {
-    level: 'global',
-    retryable: false,
-    escalateToParent: false,
-    maxRetries: 0,
-  },
+export async function executeRecoveryAction(
+  action: ErrorRecoveryAction,
+  onRetry?: () => void
+): Promise<void> {
+  switch (action.type) {
+    case 'retry':
+      if (onRetry) {
+        onRetry()
+      }
+      break
 
-  'route-group': {
-    level: 'route-group',
-    retryable: true,
-    escalateToParent: true,
-    maxRetries: 2,
-    retryDelay: 1000,
-  },
+    case 'reload':
+      if (typeof window !== 'undefined') {
+        window.location.reload()
+      }
+      break
 
-  page: {
-    level: 'page',
-    retryable: true,
-    escalateToParent: true,
-    maxRetries: 3,
-    retryDelay: 500,
-  },
+    case 'redirect':
+      if (action.href && typeof window !== 'undefined') {
+        window.location.href = action.href
+      } else if (action.handler) {
+        await action.handler()
+      }
+      break
 
-  component: {
-    level: 'component',
-    retryable: true,
-    escalateToParent: true,
-    maxRetries: 2,
-    retryDelay: 200,
-  },
+    case 'fallback':
+      // 폴백은 컴포넌트에서 처리
+      break
 
-  modal: {
-    level: 'modal',
-    retryable: true,
-    escalateToParent: true,
-    maxRetries: 1,
-    retryDelay: 500,
-  },
+    case 'dismiss':
+      // 닫기는 UI에서 처리
+      break
+
+    default:
+      console.warn(`Unknown recovery action type: ${action.type}`)
+  }
 }
 
 /**
- * 에러 바운더리 설정 생성 헬퍼
+ * 개발자 도구용 에러 바운더리 디버깅 함수
  */
-export function createBoundaryConfig(
-  level: ErrorBoundaryLevel,
-  name: string,
-  overrides?: Partial<ErrorBoundaryConfig>
-): ErrorBoundaryConfig {
-  const defaults = DEFAULT_BOUNDARY_CONFIGS[level]
-
-  return {
-    ...defaults,
-    level,
-    name,
-    ...overrides,
-  } as ErrorBoundaryConfig
+export function debugErrorBoundaries(): void {
+  if (process.env.NODE_ENV === 'development') {
+    const stats = errorBoundaryRegistry.getErrorStats()
+    console.group('🚨 Error Boundary Debug Info')
+    console.log('📊 Statistics:', stats)
+    console.log('🔍 Registry:', errorBoundaryRegistry)
+    console.groupEnd()
+  }
 }
 
-/**
- * 전역 에러 바운더리 컨텍스트 인스턴스
- */
-export const errorBoundaryContext = ErrorBoundaryContext.getInstance()
+// 개발 환경에서 전역 디버그 함수 노출
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
+  ;(window as any).debugErrorBoundaries = debugErrorBoundaries
+}

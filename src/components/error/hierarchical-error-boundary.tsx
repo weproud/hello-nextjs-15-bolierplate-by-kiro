@@ -1,14 +1,69 @@
 'use client'
 
 import React, { Component, type ErrorInfo, type ReactNode } from 'react'
-import {
-  errorBoundaryContext,
-  type ErrorBoundaryConfig,
-  type ErrorBoundaryLevel,
-  createBoundaryConfig,
-} from '@/lib/error-boundary-system'
 import { ErrorFallback } from './error-fallback'
 import { type AppError } from '@/lib/error-handler'
+import { GlobalErrorBoundary as NewGlobalErrorBoundary } from './global-error-boundary'
+import { RouteErrorBoundary as NewRouteErrorBoundary } from './route-error-boundary'
+import { ComponentErrorBoundary as NewComponentErrorBoundary } from './component-error-boundary'
+
+// 레거시 타입 정의 (하위 호환성을 위해 유지)
+export type ErrorBoundaryLevel =
+  | 'global'
+  | 'route-group'
+  | 'page'
+  | 'component'
+  | 'modal'
+
+export interface ErrorBoundaryConfig {
+  level: ErrorBoundaryLevel
+  name: string
+  onError?: (error: AppError, context: any) => void
+  retryable?: boolean
+  autoRetry?: boolean
+  maxRetries?: number
+  retryDelay?: number
+  escalateToParent?: boolean
+}
+
+// 레거시 컨텍스트 (하위 호환성을 위해 유지)
+export const errorBoundaryContext = {
+  registerBoundary: (config: ErrorBoundaryConfig) => {
+    console.log('Legacy boundary registered:', config)
+  },
+  unregisterBoundary: (config: ErrorBoundaryConfig) => {
+    console.log('Legacy boundary unregistered:', config)
+  },
+  handleError: async (
+    error: Error,
+    config: ErrorBoundaryConfig,
+    context: any
+  ) => {
+    return {
+      appError: {
+        id: `legacy_${Date.now()}`,
+        type: 'unknown' as const,
+        message: error.message,
+        originalError: error,
+        timestamp: new Date(),
+        severity: 'medium' as const,
+      },
+      shouldEscalate: false,
+    }
+  },
+}
+
+export function createBoundaryConfig(
+  level: ErrorBoundaryLevel,
+  name: string,
+  options?: Partial<ErrorBoundaryConfig>
+): ErrorBoundaryConfig {
+  return {
+    level,
+    name,
+    ...options,
+  }
+}
 
 interface HierarchicalErrorBoundaryProps {
   level: ErrorBoundaryLevel
@@ -334,114 +389,154 @@ function DefaultHierarchicalErrorFallback({
 }
 
 /**
- * 편의 함수들
+ * 새로운 계층적 에러 바운더리 시스템 (권장)
+ *
+ * 기존 HierarchicalErrorBoundary 대신 이 컴포넌트들을 사용하세요.
  */
 
-// Global Error Boundary
+// Global Error Boundary (새로운 시스템)
 export function GlobalErrorBoundary({
   children,
-  ...props
-}: Omit<HierarchicalErrorBoundaryProps, 'level' | 'name'>) {
+  fallback,
+  onError,
+  showDetails = false,
+}: {
+  children: ReactNode
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+  showDetails?: boolean
+}) {
   return (
-    <HierarchicalErrorBoundary
-      level="global"
-      name="global"
-      maxRetries={1}
-      retryDelay={2000}
-      escalateToParent={false}
-      {...props}
+    <NewGlobalErrorBoundary
+      fallback={fallback}
+      onError={onError}
+      showDetails={showDetails}
     >
       {children}
-    </HierarchicalErrorBoundary>
+    </NewGlobalErrorBoundary>
   )
 }
 
-// Route Group Error Boundary
+// Route Error Boundary (새로운 시스템)
 export function RouteGroupErrorBoundary({
   children,
   routeName,
-  ...props
-}: Omit<HierarchicalErrorBoundaryProps, 'level' | 'name'> & {
+  routePath,
+  fallback,
+  onError,
+  showDetails = false,
+}: {
+  children: ReactNode
   routeName: string
+  routePath?: string
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+  showDetails?: boolean
 }) {
   return (
-    <HierarchicalErrorBoundary
-      level="route-group"
-      name={routeName}
-      maxRetries={2}
-      retryDelay={1000}
-      escalateToParent={true}
-      {...props}
+    <NewRouteErrorBoundary
+      routeName={routeName}
+      routePath={routePath}
+      fallback={fallback}
+      onError={onError}
+      showDetails={showDetails}
     >
       {children}
-    </HierarchicalErrorBoundary>
+    </NewRouteErrorBoundary>
   )
 }
 
-// Page Error Boundary
+// Page Error Boundary (새로운 시스템)
 export function PageErrorBoundary({
   children,
   pageName,
-  ...props
-}: Omit<HierarchicalErrorBoundaryProps, 'level' | 'name'> & {
+  routePath,
+  fallback,
+  onError,
+  showDetails = false,
+}: {
+  children: ReactNode
   pageName: string
+  routePath?: string
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+  showDetails?: boolean
 }) {
   return (
-    <HierarchicalErrorBoundary
-      level="page"
-      name={pageName}
-      maxRetries={3}
-      retryDelay={500}
-      escalateToParent={true}
-      {...props}
+    <NewRouteErrorBoundary
+      routeName={pageName}
+      routePath={routePath}
+      fallback={fallback}
+      onError={onError}
+      showDetails={showDetails}
     >
       {children}
-    </HierarchicalErrorBoundary>
+    </NewRouteErrorBoundary>
   )
 }
 
-// Component Error Boundary
+// Component Error Boundary (새로운 시스템)
 export function ComponentErrorBoundary({
   children,
   componentName,
-  ...props
-}: Omit<HierarchicalErrorBoundaryProps, 'level' | 'name'> & {
+  inline = false,
+  minimal = false,
+  fallback,
+  onError,
+  onRecover,
+  showDetails = false,
+}: {
+  children: ReactNode
   componentName: string
+  inline?: boolean
+  minimal?: boolean
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+  onRecover?: () => void
+  showDetails?: boolean
 }) {
   return (
-    <HierarchicalErrorBoundary
-      level="component"
-      name={componentName}
-      maxRetries={2}
-      retryDelay={200}
-      escalateToParent={true}
-      className="min-h-0"
-      {...props}
+    <NewComponentErrorBoundary
+      componentName={componentName}
+      inline={inline}
+      minimal={minimal}
+      fallback={fallback}
+      onError={onError}
+      onRecover={onRecover}
+      showDetails={showDetails}
     >
       {children}
-    </HierarchicalErrorBoundary>
+    </NewComponentErrorBoundary>
   )
 }
 
-// Modal Error Boundary
+// Modal Error Boundary (새로운 시스템)
 export function ModalErrorBoundary({
   children,
   modalName,
-  ...props
-}: Omit<HierarchicalErrorBoundaryProps, 'level' | 'name'> & {
+  fallback,
+  onError,
+  onRecover,
+  showDetails = false,
+}: {
+  children: ReactNode
   modalName: string
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+  onRecover?: () => void
+  showDetails?: boolean
 }) {
   return (
-    <HierarchicalErrorBoundary
-      level="modal"
-      name={modalName}
-      maxRetries={1}
-      retryDelay={500}
-      escalateToParent={true}
-      className="min-h-0"
-      {...props}
+    <NewComponentErrorBoundary
+      componentName={modalName}
+      inline={true}
+      minimal={true}
+      fallback={fallback}
+      onError={onError}
+      onRecover={onRecover}
+      showDetails={showDetails}
     >
       {children}
-    </HierarchicalErrorBoundary>
+    </NewComponentErrorBoundary>
   )
 }
