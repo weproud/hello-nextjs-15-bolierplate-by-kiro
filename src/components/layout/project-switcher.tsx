@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
-import { ChevronsUpDown, Plus, FolderKanban } from 'lucide-react'
+import { useRouter, useParams } from 'next/navigation'
+import { ChevronsUpDown, Plus, FolderKanban, Check } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -43,22 +43,33 @@ export function ProjectSwitcher({
 }: ProjectSwitcherProps) {
   const { isMobile } = useSidebar()
   const router = useRouter()
+  const params = useParams()
   const [projects, setProjects] = React.useState(initialProjects)
-  const [activeProject, setActiveProject] = React.useState(
-    initialProjects.length > 0 ? initialProjects[0] : null
-  )
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false)
+
+  // URL에서 현재 프로젝트 ID 가져오기
+  const currentProjectId = params?.id as string
+
+  // 현재 활성 프로젝트 결정 (URL 기반)
+  const activeProject = React.useMemo(() => {
+    if (currentProjectId) {
+      return projects.find(p => p.id === currentProjectId) || null
+    }
+    return projects.length > 0 ? projects[0] : null
+  }, [projects, currentProjectId])
 
   // Update projects when initialProjects changes
   React.useEffect(() => {
     setProjects(initialProjects)
-    if (initialProjects.length > 0 && !activeProject) {
-      setActiveProject(initialProjects[0])
-    }
-  }, [initialProjects, activeProject])
+  }, [initialProjects])
 
   const handleProjectSelect = (project: (typeof projects)[0]) => {
-    setActiveProject(project)
+    // 이미 선택된 프로젝트인 경우 아무것도 하지 않음
+    if (currentProjectId === project.id) {
+      return
+    }
+
+    // 프로젝트 상세 페이지로 이동
     router.push(`/projects/${project.id}`)
   }
 
@@ -69,7 +80,7 @@ export function ProjectSwitcher({
   const handleCreateSuccess = (newProject?: any) => {
     setIsCreateModalOpen(false)
 
-    // 새로운 프로젝트가 전달되면 즉시 목록에 추가
+    // 새로운 프로젝트가 전달되면 즉시 목록에 추가하고 해당 프로젝트로 이동
     if (newProject) {
       const projectForSwitcher = {
         id: newProject.id,
@@ -77,11 +88,13 @@ export function ProjectSwitcher({
         description: newProject.description,
       }
       setProjects(prev => [projectForSwitcher, ...prev])
-      setActiveProject(projectForSwitcher)
-    }
 
-    // 페이지를 새로고침하여 서버 데이터도 동기화
-    router.refresh()
+      // 새로 생성된 프로젝트 상세 페이지로 이동
+      router.push(`/projects/${newProject.id}`)
+    } else {
+      // 페이지를 새로고침하여 서버 데이터도 동기화
+      router.refresh()
+    }
   }
 
   // 프로젝트가 없는 경우 기본 상태 표시
@@ -190,26 +203,37 @@ export function ProjectSwitcher({
               <DropdownMenuLabel className="text-xs text-muted-foreground">
                 프로젝트
               </DropdownMenuLabel>
-              {projects.map((project, index) => (
-                <DropdownMenuItem
-                  key={project.id}
-                  onClick={() => handleProjectSelect(project)}
-                  className="gap-2 p-2"
-                >
-                  <div className="flex size-6 items-center justify-center rounded-sm border">
-                    <FolderKanban className="size-4 shrink-0" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">{project.title}</span>
-                    {project.description && (
-                      <span className="text-xs text-muted-foreground truncate max-w-[150px]">
-                        {project.description}
+              {projects.map((project, index) => {
+                const isActive = currentProjectId === project.id
+                return (
+                  <DropdownMenuItem
+                    key={project.id}
+                    onClick={() => handleProjectSelect(project)}
+                    className="gap-2 p-2"
+                  >
+                    <div className="flex size-6 items-center justify-center rounded-sm border">
+                      {isActive ? (
+                        <Check className="size-4 shrink-0" />
+                      ) : (
+                        <FolderKanban className="size-4 shrink-0" />
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      <span
+                        className={`text-sm font-medium ${isActive ? 'text-primary' : ''}`}
+                      >
+                        {project.title}
                       </span>
-                    )}
-                  </div>
-                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              ))}
+                      {project.description && (
+                        <span className="text-xs text-muted-foreground truncate max-w-[150px]">
+                          {project.description}
+                        </span>
+                      )}
+                    </div>
+                    <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                )
+              })}
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="gap-2 p-2"

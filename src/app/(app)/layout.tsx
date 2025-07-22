@@ -1,9 +1,9 @@
-import { SidebarLayout } from '@/components/layout/sidebar-layout'
+import { SidebarLayoutServer } from '@/components/layout/sidebar-layout-server'
 
 export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <SidebarLayout>{children}</SidebarLayout>
+  return <SidebarLayoutServer>{children}</SidebarLayoutServer>
 }

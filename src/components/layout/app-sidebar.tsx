@@ -1,13 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {
-  AudioWaveform,
-  FolderKanban,
-  GalleryVerticalEnd,
-  Home,
-  SquareTerminal,
-} from 'lucide-react'
+import { FolderKanban, Home, LayoutDashboard, Scan } from 'lucide-react'
 
 import { NavUser } from '@/components/layout/nav-user'
 import { ProjectSwitcher } from '@/components/layout/project-switcher'
@@ -17,6 +11,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { NavMain } from '@/components/layout/nav-main'
 import { Logo } from '@/components/ui/logo'
@@ -38,7 +33,7 @@ const data = {
     {
       title: '대시보드',
       url: '/dashboard',
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     {
@@ -65,11 +60,18 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   }>
 }
 
-export function AppSidebar({ projects = [], ...props }: AppSidebarProps) {
+export function AppSidebar({
+  projects = [],
+  navigationData,
+  ...props
+}: AppSidebarProps) {
+  const { state } = useSidebar()
+  const isCollapsed = state === 'collapsed'
+
   return (
     <Sidebar collapsible="icon" {...props} variant="inset">
       <SidebarHeader>
-        <Logo />
+        <Logo showText={!isCollapsed} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
