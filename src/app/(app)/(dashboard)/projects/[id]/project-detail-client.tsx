@@ -217,38 +217,6 @@ export function ProjectDetailClient({
                 </div>
               </CardContent>
             </Card>
-
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>빠른 작업</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => setIsCreateDialogOpen(true)}
-                >
-                  <Plus className="mr-2 h-4 w-4" />새 프로젝트
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => setIsEditDialogOpen(true)}
-                >
-                  <Edit className="mr-2 h-4 w-4" />
-                  프로젝트 수정
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Plus className="mr-2 h-4 w-4" />
-                  단계 추가
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <FileText className="mr-2 h-4 w-4" />
-                  보고서 생성
-                </Button>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
