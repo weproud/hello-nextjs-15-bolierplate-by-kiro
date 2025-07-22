@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { CreateProjectModal } from '@/components/projects/create-project-modal'
-
 interface User {
   id: string
   name: string | null

@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from 'lucide-react'
+import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -25,22 +18,33 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
-export function AppSidebarUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    image: string
-  }
-}) {
+export function AppSidebarUser() {
   const { isMobile } = useSidebar()
   const { data: session } = useSession()
 
-  // Use session data if available, otherwise use prop data
-  const displayUser = session?.user || user
+  // Show login button if no session, otherwise show user info
+  if (!session?.user) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            size="lg"
+            onClick={() => signIn('google')}
+            className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          >
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">로그인</span>
+              <span className="truncate text-xs">Google로 시작하기</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
+
+  const displayUser = session.user
 
   return (
     <SidebarMenu>

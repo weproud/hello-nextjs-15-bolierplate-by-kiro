@@ -1,14 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {
-  FolderKanban,
-  Home,
-  LayoutDashboard,
-  MessageSquare,
-  Rocket,
-  Scan,
-} from 'lucide-react'
+import { Home, LayoutDashboard, MessageSquare, Rocket } from 'lucide-react'
 
 import { AppSidebarUser } from '@/components/layout/app-sidebar-user'
 import { ProjectSwitcher } from '@/components/layout/project-switcher'
@@ -22,26 +15,12 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
-import {
-  AppSidebarMenu,
-  SidebarMenu,
-} from '@/components/layout/app-sidebar-menu'
+import { AppSidebarMenu } from '@/components/layout/app-sidebar-menu'
 import { Logo } from '@/components/ui/logo'
 
 // Default data - will be replaced with real data
 const data = {
-  user: {
-    name: '사용자',
-    email: 'user@example.com',
-    image: '',
-  },
   navMain: [
-    {
-      title: '홈',
-      url: '/',
-      icon: Home,
-      isActive: true,
-    },
     {
       title: '대시보드',
       url: '/dashboard',
@@ -63,7 +42,7 @@ const data = {
   ],
   navWorkspace: [
     {
-      title: '프로젝트',
+      title: '내 프로젝트',
       url: '/projects',
       icon: Rocket,
       isActive: true,
@@ -93,11 +72,11 @@ export function AppSidebar({
       <SidebarHeader>
         <Logo showText={!isCollapsed} />
       </SidebarHeader>
+      <SidebarGroup>
+        <SidebarGroupLabel>메뉴</SidebarGroupLabel>
+        <AppSidebarMenu items={data.navMain} />
+      </SidebarGroup>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>메뉴</SidebarGroupLabel>
-          <AppSidebarMenu items={data.navMain} />
-        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>내 워크스페이스</SidebarGroupLabel>
           <AppSidebarMenu items={data.navWorkspace} />
@@ -106,7 +85,7 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <AppSidebarUser user={data.user} />
+        <AppSidebarUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

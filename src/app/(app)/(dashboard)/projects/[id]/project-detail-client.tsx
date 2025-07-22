@@ -147,13 +147,6 @@ export function ProjectDetailClient({
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              onClick={() => setIsCreateDialogOpen(true)}
-              disabled={isDeleting}
-            >
-              <Plus className="mr-2 h-4 w-4" />새 프로젝트
-            </Button>
-            <Button
-              variant="outline"
               onClick={() => setIsEditDialogOpen(true)}
               disabled={isDeleting}
             >

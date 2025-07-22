@@ -2,7 +2,8 @@
 
 import * as React from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { ChevronsUpDown, Plus, FolderKanban, Check } from 'lucide-react'
+import { ChevronsUpDown, Plus, FolderKanban, Check, LogIn } from 'lucide-react'
+import { useSession, signIn } from 'next-auth/react'
 
 import {
   DropdownMenu,
@@ -35,6 +36,7 @@ export function ProjectSwitcher({
   const { isMobile } = useSidebar()
   const router = useRouter()
   const params = useParams()
+  const { data: session } = useSession()
   const [projects, setProjects] = React.useState(initialProjects)
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false)
 
@@ -86,6 +88,31 @@ export function ProjectSwitcher({
       // 페이지를 새로고침하여 서버 데이터도 동기화
       router.refresh()
     }
+  }
+
+  // 로그인하지 않은 경우 로그인 안내 표시
+  if (!session?.user) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            size="lg"
+            className="cursor-pointer hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            onClick={() => signIn('google')}
+          >
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-muted">
+              <LogIn className="size-4" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">로그인 필요</span>
+              <span className="truncate text-xs">
+                프로젝트를 보려면 로그인하세요
+              </span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
   }
 
   // 프로젝트가 없는 경우 기본 상태 표시
