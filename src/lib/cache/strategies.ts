@@ -69,13 +69,6 @@ export const cacheStrategies = {
       prismaMemoryCache.delete(prismaMemoryCache.keys.project(projectId))
       projectCache.delete(`project:${projectId}`)
     },
-
-    // Invalidate project phases
-    invalidatePhases: (projectId: string) => {
-      cacheInvalidation.byTag(`${CACHE_TAGS.PHASE}`)
-      prismaMemoryCache.delete(prismaMemoryCache.keys.projectPhases(projectId))
-      projectCache.delete(`project:${projectId}:phases`)
-    },
   },
 
   /**
@@ -157,10 +150,7 @@ export const cacheWarming = {
       const cachedPrisma = new PrismaCacheWrapper(prisma)
 
       // Pre-load project data
-      await Promise.all([
-        cachedPrisma.project.findUnique(projectId),
-        cachedPrisma.phase.findMany(projectId),
-      ])
+      await Promise.all([cachedPrisma.project.findUnique(projectId)])
 
       console.log(`[Cache] Project cache warmed up for project: ${projectId}`)
     } catch (error) {

@@ -86,18 +86,6 @@ export interface Project extends BaseEntity {
   description?: string | null
   userId: string
   user?: User
-  phases?: Phase[]
-  _count?: {
-    phases: number
-  }
-}
-
-export interface Phase extends BaseEntity {
-  title: string
-  description?: string | null
-  order: number
-  projectId: string
-  project?: Project
 }
 
 // Form types
@@ -210,7 +198,7 @@ export interface SearchResult {
   id: string
   title: string
   description?: string
-  type: 'project' | 'phase' | 'user'
+  type: 'project' | 'user'
   relevanceScore: number
   metadata?: Record<string, any>
 }
@@ -241,11 +229,6 @@ export interface ProjectStats {
   activeProjects: number
   completedProjects: number
   archivedProjects: number
-  totalPhases: number
-  completedPhases: number
-  inProgressPhases: number
-  pendingPhases: number
-  averagePhasesPerProject: number
   projectsThisMonth: number
   projectsLastMonth: number
   monthlyGrowth: number
@@ -254,7 +237,6 @@ export interface ProjectStats {
 export interface ActivityData {
   day: string
   projects: number
-  phases: number
 }
 
 export interface CategoryDistribution {
@@ -318,12 +300,6 @@ export interface ProjectEvent extends AppEvent {
     | 'project.updated'
     | 'project.deleted'
     | 'project.duplicated'
-}
-
-export interface PhaseEvent extends AppEvent {
-  phaseId: string
-  projectId: string
-  type: 'phase.created' | 'phase.updated' | 'phase.deleted' | 'phase.reordered'
 }
 
 // Component prop types

@@ -77,7 +77,6 @@ export interface TranslationKeys {
     projectUpdated: string
     projectDeleted: string
     noProjects: string
-    phases: string
     createdAt: string
     updatedAt: string
   }
@@ -164,7 +163,6 @@ const ko: TranslationKeys = {
     projectUpdated: '프로젝트가 수정되었습니다',
     projectDeleted: '프로젝트가 삭제되었습니다',
     noProjects: '프로젝트가 없습니다',
-    phases: '단계',
     createdAt: '생성일',
     updatedAt: '수정일',
   },
@@ -251,7 +249,6 @@ const en: TranslationKeys = {
     projectUpdated: 'Project updated successfully',
     projectDeleted: 'Project deleted successfully',
     noProjects: 'No projects found',
-    phases: 'Phases',
     createdAt: 'Created At',
     updatedAt: 'Updated At',
   },

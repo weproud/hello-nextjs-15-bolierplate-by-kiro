@@ -32,11 +32,6 @@ async function getProjectsWithStats(userId: string) {
             email: true,
           },
         },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
       },
       orderBy: {
         updatedAt: 'desc',
@@ -54,10 +49,6 @@ async function getProjectsWithStats(userId: string) {
     total: totalCount,
     active: projects.length, // 모든 프로젝트를 활성으로 간주
     completed: 0, // 완료 상태 필드가 없으므로 0
-    totalPhases: projects.reduce(
-      (acc, project) => acc + project._count.phases,
-      0
-    ),
   }
 
   return { projects, stats }
@@ -114,10 +105,6 @@ export default async function ProjectsPage({
             <div className="rounded-lg border p-4">
               <div className="text-2xl font-bold">{stats.completed}</div>
               <p className="text-xs text-muted-foreground">완료된 프로젝트</p>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-2xl font-bold">{stats.totalPhases}</div>
-              <p className="text-xs text-muted-foreground">총 단계</p>
             </div>
           </div>
         )}

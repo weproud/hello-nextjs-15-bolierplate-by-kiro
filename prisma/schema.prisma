@@ -71,23 +71,9 @@ model Project {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  phases      Phase[]
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("projects")
-}
-
-model Phase {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String   @db.VarChar(255)
-  description String?
-  order       Int      @default(0)
-  projectId   String   @db.Uuid
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@map("phases")
 }
 
 model Post {

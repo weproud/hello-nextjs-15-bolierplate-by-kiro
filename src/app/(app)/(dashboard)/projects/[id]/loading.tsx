@@ -56,7 +56,6 @@ export default function ProjectDetailLoading() {
             </CardContent>
           </Card>
 
-          {/* Phases */}
           <Card>
             <CardHeader>
               <div className="flex justify-between items-center">

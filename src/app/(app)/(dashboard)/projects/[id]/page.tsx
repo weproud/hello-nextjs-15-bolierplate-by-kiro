@@ -25,16 +25,6 @@ async function getProjectWithDetails(id: string, userId: string) {
             email: true,
           },
         },
-        phases: {
-          orderBy: {
-            order: 'asc',
-          },
-        },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
       },
     }),
 

@@ -1,4 +1,4 @@
-import type { User, Project, Phase } from '@prisma/client'
+import type { User, Project } from '@prisma/client'
 
 // Extended types with relations
 export type UserWithProjects = User & {
@@ -7,11 +7,6 @@ export type UserWithProjects = User & {
 
 export type ProjectWithRelations = Project & {
   user: User
-  phases: Phase[]
-}
-
-export type PhaseWithProject = Phase & {
-  project: Project
 }
 
 // API response types
@@ -41,10 +36,6 @@ export type CreateProjectInput = Pick<Project, 'title' | 'userId'> &
   Partial<Pick<Project, 'description'>>
 export type UpdateProjectInput = Partial<Pick<Project, 'title' | 'description'>>
 
-export type CreatePhaseInput = Pick<Phase, 'title' | 'projectId'> &
-  Partial<Pick<Phase, 'description'>>
-export type UpdatePhaseInput = Partial<Pick<Phase, 'title' | 'description'>>
-
 // Query filter types
 export interface UserFilters {
   email?: string
@@ -53,11 +44,6 @@ export interface UserFilters {
 
 export interface ProjectFilters {
   userId?: string
-  name?: string
-}
-
-export interface PhaseFilters {
-  projectId?: string
   name?: string
 }
 

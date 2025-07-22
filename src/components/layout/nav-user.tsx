@@ -81,7 +81,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={displayUser.image || displayUser.avatar}
+                    src={displayUser.image || displayUser.image}
                     alt={displayUser.name || '사용자'}
                   />
                   <AvatarFallback className="rounded-lg">

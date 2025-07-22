@@ -1,5 +1,5 @@
 import { prisma } from './client'
-import type { User, Project, Phase } from '@prisma/client'
+import type { User, Project } from '@prisma/client'
 
 // User queries
 export const userQueries = {
@@ -49,7 +49,6 @@ export const projectQueries = {
       where: { id },
       include: {
         user: true,
-        phases: true,
       },
     })
   },
@@ -57,9 +56,6 @@ export const projectQueries = {
   async findByUserId(userId: string): Promise<Project[]> {
     return prisma.project.findMany({
       where: { userId },
-      include: {
-        phases: true,
-      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -75,7 +71,6 @@ export const projectQueries = {
       data,
       include: {
         user: true,
-        phases: true,
       },
     })
   },
@@ -89,7 +84,6 @@ export const projectQueries = {
       data,
       include: {
         user: true,
-        phases: true,
       },
     })
   },
@@ -101,78 +95,20 @@ export const projectQueries = {
   },
 }
 
-// Phase queries
-export const phaseQueries = {
-  async findById(id: string): Promise<Phase | null> {
-    return prisma.phase.findUnique({
-      where: { id },
-      include: {
-        project: true,
-      },
-    })
-  },
-
-  async findByProjectId(projectId: string): Promise<Phase[]> {
-    return prisma.phase.findMany({
-      where: { projectId },
-      orderBy: {
-        createdAt: 'asc',
-      },
-    })
-  },
-
-  async createPhase(data: {
-    title: string
-    description?: string
-    projectId: string
-  }): Promise<Phase> {
-    return prisma.phase.create({
-      data,
-      include: {
-        project: true,
-      },
-    })
-  },
-
-  async updatePhase(
-    id: string,
-    data: Partial<Pick<Phase, 'title' | 'description'>>
-  ): Promise<Phase> {
-    return prisma.phase.update({
-      where: { id },
-      data,
-      include: {
-        project: true,
-      },
-    })
-  },
-
-  async deletePhase(id: string): Promise<Phase> {
-    return prisma.phase.delete({
-      where: { id },
-    })
-  },
-}
-
 // Generic queries
 export const genericQueries = {
-  async count(model: 'user' | 'project' | 'phase'): Promise<number> {
+  async count(model: 'user' | 'project'): Promise<number> {
     switch (model) {
       case 'user':
         return prisma.user.count()
       case 'project':
         return prisma.project.count()
-      case 'phase':
-        return prisma.phase.count()
       default:
         throw new Error(`Unknown model: ${model}`)
     }
   },
 
-  async exists(
-    model: 'user' | 'project' | 'phase',
-    id: string
-  ): Promise<boolean> {
+  async exists(model: 'user' | 'project', id: string): Promise<boolean> {
     let result
     switch (model) {
       case 'user':
@@ -180,9 +116,6 @@ export const genericQueries = {
         break
       case 'project':
         result = await prisma.project.findUnique({ where: { id } })
-        break
-      case 'phase':
-        result = await prisma.phase.findUnique({ where: { id } })
         break
       default:
         throw new Error(`Unknown model: ${model}`)

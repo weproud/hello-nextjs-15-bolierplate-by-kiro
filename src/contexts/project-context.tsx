@@ -17,20 +17,6 @@ export interface Project {
   userId: string
   createdAt: Date
   updatedAt: Date
-  phases?: Phase[]
-  _count?: {
-    phases: number
-  }
-}
-
-export interface Phase {
-  id: string
-  title: string
-  description?: string | null
-  order: number
-  projectId: string
-  createdAt: Date
-  updatedAt: Date
 }
 
 // Project context state

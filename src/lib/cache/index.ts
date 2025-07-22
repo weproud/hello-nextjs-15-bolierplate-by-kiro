@@ -248,8 +248,6 @@ export const cachedFetchers = {
       // For now, return a placeholder
       return {
         totalProjects: 0,
-        totalPhases: 0,
-        averagePhasesPerProject: 0,
         projectsThisMonth: 0,
         monthlyGrowth: 0,
       }

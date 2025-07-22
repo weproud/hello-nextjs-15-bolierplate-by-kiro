@@ -12,9 +12,6 @@ interface Project {
   id: string
   title: string
   updatedAt: Date
-  _count: {
-    phases: number
-  }
 }
 
 interface Post {
@@ -57,9 +54,6 @@ export function DashboardActivity({ projects, posts }: DashboardActivityProps) {
                     >
                       {project.title}
                     </Link>
-                    <p className="text-xs text-muted-foreground">
-                      {project._count.phases}개 단계
-                    </p>
                   </div>
                   <span className="text-xs text-muted-foreground">
                     {new Date(project.updatedAt).toLocaleDateString('ko-KR')}

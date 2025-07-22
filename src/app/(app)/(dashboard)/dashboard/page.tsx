@@ -36,11 +36,6 @@ async function getDashboardData(userId: string) {
     // 프로젝트 통계
     prisma.project.findMany({
       where: { userId },
-      include: {
-        _count: {
-          select: { phases: true },
-        },
-      },
       orderBy: { updatedAt: 'desc' },
       take: 5, // 최근 5개만
     }),
@@ -68,10 +63,6 @@ async function getDashboardData(userId: string) {
     totalPosts: posts.length,
     publishedPosts: posts.filter(post => post.published).length,
     draftPosts: posts.filter(post => !post.published).length,
-    totalPhases: projects.reduce(
-      (acc, project) => acc + project._count.phases,
-      0
-    ),
   }
 
   const completionRate =

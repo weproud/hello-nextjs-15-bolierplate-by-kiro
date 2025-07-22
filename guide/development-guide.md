@@ -460,7 +460,6 @@ export const getCachedProjects = unstable_cache(
   async (userId: string) => {
     return await prisma.project.findMany({
       where: { userId },
-      include: { phases: true },
     })
   },
   ['projects'],
@@ -519,7 +518,6 @@ export interface Project extends BaseEntity {
   description?: string | null
   userId: string
   user?: User
-  phases?: Phase[]
 }
 
 // 유틸리티 타입

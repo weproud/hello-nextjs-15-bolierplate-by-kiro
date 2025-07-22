@@ -43,17 +43,6 @@ interface Project {
     name: string | null
     email: string
   }
-  phases: Array<{
-    id: string
-    title: string
-    description: string | null
-    order: number
-    createdAt: Date
-    updatedAt: Date
-  }>
-  _count: {
-    phases: number
-  }
 }
 
 interface User {
@@ -209,70 +198,6 @@ export function ProjectDetailClient({
                     )}
                   </CardContent>
                 </Card>
-
-                {/* Phases */}
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="flex items-center gap-2">
-                        <Settings className="h-5 w-5" />
-                        프로젝트 단계 ({project._count.phases}개)
-                      </CardTitle>
-                      <Button size="sm">
-                        <Plus className="mr-2 h-4 w-4" />
-                        단계 추가
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {project.phases.length > 0 ? (
-                      <div className="space-y-4">
-                        {project.phases.map((phase, index) => (
-                          <div
-                            key={phase.id}
-                            className="flex items-start gap-4 p-4 border rounded-lg"
-                          >
-                            <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                              {index + 1}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-medium">{phase.title}</h4>
-                              {phase.description && (
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  {phase.description}
-                                </p>
-                              )}
-                              <div className="flex items-center gap-2 mt-2">
-                                <Badge variant="secondary" className="text-xs">
-                                  단계 {phase.order}
-                                </Badge>
-                                <span className="text-xs text-muted-foreground">
-                                  {formatDistanceToNow(
-                                    new Date(phase.createdAt),
-                                    {
-                                      addSuffix: true,
-                                      locale: ko,
-                                    }
-                                  )}{' '}
-                                  생성
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8">
-                        <p className="text-muted-foreground mb-4">
-                          아직 프로젝트 단계가 없습니다.
-                        </p>
-                        <Button size="sm">
-                          <Plus className="mr-2 h-4 w-4" />첫 번째 단계 추가
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
               </div>
 
               {/* Sidebar */}
@@ -283,12 +208,6 @@ export function ProjectDetailClient({
                     <CardTitle>프로젝트 정보</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">총 단계</span>
-                      <span className="font-medium">
-                        {project._count.phases}개
-                      </span>
-                    </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">생성일</span>
                       <span className="font-medium">

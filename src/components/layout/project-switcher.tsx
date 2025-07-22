@@ -35,9 +35,6 @@ interface ProjectSwitcherProps {
     id: string
     title: string
     description?: string | null
-    _count?: {
-      phases: number
-    }
   }>
 }
 
@@ -78,7 +75,6 @@ export function ProjectSwitcher({
         id: newProject.id,
         title: newProject.title,
         description: newProject.description,
-        _count: newProject._count || { phases: 0 },
       }
       setProjects(prev => [projectForSwitcher, ...prev])
       setActiveProject(projectForSwitcher)
@@ -179,9 +175,7 @@ export function ProjectSwitcher({
                     {activeProject?.title || '프로젝트 선택'}
                   </span>
                   <span className="truncate text-xs">
-                    {activeProject?._count?.phases
-                      ? `${activeProject._count.phases}개 단계`
-                      : '단계 없음'}
+                    {activeProject?.description || '설명 없음'}
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto" />

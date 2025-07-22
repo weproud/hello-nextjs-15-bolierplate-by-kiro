@@ -41,11 +41,6 @@ export const createProjectAction = authActionClient
               email: true,
             },
           },
-          _count: {
-            select: {
-              phases: true,
-            },
-          },
         },
       })
 
@@ -112,11 +107,6 @@ export const updateProjectAction = authActionClient
               id: true,
               name: true,
               email: true,
-            },
-          },
-          _count: {
-            select: {
-              phases: true,
             },
           },
         },
@@ -222,16 +212,6 @@ export const getProjectAction = authActionClient
               email: true,
             },
           },
-          phases: {
-            orderBy: {
-              order: 'asc',
-            },
-          },
-          _count: {
-            select: {
-              phases: true,
-            },
-          },
         },
       })
 
@@ -266,13 +246,6 @@ export const getUserProjectsAction = authActionClient
         prisma.project.findMany({
           where: {
             userId: user.id,
-          },
-          include: {
-            _count: {
-              select: {
-                phases: true,
-              },
-            },
           },
           orderBy: {
             updatedAt: 'desc',

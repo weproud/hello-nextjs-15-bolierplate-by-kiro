@@ -393,10 +393,6 @@ function ProjectCard({
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center space-x-4">
             <div className="flex items-center">
-              <FolderOpen className="h-4 w-4 mr-1" />
-              {project._count.phases}개 단계
-            </div>
-            <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-1" />
               {new Date(project.createdAt).toLocaleDateString()}
             </div>

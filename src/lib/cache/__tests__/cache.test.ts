@@ -69,19 +69,12 @@ describe.skip('Cache Utils', () => {
     expect(cacheUtils.projectKey('456')).toBe('project:456')
     expect(cacheUtils.userProjectsKey('123')).toBe('user:123:projects')
   })
-
-  it('should have correct TTL values', () => {
-    expect(cacheUtils.TTL.SHORT).toBe(5 * 60 * 1000)
-    expect(cacheUtils.TTL.MEDIUM).toBe(30 * 60 * 1000)
-    expect(cacheUtils.TTL.LONG).toBe(2 * 60 * 60 * 1000)
-  })
 })
 
 describe.skip('Cache Constants', () => {
   it('should have correct cache tags', () => {
     expect(CACHE_TAGS.USER).toBe('user')
     expect(CACHE_TAGS.PROJECT).toBe('project')
-    expect(CACHE_TAGS.PHASE).toBe('phase')
     expect(CACHE_TAGS.STATIC).toBe('static')
     expect(CACHE_TAGS.CONFIG).toBe('config')
   })

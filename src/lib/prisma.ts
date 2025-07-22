@@ -3,12 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 // Re-export the enhanced prisma client
 export { extendedPrisma } from './prisma/client'
 export { DatabaseConnection } from './prisma/connection'
-export {
-  userQueries,
-  projectQueries,
-  phaseQueries,
-  genericQueries,
-} from './prisma/queries'
+export { userQueries, projectQueries, genericQueries } from './prisma/queries'
 export type { ExtendedPrismaClient } from './prisma/extensions'
 
 const globalForPrisma = globalThis as unknown as {
@@ -83,16 +78,14 @@ export const db = {
    */
   async getStats() {
     try {
-      const [userCount, projectCount, phaseCount] = await Promise.all([
+      const [userCount, projectCount] = await Promise.all([
         prisma.user.count(),
         prisma.project.count(),
-        prisma.phase.count(),
       ])
 
       return {
         users: userCount,
         projects: projectCount,
-        phases: phaseCount,
         timestamp: new Date(),
       }
     } catch (error) {

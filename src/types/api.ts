@@ -103,42 +103,11 @@ export interface ProjectResponse {
     name?: string
     email: string
   }
-  _count: {
-    phases: number
-  }
 }
 
 export interface ProjectListResponse
   extends PaginatedApiResponse<ProjectResponse> {}
 
-// Phase API types
-export interface CreatePhaseRequest {
-  title: string
-  description?: string
-  order: number
-  projectId: string
-}
-
-export interface UpdatePhaseRequest {
-  title?: string
-  description?: string
-  order?: number
-}
-
-export interface PhaseResponse {
-  id: string
-  title: string
-  description?: string
-  order: number
-  projectId: string
-  createdAt: string
-  updatedAt: string
-}
-
-export interface PhaseListResponse
-  extends PaginatedApiResponse<PhaseResponse> {}
-
-// User API types
 export interface UpdateUserRequest {
   name?: string
   email?: string
@@ -216,7 +185,7 @@ export interface SearchResultItem {
   id: string
   title: string
   description?: string
-  type: 'project' | 'phase' | 'user'
+  type: 'project' | 'user'
   relevanceScore: number
   metadata?: Record<string, any>
   createdAt: string
@@ -233,8 +202,6 @@ export interface SearchResponse {
 // Statistics API types
 export interface StatsResponse {
   totalProjects: number
-  totalPhases: number
-  averagePhasesPerProject: number
   projectsThisMonth: number
   projectsLastMonth: number
   monthlyGrowth: number
@@ -288,7 +255,7 @@ export interface FeedbackResponse {
 // Batch operations
 export interface BatchDeleteRequest {
   ids: string[]
-  type: 'projects' | 'phases' | 'files'
+  type: 'projects' | 'files'
 }
 
 export interface BatchDeleteResponse {

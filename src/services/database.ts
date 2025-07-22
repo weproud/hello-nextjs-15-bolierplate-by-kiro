@@ -54,15 +54,28 @@ export async function paginate<T>(
   const { page, limit, where, include, orderBy } = options
   const skip = (page - 1) * limit
 
+  // Filter out undefined values to satisfy exactOptionalPropertyTypes
+  const findManyArgs: {
+    where?: Record<string, unknown>
+    include?: Record<string, unknown>
+    orderBy?: Record<string, unknown>
+    skip: number
+    take: number
+  } = {
+    skip,
+    take: limit,
+  }
+
+  if (where !== undefined) findManyArgs.where = where
+  if (include !== undefined) findManyArgs.include = include
+  if (orderBy !== undefined) findManyArgs.orderBy = orderBy
+
+  const countArgs: { where?: Record<string, unknown> } = {}
+  if (where !== undefined) countArgs.where = where
+
   const [data, totalCount] = await Promise.all([
-    model.findMany({
-      where,
-      include,
-      orderBy,
-      skip,
-      take: limit,
-    }),
-    model.count({ where }),
+    model.findMany(findManyArgs),
+    model.count(countArgs),
   ])
 
   const totalPages = Math.ceil(totalCount / limit)
@@ -92,11 +105,6 @@ export const userDb = {
           orderBy: { createdAt: 'desc' },
           take: 5,
         },
-        _count: {
-          select: {
-            projects: true,
-          },
-        },
       },
     })
   },
@@ -118,22 +126,14 @@ export const userDb = {
   },
 
   async getStats(userId: string) {
-    const [projectCount, totalPhases] = await Promise.all([
+    const [projectCount] = await Promise.all([
       prisma.project.count({
         where: { userId },
-      }),
-      prisma.phase.count({
-        where: {
-          project: { userId },
-        },
       }),
     ])
 
     return {
       projectCount,
-      totalPhases,
-      averagePhasesPerProject:
-        projectCount > 0 ? totalPhases / projectCount : 0,
     }
   },
 }
@@ -176,60 +176,9 @@ export const projectDb = {
             email: true,
           },
         },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
       },
       orderBy: {
         [sortBy]: sortOrder,
-      },
-    })
-  },
-
-  async findById(id: string, userId?: string) {
-    return prisma.project.findFirst({
-      where: {
-        id,
-        ...(userId && { userId }),
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-        phases: {
-          orderBy: { order: 'asc' },
-        },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
-      },
-    })
-  },
-
-  async create(data: { title: string; description?: string; userId: string }) {
-    return prisma.project.create({
-      data,
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
       },
     })
   },
@@ -256,11 +205,6 @@ export const projectDb = {
             email: true,
           },
         },
-        _count: {
-          select: {
-            phases: true,
-          },
-        },
       },
     })
   },
@@ -278,7 +222,6 @@ export const projectDb = {
     return prisma.$transaction(async tx => {
       const original = await tx.project.findFirst({
         where: { id, userId },
-        include: { phases: { orderBy: { order: 'asc' } } },
       })
 
       if (!original) {
@@ -293,17 +236,6 @@ export const projectDb = {
         },
       })
 
-      if (original.phases.length > 0) {
-        await tx.phase.createMany({
-          data: original.phases.map(phase => ({
-            title: phase.title,
-            description: phase.description,
-            order: phase.order,
-            projectId: newProject.id,
-          })),
-        })
-      }
-
       return tx.project.findUnique({
         where: { id: newProject.id },
         include: {
@@ -314,68 +246,9 @@ export const projectDb = {
               email: true,
             },
           },
-          phases: { orderBy: { order: 'asc' } },
-          _count: {
-            select: {
-              phases: true,
-            },
-          },
         },
       })
     })
-  },
-}
-
-/**
- * Phase database operations
- */
-export const phaseDb = {
-  async findByProjectId(projectId: string) {
-    return prisma.phase.findMany({
-      where: { projectId },
-      orderBy: { order: 'asc' },
-    })
-  },
-
-  async create(data: {
-    title: string
-    description?: string
-    order: number
-    projectId: string
-  }) {
-    return prisma.phase.create({
-      data,
-    })
-  },
-
-  async update(
-    id: string,
-    data: { title?: string; description?: string; order?: number }
-  ) {
-    return prisma.phase.update({
-      where: { id },
-      data: {
-        ...data,
-        updatedAt: new Date(),
-      },
-    })
-  },
-
-  async delete(id: string) {
-    return prisma.phase.delete({
-      where: { id },
-    })
-  },
-
-  async reorder(phases: Array<{ id: string; order: number }>) {
-    return prisma.$transaction(
-      phases.map(phase =>
-        prisma.phase.update({
-          where: { id: phase.id },
-          data: { order: phase.order },
-        })
-      )
-    )
   },
 }
 
@@ -446,14 +319,17 @@ export const dbUtils = {
       data: Record<string, unknown>
     }>
   ) {
-    return prisma.$transaction(
-      updates.map(update =>
-        model.updateMany({
+    return prisma.$transaction(async () => {
+      const results = []
+      for (const update of updates) {
+        const result = await model.updateMany({
           where: update.where,
           data: update.data,
         })
-      )
-    )
+        results.push(result)
+      }
+      return results
+    })
   },
 
   async batchDelete<

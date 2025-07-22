@@ -40,7 +40,6 @@ model Project {
   description String?  @db.Text
   userId      String   @db.Uuid
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phases      Phase[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -93,14 +92,6 @@ export const getProjectsWithCache = unstable_cache(
   async (userId: string) => {
     return await prisma.project.findMany({
       where: { userId },
-      include: {
-        phases: {
-          orderBy: { order: 'asc' },
-        },
-        _count: {
-          select: { phases: true },
-        },
-      },
       orderBy: { updatedAt: 'desc' },
     })
   },
@@ -189,19 +180,6 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 export async function getProjectsWithPhases(userId: string) {
   return await prisma.project.findMany({
     where: { userId },
-    include: {
-      phases: {
-        select: {
-          id: true,
-          title: true,
-          order: true,
-        },
-        orderBy: { order: 'asc' },
-      },
-      _count: {
-        select: { phases: true },
-      },
-    },
     orderBy: { updatedAt: 'desc' },
   })
 }

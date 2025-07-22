@@ -57,13 +57,11 @@ const data = {
 }
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  navigationData?: any
   projects?: Array<{
     id: string
     title: string
     description?: string | null
-    _count?: {
-      phases: number
-    }
   }>
 }
 

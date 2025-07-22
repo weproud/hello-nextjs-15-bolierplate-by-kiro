@@ -112,7 +112,7 @@ export const routeCacheConfig = {
   // Project pages - medium cache
   project: {
     ttl: 1800, // 30 minutes
-    tags: ['project', 'phase'],
+    tags: ['project'],
     revalidate: 1800,
   },
 
@@ -144,12 +144,7 @@ export const cacheKeys = {
 
   project: {
     details: (projectId: string) => `project:${projectId}:details`,
-    phases: (projectId: string) => `project:${projectId}:phases`,
     progress: (projectId: string) => `project:${projectId}:progress`,
-  },
-
-  phase: {
-    details: (phaseId: string) => `phase:${phaseId}:details`,
   },
 
   route: {
@@ -192,14 +187,6 @@ export const invalidationPatterns = {
     cacheKeys.user.stats(userId),
     cacheKeys.user.dashboard(userId),
     cacheKeys.project.details(projectId),
-    cacheKeys.project.phases(projectId),
     cacheKeys.project.progress(projectId),
-  ],
-
-  phaseUpdate: (userId: string, projectId: string, phaseId: string) => [
-    cacheKeys.user.dashboard(userId),
-    cacheKeys.project.phases(projectId),
-    cacheKeys.project.progress(projectId),
-    cacheKeys.phase.details(phaseId),
   ],
 }

@@ -26,9 +26,6 @@ interface SidebarLayoutProps {
     id: string
     title: string
     description?: string | null
-    _count?: {
-      phases: number
-    }
   }>
 }
 

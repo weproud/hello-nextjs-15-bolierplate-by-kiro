@@ -44,9 +44,6 @@ interface Project {
     name: string | null
     email: string
   }
-  _count: {
-    phases: number
-  }
 }
 
 interface ProjectListProps {
@@ -150,12 +147,6 @@ const ProjectCard = memo(function ProjectCard({
         )}
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="text-xs">
-              {project._count.phases}개 단계
-            </Badge>
-          </div>
-
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Calendar className="h-3 w-3" />
             <span>{formattedDate}</span>

@@ -58,9 +58,6 @@ export const cachePreloading = {
     }
   },
 
-  /**
-   * Preload project details with phases
-   */
   projectDetails: async (projectId: string) => {
     try {
       const { PrismaCacheWrapper } = await import('./prisma')
@@ -68,33 +65,12 @@ export const cachePreloading = {
 
       const cachedPrisma = new PrismaCacheWrapper(prisma)
 
-      const [project, phases] = await Promise.all([
+      const [project] = await Promise.all([
         cachedPrisma.project.findUnique(projectId),
-        cachedPrisma.phase.findMany(projectId),
       ])
 
-      // Cache computed project statistics
-      if (project && phases) {
-        // Note: status field doesn't exist in current schema, using placeholder logic
-        const completedPhases = phases.slice(0, Math.ceil(phases.length / 3))
-        const progressPercent = Math.round(
-          (completedPhases.length / phases.length) * 100
-        )
-
-        projectCache.set(
-          `project:${projectId}:progress`,
-          {
-            totalPhases: phases.length,
-            completedPhases: completedPhases.length,
-            progressPercent,
-            currentPhase: phases[0] || null, // First phase as current
-          },
-          300000
-        )
-      }
-
       console.log(`[Cache] Project details preloaded for: ${projectId}`)
-      return { project, phases }
+      return { project }
     } catch (error) {
       console.error('[Cache] Failed to preload project details:', error)
       return null
@@ -139,13 +115,7 @@ export const smartInvalidation = {
   ) => {
     const dependencies: Record<string, string[]> = {
       user: ['user:profile', 'user:projects', 'user:stats'],
-      project: [
-        'project:details',
-        'project:phases',
-        'project:progress',
-        'user:projects',
-      ],
-      phase: ['phase:details', 'project:phases', 'project:progress'],
+      project: ['project:details', 'project:progress', 'user:projects'],
     }
 
     const entityDeps = dependencies[entityType] || []

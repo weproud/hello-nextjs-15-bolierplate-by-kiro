@@ -9,7 +9,6 @@ import { revalidateTag, revalidatePath } from 'next/cache'
 export const CACHE_TAGS = {
   USER: 'user',
   PROJECT: 'project',
-  PHASE: 'phase',
   MISSION: 'mission',
   STATIC: 'static',
   CONFIG: 'config',

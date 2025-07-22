@@ -11,9 +11,6 @@ interface Project {
     name: string | null
     email: string
   }
-  _count: {
-    phases: number
-  }
 }
 
 interface ProjectListServerProps {

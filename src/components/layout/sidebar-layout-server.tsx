@@ -21,6 +21,7 @@ export async function SidebarLayoutServer({
         select: {
           id: true,
           title: true,
+          description: true,
         },
         orderBy: { updatedAt: 'desc' },
         take: 5, // Show only recent 5 projects in sidebar
@@ -79,6 +80,7 @@ export async function SidebarLayoutServer({
       url: `/projects/${project.id}`,
       icon: 'Folder' as const,
     })),
+    projectsForSwitcher: projects,
   }
 
   return (

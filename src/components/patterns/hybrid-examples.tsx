@@ -304,7 +304,6 @@ export async function StreamingDataExample() {
     orderBy: { updatedAt: 'desc' },
     include: {
       user: { select: { name: true, email: true } },
-      _count: { select: { phases: true } },
     },
   })
 

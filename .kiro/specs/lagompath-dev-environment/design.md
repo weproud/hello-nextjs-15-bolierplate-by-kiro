@@ -156,7 +156,6 @@ model Project {
   description String?  @db.Text
   userId      String
   user        User     @relation(fields: [userId], references: [id])
-  phases      Phase[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -213,18 +212,8 @@ interface Project {
   title: string
   description: string | null
   userId: string
-  currentPhaseId: string | null
   createdAt: Date
   updatedAt: Date
-}
-
-interface Phase {
-  id: string
-  title: string
-  description: string | null
-  order: number
-  projectId: string
-  missions: Mission[]
 }
 ```
 
