@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { FeaturesSection } from '@/components/features-section'
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Shield, Zap } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -51,43 +52,7 @@ export default function HomePage() {
         </div>
 
         {/* Features Section */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>체계적인 관리</CardTitle>
-              <CardDescription>
-                프로젝트를 단계별로 나누어 체계적으로 관리하세요
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>안전한 인증</CardTitle>
-              <CardDescription>
-                Google OAuth를 통한 안전하고 간편한 로그인
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <Zap className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>빠른 성능</CardTitle>
-              <CardDescription>
-                최신 기술 스택으로 구현된 빠르고 반응성 좋은 UI
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
+        <FeaturesSection />
 
         {/* Authentication Status Section */}
         <AuthConditional

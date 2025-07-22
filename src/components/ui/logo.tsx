@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,32 +28,43 @@ export function Logo({
   }
 
   return (
-    <div className={cn('flex items-center gap-2', className)} {...props}>
-      {/* Logo Icon */}
+    <Link href="/" aria-label="홈으로 이동">
       <div
         className={cn(
-          'rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold',
-          sizeClasses[size]
+          'flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity',
+          className
         )}
+        {...props}
       >
-        <span
+        {/* Logo Icon */}
+        <div
           className={cn(
-            'font-bold',
-            size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-lg'
+            'rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold',
+            sizeClasses[size]
           )}
         >
-          N
-        </span>
-      </div>
+          <span
+            className={cn(
+              'font-bold',
+              size === 'sm' ? 'text-xs' : size === 'md' ? 'text-sm' : 'text-lg'
+            )}
+          >
+            N
+          </span>
+        </div>
 
-      {/* Logo Text */}
-      {showText && (
-        <span
-          className={cn('font-semibold text-foreground', textSizeClasses[size])}
-        >
-          Nextjs 15
-        </span>
-      )}
-    </div>
+        {/* Logo Text */}
+        {showText && (
+          <span
+            className={cn(
+              'font-semibold text-foreground',
+              textSizeClasses[size]
+            )}
+          >
+            Nextjs 15
+          </span>
+        )}
+      </div>
+    </Link>
   )
 }
