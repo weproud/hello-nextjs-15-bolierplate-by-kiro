@@ -1,6 +1,12 @@
 'use client'
 
-import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  type ReactNode,
+} from 'react'
 
 // 로딩 상태 타입 정의
 export interface LoadingState {
@@ -166,57 +172,96 @@ export function LoadingProvider({ children }: LoadingProviderProps) {
   const [state, dispatch] = useReducer(loadingReducer, initialState)
 
   // 헬퍼 함수들
-  const setGlobalLoading = (loading: boolean) => {
-    dispatch({ type: 'SET_GLOBAL_LOADING', payload: loading })
-  }
+  const setGlobalLoading = useCallback(
+    (loading: boolean) => {
+      dispatch({ type: 'SET_GLOBAL_LOADING', payload: loading })
+    },
+    [dispatch]
+  )
 
-  const setRouteLoading = (route: string, loading: boolean) => {
-    dispatch({ type: 'SET_ROUTE_LOADING', payload: { route, loading } })
-  }
+  const setRouteLoading = useCallback(
+    (route: string, loading: boolean) => {
+      dispatch({ type: 'SET_ROUTE_LOADING', payload: { route, loading } })
+    },
+    [dispatch]
+  )
 
-  const setComponentLoading = (id: string, loading: boolean) => {
-    dispatch({ type: 'SET_COMPONENT_LOADING', payload: { id, loading } })
-  }
+  const setComponentLoading = useCallback(
+    (id: string, loading: boolean) => {
+      dispatch({ type: 'SET_COMPONENT_LOADING', payload: { id, loading } })
+    },
+    [dispatch]
+  )
 
-  const setDataLoading = (key: string, loading: boolean) => {
-    dispatch({ type: 'SET_DATA_LOADING', payload: { key, loading } })
-  }
+  const setDataLoading = useCallback(
+    (key: string, loading: boolean) => {
+      dispatch({ type: 'SET_DATA_LOADING', payload: { key, loading } })
+    },
+    [dispatch]
+  )
 
-  const setProgress = (key: string, progress: ProgressInfo) => {
-    dispatch({ type: 'SET_PROGRESS', payload: { key, progress } })
-  }
+  const setProgress = useCallback(
+    (key: string, progress: ProgressInfo) => {
+      dispatch({ type: 'SET_PROGRESS', payload: { key, progress } })
+    },
+    [dispatch]
+  )
 
-  const removeProgress = (key: string) => {
-    dispatch({ type: 'REMOVE_PROGRESS', payload: key })
-  }
+  const removeProgress = useCallback(
+    (key: string) => {
+      dispatch({ type: 'REMOVE_PROGRESS', payload: key })
+    },
+    [dispatch]
+  )
 
   // 상태 확인 함수들
-  const isGlobalLoading = () => state.global
+  const isGlobalLoading = useCallback(() => state.global, [state.global])
 
-  const isRouteLoading = (route: string) => state.routes.has(route)
+  const isRouteLoading = useCallback(
+    (route: string) => state.routes.has(route),
+    [state.routes]
+  )
 
-  const isComponentLoading = (id: string) => state.components.has(id)
+  const isComponentLoading = useCallback(
+    (id: string) => state.components.has(id),
+    [state.components]
+  )
 
-  const isDataLoading = (key: string) => state.data.has(key)
+  const isDataLoading = useCallback(
+    (key: string) => state.data.has(key),
+    [state.data]
+  )
 
-  const getProgress = (key: string) => state.progress.get(key)
+  const getProgress = useCallback(
+    (key: string) => state.progress.get(key),
+    [state.progress]
+  )
 
   // 정리 함수들
-  const clearRouteLoading = (route: string) => {
-    dispatch({ type: 'CLEAR_ROUTE_LOADING', payload: route })
-  }
+  const clearRouteLoading = useCallback(
+    (route: string) => {
+      dispatch({ type: 'CLEAR_ROUTE_LOADING', payload: route })
+    },
+    [dispatch]
+  )
 
-  const clearComponentLoading = (id: string) => {
-    dispatch({ type: 'CLEAR_COMPONENT_LOADING', payload: id })
-  }
+  const clearComponentLoading = useCallback(
+    (id: string) => {
+      dispatch({ type: 'CLEAR_COMPONENT_LOADING', payload: id })
+    },
+    [dispatch]
+  )
 
-  const clearDataLoading = (key: string) => {
-    dispatch({ type: 'CLEAR_DATA_LOADING', payload: key })
-  }
+  const clearDataLoading = useCallback(
+    (key: string) => {
+      dispatch({ type: 'CLEAR_DATA_LOADING', payload: key })
+    },
+    [dispatch]
+  )
 
-  const resetAllLoading = () => {
+  const resetAllLoading = useCallback(() => {
     dispatch({ type: 'RESET_ALL_LOADING' })
-  }
+  }, [dispatch])
 
   const value: LoadingContextType = {
     state,

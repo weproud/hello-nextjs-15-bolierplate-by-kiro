@@ -1,5 +1,4 @@
 import { ProtectedRoute } from '@/components/auth/protected-route'
-import { NavigationHeader } from '@/components/auth/navigation-header'
 import { getCurrentUser } from '@/services/auth'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
@@ -87,30 +86,27 @@ export default async function ProjectDetailPage({
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-background">
-        <NavigationHeader />
-        <div className="container mx-auto py-6">
-          {/* Static related projects section */}
-          {relatedProjects.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3">관련 프로젝트</h3>
-              <div className="flex gap-2 flex-wrap">
-                {relatedProjects.map(relatedProject => (
-                  <a
-                    key={relatedProject.id}
-                    href={`/projects/${relatedProject.id}`}
-                    className="text-sm bg-muted hover:bg-muted/80 px-3 py-1 rounded-full transition-colors"
-                  >
-                    {relatedProject.title}
-                  </a>
-                ))}
-              </div>
+      <div className="space-y-6">
+        {/* Static related projects section */}
+        {relatedProjects.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-3">관련 프로젝트</h3>
+            <div className="flex gap-2 flex-wrap">
+              {relatedProjects.map(relatedProject => (
+                <a
+                  key={relatedProject.id}
+                  href={`/projects/${relatedProject.id}`}
+                  className="text-sm bg-muted hover:bg-muted/80 px-3 py-1 rounded-full transition-colors"
+                >
+                  {relatedProject.title}
+                </a>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Dynamic project detail - Client Component */}
-          <ProjectDetailClient project={project} user={validatedUser} />
-        </div>
+        {/* Dynamic project detail - Client Component */}
+        <ProjectDetailClient project={project} user={validatedUser} />
       </div>
     </ProtectedRoute>
   )

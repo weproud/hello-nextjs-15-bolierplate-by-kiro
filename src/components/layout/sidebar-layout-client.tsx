@@ -1,6 +1,6 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { AppSidebar } from './app-sidebar'
 import {
   SidebarProvider,
@@ -143,16 +143,18 @@ export function SidebarLayoutClient({
             <Breadcrumb>
               <BreadcrumbList>
                 {breadcrumbs.map((item, index) => (
-                  <BreadcrumbItem key={item.href}>
+                  <React.Fragment key={item.href}>
                     {index > 0 && <BreadcrumbSeparator />}
-                    {item.isCurrentPage ? (
-                      <BreadcrumbPage>{item.title}</BreadcrumbPage>
-                    ) : (
-                      <BreadcrumbLink href={item.href}>
-                        {item.title}
-                      </BreadcrumbLink>
-                    )}
-                  </BreadcrumbItem>
+                    <BreadcrumbItem>
+                      {item.isCurrentPage ? (
+                        <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink href={item.href}>
+                          {item.title}
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                  </React.Fragment>
                 ))}
               </BreadcrumbList>
             </Breadcrumb>

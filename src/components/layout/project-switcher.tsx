@@ -14,21 +14,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { ProjectForm } from '@/components/forms/project-form'
+import { CreateProjectModal } from '@/components/projects/create-project-modal'
 
 interface ProjectSwitcherProps {
   projects: Array<{
@@ -48,7 +39,7 @@ export function ProjectSwitcher({
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false)
 
   // URL에서 현재 프로젝트 ID 가져오기
-  const currentProjectId = params?.id as string
+  const currentProjectId = params?.['id'] as string
 
   // 현재 활성 프로젝트 결정 (URL 기반)
   const activeProject = React.useMemo(() => {
@@ -100,8 +91,7 @@ export function ProjectSwitcher({
   // 프로젝트가 없는 경우 기본 상태 표시
   if (projects.length === 0) {
     return (
-      <SidebarGroup>
-        <SidebarGroupLabel>내 워크스페이스</SidebarGroupLabel>
+      <>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
@@ -149,29 +139,17 @@ export function ProjectSwitcher({
           </SidebarMenuItem>
         </SidebarMenu>
 
-        {/* 프로젝트 생성 모달 */}
-        <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>새 프로젝트 만들기</DialogTitle>
-              <DialogDescription>
-                새로운 프로젝트를 만들어 목표를 체계적으로 관리해보세요.
-              </DialogDescription>
-            </DialogHeader>
-            <ProjectForm
-              mode="create"
-              onSuccess={handleCreateSuccess}
-              onCancel={() => setIsCreateModalOpen(false)}
-            />
-          </DialogContent>
-        </Dialog>
-      </SidebarGroup>
+        <CreateProjectModal
+          open={isCreateModalOpen}
+          onOpenChange={setIsCreateModalOpen}
+          onSuccess={handleCreateSuccess}
+        />
+      </>
     )
   }
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>내 워크스페이스</SidebarGroupLabel>
+    <>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
@@ -251,22 +229,11 @@ export function ProjectSwitcher({
         </SidebarMenuItem>
       </SidebarMenu>
 
-      {/* 프로젝트 생성 모달 */}
-      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>새 프로젝트 만들기</DialogTitle>
-            <DialogDescription>
-              새로운 프로젝트를 만들어 목표를 체계적으로 관리해보세요.
-            </DialogDescription>
-          </DialogHeader>
-          <ProjectForm
-            mode="create"
-            onSuccess={handleCreateSuccess}
-            onCancel={() => setIsCreateModalOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
-    </SidebarGroup>
+      <CreateProjectModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+        onSuccess={handleCreateSuccess}
+      />
+    </>
   )
 }

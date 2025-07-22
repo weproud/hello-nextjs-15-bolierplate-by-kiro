@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/sidebar'
 import { signOut, useSession } from 'next-auth/react'
 
-export function NavUser({
+export function AppSidebarUser({
   user,
 }: {
   user: {

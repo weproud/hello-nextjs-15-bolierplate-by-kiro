@@ -9,16 +9,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+
 import { ProjectList } from '@/components/projects/project-list'
 import { ProjectForm } from '@/components/forms/project-form'
+import { CreateProjectModal } from '@/components/projects/create-project-modal'
 import { Plus, FolderOpen, Clock, CheckCircle } from 'lucide-react'
+import { Dialog } from '@radix-ui/react-dialog'
+import { DialogContent } from '@radix-ui/react-dialog'
+import { DialogHeader } from '@/components/ui/dialog'
+import { DialogDescription } from '@radix-ui/react-dialog'
+import { DialogDescription } from '@radix-ui/react-dialog'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { DialogHeader } from '@/components/ui/dialog'
+import { DialogContent } from '@radix-ui/react-dialog'
+import { Dialog } from '@radix-ui/react-dialog'
 
 interface Project {
   id: string
@@ -212,22 +217,12 @@ export function ProjectsPageClient({
         )}
       </div>
 
-      {/* Create Project Dialog */}
-      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>새 프로젝트 만들기</DialogTitle>
-            <DialogDescription>
-              새로운 프로젝트를 만들어 목표를 체계적으로 관리해보세요.
-            </DialogDescription>
-          </DialogHeader>
-          <ProjectForm
-            mode="create"
-            onSuccess={handleCreateSuccess}
-            onCancel={() => setIsCreateDialogOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Create Project Modal */}
+      <CreateProjectModal
+        open={isCreateDialogOpen}
+        onOpenChange={setIsCreateDialogOpen}
+        onSuccess={handleCreateSuccess}
+      />
 
       {/* Edit Project Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

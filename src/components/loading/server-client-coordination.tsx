@@ -51,8 +51,11 @@ export function LoadingStateSync({
 
   // 컴포넌트 언마운트 시 loading state 정리
   useEffect(() => {
+    const loadingKey = serverState.loadingKey
+    const loadingType = serverState.loadingType
+
     return () => {
-      switch (serverState.loadingType) {
+      switch (loadingType) {
         case 'route':
           routeLoading.clearLoading()
           break
@@ -64,7 +67,13 @@ export function LoadingStateSync({
           break
       }
     }
-  }, [serverState.loadingType, routeLoading, componentLoading, dataLoading])
+  }, [
+    serverState.loadingKey,
+    serverState.loadingType,
+    routeLoading.clearLoading,
+    componentLoading.clearLoading,
+    dataLoading.clearLoading,
+  ])
 
   return <>{children}</>
 }

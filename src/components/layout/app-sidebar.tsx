@@ -1,19 +1,31 @@
 'use client'
 
 import * as React from 'react'
-import { FolderKanban, Home, LayoutDashboard, Scan } from 'lucide-react'
+import {
+  FolderKanban,
+  Home,
+  LayoutDashboard,
+  MessageSquare,
+  Rocket,
+  Scan,
+} from 'lucide-react'
 
-import { NavUser } from '@/components/layout/nav-user'
+import { AppSidebarUser } from '@/components/layout/app-sidebar-user'
 import { ProjectSwitcher } from '@/components/layout/project-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { NavMain } from '@/components/layout/nav-main'
+import {
+  AppSidebarMenu,
+  SidebarMenu,
+} from '@/components/layout/app-sidebar-menu'
 import { Logo } from '@/components/ui/logo'
 
 // Default data - will be replaced with real data
@@ -39,7 +51,7 @@ const data = {
     {
       title: '커뮤니티',
       url: '/community',
-      icon: FolderKanban,
+      icon: MessageSquare,
       // items: [
       //   {
       //     title: '피드',
@@ -47,6 +59,14 @@ const data = {
       //   },
       // ],
       isActive: false,
+    },
+  ],
+  navWorkspace: [
+    {
+      title: '프로젝트',
+      url: '/projects',
+      icon: Rocket,
+      isActive: true,
     },
   ],
 }
@@ -74,11 +94,19 @@ export function AppSidebar({
         <Logo showText={!isCollapsed} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <ProjectSwitcher projects={projects} />
+        <SidebarGroup>
+          <SidebarGroupLabel>메뉴</SidebarGroupLabel>
+          <AppSidebarMenu items={data.navMain} />
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>내 워크스페이스</SidebarGroupLabel>
+          <AppSidebarMenu items={data.navWorkspace} />
+          <div className="mt-3" />
+          <ProjectSwitcher projects={projects} />
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <AppSidebarUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

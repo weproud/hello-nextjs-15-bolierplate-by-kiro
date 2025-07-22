@@ -1,12 +1,9 @@
 import { ProtectedRoute } from '@/components/auth/protected-route'
-import { SidebarLayout } from '@/components/layout/sidebar-layout'
 import { getCurrentUser } from '@/services/auth'
 import { prisma } from '@/lib/prisma'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
 import { Suspense, lazy } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ProjectsPageClient } from './projects-page-client'
 
 // Dynamic import for heavy project list component
 const ProjectListServer = lazy(() =>
@@ -71,25 +68,11 @@ export default async function ProjectsPage({
   // Server-side data fetching with enhanced statistics
   const { projects, stats } = await getProjectsWithStats(user.id)
 
-  const breadcrumbs = [{ label: '홈', href: '/' }, { label: '프로젝트' }]
-
   return (
     <ProtectedRoute>
       <div className="space-y-6">
-        {/* Static header section */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">프로젝트</h1>
-            <p className="text-muted-foreground">
-              {user?.name || user?.email}님의 프로젝트를 관리하고 추적하세요.
-            </p>
-          </div>
-          <Link href="/projects/new">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />새 프로젝트
-            </Button>
-          </Link>
-        </div>
+        {/* Header with modal button */}
+        <ProjectsPageClient user={user} />
 
         {/* Static statistics section */}
         {stats.total > 0 && (

@@ -35,9 +35,9 @@ export function useRouteLoading(route: string) {
   // 컴포넌트 언마운트 시 로딩 상태 정리
   useEffect(() => {
     return () => {
-      clearLoading()
+      clearRouteLoading(route)
     }
-  }, [clearLoading])
+  }, [route, clearRouteLoading])
 
   return {
     isLoading: isRouteLoading(route),
@@ -65,9 +65,9 @@ export function useComponentLoading(componentId: string) {
   // 컴포넌트 언마운트 시 로딩 상태 정리
   useEffect(() => {
     return () => {
-      clearLoading()
+      clearComponentLoading(componentId)
     }
-  }, [clearLoading])
+  }, [componentId, clearComponentLoading])
 
   return {
     isLoading: isComponentLoading(componentId),
@@ -95,9 +95,9 @@ export function useDataLoading(dataKey: string) {
   // 컴포넌트 언마운트 시 로딩 상태 정리
   useEffect(() => {
     return () => {
-      clearLoading()
+      clearDataLoading(dataKey)
     }
-  }, [clearLoading])
+  }, [dataKey, clearDataLoading])
 
   return {
     isLoading: isDataLoading(dataKey),
@@ -124,9 +124,9 @@ export function useProgress(progressKey: string) {
   // 컴포넌트 언마운트 시 진행률 정리
   useEffect(() => {
     return () => {
-      clearProgress()
+      removeProgress(progressKey)
     }
-  }, [clearProgress])
+  }, [progressKey, removeProgress])
 
   return {
     progress: getProgress(progressKey),
