@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ErrorBoundary } from './error/error-boundary'
-import type { AppError } from '@/types/common'
+import type { AppError } from '@/types'
 
 interface GlobalErrorBoundaryProps {
   children: React.ReactNode

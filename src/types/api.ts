@@ -1,50 +1,31 @@
 /**
  * API Type Definitions
  *
- * Type definitions for API requests, responses, and related functionality.
+ * API 요청, 응답 및 관련 기능을 위한 타입 정의들입니다.
  */
+
+import type { BaseEntity } from './common'
 
 // HTTP Methods
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
-// API Request types
-export interface ApiRequest {
-  method: HttpMethod
-  url: string
-  headers?: Record<string, string>
-  params?: Record<string, any>
-  body?: any
-  timeout?: number
-}
-
-export interface ApiRequestConfig {
-  baseURL?: string
-  timeout?: number
-  headers?: Record<string, string>
-  withCredentials?: boolean
-  validateStatus?: (status: number) => boolean
-}
-
-// API Response types
+// API Response Types - 표준화된 API 응답 구조
 export interface ApiResponse<T = any> {
-  data: T
+  data?: T
+  error?: string
+  message?: string
   status: number
-  statusText: string
-  headers: Record<string, string>
-  config: ApiRequestConfig
+  timestamp?: string
 }
 
-export interface ApiErrorResponse {
-  error: {
-    message: string
-    code?: string
-    details?: Record<string, any>
-  }
-  status: number
+export interface ApiError {
+  message: string
+  code?: string
+  details?: Record<string, any>
   timestamp: string
 }
 
-// Pagination types
+// Pagination Types - 페이지네이션을 위한 타입들
 export interface PaginationParams {
   page?: number
   limit?: number
@@ -60,12 +41,12 @@ export interface PaginationMeta {
   hasPreviousPage: boolean
 }
 
-export interface PaginatedApiResponse<T> {
+export interface PaginatedResponse<T> {
   data: T[]
-  meta: PaginationMeta
+  pagination: PaginationMeta
 }
 
-// Sorting and filtering
+// Sorting and Filtering - 정렬 및 필터링을 위한 타입들
 export interface SortParams {
   sortBy?: string
   sortOrder?: 'asc' | 'desc'
@@ -80,46 +61,35 @@ export interface QueryParams
     SortParams,
     FilterParams {}
 
-// Project API types
-export interface CreateProjectRequest {
-  title: string
-  description?: string
+// API Request Configuration
+export interface ApiRequestConfig {
+  baseURL?: string
+  timeout?: number
+  headers?: Record<string, string>
+  withCredentials?: boolean
+  validateStatus?: (status: number) => boolean
 }
 
-export interface UpdateProjectRequest {
-  title?: string
-  description?: string
+export interface ApiRequest {
+  method: HttpMethod
+  url: string
+  headers?: Record<string, string>
+  params?: Record<string, any>
+  body?: any
+  timeout?: number
 }
 
-export interface ProjectResponse {
-  id: string
-  title: string
-  description?: string
-  userId: string
-  createdAt: string
-  updatedAt: string
-  user: {
-    id: string
-    name?: string
-    email: string
-  }
-}
-
-export interface ProjectListResponse
-  extends PaginatedApiResponse<ProjectResponse> {}
-
+// User API Types
 export interface UpdateUserRequest {
   name?: string
   email?: string
 }
 
-export interface UserResponse {
-  id: string
-  name?: string
+export interface UserResponse extends BaseEntity {
+  name?: string | null
   email: string
-  image?: string
-  createdAt: string
-  updatedAt: string
+  image?: string | null
+  emailVerified?: Date | null
 }
 
 export interface UserPreferencesRequest {
@@ -146,7 +116,60 @@ export interface UserPreferencesResponse {
   }
 }
 
-// File upload API types
+// Project API Types
+export interface CreateProjectRequest {
+  title: string
+  description?: string
+}
+
+export interface UpdateProjectRequest {
+  title?: string
+  description?: string
+}
+
+export interface ProjectResponse extends BaseEntity {
+  title: string
+  description?: string | null
+  userId: string
+  user: {
+    id: string
+    name?: string | null
+    email: string
+  }
+}
+
+export interface ProjectListResponse
+  extends PaginatedResponse<ProjectResponse> {}
+
+// Post API Types
+export interface CreatePostRequest {
+  title: string
+  content: string
+  published?: boolean
+}
+
+export interface UpdatePostRequest {
+  title?: string
+  content?: string
+  published?: boolean
+}
+
+export interface PostResponse extends BaseEntity {
+  title: string
+  content: string
+  published: boolean
+  authorId: string
+  author: {
+    id: string
+    name?: string | null
+    email: string
+    image?: string | null
+  }
+}
+
+export interface PostListResponse extends PaginatedResponse<PostResponse> {}
+
+// File Upload API Types
 export interface FileUploadRequest {
   file: File
   category: 'avatar' | 'document' | 'image'
@@ -163,7 +186,7 @@ export interface FileUploadResponse {
   uploadedAt: string
 }
 
-// Search API types
+// Search API Types
 export interface SearchRequest {
   query: string
   filters?: {
@@ -185,7 +208,7 @@ export interface SearchResultItem {
   id: string
   title: string
   description?: string
-  type: 'project' | 'user'
+  type: 'project' | 'user' | 'post'
   relevanceScore: number
   metadata?: Record<string, any>
   createdAt: string
@@ -199,7 +222,7 @@ export interface SearchResponse {
   searchTime: number
 }
 
-// Statistics API types
+// Statistics API Types
 export interface StatsResponse {
   totalProjects: number
   projectsThisMonth: number
@@ -208,7 +231,7 @@ export interface StatsResponse {
   recentProjects: ProjectResponse[]
 }
 
-// Contact form API types
+// Contact Form API Types
 export interface ContactFormRequest {
   name: string
   email: string
@@ -221,41 +244,10 @@ export interface ContactFormResponse {
   id: string
 }
 
-// Newsletter API types
-export interface NewsletterSubscriptionRequest {
-  email: string
-  preferences: string[]
-  frequency: 'daily' | 'weekly' | 'monthly'
-}
-
-export interface NewsletterSubscriptionResponse {
-  message: string
-  subscriptionId: string
-}
-
-// Feedback API types
-export interface FeedbackRequest {
-  type: 'bug' | 'feature' | 'improvement' | 'other'
-  title: string
-  description: string
-  priority: 'low' | 'medium' | 'high'
-  attachments?: File[]
-}
-
-export interface FeedbackResponse {
-  id: string
-  type: string
-  title: string
-  description: string
-  priority: string
-  status: 'pending' | 'reviewed' | 'resolved'
-  createdAt: string
-}
-
-// Batch operations
+// Batch Operations
 export interface BatchDeleteRequest {
   ids: string[]
-  type: 'projects' | 'files'
+  type: 'projects' | 'posts' | 'files'
 }
 
 export interface BatchDeleteResponse {
@@ -266,31 +258,7 @@ export interface BatchDeleteResponse {
   failedCount: number
 }
 
-// API Client types
-export interface ApiClient {
-  get<T = any>(url: string, config?: ApiRequestConfig): Promise<ApiResponse<T>>
-  post<T = any>(
-    url: string,
-    data?: any,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>>
-  put<T = any>(
-    url: string,
-    data?: any,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>>
-  delete<T = any>(
-    url: string,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>>
-  patch<T = any>(
-    url: string,
-    data?: any,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>>
-}
-
-// API Error types
+// API Error Classes
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -341,7 +309,31 @@ export class ServerError extends ApiError {
   }
 }
 
-// API Hook types
+// API Client Interface
+export interface ApiClient {
+  get<T = any>(url: string, config?: ApiRequestConfig): Promise<ApiResponse<T>>
+  post<T = any>(
+    url: string,
+    data?: any,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>>
+  put<T = any>(
+    url: string,
+    data?: any,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>>
+  delete<T = any>(
+    url: string,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>>
+  patch<T = any>(
+    url: string,
+    data?: any,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>>
+}
+
+// API Hook Types
 export interface UseApiOptions<T> {
   initialData?: T
   enabled?: boolean

@@ -1,7 +1,7 @@
 'use client'
 
 import { InfinitePostList } from './infinite-post-list'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 
 // 데모용 포스트 데이터
 const mockPosts: Post[] = [

@@ -6,7 +6,7 @@ import { immer } from 'zustand/middleware/immer'
 export interface AppState {
   // UI State
   sidebarOpen: boolean
-  theme: 'light' | 'dark' | 'system'
+  theme: import('@/types').Theme
 
   // User preferences
   preferences: {
@@ -16,7 +16,7 @@ export interface AppState {
 
   // Actions
   setSidebarOpen: (open: boolean) => void
-  setTheme: (theme: 'light' | 'dark' | 'system') => void
+  setTheme: (theme: import('@/types').Theme) => void
   updatePreferences: (preferences: Partial<AppState['preferences']>) => void
   resetState: () => void
 }
@@ -47,7 +47,7 @@ export const createAppStore = () => {
               state.sidebarOpen = open
             }),
 
-          setTheme: (theme: 'light' | 'dark' | 'system') =>
+          setTheme: (theme: import('@/types').Theme) =>
             set(state => {
               state.theme = theme
             }),

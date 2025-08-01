@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { InfinitePostList } from '../infinite-post-list'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 
 // useInfinitePosts 훅 모킹
 vi.mock('@/hooks/use-infinite-posts', () => ({

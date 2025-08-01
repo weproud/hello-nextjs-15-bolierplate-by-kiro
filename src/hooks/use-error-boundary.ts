@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { handleError, logError } from '@/lib/error-handling'
-import type { AppError } from '@/types/common'
+import type { AppError } from '@/types'
 
 interface UseErrorBoundaryOptions {
   onError?: (error: AppError) => void

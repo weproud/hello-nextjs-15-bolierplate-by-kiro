@@ -17,10 +17,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface EditorToolbarProps {
-  editor: Editor | null
-  className?: string
-}
+import type { EditorToolbarProps } from '@/types'
 
 interface ToolbarButton {
   type: string

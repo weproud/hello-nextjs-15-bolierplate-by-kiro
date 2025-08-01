@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { getPostsAction } from '@/lib/actions/post-actions'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 
 interface UseInfinitePostsOptions {
   initialPosts?: Post[]

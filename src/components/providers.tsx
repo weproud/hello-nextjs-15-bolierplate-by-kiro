@@ -9,9 +9,7 @@ import { AppStoreProvider } from '../store/provider'
 import { ErrorHandlerProvider } from './error-handler-provider'
 import type { ReactNode } from 'react'
 
-interface ProvidersProps {
-  children: ReactNode
-}
+import type { ProvidersProps } from '@/types'
 
 export const Providers = memo(function Providers({ children }: ProvidersProps) {
   return (

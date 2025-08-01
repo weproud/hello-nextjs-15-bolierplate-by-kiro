@@ -1,7 +1,7 @@
 'use client'
 
 import { PostCard } from './post-card'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 
 // 테스트용 더미 데이터
 const mockPost: Post = {

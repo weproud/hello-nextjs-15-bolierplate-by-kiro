@@ -12,6 +12,7 @@ import {
   Suspense,
 } from 'react'
 import { cn } from '@/lib/utils'
+import type { TiptapEditorProps, TiptapEditorRef } from '@/types'
 
 // Lazy load the editor toolbar for better performance
 const EditorToolbar = lazy(() =>
@@ -19,22 +20,6 @@ const EditorToolbar = lazy(() =>
     default: module.EditorToolbar,
   }))
 )
-
-interface TiptapEditorProps {
-  content: string
-  onChange: (content: string) => void
-  placeholder?: string
-  editable?: boolean
-  showToolbar?: boolean
-  className?: string
-}
-
-export interface TiptapEditorRef {
-  getContent: () => string
-  setContent: (content: string) => void
-  focus: () => void
-  clear: () => void
-}
 
 export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
   (
@@ -97,6 +82,12 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
       clear: () => {
         editor?.commands.clearContent()
       },
+      isEmpty: () => editor?.isEmpty || true,
+      getHTML: () => editor?.getHTML() || '',
+      getJSON: () => editor?.getJSON() || {},
+      getCharacterCount: () =>
+        editor?.storage.characterCount?.characters() || 0,
+      getWordCount: () => editor?.storage.characterCount?.words() || 0,
     }))
 
     useEffect(() => {

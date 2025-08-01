@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
 import { useInfinitePosts } from '@/hooks/use-infinite-posts'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 import { cn } from '@/lib/utils'
 
 interface InfinitePostListProps {

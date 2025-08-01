@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
-import type { PostCardProps } from '@/types/post'
+import type { PostCardProps } from '@/types'
 import { cn } from '@/lib/utils'
 
 // 텍스트 요약 유틸리티 함수

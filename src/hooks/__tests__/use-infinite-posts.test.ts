@@ -1,7 +1,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { useInfinitePosts } from '../use-infinite-posts'
-import type { Post } from '@/types/post'
+import type { Post } from '@/types'
 
 // Mock the post actions
 vi.mock('@/lib/actions/post-actions', () => ({
