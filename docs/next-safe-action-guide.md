@@ -2,7 +2,8 @@
 
 ## Overview
 
-This guide covers the complete implementation of `next-safe-action` in our Next.js application, providing type-safe server actions with authentication, error handling, and logging.
+This guide covers the complete implementation of `next-safe-action` in our Next.js application,
+providing type-safe server actions with authentication, error handling, and logging.
 
 ## Installation
 
@@ -15,10 +16,7 @@ pnpm add next-safe-action zod
 ### 1. Safe Action Client Setup (`src/lib/safe-action.ts`)
 
 ```typescript
-import {
-  createSafeActionClient,
-  DEFAULT_SERVER_ERROR_MESSAGE,
-} from 'next-safe-action'
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from 'next-safe-action'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 
@@ -332,4 +330,5 @@ NODE_ENV=development
 DEBUG=next-safe-action:*
 ```
 
-This comprehensive implementation provides a robust foundation for handling forms and server actions in your Next.js application with full type safety, authentication, and error handling.
+This comprehensive implementation provides a robust foundation for handling forms and server actions
+in your Next.js application with full type safety, authentication, and error handling.

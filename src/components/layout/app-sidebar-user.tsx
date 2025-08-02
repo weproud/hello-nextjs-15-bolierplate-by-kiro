@@ -30,13 +30,13 @@ export function AppSidebarUser() {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton
-            size="lg"
+            size='lg'
             onClick={() => signIn('google')}
-            className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
           >
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">로그인</span>
-              <span className="truncate text-xs">Google로 시작하기</span>
+            <div className='grid flex-1 text-left text-sm leading-tight'>
+              <span className='truncate font-semibold'>로그인</span>
+              <span className='truncate text-xs'>Google로 시작하기</span>
             </div>
           </SidebarMenuButton>
         </SidebarMenuItem>
@@ -52,51 +52,51 @@ export function AppSidebarUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              size='lg'
+              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className='h-8 w-8 rounded-lg'>
                 <AvatarImage
                   src={displayUser.image}
                   alt={displayUser.name || '사용자'}
                 />
-                <AvatarFallback className="rounded-lg">
+                <AvatarFallback className='rounded-lg'>
                   {displayUser.name?.charAt(0) || 'U'}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
+              <div className='grid flex-1 text-left text-sm leading-tight'>
+                <span className='truncate font-semibold'>
                   {displayUser.name || '사용자'}
                 </span>
-                <span className="truncate text-xs">
+                <span className='truncate text-xs'>
                   {displayUser.email || '이메일 없음'}
                 </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className='ml-auto size-4' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
             side={isMobile ? 'bottom' : 'right'}
-            align="end"
+            align='end'
             sideOffset={4}
           >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+            <DropdownMenuLabel className='p-0 font-normal'>
+              <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+                <Avatar className='h-8 w-8 rounded-lg'>
                   <AvatarImage
                     src={displayUser.image || displayUser.image}
                     alt={displayUser.name || '사용자'}
                   />
-                  <AvatarFallback className="rounded-lg">
+                  <AvatarFallback className='rounded-lg'>
                     {displayUser.name?.charAt(0) || 'U'}
                   </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
+                <div className='grid flex-1 text-left text-sm leading-tight'>
+                  <span className='truncate font-semibold'>
                     {displayUser.name || '사용자'}
                   </span>
-                  <span className="truncate text-xs">
+                  <span className='truncate text-xs'>
                     {displayUser.email || '이메일 없음'}
                   </span>
                 </div>

@@ -130,11 +130,11 @@ export function CheckboxField<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+        <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
           </FormControl>
-          <div className="space-y-1 leading-none">
+          <div className='space-y-1 leading-none'>
             <FormLabel>{label}</FormLabel>
             {description && <FormDescription>{description}</FormDescription>}
           </div>
@@ -160,14 +160,14 @@ export function FormSection({
   children,
 }: FormSectionProps) {
   return (
-    <div className="space-y-4">
+    <div className='space-y-4'>
       <div>
-        <h3 className="text-lg font-medium">{title}</h3>
+        <h3 className='text-lg font-medium'>{title}</h3>
         {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <p className='text-sm text-muted-foreground'>{description}</p>
         )}
       </div>
-      <div className="space-y-4">{children}</div>
+      <div className='space-y-4'>{children}</div>
     </div>
   )
 }
@@ -189,13 +189,13 @@ export function FormActions({
   cancelText = '취소',
 }: FormActionsProps) {
   return (
-    <div className="flex justify-end space-x-2">
+    <div className='flex justify-end space-x-2'>
       {onCancel && (
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button type='button' variant='outline' onClick={onCancel}>
           {cancelText}
         </Button>
       )}
-      <Button type="submit" disabled={isSubmitting}>
+      <Button type='submit' disabled={isSubmitting}>
         {isSubmitting ? '처리 중...' : submitText}
       </Button>
     </div>

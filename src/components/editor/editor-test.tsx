@@ -37,17 +37,17 @@ export function EditorTest() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className='max-w-4xl mx-auto p-6 space-y-6'>
       <Card>
         <CardHeader>
           <CardTitle>Tiptap 에디터 테스트</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <Button onClick={setTestContent} variant="outline">
+        <CardContent className='space-y-4'>
+          <div className='flex gap-2'>
+            <Button onClick={setTestContent} variant='outline'>
               테스트 콘텐츠 로드
             </Button>
-            <Button onClick={clearContent} variant="outline">
+            <Button onClick={clearContent} variant='outline'>
               내용 지우기
             </Button>
           </div>
@@ -55,14 +55,14 @@ export function EditorTest() {
           <TiptapEditor
             content={content}
             onChange={handleContentChange}
-            placeholder="여기에 내용을 입력하세요..."
+            placeholder='여기에 내용을 입력하세요...'
             showToolbar={true}
-            className="min-h-[300px]"
+            className='min-h-[300px]'
           />
 
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-2">HTML 출력:</h3>
-            <pre className="bg-muted p-4 rounded-md text-sm overflow-auto">
+          <div className='mt-6'>
+            <h3 className='text-lg font-semibold mb-2'>HTML 출력:</h3>
+            <pre className='bg-muted p-4 rounded-md text-sm overflow-auto'>
               {content}
             </pre>
           </div>

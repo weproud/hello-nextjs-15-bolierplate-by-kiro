@@ -25,20 +25,20 @@ function TodoListSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="h-6 w-32 mb-2" />
-        <Skeleton className="h-4 w-48" />
+        <Skeleton className='h-6 w-32 mb-2' />
+        <Skeleton className='h-4 w-48' />
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex gap-2">
-          <Skeleton className="h-10 flex-1" />
-          <Skeleton className="h-10 w-16" />
+      <CardContent className='space-y-4'>
+        <div className='flex gap-2'>
+          <Skeleton className='h-10 flex-1' />
+          <Skeleton className='h-10 w-16' />
         </div>
-        <div className="space-y-2">
+        <div className='space-y-2'>
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-2 p-2 border rounded">
-              <Skeleton className="h-4 w-4" />
-              <Skeleton className="h-4 flex-1" />
-              <Skeleton className="h-8 w-12" />
+            <div key={i} className='flex items-center gap-2 p-2 border rounded'>
+              <Skeleton className='h-4 w-4' />
+              <Skeleton className='h-4 flex-1' />
+              <Skeleton className='h-8 w-12' />
             </div>
           ))}
         </div>
@@ -51,17 +51,17 @@ function CounterSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="h-6 w-32" />
+        <Skeleton className='h-6 w-32' />
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="text-center">
-          <Skeleton className="h-12 w-16 mx-auto mb-2" />
-          <Skeleton className="h-4 w-24 mx-auto" />
+      <CardContent className='space-y-4'>
+        <div className='text-center'>
+          <Skeleton className='h-12 w-16 mx-auto mb-2' />
+          <Skeleton className='h-4 w-24 mx-auto' />
         </div>
-        <div className="flex gap-2 justify-center">
-          <Skeleton className="h-8 w-12" />
-          <Skeleton className="h-8 w-12" />
-          <Skeleton className="h-8 w-12" />
+        <div className='flex gap-2 justify-center'>
+          <Skeleton className='h-8 w-12' />
+          <Skeleton className='h-8 w-12' />
+          <Skeleton className='h-8 w-12' />
         </div>
       </CardContent>
     </Card>
@@ -72,12 +72,12 @@ function ScrollComponentSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="h-6 w-24" />
+        <Skeleton className='h-6 w-24' />
       </CardHeader>
       <CardContent>
-        <div className="text-center">
-          <Skeleton className="h-8 w-16 mx-auto mb-2" />
-          <Skeleton className="h-4 w-24 mx-auto" />
+        <div className='text-center'>
+          <Skeleton className='h-8 w-16 mx-auto mb-2' />
+          <Skeleton className='h-4 w-24 mx-auto' />
         </div>
       </CardContent>
     </Card>
@@ -109,14 +109,14 @@ const OptimizedSearchComponent = memo(function OptimizedSearchComponent({
   )
 
   return (
-    <div className="space-y-2">
+    <div className='space-y-2'>
       <Input
         value={query}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="w-full"
+        className='w-full'
       />
-      <p className="text-sm text-muted-foreground">
+      <p className='text-sm text-muted-foreground'>
         검색어: {query || '(없음)'}
       </p>
     </div>
@@ -169,22 +169,22 @@ const OptimizedCounter = memo(function OptimizedCounter({
       <CardHeader>
         <CardTitle>최적화된 카운터</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="text-center">
-          <div className="text-3xl font-bold">{count}</div>
-          <div className="text-sm text-muted-foreground">
+      <CardContent className='space-y-4'>
+        <div className='text-center'>
+          <div className='text-3xl font-bold'>{count}</div>
+          <div className='text-sm text-muted-foreground'>
             피보나치 값: {expensiveCalculation}
           </div>
         </div>
 
-        <div className="flex gap-2 justify-center">
-          <Button onClick={decrement} variant="outline" size="sm">
+        <div className='flex gap-2 justify-center'>
+          <Button onClick={decrement} variant='outline' size='sm'>
             -{step}
           </Button>
-          <Button onClick={reset} variant="outline" size="sm">
+          <Button onClick={reset} variant='outline' size='sm'>
             리셋
           </Button>
-          <Button onClick={increment} variant="outline" size="sm">
+          <Button onClick={increment} variant='outline' size='sm'>
             +{step}
           </Button>
         </div>
@@ -214,19 +214,19 @@ const OptimizedListItem = memo(function OptimizedListItem({
   }, [item.id, onDelete])
 
   return (
-    <div className="flex items-center gap-2 p-2 border rounded">
+    <div className='flex items-center gap-2 p-2 border rounded'>
       <input
-        type="checkbox"
+        type='checkbox'
         checked={item.completed}
         onChange={handleToggle}
-        className="rounded"
+        className='rounded'
       />
       <span
         className={`flex-1 ${item.completed ? 'line-through text-muted-foreground' : ''}`}
       >
         {item.text}
       </span>
-      <Button onClick={handleDelete} variant="destructive" size="sm">
+      <Button onClick={handleDelete} variant='destructive' size='sm'>
         삭제
       </Button>
     </div>
@@ -316,24 +316,24 @@ const OptimizedTodoList = memo(function OptimizedTodoList() {
     <Card>
       <CardHeader>
         <CardTitle>최적화된 할 일 목록</CardTitle>
-        <div className="text-sm text-muted-foreground">
+        <div className='text-sm text-muted-foreground'>
           전체: {stats.total} | 완료: {stats.completed} | 대기: {stats.pending}{' '}
           | 완료율: {stats.completionRate}%
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex gap-2">
+      <CardContent className='space-y-4'>
+        <div className='flex gap-2'>
           <Input
             value={newTodo}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            placeholder="새 할 일을 입력하세요..."
-            className="flex-1"
+            placeholder='새 할 일을 입력하세요...'
+            className='flex-1'
           />
           <Button onClick={addTodo}>추가</Button>
         </div>
 
-        <div className="space-y-2">
+        <div className='space-y-2'>
           {todos.map(todo => (
             <OptimizedListItem
               key={todo.id}
@@ -345,7 +345,7 @@ const OptimizedTodoList = memo(function OptimizedTodoList() {
         </div>
 
         {todos.length === 0 && (
-          <div className="text-center text-muted-foreground py-8">
+          <div className='text-center text-muted-foreground py-8'>
             할 일이 없습니다. 새로운 할 일을 추가해보세요!
           </div>
         )}
@@ -376,9 +376,9 @@ const OptimizedScrollComponent = memo(function OptimizedScrollComponent() {
         <CardTitle>스크롤 최적화</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-center">
-          <div className="text-2xl font-bold">{Math.round(scrollY)}px</div>
-          <div className="text-sm text-muted-foreground">현재 스크롤 위치</div>
+        <div className='text-center'>
+          <div className='text-2xl font-bold'>{Math.round(scrollY)}px</div>
+          <div className='text-sm text-muted-foreground'>현재 스크롤 위치</div>
         </div>
       </CardContent>
     </Card>
@@ -418,15 +418,15 @@ export const PerformanceOptimizedExamples = memo(
     }, [])
 
     return (
-      <div className="container mx-auto py-8 space-y-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">성능 최적화 예제</h1>
-          <p className="text-muted-foreground">
+      <div className='container mx-auto py-8 space-y-8'>
+        <div className='text-center'>
+          <h1 className='text-3xl font-bold mb-4'>성능 최적화 예제</h1>
+          <p className='text-muted-foreground'>
             React.memo, useMemo, useCallback을 활용한 성능 최적화 데모
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           <Card>
             <CardHeader>
               <CardTitle>최적화된 검색</CardTitle>
@@ -434,11 +434,11 @@ export const PerformanceOptimizedExamples = memo(
             <CardContent>
               <OptimizedSearchComponent onSearch={handleSearch} />
               {searchResults.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-medium mb-2">검색 결과:</h4>
-                  <ul className="space-y-1">
+                <div className='mt-4'>
+                  <h4 className='font-medium mb-2'>검색 결과:</h4>
+                  <ul className='space-y-1'>
                     {searchResults.map((result, index) => (
-                      <li key={index} className="text-sm text-muted-foreground">
+                      <li key={index} className='text-sm text-muted-foreground'>
                         {result}
                       </li>
                     ))}
@@ -466,7 +466,7 @@ export const PerformanceOptimizedExamples = memo(
             <CardTitle>성능 팁</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2 text-sm">
+            <ul className='space-y-2 text-sm'>
               <li>
                 • <strong>React.memo</strong>: props가 변경되지 않으면
                 리렌더링을 방지

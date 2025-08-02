@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { prisma } from '@/lib/prisma'
 import { authActionClient } from '@/lib/safe-action'
 import {
   createProjectSchema,
@@ -11,6 +10,8 @@ import {
   getUserProjectsSchema,
 } from '@/lib/validations/project'
 import { ActionLogger } from '@/lib/error-handling'
+import { projectRepository } from '@/lib/repositories'
+import { NotFoundError } from '@/lib/repositories/base-repository'
 
 /**
  * Create a new project
@@ -27,13 +28,15 @@ export const createProjectAction = authActionClient
     })
 
     try {
-      const project = await prisma.project.create({
-        data: {
+      const project = await projectRepository.create(
+        {
           title,
           description: description ?? null,
-          userId: user.id,
+          user: {
+            connect: { id: user.id },
+          },
         },
-        include: {
+        {
           user: {
             select: {
               id: true,
@@ -41,8 +44,8 @@ export const createProjectAction = authActionClient
               email: true,
             },
           },
-        },
-      })
+        }
+      )
 
       // Revalidate projects page and sidebar data
       revalidatePath('/projects')
@@ -84,7 +87,7 @@ export const updateProjectAction = authActionClient
 
     try {
       // Check if project exists and belongs to user
-      const existingProject = await prisma.project.findFirst({
+      const existingProject = await projectRepository.findFirst({
         where: {
           id,
           userId: user.id,
@@ -95,13 +98,13 @@ export const updateProjectAction = authActionClient
         throw new Error('Project not found or access denied')
       }
 
-      const project = await prisma.project.update({
-        where: { id },
-        data: {
+      const project = await projectRepository.update(
+        id,
+        {
           ...(title && { title }),
           ...(description !== undefined && { description }),
         },
-        include: {
+        {
           user: {
             select: {
               id: true,
@@ -109,8 +112,8 @@ export const updateProjectAction = authActionClient
               email: true,
             },
           },
-        },
-      })
+        }
+      )
 
       // Revalidate projects page
       revalidatePath('/projects')
@@ -152,7 +155,7 @@ export const deleteProjectAction = authActionClient
 
     try {
       // Check if project exists and belongs to user
-      const existingProject = await prisma.project.findFirst({
+      const existingProject = await projectRepository.findFirst({
         where: {
           id,
           userId: user.id,
@@ -163,9 +166,7 @@ export const deleteProjectAction = authActionClient
         throw new Error('Project not found or access denied')
       }
 
-      await prisma.project.delete({
-        where: { id },
-      })
+      await projectRepository.delete(id)
 
       // Revalidate projects page
       revalidatePath('/projects')
@@ -199,7 +200,7 @@ export const getProjectAction = authActionClient
     const { id } = parsedInput
 
     try {
-      const project = await prisma.project.findFirst({
+      const project = await projectRepository.findFirst({
         where: {
           id,
           userId: user.id,
@@ -242,23 +243,13 @@ export const getUserProjectsAction = authActionClient
     const { limit, offset } = parsedInput
 
     try {
-      const [projects, totalCount] = await Promise.all([
-        prisma.project.findMany({
-          where: {
-            userId: user.id,
-          },
-          orderBy: {
-            updatedAt: 'desc',
-          },
-          take: limit,
-          skip: offset,
-        }),
-        prisma.project.count({
-          where: {
-            userId: user.id,
-          },
-        }),
-      ])
+      const result = await projectRepository.findByUser(user.id, {
+        page: Math.floor(offset / limit) + 1,
+        limit,
+      })
+
+      const projects = result.data
+      const totalCount = result.pagination.total
 
       return {
         success: true,

@@ -180,7 +180,7 @@ export function ProjectForm({
     <>
       {/* 진행률 표시 */}
       {formLoading.isLoading && (
-        <div className="mb-6">
+        <div className='mb-6'>
           <ProgressIndicator
             progressKey={`project-form-${mode}`}
             showMessage={true}
@@ -190,16 +190,16 @@ export function ProjectForm({
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
             control={form.control}
-            name="title"
+            name='title'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>프로젝트 제목 *</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="예: 새로운 기술 스택 학습하기"
+                    placeholder='예: 새로운 기술 스택 학습하기'
                     {...field}
                     disabled={formLoading.isLoading}
                   />
@@ -214,14 +214,14 @@ export function ProjectForm({
 
           <FormField
             control={form.control}
-            name="description"
+            name='description'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>프로젝트 설명</FormLabel>
                 <FormControl>
                   <textarea
-                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                    placeholder="프로젝트의 목적, 기대 효과, 주요 활동 등을 자세히 설명해주세요..."
+                    className='flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none'
+                    placeholder='프로젝트의 목적, 기대 효과, 주요 활동 등을 자세히 설명해주세요...'
                     disabled={formLoading.isLoading}
                     {...field}
                     value={field.value || ''}
@@ -235,27 +235,27 @@ export function ProjectForm({
             )}
           />
 
-          <div className="flex gap-3 pt-4">
+          <div className='flex gap-3 pt-4'>
             <Button
-              type="submit"
+              type='submit'
               disabled={formLoading.isLoading}
-              className="flex-1"
+              className='flex-1'
             >
               {formLoading.isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                   {mode === 'create' ? '생성 중...' : '수정 중...'}
                 </>
               ) : (
                 <>
                   {mode === 'create' ? (
                     <>
-                      <Plus className="mr-2 h-4 w-4" />
+                      <Plus className='mr-2 h-4 w-4' />
                       프로젝트 생성
                     </>
                   ) : (
                     <>
-                      <Save className="mr-2 h-4 w-4" />
+                      <Save className='mr-2 h-4 w-4' />
                       변경사항 저장
                     </>
                   )}
@@ -265,8 +265,8 @@ export function ProjectForm({
 
             {onCancel && (
               <Button
-                type="button"
-                variant="outline"
+                type='button'
+                variant='outline'
                 onClick={onCancel}
                 disabled={formLoading.isLoading}
               >
@@ -282,19 +282,19 @@ export function ProjectForm({
   return (
     <LoadingOverlay
       isLoading={formLoading.isLoading}
-      className="w-full max-w-2xl mx-auto"
+      className='w-full max-w-2xl mx-auto'
     >
       {showCard ? (
-        <Card className="w-full">
+        <Card className='w-full'>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className='flex items-center gap-2'>
               {mode === 'create' ? (
                 <>
-                  <Plus className="h-5 w-5" />새 프로젝트 만들기
+                  <Plus className='h-5 w-5' />새 프로젝트 만들기
                 </>
               ) : (
                 <>
-                  <Save className="h-5 w-5" />
+                  <Save className='h-5 w-5' />
                   프로젝트 수정
                 </>
               )}
@@ -308,7 +308,7 @@ export function ProjectForm({
           <CardContent>{formContent}</CardContent>
         </Card>
       ) : (
-        <div className="w-full">{formContent}</div>
+        <div className='w-full'>{formContent}</div>
       )}
     </LoadingOverlay>
   )

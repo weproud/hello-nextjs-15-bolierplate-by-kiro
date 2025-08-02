@@ -32,15 +32,15 @@ export function ProjectsPageClient({ user }: ProjectsPageClientProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className='flex items-center justify-between'>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">프로젝트</h1>
-          <p className="text-muted-foreground">
+          <h1 className='text-3xl font-bold tracking-tight'>프로젝트</h1>
+          <p className='text-muted-foreground'>
             {user?.name || user?.email}님의 프로젝트를 관리하고 추적하세요.
           </p>
         </div>
         <Button onClick={() => setIsCreateModalOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />새 프로젝트
+          <Plus className='mr-2 h-4 w-4' />새 프로젝트
         </Button>
       </div>
 

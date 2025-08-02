@@ -25,11 +25,7 @@ This directory contains the global state management setup using Zustand with Typ
 ```tsx
 import { AppStoreProvider } from '@/store'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <body>
@@ -50,9 +46,7 @@ export function MyComponent() {
   const sidebarOpen = useAppStore(state => state.sidebarOpen)
   const setSidebarOpen = useAppStore(state => state.setSidebarOpen)
 
-  return (
-    <button onClick={() => setSidebarOpen(!sidebarOpen)}>Toggle Sidebar</button>
-  )
+  return <button onClick={() => setSidebarOpen(!sidebarOpen)}>Toggle Sidebar</button>
 }
 ```
 
@@ -88,4 +82,5 @@ UI state (like sidebar) is not persisted and resets on page reload.
 
 ## Development
 
-The store includes Redux DevTools integration. Install the browser extension to debug state changes during development.
+The store includes Redux DevTools integration. Install the browser extension to debug state changes
+during development.

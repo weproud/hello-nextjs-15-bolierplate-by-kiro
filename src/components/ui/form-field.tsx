@@ -5,11 +5,11 @@
  * useFormWithAction 훅과 완벽하게 통합되어 작동합니다.
  */
 
-import * as React from 'react'
 import { cn } from '@/lib/utils'
+import * as React from 'react'
+import { type FieldError } from 'react-hook-form'
+import { FieldValidationIndicator, FormError } from './form-error'
 import { Label } from './label'
-import { FormError, FieldValidationIndicator } from './form-error'
-import { type FieldError, type FieldValues, type Path } from 'react-hook-form'
 
 export interface FormFieldProps {
   label?: string
@@ -63,7 +63,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
     return (
       <div ref={ref} className={cn(sizeStyles[size], className)} {...props}>
         {label && (
-          <div className="flex items-center justify-between">
+          <div className='flex items-center justify-between'>
             <Label
               htmlFor={fieldId}
               className={cn(
@@ -75,19 +75,31 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
             >
               {label}
               {required && (
-                <span className="ml-1 text-destructive" aria-label="required">
+                <span className='ml-1 text-destructive' aria-label='필수 입력'>
                   *
                 </span>
               )}
               {optional && (
-                <span className="ml-1 text-muted-foreground text-xs">
+                <span
+                  className='ml-1 text-muted-foreground text-xs'
+                  aria-label='선택 입력'
+                >
                   (선택사항)
                 </span>
               )}
               {tooltip && (
                 <span
-                  className="ml-1 text-muted-foreground cursor-help"
+                  className='ml-1 text-muted-foreground cursor-help focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm'
                   title={tooltip}
+                  role='button'
+                  tabIndex={0}
+                  aria-label={`도움말: ${tooltip}`}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      // 툴팁 표시 로직 (필요시 구현)
+                    }
+                  }}
                 >
                   ⓘ
                 </span>
@@ -99,13 +111,13 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
                 isValid={isValid}
                 isValidating={isValidating}
                 error={errorMessage}
-                className="ml-2"
+                className='ml-2'
               />
             )}
           </div>
         )}
 
-        <div className="relative">
+        <div className='relative'>
           {React.Children.map(children, child => {
             if (React.isValidElement(child)) {
               return React.cloneElement(child, {
@@ -132,7 +144,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
           <FormError
             id={`${fieldId}-error`}
             message={errorMessage}
-            type="error"
+            type='error'
           />
         )}
 
@@ -243,22 +255,22 @@ const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps>(
 
     return (
       <FormField ref={ref} {...fieldProps} label={undefined}>
-        <div className="flex items-top space-x-2">
+        <div className='flex items-top space-x-2'>
           <Checkbox {...checkboxProps} />
-          <div className="grid gap-1.5 leading-none">
+          <div className='grid gap-1.5 leading-none'>
             <Label
               htmlFor={checkboxProps?.id}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
               {label}
               {fieldProps.required && (
-                <span className="ml-1 text-destructive" aria-label="required">
+                <span className='ml-1 text-destructive' aria-label='required'>
                   *
                 </span>
               )}
             </Label>
             {description && (
-              <p className="text-xs text-muted-foreground">{description}</p>
+              <p className='text-xs text-muted-foreground'>{description}</p>
             )}
           </div>
         </div>
@@ -269,7 +281,7 @@ const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps>(
 
 CheckboxField.displayName = 'CheckboxField'
 
-export { FormField, InputField, TextareaField, SelectField, CheckboxField }
+export { CheckboxField, FormField, InputField, SelectField, TextareaField }
 
 // 편의를 위한 기본 내보내기
 export default FormField

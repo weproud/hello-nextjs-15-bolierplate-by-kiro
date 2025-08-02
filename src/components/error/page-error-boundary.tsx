@@ -174,47 +174,47 @@ export class PageErrorBoundary extends Component<Props, State> {
 
       // 기본 페이지 에러 UI
       return (
-        <div className="min-h-[60vh] flex items-center justify-center p-4">
-          <Card className="w-full max-w-lg">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                <AlertTriangle className="w-8 h-8 text-orange-600" />
+        <div className='min-h-[60vh] flex items-center justify-center p-4'>
+          <Card className='w-full max-w-lg'>
+            <CardHeader className='text-center'>
+              <div className='mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4'>
+                <AlertTriangle className='w-8 h-8 text-orange-600' />
               </div>
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <CardTitle className="text-xl text-orange-600">
+              <div className='flex items-center justify-center gap-2 mb-2'>
+                <CardTitle className='text-xl text-orange-600'>
                   페이지 로드 중 오류 발생
                 </CardTitle>
-                <Badge variant="outline" className="text-xs">
+                <Badge variant='outline' className='text-xs'>
                   PAGE ERROR
                 </Badge>
               </div>
               {this.props.pageName && (
-                <p className="text-sm text-gray-500">
+                <p className='text-sm text-gray-500'>
                   페이지: {this.props.pageName}
                 </p>
               )}
             </CardHeader>
 
-            <CardContent className="space-y-6">
-              <div className="text-center text-gray-600">
-                <p className="mb-2">
+            <CardContent className='space-y-6'>
+              <div className='text-center text-gray-600'>
+                <p className='mb-2'>
                   이 페이지를 불러오는 중에 문제가 발생했습니다.
                 </p>
-                <p className="text-sm">
+                <p className='text-sm'>
                   잠시 후 다시 시도하거나 다른 페이지로 이동해 주세요.
                 </p>
               </div>
 
               {/* 에러 정보 */}
-              <div className="text-center">
-                <p className="text-xs text-gray-500">
+              <div className='text-center'>
+                <p className='text-xs text-gray-500'>
                   오류 ID:{' '}
-                  <code className="bg-gray-100 px-2 py-1 rounded">
+                  <code className='bg-gray-100 px-2 py-1 rounded'>
                     {this.state.error.id}
                   </code>
                 </p>
                 {this.state.retryCount > 0 && (
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className='text-xs text-gray-500 mt-1'>
                     재시도 횟수: {this.state.retryCount}
                   </p>
                 )}
@@ -223,11 +223,11 @@ export class PageErrorBoundary extends Component<Props, State> {
               {/* 개발 환경 에러 상세 정보 */}
               {this.props.showDetails &&
                 process.env.NODE_ENV === 'development' && (
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <h4 className="font-medium text-gray-800 mb-2 text-sm">
+                  <div className='bg-gray-50 p-3 rounded-lg'>
+                    <h4 className='font-medium text-gray-800 mb-2 text-sm'>
                       개발자 정보
                     </h4>
-                    <div className="text-xs text-gray-600 space-y-1">
+                    <div className='text-xs text-gray-600 space-y-1'>
                       <div>
                         <strong>타입:</strong> {this.state.error.type}
                       </div>
@@ -235,11 +235,11 @@ export class PageErrorBoundary extends Component<Props, State> {
                         <strong>메시지:</strong> {this.state.error.message}
                       </div>
                       {this.state.error.originalError?.stack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             스택 트레이스
                           </summary>
-                          <pre className="mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-32">
+                          <pre className='mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-32'>
                             {this.state.error.originalError.stack}
                           </pre>
                         </details>
@@ -249,18 +249,18 @@ export class PageErrorBoundary extends Component<Props, State> {
                 )}
 
               {/* 복구 액션 버튼들 */}
-              <div className="flex flex-col gap-2">
+              <div className='flex flex-col gap-2'>
                 {this.state.recoveryActions.map(action => (
                   <Button
                     key={action.id}
                     onClick={() => this.handleRecoveryAction(action)}
                     disabled={this.state.isRecovering}
                     variant={action.primary ? 'default' : 'outline'}
-                    className="flex items-center justify-center"
-                    size="sm"
+                    className='flex items-center justify-center'
+                    size='sm'
                   >
                     {action.type === 'retry' && (
-                      <RefreshCw className="w-4 h-4 mr-2" />
+                      <RefreshCw className='w-4 h-4 mr-2' />
                     )}
                     {this.state.isRecovering ? '처리 중...' : action.label}
                   </Button>
@@ -268,23 +268,23 @@ export class PageErrorBoundary extends Component<Props, State> {
 
                 {/* 네비게이션 버튼들 */}
                 {this.props.allowNavigation !== false && (
-                  <div className="flex gap-2 mt-2">
+                  <div className='flex gap-2 mt-2'>
                     <Button
-                      variant="outline"
+                      variant='outline'
                       onClick={this.handleGoBack}
-                      className="flex-1 flex items-center justify-center"
-                      size="sm"
+                      className='flex-1 flex items-center justify-center'
+                      size='sm'
                     >
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      <ArrowLeft className='w-4 h-4 mr-2' />
                       이전 페이지
                     </Button>
                     <Button
-                      variant="outline"
+                      variant='outline'
                       onClick={this.handleGoHome}
-                      className="flex-1 flex items-center justify-center"
-                      size="sm"
+                      className='flex-1 flex items-center justify-center'
+                      size='sm'
                     >
-                      <Home className="w-4 h-4 mr-2" />
+                      <Home className='w-4 h-4 mr-2' />
                       홈으로
                     </Button>
                   </div>

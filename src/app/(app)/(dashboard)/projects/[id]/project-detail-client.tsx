@@ -107,32 +107,32 @@ export function ProjectDetailClient({
   }
 
   return (
-    <div className="relative">
+    <div className='relative'>
       {isDeleting && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className='absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center'>
+          <div className='flex items-center space-x-3'>
+            <div className='w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin' />
             <span>프로젝트 삭제 중...</span>
           </div>
         </div>
       )}
-      <div className="space-y-8">
+      <div className='space-y-8'>
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/projects">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-4'>
+            <Link href='/projects'>
+              <Button variant='ghost' size='sm'>
+                <ArrowLeft className='mr-2 h-4 w-4' />
                 프로젝트 목록
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold">{project.title}</h1>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                <User className="h-3 w-3" />
+              <h1 className='text-3xl font-bold'>{project.title}</h1>
+              <div className='flex items-center gap-2 text-sm text-muted-foreground mt-1'>
+                <User className='h-3 w-3' />
                 <span>{project.user.name || project.user.email}</span>
                 <span>•</span>
-                <Calendar className="h-3 w-3" />
+                <Calendar className='h-3 w-3' />
                 <span>
                   {formatDistanceToNow(new Date(project.updatedAt), {
                     addSuffix: true,
@@ -144,44 +144,44 @@ export function ProjectDetailClient({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className='flex items-center gap-2'>
             <Button
-              variant="outline"
+              variant='outline'
               onClick={() => setIsEditDialogOpen(true)}
               disabled={isDeleting}
             >
-              <Edit className="mr-2 h-4 w-4" />
+              <Edit className='mr-2 h-4 w-4' />
               수정
             </Button>
             <Button
-              variant="destructive"
+              variant='destructive'
               onClick={handleDelete}
               disabled={isDeleting}
             >
-              <Trash2 className="mr-2 h-4 w-4" />
+              <Trash2 className='mr-2 h-4 w-4' />
               {isDeleting ? '삭제 중...' : '삭제'}
             </Button>
           </div>
         </div>
 
         {/* Project Info */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-6">
+        <div className='grid gap-6 lg:grid-cols-3'>
+          <div className='lg:col-span-2 space-y-6'>
             {/* Description */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
+                <CardTitle className='flex items-center gap-2'>
+                  <FileText className='h-5 w-5' />
                   프로젝트 설명
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {project.description ? (
-                  <p className="text-muted-foreground whitespace-pre-wrap">
+                  <p className='text-muted-foreground whitespace-pre-wrap'>
                     {project.description}
                   </p>
                 ) : (
-                  <p className="text-muted-foreground italic">
+                  <p className='text-muted-foreground italic'>
                     프로젝트 설명이 없습니다.
                   </p>
                 )}
@@ -190,28 +190,28 @@ export function ProjectDetailClient({
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className='space-y-6'>
             {/* Project Stats */}
             <Card>
               <CardHeader>
                 <CardTitle>프로젝트 정보</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">생성일</span>
-                  <span className="font-medium">
+              <CardContent className='space-y-4'>
+                <div className='flex justify-between'>
+                  <span className='text-muted-foreground'>생성일</span>
+                  <span className='font-medium'>
                     {new Date(project.createdAt).toLocaleDateString('ko-KR')}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">최종 수정</span>
-                  <span className="font-medium">
+                <div className='flex justify-between'>
+                  <span className='text-muted-foreground'>최종 수정</span>
+                  <span className='font-medium'>
                     {new Date(project.updatedAt).toLocaleDateString('ko-KR')}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">소유자</span>
-                  <span className="font-medium truncate">
+                <div className='flex justify-between'>
+                  <span className='text-muted-foreground'>소유자</span>
+                  <span className='font-medium truncate'>
                     {project.user.name || project.user.email}
                   </span>
                 </div>
@@ -230,13 +230,13 @@ export function ProjectDetailClient({
 
       {/* Edit Project Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className='max-w-2xl'>
           <DialogHeader>
             <DialogTitle>프로젝트 수정</DialogTitle>
             <DialogDescription>프로젝트 정보를 수정하세요.</DialogDescription>
           </DialogHeader>
           <ProjectForm
-            mode="edit"
+            mode='edit'
             initialData={project}
             onSuccess={handleEditSuccess}
             onCancel={() => setIsEditDialogOpen(false)}

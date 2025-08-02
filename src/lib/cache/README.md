@@ -35,11 +35,10 @@ const user = globalCache.get('user:123')
 ```typescript
 import { createCachedFunction, CACHE_TAGS } from '@/lib/cache'
 
-const getCachedUser = createCachedFunction(
-  async (id: string) => fetchUser(id),
-  ['user'],
-  { tags: [CACHE_TAGS.USER], revalidate: 300 }
-)
+const getCachedUser = createCachedFunction(async (id: string) => fetchUser(id), ['user'], {
+  tags: [CACHE_TAGS.USER],
+  revalidate: 300,
+})
 ```
 
 ### Prisma Cache

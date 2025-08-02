@@ -27,7 +27,7 @@ export function ProjectListServer({
   searchParams,
 }: ProjectListServerProps) {
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Dynamic project list - Client Component */}
       <ProjectListClient
         projects={projects}

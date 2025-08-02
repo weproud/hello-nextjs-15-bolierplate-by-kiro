@@ -40,10 +40,10 @@ export function SignOutDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <LogOut className="h-5 w-5" />
+          <DialogTitle className='flex items-center gap-2'>
+            <LogOut className='h-5 w-5' />
             로그아웃 확인
           </DialogTitle>
           <DialogDescription>
@@ -51,9 +51,9 @@ export function SignOutDialog({
             이동합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 space-y-2 space-y-reverse sm:space-y-0">
+        <div className='flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 space-y-2 space-y-reverse sm:space-y-0'>
           <Button
-            variant="outline"
+            variant='outline'
             onClick={() => setIsOpen(false)}
             disabled={isLoading}
           >
@@ -62,16 +62,16 @@ export function SignOutDialog({
           <Button
             onClick={handleSignOut}
             disabled={isLoading}
-            className="bg-destructive hover:bg-destructive/90"
+            className='bg-destructive hover:bg-destructive/90'
           >
             {isLoading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              <div className='flex items-center gap-2'>
+                <div className='w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin' />
                 로그아웃 중...
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <LogOut className="h-4 w-4" />
+              <div className='flex items-center gap-2'>
+                <LogOut className='h-4 w-4' />
                 로그아웃
               </div>
             )}

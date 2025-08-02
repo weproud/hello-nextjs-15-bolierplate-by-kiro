@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { type VariantProps } from 'class-variance-authority'
 import { Eye, EyeOff } from 'lucide-react'
+import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { enhancedInputVariants } from './variants'
@@ -51,7 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         type={inputType}
-        data-slot="input"
+        data-slot='input'
         className={cn(
           enhancedInputVariants({ variant, size, state: inputState }),
           leftIcon && 'pl-10',
@@ -72,17 +72,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     if (!leftIcon && !rightIcon && type !== 'password') {
       return (
-        <div className="space-y-1">
+        <div className='space-y-1'>
           {inputElement}
           {error && (
-            <p id={`${props.id}-error`} className="text-sm text-destructive">
+            <p id={`${props.id}-error`} className='text-sm text-destructive'>
               {error}
             </p>
           )}
           {helperText && !error && (
             <p
               id={`${props.id}-helper`}
-              className="text-sm text-muted-foreground"
+              className='text-sm text-muted-foreground'
             >
               {helperText}
             </p>
@@ -92,40 +92,44 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div className="space-y-1">
-        <div className="relative">
+      <div className='space-y-1'>
+        <div className='relative'>
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground [&>svg]:size-4">
+            <div className='absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground [&>svg]:size-4'>
               {leftIcon}
             </div>
           )}
           {inputElement}
           {type === 'password' && (
             <button
-              type="button"
+              type='button'
               onClick={togglePasswordVisibility}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground [&>svg]:size-4"
-              tabIndex={-1}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm [&>svg]:size-4'
+              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+              aria-pressed={showPassword}
             >
-              {showPassword ? <EyeOff /> : <Eye />}
+              {showPassword ? (
+                <EyeOff aria-hidden='true' />
+              ) : (
+                <Eye aria-hidden='true' />
+              )}
             </button>
           )}
           {rightIcon && type !== 'password' && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground [&>svg]:size-4">
+            <div className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground [&>svg]:size-4'>
               {rightIcon}
             </div>
           )}
         </div>
         {error && (
-          <p id={`${props.id}-error`} className="text-sm text-destructive">
+          <p id={`${props.id}-error`} className='text-sm text-destructive'>
             {error}
           </p>
         )}
         {helperText && !error && (
           <p
             id={`${props.id}-helper`}
-            className="text-sm text-muted-foreground"
+            className='text-sm text-muted-foreground'
           >
             {helperText}
           </p>

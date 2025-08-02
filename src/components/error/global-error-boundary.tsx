@@ -263,13 +263,13 @@ export class GlobalErrorBoundary extends Component<Props, State> {
           className={`min-h-screen flex items-center justify-center p-4 ${styles.bgColor}`}
         >
           <Card className={`w-full max-w-2xl ${styles.borderColor} border-2`}>
-            <CardHeader className="text-center">
+            <CardHeader className='text-center'>
               <div
                 className={`mx-auto w-20 h-20 ${styles.bgColor} rounded-full flex items-center justify-center mb-4`}
               >
                 <Shield className={`w-10 h-10 ${styles.iconColor}`} />
               </div>
-              <div className="flex items-center justify-center gap-2 mb-2">
+              <div className='flex items-center justify-center gap-2 mb-2'>
                 <CardTitle className={`text-2xl ${styles.iconColor}`}>
                   시스템 오류가 발생했습니다
                 </CardTitle>
@@ -277,26 +277,26 @@ export class GlobalErrorBoundary extends Component<Props, State> {
                   {this.state.error.severity.toUpperCase()}
                 </Badge>
               </div>
-              <p className="text-gray-600">
+              <p className='text-gray-600'>
                 애플리케이션에서 예상치 못한 오류가 발생했습니다
               </p>
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className='space-y-6'>
               {/* 에러 정보 */}
-              <div className="text-center">
-                <p className="text-sm text-gray-500 mb-2">
+              <div className='text-center'>
+                <p className='text-sm text-gray-500 mb-2'>
                   오류 ID:{' '}
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                  <code className='bg-gray-100 px-2 py-1 rounded text-xs'>
                     {this.state.error.id}
                   </code>
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className='text-sm text-gray-500'>
                   발생 시간:{' '}
                   {this.state.error.timestamp.toLocaleString('ko-KR')}
                 </p>
                 {this.state.retryCount > 0 && (
-                  <p className="text-sm text-gray-500">
+                  <p className='text-sm text-gray-500'>
                     재시도 횟수: {this.state.retryCount}
                   </p>
                 )}
@@ -305,12 +305,12 @@ export class GlobalErrorBoundary extends Component<Props, State> {
               {/* 개발 환경 에러 상세 정보 */}
               {this.props.showDetails &&
                 process.env.NODE_ENV === 'development' && (
-                  <div className="bg-gray-100 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
-                      <Bug className="w-4 h-4 mr-2" />
+                  <div className='bg-gray-100 p-4 rounded-lg'>
+                    <h4 className='font-semibold text-gray-800 mb-2 flex items-center'>
+                      <Bug className='w-4 h-4 mr-2' />
                       개발자 정보
                     </h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                    <div className='text-sm text-gray-700 space-y-2'>
                       <div>
                         <strong>타입:</strong> {this.state.error.type}
                       </div>
@@ -318,21 +318,21 @@ export class GlobalErrorBoundary extends Component<Props, State> {
                         <strong>메시지:</strong> {this.state.error.message}
                       </div>
                       {this.state.error.originalError?.stack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             스택 트레이스 보기
                           </summary>
-                          <pre className="mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40">
+                          <pre className='mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40'>
                             {this.state.error.originalError.stack}
                           </pre>
                         </details>
                       )}
                       {this.state.errorInfo?.componentStack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             컴포넌트 스택 보기
                           </summary>
-                          <pre className="mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40">
+                          <pre className='mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40'>
                             {this.state.errorInfo.componentStack}
                           </pre>
                         </details>
@@ -342,20 +342,20 @@ export class GlobalErrorBoundary extends Component<Props, State> {
                 )}
 
               {/* 복구 액션 버튼들 */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <div className='flex flex-col sm:flex-row gap-3 justify-center'>
                 {this.state.recoveryActions.map(action => (
                   <Button
                     key={action.id}
                     onClick={() => this.handleRecoveryAction(action)}
                     disabled={this.state.isRecovering}
                     variant={action.primary ? 'default' : 'outline'}
-                    className="flex items-center"
+                    className='flex items-center'
                   >
                     {action.type === 'retry' && (
-                      <RefreshCw className="w-4 h-4 mr-2" />
+                      <RefreshCw className='w-4 h-4 mr-2' />
                     )}
                     {action.type === 'redirect' && action.href === '/' && (
-                      <Home className="w-4 h-4 mr-2" />
+                      <Home className='w-4 h-4 mr-2' />
                     )}
                     {this.state.isRecovering ? '처리 중...' : action.label}
                   </Button>
@@ -363,17 +363,17 @@ export class GlobalErrorBoundary extends Component<Props, State> {
               </div>
 
               {/* 고객 지원 안내 */}
-              <div className="text-center text-sm text-gray-500 border-t pt-4">
+              <div className='text-center text-sm text-gray-500 border-t pt-4'>
                 <p>
                   문제가 계속 발생하나요?{' '}
                   <a
-                    href="/contact"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    href='/contact'
+                    className='text-blue-600 hover:text-blue-800 underline'
                   >
                     고객 지원팀에 문의하기
                   </a>
                 </p>
-                <p className="mt-1 text-xs">
+                <p className='mt-1 text-xs'>
                   문의 시 오류 ID를 함께 알려주시면 빠른 해결에 도움이 됩니다.
                 </p>
               </div>

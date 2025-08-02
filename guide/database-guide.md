@@ -144,10 +144,7 @@ export const useAppStore = create<AppState & AppActions>((set, get) => ({
   setTheme: theme => set({ theme }),
   addNotification: notification =>
     set(state => ({
-      notifications: [
-        ...state.notifications,
-        { ...notification, id: generateId() },
-      ],
+      notifications: [...state.notifications, { ...notification, id: generateId() }],
     })),
   removeNotification: id =>
     set(state => ({
@@ -185,11 +182,7 @@ export async function getProjectsWithPhases(userId: string) {
 }
 
 // 페이지네이션
-export async function getProjectsPaginated(
-  userId: string,
-  page: number = 1,
-  limit: number = 10
-) {
+export async function getProjectsPaginated(userId: string, page: number = 1, limit: number = 10) {
   const skip = (page - 1) * limit
 
   const [projects, totalCount] = await Promise.all([

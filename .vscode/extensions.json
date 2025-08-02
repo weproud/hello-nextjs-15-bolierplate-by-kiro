@@ -1,0 +1,55 @@
+{
+  "recommendations": [
+    // Essential for TypeScript/JavaScript development
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // React/Next.js development
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-json",
+
+    // Database and Prisma
+    "prisma.prisma",
+
+    // Git and version control
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+
+    // Testing
+    "vitest.explorer",
+
+    // Productivity
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "bradlc.vscode-tailwindcss",
+    "formulahendry.auto-rename-tag",
+    "ms-vscode.vscode-json",
+
+    // Code quality and formatting
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+
+    // Markdown
+    "yzhang.markdown-all-in-one",
+
+    // Theme and UI
+    "pkief.material-icon-theme",
+
+    // Environment files
+    "mikestead.dotenv",
+
+    // REST API testing
+    "humao.rest-client",
+
+    // Docker (if using containers)
+    "ms-azuretools.vscode-docker"
+  ],
+  "unwantedRecommendations": [
+    // Extensions that might conflict or are not needed
+    "ms-vscode.vscode-typescript",
+    "hookyqr.beautify",
+    "esbenp.prettier-vscode-standard",
+    "vscode-icons-team.vscode-icons"
+  ]
+}

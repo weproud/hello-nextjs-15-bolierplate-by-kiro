@@ -38,7 +38,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <Comp
         ref={ref}
-        data-slot="badge"
+        data-slot='badge'
         className={cn(
           enhancedBadgeVariants({ variant, size, shape }),
           dismissible && 'pr-1',
@@ -47,20 +47,20 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {leftIcon && (
-          <span className="shrink-0 [&>svg]:size-3">{leftIcon}</span>
+          <span className='shrink-0 [&>svg]:size-3'>{leftIcon}</span>
         )}
         {children}
         {rightIcon && !dismissible && (
-          <span className="shrink-0 [&>svg]:size-3">{rightIcon}</span>
+          <span className='shrink-0 [&>svg]:size-3'>{rightIcon}</span>
         )}
         {dismissible && (
           <button
-            type="button"
+            type='button'
             onClick={onDismiss}
-            className="ml-1 shrink-0 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            aria-label="Remove badge"
+            className='ml-1 shrink-0 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+            aria-label='Remove badge'
           >
-            <X className="h-3 w-3" />
+            <X className='h-3 w-3' />
           </button>
         )}
       </Comp>

@@ -28,7 +28,7 @@ export function Logo({
   }
 
   return (
-    <Link href="/" aria-label="홈으로 이동">
+    <Link href='/' aria-label='홈으로 이동'>
       <div
         className={cn(
           'flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity',

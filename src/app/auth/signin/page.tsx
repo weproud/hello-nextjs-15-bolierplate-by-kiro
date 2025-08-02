@@ -21,19 +21,19 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
   const callbackUrl = resolvedSearchParams?.callbackUrl || '/'
 
   return (
-    <AuthLayout subtitle="안전하고 간편한 Google 로그인으로 시작하세요">
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">로그인</CardTitle>
+    <AuthLayout subtitle='안전하고 간편한 Google 로그인으로 시작하세요'>
+      <div className='flex items-center justify-center min-h-[60vh]'>
+        <Card className='w-full max-w-md'>
+          <CardHeader className='text-center'>
+            <CardTitle className='text-2xl font-bold'>로그인</CardTitle>
             <CardDescription>Google 계정으로 로그인하세요</CardDescription>
           </CardHeader>
           <CardContent>
             <Suspense
               fallback={
-                <div className="flex items-center justify-center p-4">
-                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                  <span className="ml-2 text-sm text-muted-foreground">
+                <div className='flex items-center justify-center p-4'>
+                  <div className='w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin' />
+                  <span className='ml-2 text-sm text-muted-foreground'>
                     로딩 중...
                   </span>
                 </div>

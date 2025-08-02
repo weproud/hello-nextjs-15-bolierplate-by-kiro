@@ -28,14 +28,14 @@ export function InfinitePostsDemo({ className }: InfinitePostsDemoProps) {
 
   return (
     <div className={className}>
-      <div className="flex justify-between items-center mb-6">
+      <div className='flex justify-between items-center mb-6'>
         <div>
-          <h2 className="text-2xl font-bold">포스트 목록</h2>
-          <p className="text-muted-foreground mt-1">
+          <h2 className='text-2xl font-bold'>포스트 목록</h2>
+          <p className='text-muted-foreground mt-1'>
             무한 스크롤로 포스트를 탐색하세요
           </p>
         </div>
-        <Button onClick={() => window.location.reload()} variant="outline">
+        <Button onClick={() => window.location.reload()} variant='outline'>
           새로고침
         </Button>
       </div>

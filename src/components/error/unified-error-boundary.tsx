@@ -117,7 +117,7 @@ export function HierarchicalErrorBoundaryWrapper({
   if (componentName) {
     wrappedChildren = (
       <UnifiedErrorBoundary
-        level="component"
+        level='component'
         name={componentName}
         inline={true}
         minimal={true}
@@ -132,7 +132,7 @@ export function HierarchicalErrorBoundaryWrapper({
   if (routeName) {
     wrappedChildren = (
       <UnifiedErrorBoundary
-        level="route"
+        level='route'
         name={routeName}
         routePath={routePath}
         showDetails={showDetails}
@@ -145,7 +145,7 @@ export function HierarchicalErrorBoundaryWrapper({
   // Global level (가장 바깥쪽)
   wrappedChildren = (
     <UnifiedErrorBoundary
-      level="global"
+      level='global'
       name={appName}
       showDetails={showDetails}
     >
@@ -299,18 +299,18 @@ export function ErrorBoundaryTester({
   }, [shouldThrow, errorType, message])
 
   return (
-    <div className="p-4 border rounded-lg">
-      <h3 className="text-lg font-semibold mb-2">
+    <div className='p-4 border rounded-lg'>
+      <h3 className='text-lg font-semibold mb-2'>
         에러 바운더리 테스터 ({level})
       </h3>
-      <div className="space-y-2">
+      <div className='space-y-2'>
         <button
           onClick={() => setShouldThrow(true)}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600'
         >
           {errorType} 에러 발생시키기
         </button>
-        <p className="text-sm text-gray-600">메시지: {message}</p>
+        <p className='text-sm text-gray-600'>메시지: {message}</p>
       </div>
       {children}
     </div>
@@ -326,16 +326,16 @@ export function ErrorBoundaryDebugger() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 p-4 bg-gray-900 text-white rounded-lg shadow-lg max-w-sm">
-      <h4 className="font-semibold mb-2">🚨 Error Boundary Debug</h4>
-      <div className="space-y-2 text-sm">
+    <div className='fixed bottom-4 right-4 p-4 bg-gray-900 text-white rounded-lg shadow-lg max-w-sm'>
+      <h4 className='font-semibold mb-2'>🚨 Error Boundary Debug</h4>
+      <div className='space-y-2 text-sm'>
         <button
           onClick={() => {
             if (typeof window !== 'undefined') {
               ;(window as any).debugErrorBoundaries?.()
             }
           }}
-          className="block w-full text-left px-2 py-1 bg-gray-700 rounded hover:bg-gray-600"
+          className='block w-full text-left px-2 py-1 bg-gray-700 rounded hover:bg-gray-600'
         >
           Show Error Stats
         </button>
@@ -347,7 +347,7 @@ export function ErrorBoundaryDebugger() {
               component: 'ComponentErrorBoundary',
             })
           }}
-          className="block w-full text-left px-2 py-1 bg-gray-700 rounded hover:bg-gray-600"
+          className='block w-full text-left px-2 py-1 bg-gray-700 rounded hover:bg-gray-600'
         >
           Show System Info
         </button>

@@ -165,9 +165,9 @@ export function ErrorRecovery({
   const getActionIcon = (action: ErrorRecoveryAction) => {
     switch (action.type) {
       case 'retry':
-        return <RefreshCw className="w-4 h-4" />
+        return <RefreshCw className='w-4 h-4' />
       case 'reload':
-        return <RefreshCw className="w-4 h-4" />
+        return <RefreshCw className='w-4 h-4' />
       default:
         return null
     }
@@ -213,21 +213,21 @@ export function ErrorRecovery({
 
   return (
     <Card className={`${styles.borderColor} border ${className}`}>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <CardHeader className='pb-3'>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-2'>
             <AlertTriangle className={`w-5 h-5 ${styles.iconColor}`} />
-            <CardTitle className="text-base">오류 복구</CardTitle>
-            <Badge variant={styles.badgeVariant} className="text-xs">
+            <CardTitle className='text-base'>오류 복구</CardTitle>
+            <Badge variant={styles.badgeVariant} className='text-xs'>
               {error.severity}
             </Badge>
           </div>
           {onDismiss && (
             <Button
-              size="sm"
-              variant="ghost"
+              size='sm'
+              variant='ghost'
               onClick={onDismiss}
-              className="h-7 px-2"
+              className='h-7 px-2'
             >
               닫기
             </Button>
@@ -235,11 +235,11 @@ export function ErrorRecovery({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className='space-y-4'>
         {/* 에러 정보 */}
         <div className={`p-3 rounded-lg ${styles.bgColor}`}>
-          <p className="text-sm font-medium mb-1">{error.message}</p>
-          <div className="text-xs text-gray-500 space-y-1">
+          <p className='text-sm font-medium mb-1'>{error.message}</p>
+          <div className='text-xs text-gray-500 space-y-1'>
             <div>타입: {error.type}</div>
             <div>발생 시간: {error.timestamp.toLocaleString('ko-KR')}</div>
             {recoveryState.attempts > 0 && (
@@ -250,19 +250,19 @@ export function ErrorRecovery({
 
         {/* 진행 중인 복구 작업 */}
         {recoveryState.isRecovering && recoveryState.currentAction && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm">
-              <RefreshCw className="w-4 h-4 animate-spin" />
+          <div className='space-y-2'>
+            <div className='flex items-center gap-2 text-sm'>
+              <RefreshCw className='w-4 h-4 animate-spin' />
               <span>{recoveryState.currentAction.label} 중...</span>
             </div>
-            <Progress value={recoveryState.progress} className="h-2" />
+            <Progress value={recoveryState.progress} className='h-2' />
           </div>
         )}
 
         {/* 복구 액션 버튼들 */}
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium">복구 옵션</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className='space-y-2'>
+          <h4 className='text-sm font-medium'>복구 옵션</h4>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
             {actions.map(action => {
               const isCurrentAction =
                 recoveryState.currentAction?.id === action.id
@@ -276,15 +276,15 @@ export function ErrorRecovery({
                   onClick={() => executeAction(action)}
                   disabled={isDisabled}
                   variant={action.primary ? 'default' : 'outline'}
-                  className="justify-start"
-                  size="sm"
+                  className='justify-start'
+                  size='sm'
                 >
                   {getActionIcon(action)}
-                  <span className="ml-2">
+                  <span className='ml-2'>
                     {isCurrentAction ? '처리 중...' : action.label}
                   </span>
                   {action.type === 'retry' && recoveryState.attempts > 0 && (
-                    <Badge variant="secondary" className="ml-auto text-xs">
+                    <Badge variant='secondary' className='ml-auto text-xs'>
                       {recoveryState.attempts}
                     </Badge>
                   )}
@@ -296,24 +296,24 @@ export function ErrorRecovery({
 
         {/* 복구 히스토리 */}
         {recoveryState.recoveryHistory.length > 0 && (
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium">복구 기록</h4>
-            <div className="space-y-1 max-h-32 overflow-y-auto">
+          <div className='space-y-2'>
+            <h4 className='text-sm font-medium'>복구 기록</h4>
+            <div className='space-y-1 max-h-32 overflow-y-auto'>
               {recoveryState.recoveryHistory.slice(-5).map((record, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-xs p-2 bg-gray-50 rounded"
+                  className='flex items-center gap-2 text-xs p-2 bg-gray-50 rounded'
                 >
                   {record.success ? (
-                    <CheckCircle className="w-3 h-3 text-green-600" />
+                    <CheckCircle className='w-3 h-3 text-green-600' />
                   ) : (
-                    <XCircle className="w-3 h-3 text-red-600" />
+                    <XCircle className='w-3 h-3 text-red-600' />
                   )}
-                  <span className="flex-1">
+                  <span className='flex-1'>
                     {record.action.label} - {record.success ? '성공' : '실패'}
                   </span>
-                  <div className="flex items-center gap-1 text-gray-500">
-                    <Clock className="w-3 h-3" />
+                  <div className='flex items-center gap-1 text-gray-500'>
+                    <Clock className='w-3 h-3' />
                     <span>{record.timestamp.toLocaleTimeString('ko-KR')}</span>
                   </div>
                 </div>
@@ -324,8 +324,8 @@ export function ErrorRecovery({
 
         {/* 자동 재시도 안내 */}
         {error.type === 'network' && recoveryState.attempts === 0 && (
-          <div className="flex items-center gap-2 text-xs text-gray-500 p-2 bg-blue-50 rounded">
-            <Clock className="w-3 h-3" />
+          <div className='flex items-center gap-2 text-xs text-gray-500 p-2 bg-blue-50 rounded'>
+            <Clock className='w-3 h-3' />
             <span>
               네트워크 오류가 감지되었습니다. 3초 후 자동으로 재시도합니다.
             </span>
@@ -333,13 +333,13 @@ export function ErrorRecovery({
         )}
 
         {/* 추가 도움말 */}
-        <div className="text-xs text-gray-500 border-t pt-3">
+        <div className='text-xs text-gray-500 border-t pt-3'>
           <p>
             문제가 지속되면 페이지를 새로고침하거나 고객지원에 문의해주세요.
           </p>
-          <p className="mt-1">
+          <p className='mt-1'>
             오류 ID:{' '}
-            <code className="bg-gray-100 px-1 rounded">{error.id}</code>
+            <code className='bg-gray-100 px-1 rounded'>{error.id}</code>
           </p>
         </div>
       </CardContent>
@@ -381,7 +381,7 @@ export function SimpleRecoveryButton({
       onClick={handleClick}
       disabled={disabled || isExecuting}
       variant={action.primary ? 'default' : 'outline'}
-      size="sm"
+      size='sm'
       className={className}
     >
       {action.type === 'retry' && (

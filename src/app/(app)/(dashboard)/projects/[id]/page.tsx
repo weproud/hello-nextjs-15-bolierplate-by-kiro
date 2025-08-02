@@ -64,7 +64,7 @@ export default async function ProjectDetailPage({
 
   return (
     <ProtectedRoute>
-      <div className="space-y-6">
+      <div className='space-y-6'>
         <ProjectDetailClient project={project} user={validatedUser} />
       </div>
     </ProtectedRoute>

@@ -2,7 +2,8 @@
 
 ## Task 7: Implement Accessibility Features
 
-This document summarizes the accessibility features implemented for the modal signin component according to the task requirements.
+This document summarizes the accessibility features implemented for the modal signin component
+according to the task requirements.
 
 ### Requirements Met
 
@@ -40,10 +41,7 @@ This document summarizes the accessibility features implemented for the modal si
 **Enhanced Focus Management Hook:**
 
 ```typescript
-function useFocusManagement(
-  isOpen: boolean,
-  modalRef: React.RefObject<HTMLDivElement>
-)
+function useFocusManagement(isOpen: boolean, modalRef: React.RefObject<HTMLDivElement>)
 ```
 
 **Features:**
@@ -228,4 +226,6 @@ This implementation follows:
 - ✅ Focus indicators are visible
 - ✅ Keyboard activation works for all buttons
 
-The accessibility implementation fully meets the requirements specified in task 7 and provides a comprehensive, accessible modal signin experience for all users, including those using assistive technologies.
+The accessibility implementation fully meets the requirements specified in task 7 and provides a
+comprehensive, accessible modal signin experience for all users, including those using assistive
+technologies.

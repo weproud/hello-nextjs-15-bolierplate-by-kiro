@@ -101,44 +101,44 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const isAuthor = session?.user?.id === post.authorId
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 md:py-8">
+    <div className='container max-w-4xl mx-auto px-4 py-6 md:py-8'>
       {/* 뒤로 가기 버튼 */}
-      <div className="mb-6">
+      <div className='mb-6'>
         <Link
-          href="/posts"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          href='/posts'
+          className='inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className='h-4 w-4' />
           포스트 목록으로 돌아가기
         </Link>
       </div>
 
-      <article className="space-y-8" role="main">
+      <article className='space-y-8' role='main'>
         {/* 포스트 헤더 */}
-        <header className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4">
+        <header className='space-y-6'>
+          <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4'>
+            <div className='flex-1 min-w-0'>
+              <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4'>
                 {post.title}
               </h1>
 
               {/* 게시 상태 배지 */}
-              <div className="flex items-center gap-2 mb-4">
+              <div className='flex items-center gap-2 mb-4'>
                 {post.published ? (
-                  <Badge variant="default">게시됨</Badge>
+                  <Badge variant='default'>게시됨</Badge>
                 ) : (
-                  <Badge variant="secondary">초안</Badge>
+                  <Badge variant='secondary'>초안</Badge>
                 )}
               </div>
             </div>
 
             {/* 작성자 액션 버튼 */}
             {isAuthor && (
-              <div className="flex items-center gap-2 sm:flex-shrink-0">
+              <div className='flex items-center gap-2 sm:flex-shrink-0'>
                 <Link href={`/posts/${post.id}/edit`}>
-                  <Button variant="outline" size="sm">
-                    <Edit className="h-4 w-4 sm:mr-2" />
-                    <span className="hidden sm:inline">편집</span>
+                  <Button variant='outline' size='sm'>
+                    <Edit className='h-4 w-4 sm:mr-2' />
+                    <span className='hidden sm:inline'>편집</span>
                   </Button>
                 </Link>
                 <DeletePostButton postId={post.id} />
@@ -147,19 +147,19 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           </div>
 
           {/* 작성자 정보 및 메타데이터 */}
-          <Card className="bg-muted/50">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex items-center gap-3 sm:gap-4">
+          <Card className='bg-muted/50'>
+            <CardContent className='p-4 sm:p-6'>
+              <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+                <div className='flex items-center gap-3 sm:gap-4'>
                   {/* 작성자 프로필 */}
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10">
+                  <div className='flex items-center gap-3'>
+                    <Avatar className='h-10 w-10'>
                       <AvatarImage src={post.author.image} alt={authorName} />
                       <AvatarFallback>{authorInitials}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="font-medium">{authorName}</div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className='font-medium'>{authorName}</div>
+                      <div className='text-sm text-muted-foreground'>
                         {post.author.email}
                       </div>
                     </div>
@@ -167,16 +167,16 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 </div>
 
                 {/* 날짜 정보 */}
-                <div className="text-left sm:text-right text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1 mb-1">
-                    <Calendar className="h-4 w-4" />
+                <div className='text-left sm:text-right text-sm text-muted-foreground'>
+                  <div className='flex items-center gap-1 mb-1'>
+                    <Calendar className='h-4 w-4' />
                     <span>작성일</span>
                   </div>
                   <time dateTime={post.createdAt.toISOString()}>
                     {formatDate(post.createdAt)}
                   </time>
                   {post.updatedAt.getTime() !== post.createdAt.getTime() && (
-                    <div className="mt-1 text-xs">
+                    <div className='mt-1 text-xs'>
                       수정일: {formatDate(post.updatedAt)}
                     </div>
                   )}
@@ -190,33 +190,33 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
         {/* 포스트 내용 */}
         <section
-          className="prose prose-gray dark:prose-invert max-w-none prose-sm sm:prose-base"
-          aria-label="포스트 내용"
+          className='prose prose-gray dark:prose-invert max-w-none prose-sm sm:prose-base'
+          aria-label='포스트 내용'
         >
           <div
-            className="post-content"
+            className='post-content'
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </section>
       </article>
 
       {/* 하단 네비게이션 */}
-      <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-border">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className='mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-border'>
+        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
           <Link
-            href="/posts"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            href='/posts'
+            className='inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors'
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className='h-4 w-4' />
             포스트 목록
           </Link>
 
           {isAuthor && (
-            <div className="flex items-center gap-2">
+            <div className='flex items-center gap-2'>
               <Link href={`/posts/${post.id}/edit`}>
-                <Button variant="outline" size="sm">
-                  <Edit className="h-4 w-4 sm:mr-2" />
-                  <span className="hidden sm:inline">편집하기</span>
+                <Button variant='outline' size='sm'>
+                  <Edit className='h-4 w-4 sm:mr-2' />
+                  <span className='hidden sm:inline'>편집하기</span>
                 </Button>
               </Link>
             </div>

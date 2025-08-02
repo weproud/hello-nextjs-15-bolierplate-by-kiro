@@ -119,7 +119,7 @@ export function ProjectFormEnhanced({
             name: 'id' as keyof UpdateProjectFormData,
             type: 'input' as const,
             label: 'ID',
-            render: () => <input type="hidden" value={initialData.id} />,
+            render: () => <input type='hidden' value={initialData.id} />,
           },
           ...fields,
         ]
@@ -138,18 +138,18 @@ export function ProjectFormEnhanced({
           : '프로젝트 정보를 수정하세요.'
       }
       submitText={mode === 'create' ? '프로젝트 생성' : '변경사항 저장'}
-      cancelText="취소"
+      cancelText='취소'
       onCancel={onCancel}
       showProgress={true}
       showErrorSummary={true}
-      layout="vertical"
-      className="w-full max-w-2xl mx-auto"
+      layout='vertical'
+      className='w-full max-w-2xl mx-auto'
       header={
-        <div className="flex items-center gap-2 mb-4">
+        <div className='flex items-center gap-2 mb-4'>
           {mode === 'create' ? (
-            <Plus className="h-5 w-5" />
+            <Plus className='h-5 w-5' />
           ) : (
-            <Save className="h-5 w-5" />
+            <Save className='h-5 w-5' />
           )}
         </div>
       }
@@ -157,16 +157,16 @@ export function ProjectFormEnhanced({
   )
 
   return showCard ? (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className='w-full max-w-2xl mx-auto'>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className='flex items-center gap-2'>
           {mode === 'create' ? (
             <>
-              <Plus className="h-5 w-5" />새 프로젝트 만들기
+              <Plus className='h-5 w-5' />새 프로젝트 만들기
             </>
           ) : (
             <>
-              <Save className="h-5 w-5" />
+              <Save className='h-5 w-5' />
               프로젝트 수정
             </>
           )}
@@ -180,7 +180,7 @@ export function ProjectFormEnhanced({
       <CardContent>{formContent}</CardContent>
     </Card>
   ) : (
-    <div className="w-full max-w-2xl mx-auto">{formContent}</div>
+    <div className='w-full max-w-2xl mx-auto'>{formContent}</div>
   )
 }
 
@@ -188,9 +188,9 @@ export function ProjectFormEnhanced({
 export function CreateProjectForm(
   props: Omit<ProjectFormEnhancedProps, 'mode'>
 ) {
-  return <ProjectFormEnhanced {...props} mode="create" />
+  return <ProjectFormEnhanced {...props} mode='create' />
 }
 
 export function EditProjectForm(props: Omit<ProjectFormEnhancedProps, 'mode'>) {
-  return <ProjectFormEnhanced {...props} mode="edit" />
+  return <ProjectFormEnhanced {...props} mode='edit' />
 }

@@ -53,7 +53,7 @@ export function AppSidebarMenu({
             key={item.title}
             asChild
             defaultOpen={shouldBeOpen}
-            className="group/collapsible"
+            className='group/collapsible'
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
@@ -68,7 +68,7 @@ export function AppSidebarMenu({
                     <>
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                     </>
                   ) : isDisabled ? (
                     // 비활성화된 경우 Link 대신 span 사용

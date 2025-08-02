@@ -2,7 +2,9 @@
 
 ## Overview
 
-이 설계는 현재 Next.js 15 애플리케이션을 최신 best practice에 맞춰 리팩토링하는 포괄적인 계획을 제시합니다. 프로젝트는 이미 Next.js 15, React 19, TypeScript 5.8+, TailwindCSS 4.0, shadcn/ui를 사용하고 있으며, 코드 구조와 패턴을 현대적인 표준에 맞춰 개선하는 것이 목표입니다.
+이 설계는 현재 Next.js 15 애플리케이션을 최신 best practice에 맞춰 리팩토링하는 포괄적인 계획을
+제시합니다. 프로젝트는 이미 Next.js 15, React 19, TypeScript 5.8+, TailwindCSS 4.0, shadcn/ui를
+사용하고 있으며, 코드 구조와 패턴을 현대적인 표준에 맞춰 개선하는 것이 목표입니다.
 
 ### 현재 상태 분석
 
@@ -151,12 +153,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive:
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
       },

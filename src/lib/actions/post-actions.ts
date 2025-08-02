@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { prisma } from '@/lib/prisma'
 import { authActionClient, publicActionClient } from '@/lib/safe-action'
 import {
   createPostSchema,
@@ -11,6 +10,11 @@ import {
   getPostsSchema,
 } from '@/lib/validations/post'
 import { ActionLogger } from '@/lib/error-handling'
+import { postRepository } from '@/lib/repositories'
+import {
+  DuplicateError,
+  NotFoundError,
+} from '@/lib/repositories/base-repository'
 
 /**
  * Create a new post
@@ -30,23 +34,22 @@ export const createPostAction = authActionClient
     try {
       // Check if slug is unique (if provided)
       if (slug) {
-        const existingPost = await prisma.post.findUnique({
-          where: { slug },
-        })
-
-        if (existingPost) {
+        const slugExists = await postRepository.existsBySlug(slug)
+        if (slugExists) {
           throw new Error('이미 사용 중인 슬러그입니다.')
         }
       }
 
-      const post = await prisma.post.create({
-        data: {
+      const post = await postRepository.create(
+        {
           title,
           content,
           excerpt: excerpt ?? null,
           slug: slug ?? null,
           published,
-          authorId: user.id,
+          author: {
+            connect: { id: user.id },
+          },
         },
         include: {
           author: {
@@ -103,7 +106,7 @@ export const updatePostAction = authActionClient
 
     try {
       // Check if post exists and belongs to user
-      const existingPost = await prisma.post.findFirst({
+      const existingPost = await postRepository.findFirst({
         where: {
           id,
           authorId: user.id,
@@ -116,10 +119,7 @@ export const updatePostAction = authActionClient
 
       // Check if slug is unique (if provided and different from current)
       if (slug && slug !== existingPost.slug) {
-        const slugExists = await prisma.post.findUnique({
-          where: { slug },
-        })
-
+        const slugExists = await postRepository.existsBySlug(slug)
         if (slugExists) {
           throw new Error('이미 사용 중인 슬러그입니다.')
         }
@@ -132,10 +132,10 @@ export const updatePostAction = authActionClient
       if (slug !== undefined) updateData.slug = slug
       if (published !== undefined) updateData.published = published
 
-      const post = await prisma.post.update({
-        where: { id },
-        data: updateData,
-        include: {
+      const post = await postRepository.update(
+        id,
+        updateData,
+        {
           author: {
             select: {
               id: true,
@@ -144,7 +144,8 @@ export const updatePostAction = authActionClient
               image: true,
             },
           },
-        },
+        }
+      )
       })
 
       // Revalidate relevant pages
@@ -188,7 +189,7 @@ export const deletePostAction = authActionClient
 
     try {
       // Check if post exists and belongs to user
-      const existingPost = await prisma.post.findFirst({
+      const existingPost = await postRepository.findFirst({
         where: {
           id,
           authorId: user.id,
@@ -199,9 +200,7 @@ export const deletePostAction = authActionClient
         throw new Error('포스트를 찾을 수 없거나 삭제 권한이 없습니다.')
       }
 
-      await prisma.post.delete({
-        where: { id },
-      })
+      await postRepository.delete(id)
 
       // Revalidate relevant pages
       revalidatePath('/posts')
@@ -234,16 +233,13 @@ export const getPostAction = publicActionClient
     const { id } = parsedInput
 
     try {
-      const post = await prisma.post.findUnique({
-        where: { id },
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
-            },
+      const post = await postRepository.findById(id, {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
           },
         },
       })
@@ -294,7 +290,7 @@ export const getPostsAction = publicActionClient
           }
         : {}
 
-      const posts = await prisma.post.findMany({
+      const posts = await postRepository.findMany({
         where: {
           ...whereClause,
           ...cursorCondition,
@@ -386,7 +382,7 @@ export const getUserPostsAction = authActionClient
           }
         : {}
 
-      const posts = await prisma.post.findMany({
+      const posts = await postRepository.findMany({
         where: {
           ...whereClause,
           ...cursorCondition,

@@ -1,6 +1,7 @@
 # Providers
 
-This directory contains React provider components that wrap the application with various contexts and configurations.
+This directory contains React provider components that wrap the application with various contexts
+and configurations.
 
 ## Structure
 

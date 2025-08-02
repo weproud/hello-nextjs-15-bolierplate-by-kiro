@@ -56,46 +56,46 @@ export const SimpleFormExample = memo(function SimpleFormExample() {
   )
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">간단한 폼 예제</h2>
+    <div className='max-w-md mx-auto p-6 bg-white rounded-lg shadow'>
+      <h2 className='text-2xl font-bold mb-6'>간단한 폼 예제</h2>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormSection title="기본 정보">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <FormSection title='기본 정보'>
             <TextField
               control={form.control}
-              name="name"
-              label="이름"
-              placeholder="이름을 입력하세요"
+              name='name'
+              label='이름'
+              placeholder='이름을 입력하세요'
             />
 
             <TextField
               control={form.control}
-              name="email"
-              label="이메일"
-              type="email"
-              placeholder="이메일을 입력하세요"
+              name='email'
+              label='이메일'
+              type='email'
+              placeholder='이메일을 입력하세요'
             />
 
             <SelectField
               control={form.control}
-              name="role"
-              label="역할"
+              name='role'
+              label='역할'
               options={roleOptions}
-              placeholder="역할을 선택하세요"
+              placeholder='역할을 선택하세요'
             />
           </FormSection>
 
-          <FormSection title="설정">
+          <FormSection title='설정'>
             <CheckboxField
               control={form.control}
-              name="newsletter"
-              label="뉴스레터 구독"
-              description="새로운 소식을 이메일로 받아보세요"
+              name='newsletter'
+              label='뉴스레터 구독'
+              description='새로운 소식을 이메일로 받아보세요'
             />
           </FormSection>
 
-          <FormActions isSubmitting={isExecuting} submitText="제출하기" />
+          <FormActions isSubmitting={isExecuting} submitText='제출하기' />
         </form>
       </Form>
     </div>

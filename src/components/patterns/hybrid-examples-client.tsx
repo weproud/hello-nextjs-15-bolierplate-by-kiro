@@ -115,25 +115,25 @@ export function HybridExamplesClient({
   // Render different content based on props
   if (streamingData) {
     return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
+      <div className='space-y-4'>
+        <div className='flex items-center justify-between'>
+          <span className='text-sm text-muted-foreground'>
             총 {streamData.length}개 항목
           </span>
-          <Badge variant="outline" className="animate-pulse">
+          <Badge variant='outline' className='animate-pulse'>
             실시간 업데이트
           </Badge>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className='grid gap-4 md:grid-cols-2'>
           {streamData.map((item, index) => (
             <Card
               key={item.id}
               className={index === 0 ? 'ring-2 ring-blue-500' : ''}
             >
-              <CardContent className="p-4">
-                <h3 className="font-medium">{item.title}</h3>
-                <p className="text-xs text-muted-foreground">
+              <CardContent className='p-4'>
+                <h3 className='font-medium'>{item.title}</h3>
+                <p className='text-xs text-muted-foreground'>
                   {new Date(item.updatedAt).toLocaleString()}
                 </p>
               </CardContent>
@@ -146,30 +146,30 @@ export function HybridExamplesClient({
 
   if (enhanceForm) {
     return (
-      <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-        <h3 className="text-sm font-medium mb-2">실시간 검증</h3>
+      <div className='mt-4 p-4 bg-muted/50 rounded-lg'>
+        <h3 className='text-sm font-medium mb-2'>실시간 검증</h3>
 
         {formData.email && (
-          <div className="text-xs">
+          <div className='text-xs'>
             이메일 형식:{' '}
             {validateEmail(formData.email) ? (
-              <span className="text-green-600">✓ 올바름</span>
+              <span className='text-green-600'>✓ 올바름</span>
             ) : (
-              <span className="text-red-600">✗ 잘못됨</span>
+              <span className='text-red-600'>✗ 잘못됨</span>
             )}
           </div>
         )}
 
         {formData.message && (
-          <div className="text-xs mt-1">
+          <div className='text-xs mt-1'>
             메시지 길이: {formData.message.length}/500자
           </div>
         )}
 
-        <div className="mt-2">
+        <div className='mt-2'>
           <Button
-            size="sm"
-            variant="outline"
+            size='sm'
+            variant='outline'
             onClick={() => {
               setFormData({})
               toast.success('폼이 초기화되었습니다.')
@@ -184,9 +184,9 @@ export function HybridExamplesClient({
 
   if (featureFlag) {
     return (
-      <div className="text-center py-8">
-        <h3 className="text-lg font-semibold mb-4">{featureFlag} 기능</h3>
-        <p className="text-muted-foreground mb-4">
+      <div className='text-center py-8'>
+        <h3 className='text-lg font-semibold mb-4'>{featureFlag} 기능</h3>
+        <p className='text-muted-foreground mb-4'>
           이 기능은 클라이언트에서 동적으로 로드되었습니다.
         </p>
         <Button onClick={handleFeatureAction}>기능 실행</Button>
@@ -196,46 +196,46 @@ export function HybridExamplesClient({
 
   // Default: User dashboard
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Search functionality */}
-      <div className="relative">
+      <div className='relative'>
         <Input
-          placeholder="프로젝트나 게시글 검색..."
+          placeholder='프로젝트나 게시글 검색...'
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className='pl-10'
         />
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+        <div className='absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground'>
           🔍
         </div>
       </div>
 
       {/* Tabbed content */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="projects">
+        <TabsList className='grid w-full grid-cols-2'>
+          <TabsTrigger value='projects'>
             프로젝트 ({filteredProjects.length})
           </TabsTrigger>
-          <TabsTrigger value="posts">
+          <TabsTrigger value='posts'>
             게시글 ({filteredPosts.length})
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="projects" className="space-y-4">
+        <TabsContent value='projects' className='space-y-4'>
           {filteredProjects.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className='text-center py-8 text-muted-foreground'>
               {searchQuery ? '검색 결과가 없습니다.' : '프로젝트가 없습니다.'}
             </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className='grid gap-4 md:grid-cols-2'>
               {filteredProjects.map(project => (
                 <Card
                   key={project.id}
-                  className="hover:shadow-md transition-shadow cursor-pointer"
+                  className='hover:shadow-md transition-shadow cursor-pointer'
                 >
-                  <CardContent className="p-4">
-                    <h3 className="font-medium mb-2">{project.title}</h3>
-                    <p className="text-xs text-muted-foreground">
+                  <CardContent className='p-4'>
+                    <h3 className='font-medium mb-2'>{project.title}</h3>
+                    <p className='text-xs text-muted-foreground'>
                       업데이트:{' '}
                       {new Date(project.updatedAt).toLocaleDateString()}
                     </p>
@@ -246,21 +246,21 @@ export function HybridExamplesClient({
           )}
         </TabsContent>
 
-        <TabsContent value="posts" className="space-y-4">
+        <TabsContent value='posts' className='space-y-4'>
           {filteredPosts.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className='text-center py-8 text-muted-foreground'>
               {searchQuery ? '검색 결과가 없습니다.' : '게시글이 없습니다.'}
             </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className='grid gap-4 md:grid-cols-2'>
               {filteredPosts.map(post => (
                 <Card
                   key={post.id}
-                  className="hover:shadow-md transition-shadow cursor-pointer"
+                  className='hover:shadow-md transition-shadow cursor-pointer'
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <h3 className="font-medium mb-2">{post.title}</h3>
+                  <CardContent className='p-4'>
+                    <div className='flex items-start justify-between'>
+                      <h3 className='font-medium mb-2'>{post.title}</h3>
                       <Badge variant={post.published ? 'default' : 'secondary'}>
                         {post.published ? '게시됨' : '초안'}
                       </Badge>
@@ -274,10 +274,10 @@ export function HybridExamplesClient({
       </Tabs>
 
       {/* Quick actions */}
-      <div className="flex gap-2">
+      <div className='flex gap-2'>
         <Button
-          variant="outline"
-          size="sm"
+          variant='outline'
+          size='sm'
           onClick={() => {
             setSearchQuery('')
             toast.success('검색이 초기화되었습니다.')
@@ -287,8 +287,8 @@ export function HybridExamplesClient({
         </Button>
 
         <Button
-          variant="outline"
-          size="sm"
+          variant='outline'
+          size='sm'
           onClick={() => {
             setActiveTab(activeTab === 'projects' ? 'posts' : 'projects')
           }}
@@ -297,8 +297,8 @@ export function HybridExamplesClient({
         </Button>
 
         <Button
-          variant="outline"
-          size="sm"
+          variant='outline'
+          size='sm'
           onClick={() => {
             toast.info(`현재 ${user?.name || '사용자'}님이 로그인 중입니다.`)
           }}

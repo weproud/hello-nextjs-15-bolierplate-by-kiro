@@ -236,20 +236,20 @@ export function EnhancedForm<
     <div className={cn('w-full', className)}>
       {/* 헤더 */}
       {(header || title || description) && (
-        <div className="mb-6">
+        <div className='mb-6'>
           {header}
           {title && (
-            <h2 className="text-2xl font-bold tracking-tight mb-2">{title}</h2>
+            <h2 className='text-2xl font-bold tracking-tight mb-2'>{title}</h2>
           )}
           {description && (
-            <p className="text-muted-foreground">{description}</p>
+            <p className='text-muted-foreground'>{description}</p>
           )}
         </div>
       )}
 
       {/* 진행률 표시 */}
       {showProgress && (
-        <div className="mb-6">
+        <div className='mb-6'>
           <FormProgress
             totalFields={totalFields}
             validFields={validFields}
@@ -261,10 +261,10 @@ export function EnhancedForm<
 
       {/* 에러 요약 */}
       {showErrorSummary && fieldErrors && (
-        <div className="mb-6">
+        <div className='mb-6'>
           <FormErrorSummary
             errors={fieldErrors}
-            title="다음 오류를 수정해주세요:"
+            title='다음 오류를 수정해주세요:'
             showFieldNames={true}
             maxErrors={5}
           />
@@ -280,11 +280,11 @@ export function EnhancedForm<
         {beforeSubmit}
 
         {/* 버튼 영역 */}
-        <div className="flex gap-3 pt-6">
-          <Button type="submit" disabled={isLoading} className="flex-1">
+        <div className='flex gap-3 pt-6'>
+          <Button type='submit' disabled={isLoading} className='flex-1'>
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                 처리 중...
               </>
             ) : (
@@ -294,8 +294,8 @@ export function EnhancedForm<
 
           {onCancel && (
             <Button
-              type="button"
-              variant="outline"
+              type='button'
+              variant='outline'
               onClick={onCancel}
               disabled={isLoading}
             >
@@ -313,14 +313,14 @@ export function EnhancedForm<
 
       {/* 성공/에러 상태 표시 */}
       {isSuccess && (
-        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-md">
-          <p className="text-green-800 text-sm">성공적으로 처리되었습니다!</p>
+        <div className='mt-4 p-4 bg-green-50 border border-green-200 rounded-md'>
+          <p className='text-green-800 text-sm'>성공적으로 처리되었습니다!</p>
         </div>
       )}
 
       {error && !fieldErrors && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-red-800 text-sm">{error}</p>
+        <div className='mt-4 p-4 bg-red-50 border border-red-200 rounded-md'>
+          <p className='text-red-800 text-sm'>{error}</p>
         </div>
       )}
     </div>

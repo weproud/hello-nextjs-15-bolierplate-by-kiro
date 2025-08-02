@@ -31,7 +31,7 @@ export function CreateProjectModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className='max-w-2xl'>
         <DialogHeader>
           <DialogTitle>새 프로젝트 만들기</DialogTitle>
           <DialogDescription>
@@ -39,7 +39,7 @@ export function CreateProjectModal({
           </DialogDescription>
         </DialogHeader>
         <ProjectForm
-          mode="create"
+          mode='create'
           onSuccess={handleSuccess}
           onCancel={handleCancel}
           showCard={false}

@@ -37,59 +37,59 @@ export const StoreExample = memo(function StoreExample() {
   }, [preferences.autoSave, updatePreferences])
 
   return (
-    <div className="p-4 space-y-4">
-      <h2 className="text-xl font-bold">Zustand Store Example</h2>
+    <div className='p-4 space-y-4'>
+      <h2 className='text-xl font-bold'>Zustand Store Example</h2>
 
-      <div className="space-y-2">
+      <div className='space-y-2'>
         <p>Sidebar Open: {sidebarOpen ? 'Yes' : 'No'}</p>
         <button
           onClick={toggleSidebar}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
         >
           Toggle Sidebar
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className='space-y-2'>
         <p>Theme: {theme}</p>
-        <div className="space-x-2">
+        <div className='space-x-2'>
           <button
             onClick={setLightTheme}
-            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            className='px-3 py-1 bg-gray-200 rounded hover:bg-gray-300'
           >
             Light
           </button>
           <button
             onClick={setDarkTheme}
-            className="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700"
+            className='px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700'
           >
             Dark
           </button>
           <button
             onClick={setSystemTheme}
-            className="px-3 py-1 bg-blue-200 rounded hover:bg-blue-300"
+            className='px-3 py-1 bg-blue-200 rounded hover:bg-blue-300'
           >
             System
           </button>
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className='space-y-2'>
         <p>Preferences:</p>
-        <ul className="ml-4">
+        <ul className='ml-4'>
           <li>Notifications: {preferences.notifications ? 'On' : 'Off'}</li>
           <li>Auto Save: {preferences.autoSave ? 'On' : 'Off'}</li>
         </ul>
-        <div className="space-x-2">
+        <div className='space-x-2'>
           <button
             onClick={toggleNotifications}
-            className="px-3 py-1 bg-green-200 rounded hover:bg-green-300"
+            className='px-3 py-1 bg-green-200 rounded hover:bg-green-300'
           >
             Toggle Notifications
           </button>
           <button
             onClick={toggleAutoSave}
-            className="px-3 py-1 bg-yellow-200 rounded hover:bg-yellow-300"
+            className='px-3 py-1 bg-yellow-200 rounded hover:bg-yellow-300'
           >
             Toggle Auto Save
           </button>
@@ -98,7 +98,7 @@ export const StoreExample = memo(function StoreExample() {
 
       <button
         onClick={resetState}
-        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600'
       >
         Reset State
       </button>

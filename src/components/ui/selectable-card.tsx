@@ -150,23 +150,23 @@ const SelectableCard = forwardRef<HTMLDivElement, SelectableCardProps>(
       >
         {/* Featured 상태 특별 효과 */}
         {status === 'featured' && variant === 'default' && (
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 via-purple-400/5 to-pink-500/2 pointer-events-none shadow-[0_8px_32px_rgba(147,51,234,0.15),0_2px_8px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.15)]" />
+          <div className='absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 via-purple-400/5 to-pink-500/2 pointer-events-none shadow-[0_8px_32px_rgba(147,51,234,0.15),0_2px_8px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.15)]' />
         )}
 
         {/* 선택 표시 - 흰색 테마 */}
         {isSelected && (
-          <div className="absolute top-3 right-3 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center shadow-lg shadow-white/50">
+          <div className='absolute top-3 right-3 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center shadow-lg shadow-white/50'>
             <svg
-              className="w-4 h-4 text-gray-800 drop-shadow-sm"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              className='w-4 h-4 text-gray-800 drop-shadow-sm'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 strokeWidth={2.5}
-                d="M5 13l4 4L19 7"
+                d='M5 13l4 4L19 7'
               />
             </svg>
           </div>

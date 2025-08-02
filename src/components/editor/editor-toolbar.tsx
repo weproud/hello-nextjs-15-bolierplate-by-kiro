@@ -137,8 +137,8 @@ export const EditorToolbar = ({ editor, className }: EditorToolbarProps) => {
           return (
             <Separator
               key={`separator-${index}`}
-              orientation="vertical"
-              className="h-6 mx-1"
+              orientation='vertical'
+              className='h-6 mx-1'
             />
           )
         }
@@ -152,7 +152,7 @@ export const EditorToolbar = ({ editor, className }: EditorToolbarProps) => {
           <Button
             key={button.type + (button.level || '')}
             variant={isActive ? 'default' : 'ghost'}
-            size="sm"
+            size='sm'
             onClick={button.onClick}
             disabled={isDisabled}
             className={cn(
@@ -162,7 +162,7 @@ export const EditorToolbar = ({ editor, className }: EditorToolbarProps) => {
             )}
             title={button.label}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className='h-4 w-4' />
           </Button>
         )
       })}

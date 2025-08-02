@@ -136,12 +136,7 @@ AUTH_GOOGLE_SECRET="your-google-client-secret"
 const nextConfig: NextConfig = {
   experimental: {
     // 패키지 임포트 최적화
-    optimizePackageImports: [
-      'lucide-react',
-      '@radix-ui/react-slot',
-      'react-hook-form',
-      'zod',
-    ],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-slot', 'react-hook-form', 'zod'],
     // CSS 최적화
     optimizeCss: true,
   },
@@ -274,7 +269,8 @@ export default function RootLayout({
 
 ## 결론
 
-이 가이드는 프로젝트의 모든 핵심 요소를 다루며, 현대적인 Next.js 15 애플리케이션 개발을 위한 완전한 참조 자료입니다.
+이 가이드는 프로젝트의 모든 핵심 요소를 다루며, 현대적인 Next.js 15 애플리케이션 개발을 위한 완전한
+참조 자료입니다.
 
 ### 주요 장점
 

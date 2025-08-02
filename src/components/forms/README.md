@@ -26,26 +26,22 @@ const schema = z.object({
 })
 
 function MyForm() {
-  const { form, handleSubmit, isLoading } = useFormWithAction(
-    schema,
-    myAction,
-    {
-      successMessage: '성공적으로 저장되었습니다!',
-      onSuccess: data => console.log('Success:', data),
-    }
-  )
+  const { form, handleSubmit, isLoading } = useFormWithAction(schema, myAction, {
+    successMessage: '성공적으로 저장되었습니다!',
+    onSuccess: data => console.log('Success:', data),
+  })
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormField label="이름" error={form.formState.errors.name} required>
+      <FormField label='이름' error={form.formState.errors.name} required>
         <input {...form.register('name')} />
       </FormField>
 
-      <FormField label="이메일" error={form.formState.errors.email} required>
-        <input type="email" {...form.register('email')} />
+      <FormField label='이메일' error={form.formState.errors.email} required>
+        <input type='email' {...form.register('email')} />
       </FormField>
 
-      <button type="submit" disabled={isLoading}>
+      <button type='submit' disabled={isLoading}>
         {isLoading ? '처리 중...' : '제출'}
       </button>
     </form>
@@ -93,9 +89,9 @@ function ContactForm() {
           props: { rows: 5 },
         },
       ]}
-      title="연락하기"
-      description="궁금한 점이 있으시면 언제든 연락해주세요."
-      submitText="메시지 보내기"
+      title='연락하기'
+      description='궁금한 점이 있으시면 언제든 연락해주세요.'
+      submitText='메시지 보내기'
       showProgress={true}
       showErrorSummary={true}
     />
@@ -124,33 +120,26 @@ const steps = [
 ]
 
 function MultiStepForm() {
-  const {
-    form,
-    currentStep,
-    isLastStep,
-    nextStep,
-    prevStep,
-    submitForm,
-    progress,
-  } = useMultiStepFormWithAction(schema, action, steps)
+  const { form, currentStep, isLastStep, nextStep, prevStep, submitForm, progress } =
+    useMultiStepFormWithAction(schema, action, steps)
 
   return (
     <div>
-      <div className="progress-bar">
+      <div className='progress-bar'>
         <div style={{ width: `${progress}%` }} />
       </div>
 
       <form onSubmit={isLastStep ? submitForm : nextStep}>
         {/* 현재 단계의 필드들 렌더링 */}
 
-        <div className="buttons">
+        <div className='buttons'>
           {currentStep > 0 && (
-            <button type="button" onClick={prevStep}>
+            <button type='button' onClick={prevStep}>
               이전
             </button>
           )}
 
-          <button type="submit">{isLastStep ? '제출' : '다음'}</button>
+          <button type='submit'>{isLastStep ? '제출' : '다음'}</button>
         </div>
       </form>
     </div>
@@ -204,11 +193,11 @@ const {
   schema={zodSchema}
   action={safeAction}
   fields={fieldConfigs}
-  title="폼 제목"
-  description="폼 설명"
+  title='폼 제목'
+  description='폼 설명'
   showProgress={true}
   showErrorSummary={true}
-  layout="vertical" // 'vertical' | 'horizontal' | 'grid'
+  layout='vertical' // 'vertical' | 'horizontal' | 'grid'
   onSuccess={data => console.log(data)}
 />
 ```
@@ -219,9 +208,9 @@ const {
 
 ```tsx
 <FormField
-  label="필드 라벨"
+  label='필드 라벨'
   error={fieldError}
-  helperText="도움말 텍스트"
+  helperText='도움말 텍스트'
   required={true}
   showValidationIndicator={true}
   isValidating={false}
@@ -270,14 +259,11 @@ const form = useAutoSaveForm(
 ```tsx
 import { useOptimisticFormAction } from '@/hooks'
 
-const { execute, optimisticData } = useOptimisticFormAction(
-  updateAction,
-  formData => ({
-    // 낙관적 업데이트 데이터
-    id: 'temp-id',
-    ...Object.fromEntries(formData),
-  })
-)
+const { execute, optimisticData } = useOptimisticFormAction(updateAction, formData => ({
+  // 낙관적 업데이트 데이터
+  id: 'temp-id',
+  ...Object.fromEntries(formData),
+}))
 ```
 
 ## 모범 사례

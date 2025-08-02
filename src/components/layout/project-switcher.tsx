@@ -96,16 +96,16 @@ export function ProjectSwitcher({
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton
-            size="lg"
-            className="cursor-pointer hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            size='lg'
+            className='cursor-pointer hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
             onClick={() => signIn('google')}
           >
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-muted">
-              <LogIn className="size-4" />
+            <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-muted'>
+              <LogIn className='size-4' />
             </div>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">로그인 필요</span>
-              <span className="truncate text-xs">
+            <div className='grid flex-1 text-left text-sm leading-tight'>
+              <span className='truncate font-semibold'>로그인 필요</span>
+              <span className='truncate text-xs'>
                 프로젝트를 보려면 로그인하세요
               </span>
             </div>
@@ -124,40 +124,40 @@ export function ProjectSwitcher({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  size='lg'
+                  className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <FolderKanban className="size-4" />
+                  <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
+                    <FolderKanban className='size-4' />
                   </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
+                  <div className='grid flex-1 text-left text-sm leading-tight'>
+                    <span className='truncate font-semibold'>
                       프로젝트 없음
                     </span>
-                    <span className="truncate text-xs">
+                    <span className='truncate text-xs'>
                       새 프로젝트를 만들어보세요
                     </span>
                   </div>
-                  <ChevronsUpDown className="ml-auto" />
+                  <ChevronsUpDown className='ml-auto' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                align="start"
+                className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
+                align='start'
                 side={isMobile ? 'bottom' : 'right'}
                 sideOffset={4}
               >
-                <DropdownMenuLabel className="text-xs text-muted-foreground">
+                <DropdownMenuLabel className='text-xs text-muted-foreground'>
                   프로젝트
                 </DropdownMenuLabel>
                 <DropdownMenuItem
-                  className="gap-2 p-2"
+                  className='gap-2 p-2'
                   onClick={handleCreateProject}
                 >
-                  <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                    <Plus className="size-4" />
+                  <div className='flex size-6 items-center justify-center rounded-md border bg-background'>
+                    <Plus className='size-4' />
                   </div>
-                  <div className="font-medium text-muted-foreground">
+                  <div className='font-medium text-muted-foreground'>
                     새 프로젝트 만들기
                   </div>
                 </DropdownMenuItem>
@@ -182,30 +182,30 @@ export function ProjectSwitcher({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
-                size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                size='lg'
+                className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
               >
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <FolderKanban className="size-4" />
+                <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
+                  <FolderKanban className='size-4' />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
+                <div className='grid flex-1 text-left text-sm leading-tight'>
+                  <span className='truncate font-semibold'>
                     {activeProject?.title || '프로젝트 선택'}
                   </span>
-                  <span className="truncate text-xs">
+                  <span className='truncate text-xs'>
                     {activeProject?.description || '설명 없음'}
                   </span>
                 </div>
-                <ChevronsUpDown className="ml-auto" />
+                <ChevronsUpDown className='ml-auto' />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              align="start"
+              className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
+              align='start'
               side={isMobile ? 'bottom' : 'right'}
               sideOffset={4}
             >
-              <DropdownMenuLabel className="text-xs text-muted-foreground">
+              <DropdownMenuLabel className='text-xs text-muted-foreground'>
                 프로젝트
               </DropdownMenuLabel>
               {projects.map((project, index) => {
@@ -214,23 +214,23 @@ export function ProjectSwitcher({
                   <DropdownMenuItem
                     key={project.id}
                     onClick={() => handleProjectSelect(project)}
-                    className="gap-2 p-2"
+                    className='gap-2 p-2'
                   >
-                    <div className="flex size-6 items-center justify-center rounded-sm border">
+                    <div className='flex size-6 items-center justify-center rounded-sm border'>
                       {isActive ? (
-                        <Check className="size-4 shrink-0" />
+                        <Check className='size-4 shrink-0' />
                       ) : (
-                        <FolderKanban className="size-4 shrink-0" />
+                        <FolderKanban className='size-4 shrink-0' />
                       )}
                     </div>
-                    <div className="flex flex-col">
+                    <div className='flex flex-col'>
                       <span
                         className={`text-sm font-medium ${isActive ? 'text-primary' : ''}`}
                       >
                         {project.title}
                       </span>
                       {project.description && (
-                        <span className="text-xs text-muted-foreground truncate max-w-[150px]">
+                        <span className='text-xs text-muted-foreground truncate max-w-[150px]'>
                           {project.description}
                         </span>
                       )}
@@ -241,13 +241,13 @@ export function ProjectSwitcher({
               })}
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                className="gap-2 p-2"
+                className='gap-2 p-2'
                 onClick={handleCreateProject}
               >
-                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                  <Plus className="size-4" />
+                <div className='flex size-6 items-center justify-center rounded-md border bg-background'>
+                  <Plus className='size-4' />
                 </div>
-                <div className="font-medium text-muted-foreground">
+                <div className='font-medium text-muted-foreground'>
                   새 프로젝트 만들기
                 </div>
               </DropdownMenuItem>

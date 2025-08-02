@@ -6,7 +6,8 @@
 
 ### 결정사항
 
-Server Component와 Client Component를 명확히 분리하고, 하이브리드 패턴을 통해 최적의 성능과 사용자 경험을 제공합니다.
+Server Component와 Client Component를 명확히 분리하고, 하이브리드 패턴을 통해 최적의 성능과 사용자
+경험을 제공합니다.
 
 ### 근거
 
@@ -83,7 +84,7 @@ export function ProjectListClient({ projects }) {
 // Server Component - 에러 구조
 export function ErrorFallbackOptimized({ error, title, message }) {
   return (
-    <div className="error-container">
+    <div className='error-container'>
       <h2>{title}</h2>
       <p>{message}</p>
       <ErrorFallbackClient resetError={resetError} />
@@ -105,7 +106,8 @@ export function ErrorFallbackClient({ resetError }) {
 
 ### 결정사항
 
-폼의 정적 요소(레이블, 설명)는 Server Component로, 동적 요소(검증, 상호작용)는 Client Component로 분리합니다.
+폼의 정적 요소(레이블, 설명)는 Server Component로, 동적 요소(검증, 상호작용)는 Client Component로
+분리합니다.
 
 ### 근거
 
@@ -120,7 +122,7 @@ export function ErrorFallbackClient({ resetError }) {
 export function FormLayoutStatic({ children }) {
   return (
     <form action={serverAction}>
-      <div className="form-fields">{/* 정적 레이블과 설명 */}</div>
+      <div className='form-fields'>{/* 정적 레이블과 설명 */}</div>
       {children} {/* 동적 클라이언트 컴포넌트 */}
     </form>
   )
@@ -153,10 +155,8 @@ export async function SidebarLayoutServer({ children }) {
   const navigationData = await fetchNavigationData()
 
   return (
-    <div className="layout-structure">
-      <SidebarLayoutClient navigationData={navigationData}>
-        {children}
-      </SidebarLayoutClient>
+    <div className='layout-structure'>
+      <SidebarLayoutClient navigationData={navigationData}>{children}</SidebarLayoutClient>
     </div>
   )
 }

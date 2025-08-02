@@ -12,9 +12,9 @@ export async function UserDashboardHybrid() {
 
   if (!session?.user?.id) {
     return (
-      <div className="text-center py-8">
-        <h2 className="text-xl font-semibold mb-2">로그인이 필요합니다</h2>
-        <p className="text-muted-foreground">
+      <div className='text-center py-8'>
+        <h2 className='text-xl font-semibold mb-2'>로그인이 필요합니다</h2>
+        <p className='text-muted-foreground'>
           대시보드를 보려면 로그인해주세요.
         </p>
       </div>
@@ -43,13 +43,13 @@ export async function UserDashboardHybrid() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Static header - Server Component */}
-      <div className="border-b pb-4">
-        <h1 className="text-2xl font-bold">
+      <div className='border-b pb-4'>
+        <h1 className='text-2xl font-bold'>
           안녕하세요, {userData.name || '사용자'}님!
         </h1>
-        <p className="text-muted-foreground">오늘도 목표를 향해 나아가세요.</p>
+        <p className='text-muted-foreground'>오늘도 목표를 향해 나아가세요.</p>
       </div>
 
       {/* Dynamic interactions - Client Component */}
@@ -83,22 +83,22 @@ export function FormWithStaticLabels({
   children: ReactNode
 }) {
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className='max-w-2xl mx-auto p-6'>
       {/* Static form structure - Server Component */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold mb-2">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
+      <div className='text-center mb-8'>
+        <h1 className='text-2xl font-bold mb-2'>{title}</h1>
+        <p className='text-muted-foreground'>{description}</p>
       </div>
 
-      <div className="space-y-6">
+      <div className='space-y-6'>
         {fields.map(field => (
-          <div key={field.name} className="space-y-2">
-            <label className="text-sm font-medium leading-none">
+          <div key={field.name} className='space-y-2'>
+            <label className='text-sm font-medium leading-none'>
               {field.label}
-              {field.required && <span className="text-red-500 ml-1">*</span>}
+              {field.required && <span className='text-red-500 ml-1'>*</span>}
             </label>
             {field.description && (
-              <p className="text-xs text-muted-foreground">
+              <p className='text-xs text-muted-foreground'>
                 {field.description}
               </p>
             )}
@@ -133,8 +133,8 @@ export async function ConditionalFeatureLoader({
 
   if (!session?.user) {
     return (
-      <div className="text-center py-4 bg-muted rounded-lg">
-        <p className="text-sm text-muted-foreground">
+      <div className='text-center py-4 bg-muted rounded-lg'>
+        <p className='text-sm text-muted-foreground'>
           이 기능을 사용하려면 로그인이 필요합니다.
         </p>
       </div>
@@ -143,8 +143,8 @@ export async function ConditionalFeatureLoader({
 
   if (!isFeatureEnabled) {
     return (
-      <div className="text-center py-4 bg-muted rounded-lg">
-        <p className="text-sm text-muted-foreground">
+      <div className='text-center py-4 bg-muted rounded-lg'>
+        <p className='text-sm text-muted-foreground'>
           이 기능은 현재 사용할 수 없습니다.
         </p>
       </div>
@@ -153,8 +153,8 @@ export async function ConditionalFeatureLoader({
 
   if (!hasPermission) {
     return (
-      <div className="text-center py-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
+      <div className='text-center py-4 bg-yellow-50 border border-yellow-200 rounded-lg'>
+        <p className='text-sm text-yellow-800'>
           이 기능은 프리미엄 사용자만 이용할 수 있습니다.
         </p>
       </div>
@@ -185,40 +185,40 @@ export function ProgressiveForm({
   defaultValues?: Record<string, string>
 }) {
   return (
-    <div className="max-w-md mx-auto">
+    <div className='max-w-md mx-auto'>
       {/* Basic form functionality - Server Component */}
-      <form action={action} className="space-y-4">
+      <form action={action} className='space-y-4'>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
+          <label htmlFor='email' className='block text-sm font-medium mb-1'>
             이메일
           </label>
           <input
-            id="email"
-            name="email"
-            type="email"
+            id='email'
+            name='email'
+            type='email'
             required
             defaultValue={defaultValues?.email}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-medium mb-1">
+          <label htmlFor='message' className='block text-sm font-medium mb-1'>
             메시지
           </label>
           <textarea
-            id="message"
-            name="message"
+            id='message'
+            name='message'
             required
             defaultValue={defaultValues?.message}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             rows={4}
           />
         </div>
 
         <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type='submit'
+          className='w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
         >
           제출
         </button>
@@ -248,23 +248,23 @@ export function HybridPageLayout({
   children: ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className='min-h-screen bg-background'>
       {/* Static layout structure - Server Component */}
-      <div className="border-b">
-        <div className="container mx-auto px-4 py-6">
+      <div className='border-b'>
+        <div className='container mx-auto px-4 py-6'>
           {/* Breadcrumbs */}
           {breadcrumbs && breadcrumbs.length > 0 && (
-            <nav className="mb-4">
-              <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <nav className='mb-4'>
+              <ol className='flex items-center space-x-2 text-sm text-muted-foreground'>
                 {breadcrumbs.map((crumb, index) => (
-                  <li key={index} className="flex items-center">
-                    {index > 0 && <span className="mx-2">/</span>}
+                  <li key={index} className='flex items-center'>
+                    {index > 0 && <span className='mx-2'>/</span>}
                     {crumb.href ? (
-                      <a href={crumb.href} className="hover:text-foreground">
+                      <a href={crumb.href} className='hover:text-foreground'>
                         {crumb.label}
                       </a>
                     ) : (
-                      <span className="text-foreground">{crumb.label}</span>
+                      <span className='text-foreground'>{crumb.label}</span>
                     )}
                   </li>
                 ))}
@@ -273,22 +273,22 @@ export function HybridPageLayout({
           )}
 
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className='flex items-center justify-between'>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+              <h1 className='text-3xl font-bold tracking-tight'>{title}</h1>
               {description && (
-                <p className="text-muted-foreground mt-2">{description}</p>
+                <p className='text-muted-foreground mt-2'>{description}</p>
               )}
             </div>
             {actions && (
-              <div className="flex items-center gap-2">{actions}</div>
+              <div className='flex items-center gap-2'>{actions}</div>
             )}
           </div>
         </div>
       </div>
 
       {/* Dynamic content area */}
-      <main className="container mx-auto px-4 py-6">{children}</main>
+      <main className='container mx-auto px-4 py-6'>{children}</main>
     </div>
   )
 }
@@ -308,11 +308,11 @@ export async function StreamingDataExample() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Static header - Server Component */}
       <div>
-        <h2 className="text-xl font-semibold mb-2">실시간 프로젝트 목록</h2>
-        <p className="text-muted-foreground">
+        <h2 className='text-xl font-semibold mb-2'>실시간 프로젝트 목록</h2>
+        <p className='text-muted-foreground'>
           프로젝트가 실시간으로 업데이트됩니다.
         </p>
       </div>

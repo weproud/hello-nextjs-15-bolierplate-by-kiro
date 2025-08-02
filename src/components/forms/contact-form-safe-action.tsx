@@ -43,24 +43,24 @@ export function ContactFormSafeAction() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold mb-2">문의하기</h1>
-        <p className="text-muted-foreground">
+    <div className='max-w-md mx-auto p-6'>
+      <div className='text-center mb-6'>
+        <h1 className='text-2xl font-bold mb-2'>문의하기</h1>
+        <p className='text-muted-foreground'>
           next-safe-action을 사용한 폼 예제
         </p>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <FormField
             control={form.control}
-            name="name"
+            name='name'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>이름</FormLabel>
                 <FormControl>
-                  <Input placeholder="홍길동" {...field} />
+                  <Input placeholder='홍길동' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -69,14 +69,14 @@ export function ContactFormSafeAction() {
 
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>이메일</FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="hong@example.com"
+                    type='email'
+                    placeholder='hong@example.com'
                     {...field}
                   />
                 </FormControl>
@@ -87,12 +87,12 @@ export function ContactFormSafeAction() {
 
           <FormField
             control={form.control}
-            name="subject"
+            name='subject'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>제목</FormLabel>
                 <FormControl>
-                  <Input placeholder="문의 제목을 입력하세요" {...field} />
+                  <Input placeholder='문의 제목을 입력하세요' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,14 +101,14 @@ export function ContactFormSafeAction() {
 
           <FormField
             control={form.control}
-            name="message"
+            name='message'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>메시지</FormLabel>
                 <FormControl>
                   <textarea
-                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="문의 내용을 입력하세요..."
+                    className='flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+                    placeholder='문의 내용을 입력하세요...'
                     {...field}
                   />
                 </FormControl>
@@ -117,19 +117,19 @@ export function ContactFormSafeAction() {
             )}
           />
 
-          <div className="flex gap-2">
+          <div className='flex gap-2'>
             <Button
-              type="button"
-              variant="outline"
+              type='button'
+              variant='outline'
               onClick={() => form.reset()}
               disabled={formAction.isPending}
             >
               초기화
             </Button>
             <Button
-              type="submit"
+              type='submit'
               disabled={formAction.isPending}
-              className="flex-1"
+              className='flex-1'
             >
               {formAction.isPending ? '전송 중...' : '문의 전송'}
             </Button>
@@ -137,13 +137,13 @@ export function ContactFormSafeAction() {
 
           {/* Action Status */}
           {formAction.result && (
-            <div className="mt-4 p-3 rounded-md text-sm">
+            <div className='mt-4 p-3 rounded-md text-sm'>
               {formAction.isSuccess ? (
-                <div className="text-green-600 bg-green-50 p-3 rounded-md">
+                <div className='text-green-600 bg-green-50 p-3 rounded-md'>
                   ✅ 문의가 성공적으로 전송되었습니다!
                 </div>
               ) : (
-                <div className="text-red-600 bg-red-50 p-3 rounded-md">
+                <div className='text-red-600 bg-red-50 p-3 rounded-md'>
                   ❌ {formAction.result.error || '오류가 발생했습니다.'}
                 </div>
               )}
@@ -153,14 +153,14 @@ export function ContactFormSafeAction() {
       </Form>
 
       {/* Debug Info */}
-      <details className="mt-6 p-3 bg-muted/30 rounded-md">
-        <summary className="cursor-pointer text-sm font-medium">
+      <details className='mt-6 p-3 bg-muted/30 rounded-md'>
+        <summary className='cursor-pointer text-sm font-medium'>
           디버그 정보
         </summary>
-        <div className="mt-2 space-y-2 text-xs">
+        <div className='mt-2 space-y-2 text-xs'>
           <div>
             <strong>Form State:</strong>
-            <pre className="mt-1 p-2 bg-background rounded overflow-auto">
+            <pre className='mt-1 p-2 bg-background rounded overflow-auto'>
               {JSON.stringify(
                 {
                   isValid: form.formState.isValid,
@@ -174,7 +174,7 @@ export function ContactFormSafeAction() {
           </div>
           <div>
             <strong>Action State:</strong>
-            <pre className="mt-1 p-2 bg-background rounded overflow-auto">
+            <pre className='mt-1 p-2 bg-background rounded overflow-auto'>
               {JSON.stringify(
                 {
                   isPending: formAction.isPending,

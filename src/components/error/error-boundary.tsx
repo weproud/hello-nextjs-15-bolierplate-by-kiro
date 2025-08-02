@@ -109,22 +109,22 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-          <Card className="w-full max-w-2xl">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                <AlertTriangle className="w-8 h-8 text-red-600" />
+        <div className='min-h-screen flex items-center justify-center p-4 bg-gray-50'>
+          <Card className='w-full max-w-2xl'>
+            <CardHeader className='text-center'>
+              <div className='mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4'>
+                <AlertTriangle className='w-8 h-8 text-red-600' />
               </div>
-              <CardTitle className="text-2xl text-red-600">
+              <CardTitle className='text-2xl text-red-600'>
                 앗! 문제가 발생했습니다
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center text-gray-600">
-                <p className="mb-2">
+            <CardContent className='space-y-6'>
+              <div className='text-center text-gray-600'>
+                <p className='mb-2'>
                   예상치 못한 오류가 발생했습니다. 불편을 드려 죄송합니다.
                 </p>
-                <p className="text-sm">
+                <p className='text-sm'>
                   문제가 지속되면 고객 지원팀에 문의해 주세요.
                 </p>
               </div>
@@ -132,31 +132,31 @@ export class ErrorBoundary extends Component<Props, State> {
               {/* Error details (only in development) */}
               {this.props.showDetails &&
                 process.env.NODE_ENV === 'development' && (
-                  <div className="bg-gray-100 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
-                      <Bug className="w-4 h-4 mr-2" />
+                  <div className='bg-gray-100 p-4 rounded-lg'>
+                    <h4 className='font-semibold text-gray-800 mb-2 flex items-center'>
+                      <Bug className='w-4 h-4 mr-2' />
                       개발자 정보
                     </h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                    <div className='text-sm text-gray-700 space-y-2'>
                       <div>
                         <strong>오류:</strong> {this.state.error?.message}
                       </div>
                       {this.state.error?.stack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             스택 트레이스 보기
                           </summary>
-                          <pre className="mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40">
+                          <pre className='mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40'>
                             {this.state.error.stack}
                           </pre>
                         </details>
                       )}
                       {this.state.errorInfo?.componentStack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             컴포넌트 스택 보기
                           </summary>
-                          <pre className="mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40">
+                          <pre className='mt-2 text-xs bg-white p-2 rounded border overflow-auto max-h-40'>
                             {this.state.errorInfo.componentStack}
                           </pre>
                         </details>
@@ -166,39 +166,39 @@ export class ErrorBoundary extends Component<Props, State> {
                 )}
 
               {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <div className='flex flex-col sm:flex-row gap-3 justify-center'>
                 <Button
                   onClick={this.handleRetry}
-                  className="flex items-center"
+                  className='flex items-center'
                 >
-                  <RefreshCw className="w-4 h-4 mr-2" />
+                  <RefreshCw className='w-4 h-4 mr-2' />
                   다시 시도
                 </Button>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   onClick={this.handleReload}
-                  className="flex items-center"
+                  className='flex items-center'
                 >
-                  <RefreshCw className="w-4 h-4 mr-2" />
+                  <RefreshCw className='w-4 h-4 mr-2' />
                   페이지 새로고침
                 </Button>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   onClick={this.handleGoHome}
-                  className="flex items-center"
+                  className='flex items-center'
                 >
-                  <Home className="w-4 h-4 mr-2" />
+                  <Home className='w-4 h-4 mr-2' />
                   홈으로 이동
                 </Button>
               </div>
 
               {/* Contact support */}
-              <div className="text-center text-sm text-gray-500 border-t pt-4">
+              <div className='text-center text-sm text-gray-500 border-t pt-4'>
                 <p>
                   문제가 계속 발생하나요?{' '}
                   <a
-                    href="/contact"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    href='/contact'
+                    className='text-blue-600 hover:text-blue-800 underline'
                   >
                     고객 지원팀에 문의하기
                   </a>

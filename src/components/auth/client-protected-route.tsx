@@ -47,10 +47,10 @@ export function ClientProtectedRoute({
   // 로딩 중
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-muted-foreground">로딩 중...</p>
+      <div className='min-h-screen flex items-center justify-center'>
+        <div className='flex flex-col items-center space-y-4'>
+          <div className='w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin' />
+          <p className='text-sm text-muted-foreground'>로딩 중...</p>
         </div>
       </div>
     )
@@ -65,30 +65,30 @@ export function ClientProtectedRoute({
 
     // 기본 로그인 UI 표시
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <Shield className="h-6 w-6 text-primary" />
+      <div className='min-h-screen flex items-center justify-center bg-background px-4'>
+        <Card className='w-full max-w-md'>
+          <CardHeader className='text-center'>
+            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10'>
+              <Shield className='h-6 w-6 text-primary' />
             </div>
-            <CardTitle className="text-2xl font-bold">인증 필요</CardTitle>
+            <CardTitle className='text-2xl font-bold'>인증 필요</CardTitle>
             <CardDescription>
               이 페이지에 접근하려면 로그인이 필요합니다.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className='space-y-4'>
             <Button
               onClick={() => router.push(redirectTo)}
-              className="w-full"
-              size="lg"
+              className='w-full'
+              size='lg'
             >
-              <LogIn className="mr-2 h-4 w-4" />
+              <LogIn className='mr-2 h-4 w-4' />
               로그인하기
             </Button>
             <Button
-              variant="outline"
+              variant='outline'
               onClick={() => router.push('/')}
-              className="w-full"
+              className='w-full'
             >
               홈으로 돌아가기
             </Button>
@@ -125,8 +125,8 @@ export function AuthConditional({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-4">
-        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      <div className='flex items-center justify-center p-4'>
+        <div className='w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin' />
       </div>
     )
   }

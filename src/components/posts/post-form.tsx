@@ -194,32 +194,32 @@ export function PostForm({
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6">
+    <div className='w-full max-w-4xl mx-auto space-y-6'>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className='flex items-center gap-2'>
             {mode === 'create' ? (
               <>
-                <Plus className="h-5 w-5" />새 포스트 작성
+                <Plus className='h-5 w-5' />새 포스트 작성
               </>
             ) : (
               <>
-                <FileText className="h-5 w-5" />
+                <FileText className='h-5 w-5' />
                 포스트 편집
               </>
             )}
           </CardTitle>
-          <CardDescription className="flex items-center justify-between">
+          <CardDescription className='flex items-center justify-between'>
             <span>
               {mode === 'create'
                 ? 'Tiptap 에디터를 사용하여 리치 텍스트 포스트를 작성하세요.'
                 : '포스트 내용을 수정하세요.'}
             </span>
             {mode === 'edit' && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className='flex items-center gap-2 text-sm text-muted-foreground'>
                 {isAutoSaving && (
                   <>
-                    <Loader2 className="h-3 w-3 animate-spin" />
+                    <Loader2 className='h-3 w-3 animate-spin' />
                     자동 저장 중...
                   </>
                 )}
@@ -232,19 +232,19 @@ export function PostForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
               <FormField
                 control={form.control}
-                name="title"
+                name='title'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>제목 *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="포스트 제목을 입력하세요..."
+                        placeholder='포스트 제목을 입력하세요...'
                         {...field}
                         disabled={isSubmitting}
-                        className="text-lg font-medium"
+                        className='text-lg font-medium'
                       />
                     </FormControl>
                     <FormDescription>
@@ -257,7 +257,7 @@ export function PostForm({
 
               <FormField
                 control={form.control}
-                name="content"
+                name='content'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>내용 *</FormLabel>
@@ -266,9 +266,9 @@ export function PostForm({
                         ref={editorRef}
                         content={field.value}
                         onChange={handleContentChange}
-                        placeholder="포스트 내용을 입력하세요..."
+                        placeholder='포스트 내용을 입력하세요...'
                         showToolbar={true}
-                        className="min-h-[400px]"
+                        className='min-h-[400px]'
                       />
                     </FormControl>
                     <FormDescription>
@@ -282,14 +282,14 @@ export function PostForm({
 
               <FormField
                 control={form.control}
-                name="excerpt"
+                name='excerpt'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>요약</FormLabel>
                     <FormControl>
                       <textarea
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                        placeholder="포스트 요약을 입력하세요... (자동 생성됨)"
+                        className='flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none'
+                        placeholder='포스트 요약을 입력하세요... (자동 생성됨)'
                         disabled={isSubmitting}
                         {...field}
                         value={field.value || ''}
@@ -306,19 +306,19 @@ export function PostForm({
 
               <FormField
                 control={form.control}
-                name="published"
+                name='published'
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel className="text-base flex items-center gap-2">
+                  <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+                    <div className='space-y-0.5'>
+                      <FormLabel className='text-base flex items-center gap-2'>
                         {field.value ? (
                           <>
-                            <Eye className="h-4 w-4" />
+                            <Eye className='h-4 w-4' />
                             발행됨
                           </>
                         ) : (
                           <>
-                            <EyeOff className="h-4 w-4" />
+                            <EyeOff className='h-4 w-4' />
                             초안
                           </>
                         )}
@@ -340,27 +340,27 @@ export function PostForm({
                 )}
               />
 
-              <div className="flex gap-3 pt-4">
+              <div className='flex gap-3 pt-4'>
                 <Button
-                  type="submit"
+                  type='submit'
                   disabled={isSubmitting}
-                  className="flex-1"
+                  className='flex-1'
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                       {mode === 'create' ? '생성 중...' : '저장 중...'}
                     </>
                   ) : (
                     <>
                       {mode === 'create' ? (
                         <>
-                          <Plus className="mr-2 h-4 w-4" />
+                          <Plus className='mr-2 h-4 w-4' />
                           {watchedPublished ? '포스트 발행' : '초안 저장'}
                         </>
                       ) : (
                         <>
-                          <Save className="mr-2 h-4 w-4" />
+                          <Save className='mr-2 h-4 w-4' />
                           {watchedPublished ? '변경사항 발행' : '초안 저장'}
                         </>
                       )}
@@ -370,8 +370,8 @@ export function PostForm({
 
                 {onCancel && (
                   <Button
-                    type="button"
-                    variant="outline"
+                    type='button'
+                    variant='outline'
                     onClick={onCancel}
                     disabled={isSubmitting}
                   >

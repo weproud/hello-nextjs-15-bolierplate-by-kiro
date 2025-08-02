@@ -4,7 +4,8 @@ inclusion: always
 
 # Product Overview
 
-Next.js 15 보일러플레이트 애플리케이션으로, 확장 가능하고 타입 안전한 풀스택 웹 애플리케이션 구축을 위한 모범 사례를 구현합니다.
+Next.js 15 보일러플레이트 애플리케이션으로, 확장 가능하고 타입 안전한 풀스택 웹 애플리케이션 구축을
+위한 모범 사례를 구현합니다.
 
 ## Core Architecture Patterns
 

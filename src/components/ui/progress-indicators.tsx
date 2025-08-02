@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { Progress } from '@/components/ui/progress'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useProgress } from '@/hooks/use-loading-state'
 import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
 
 // Basic progress indicator
 interface ProgressIndicatorProps {
@@ -27,20 +26,41 @@ export function ProgressIndicator({
   const percentage = Math.round((progress.current / progress.total) * 100)
 
   return (
-    <div className={cn('space-y-2', className)}>
-      <div className="flex items-center justify-between">
+    <div
+      className={cn('space-y-2', className)}
+      role='status'
+      aria-live='polite'
+    >
+      <div className='flex items-center justify-between'>
         {showMessage && progress.message && (
-          <span className="text-sm text-muted-foreground">
+          <span
+            className='text-sm text-muted-foreground'
+            id={`${progressKey}-message`}
+          >
             {progress.message}
           </span>
         )}
         {showPercentage && (
-          <span className="text-sm font-medium">{percentage}%</span>
+          <span
+            className='text-sm font-medium'
+            aria-label={`진행률 ${percentage}퍼센트`}
+          >
+            {percentage}%
+          </span>
         )}
       </div>
-      <Progress value={percentage} className="h-2" />
+      <Progress
+        value={percentage}
+        className='h-2'
+        aria-labelledby={
+          progress.message ? `${progressKey}-message` : undefined
+        }
+        aria-label={!progress.message ? `진행률 ${percentage}%` : undefined}
+      />
       {progress.stage && (
-        <div className="text-xs text-muted-foreground">{progress.stage}</div>
+        <div className='text-xs text-muted-foreground' aria-live='polite'>
+          {progress.stage}
+        </div>
       )}
     </div>
   )
@@ -75,32 +95,44 @@ export function CircularProgress({
         'relative inline-flex items-center justify-center',
         className
       )}
+      role='progressbar'
+      aria-valuenow={Math.round(percentage)}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={`원형 진행률 ${Math.round(percentage)}%`}
     >
-      <svg width={size} height={size} className="transform -rotate-90">
+      <svg
+        width={size}
+        height={size}
+        className='transform -rotate-90'
+        aria-hidden='true'
+      >
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="currentColor"
+          stroke='currentColor'
           strokeWidth={strokeWidth}
-          fill="transparent"
-          className="text-muted-foreground/20"
+          fill='transparent'
+          className='text-muted-foreground/20'
         />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="currentColor"
+          stroke='currentColor'
           strokeWidth={strokeWidth}
-          fill="transparent"
+          fill='transparent'
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
-          className="text-primary transition-all duration-300 ease-in-out"
-          strokeLinecap="round"
+          className='text-primary transition-all duration-300 ease-in-out'
+          strokeLinecap='round'
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs font-medium">{Math.round(percentage)}%</span>
+      <div className='absolute inset-0 flex items-center justify-center'>
+        <span className='text-xs font-medium' aria-live='polite'>
+          {Math.round(percentage)}%
+        </span>
       </div>
     </div>
   )
@@ -128,10 +160,10 @@ export function MultiStageProgress({
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="flex items-center justify-between">
+      <div className='flex items-center justify-between'>
         {stages.map((stage, index) => (
-          <div key={stage.key} className="flex items-center">
-            <div className="flex flex-col items-center">
+          <div key={stage.key} className='flex items-center'>
+            <div className='flex flex-col items-center'>
               <div
                 className={cn(
                   'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors',
@@ -142,10 +174,10 @@ export function MultiStageProgress({
               >
                 {index + 1}
               </div>
-              <div className="mt-2 text-center">
-                <div className="text-sm font-medium">{stage.label}</div>
+              <div className='mt-2 text-center'>
+                <div className='text-sm font-medium'>{stage.label}</div>
                 {stage.description && (
-                  <div className="text-xs text-muted-foreground">
+                  <div className='text-xs text-muted-foreground'>
                     {stage.description}
                   </div>
                 )}
@@ -173,7 +205,7 @@ export function LoadingDots({ className }: { className?: string }) {
       {[0, 1, 2].map(i => (
         <div
           key={i}
-          className="w-2 h-2 bg-current rounded-full animate-pulse"
+          className='w-2 h-2 bg-current rounded-full animate-pulse'
           style={{
             animationDelay: `${i * 0.2}s`,
             animationDuration: '1s',
@@ -245,13 +277,19 @@ export function Spinner({ size = 'md', className }: SpinnerProps) {
   }
 
   return (
-    <div className={cn('flex items-center justify-center', className)}>
+    <div
+      className={cn('flex items-center justify-center', className)}
+      role='status'
+      aria-label='로딩 중'
+    >
       <div
         className={cn(
           'border-2 border-muted border-t-primary rounded-full animate-spin',
           sizeClasses[size]
         )}
+        aria-hidden='true'
       />
+      <span className='sr-only'>로딩 중</span>
     </div>
   )
 }
@@ -297,7 +335,7 @@ export function ProgressiveLoading({
       />
 
       {/* Current stage content */}
-      <div className="min-h-[200px]">
+      <div className='min-h-[200px]'>
         {stages.map((stage, index) => (
           <div
             key={stage.key}
@@ -334,15 +372,15 @@ export function LoadingOverlay({
     <div className={cn('relative', className)}>
       {children}
       {isLoading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-10">
-          <div className="text-center space-y-4">
+        <div className='absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-10'>
+          <div className='text-center space-y-4'>
             {progressKey ? (
               <ProgressIndicator progressKey={progressKey} />
             ) : (
-              <Spinner size="lg" />
+              <Spinner size='lg' />
             )}
             {message && (
-              <p className="text-sm text-muted-foreground">{message}</p>
+              <p className='text-sm text-muted-foreground'>{message}</p>
             )}
           </div>
         </div>

@@ -65,26 +65,26 @@ export function InfinitePostListDemo() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">
+    <div className='container mx-auto py-8'>
+      <div className='mb-8'>
+        <h1 className='text-3xl font-bold mb-4'>
           무한 스크롤 포스트 목록 데모
         </h1>
-        <p className="text-muted-foreground">
+        <p className='text-muted-foreground'>
           InfinitePostList 컴포넌트의 다양한 상태를 확인할 수 있습니다.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className='space-y-12'>
         {/* 기본 포스트 목록 */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">기본 포스트 목록</h2>
+          <h2 className='text-2xl font-semibold mb-4'>기본 포스트 목록</h2>
           <InfinitePostList initialPosts={mockPosts} initialHasMore={false} />
         </section>
 
         {/* 액션 버튼이 있는 포스트 목록 */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">
+          <h2 className='text-2xl font-semibold mb-4'>
             액션 버튼이 있는 포스트 목록
           </h2>
           <InfinitePostList
@@ -98,13 +98,13 @@ export function InfinitePostListDemo() {
 
         {/* 빈 상태 */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">빈 상태</h2>
+          <h2 className='text-2xl font-semibold mb-4'>빈 상태</h2>
           <InfinitePostList initialPosts={[]} initialHasMore={false} />
         </section>
 
         {/* 공개된 포스트만 */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">공개된 포스트만</h2>
+          <h2 className='text-2xl font-semibold mb-4'>공개된 포스트만</h2>
           <InfinitePostList
             initialPosts={mockPosts.filter(post => post.published)}
             initialHasMore={false}

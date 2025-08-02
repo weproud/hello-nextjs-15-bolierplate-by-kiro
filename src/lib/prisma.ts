@@ -78,9 +78,14 @@ export const db = {
    */
   async getStats() {
     try {
+      // Import repositories dynamically to avoid circular dependencies
+      const { userRepository, projectRepository } = await import(
+        '@/lib/repositories'
+      )
+
       const [userCount, projectCount] = await Promise.all([
-        prisma.user.count(),
-        prisma.project.count(),
+        userRepository.count(),
+        projectRepository.count(),
       ])
 
       return {

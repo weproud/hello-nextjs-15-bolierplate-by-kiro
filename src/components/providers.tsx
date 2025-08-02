@@ -15,8 +15,8 @@ export const Providers = memo(function Providers({ children }: ProvidersProps) {
   return (
     <SessionProvider>
       <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
+        attribute='class'
+        defaultTheme='system'
         enableSystem
         disableTransitionOnChange
       >
@@ -25,7 +25,7 @@ export const Providers = memo(function Providers({ children }: ProvidersProps) {
             <ErrorHandlerProvider />
             {children}
             <Toaster
-              position="top-right"
+              position='top-right'
               expand={false}
               richColors
               closeButton

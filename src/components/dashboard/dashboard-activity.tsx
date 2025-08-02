@@ -32,7 +32,7 @@ export function DashboardActivity({ projects, posts }: DashboardActivityProps) {
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className='grid gap-6 md:grid-cols-2'>
       {/* Recent Projects */}
       {projects.length > 0 && (
         <Card>
@@ -41,29 +41,29 @@ export function DashboardActivity({ projects, posts }: DashboardActivityProps) {
             <CardDescription>최근 업데이트된 프로젝트들입니다.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className='space-y-3'>
               {projects.map(project => (
                 <div
                   key={project.id}
-                  className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                  className='flex items-center justify-between p-3 bg-muted/50 rounded-lg'
                 >
-                  <div className="flex-1 min-w-0">
+                  <div className='flex-1 min-w-0'>
                     <Link
                       href={`/projects/${project.id}`}
-                      className="text-sm font-medium hover:underline truncate block"
+                      className='text-sm font-medium hover:underline truncate block'
                     >
                       {project.title}
                     </Link>
                   </div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className='text-xs text-muted-foreground'>
                     {new Date(project.updatedAt).toLocaleDateString('ko-KR')}
                   </span>
                 </div>
               ))}
             </div>
-            <div className="mt-4">
-              <Link href="/projects">
-                <Button variant="outline" size="sm" className="w-full">
+            <div className='mt-4'>
+              <Link href='/projects'>
+                <Button variant='outline' size='sm' className='w-full'>
                   모든 프로젝트 보기
                 </Button>
               </Link>
@@ -80,32 +80,32 @@ export function DashboardActivity({ projects, posts }: DashboardActivityProps) {
             <CardDescription>최근 작성한 게시글들입니다.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className='space-y-3'>
               {posts.map(post => (
                 <div
                   key={post.id}
-                  className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                  className='flex items-center justify-between p-3 bg-muted/50 rounded-lg'
                 >
-                  <div className="flex-1 min-w-0">
+                  <div className='flex-1 min-w-0'>
                     <Link
                       href={`/posts/${post.id}`}
-                      className="text-sm font-medium hover:underline truncate block"
+                      className='text-sm font-medium hover:underline truncate block'
                     >
                       {post.title}
                     </Link>
-                    <p className="text-xs text-muted-foreground">
+                    <p className='text-xs text-muted-foreground'>
                       {post.published ? '게시됨' : '초안'}
                     </p>
                   </div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className='text-xs text-muted-foreground'>
                     {new Date(post.updatedAt).toLocaleDateString('ko-KR')}
                   </span>
                 </div>
               ))}
             </div>
-            <div className="mt-4">
-              <Link href="/posts">
-                <Button variant="outline" size="sm" className="w-full">
+            <div className='mt-4'>
+              <Link href='/posts'>
+                <Button variant='outline' size='sm' className='w-full'>
                   모든 게시글 보기
                 </Button>
               </Link>

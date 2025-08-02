@@ -2,13 +2,16 @@
 
 ## Introduction
 
-이 프로젝트는 현재 Next.js 15 기반 애플리케이션을 Next.js 15 App Router, TailwindCSS, shadcn/ui, TypeScript의 최신 best practice에 맞춰 리팩토링하는 것을 목표로 합니다. 기존 기능을 유지하면서 코드 구조, 성능, 개발자 경험을 개선하고 현대적인 React 패턴을 적용합니다.
+이 프로젝트는 현재 Next.js 15 기반 애플리케이션을 Next.js 15 App Router, TailwindCSS, shadcn/ui,
+TypeScript의 최신 best practice에 맞춰 리팩토링하는 것을 목표로 합니다. 기존 기능을 유지하면서 코드
+구조, 성능, 개발자 경험을 개선하고 현대적인 React 패턴을 적용합니다.
 
 ## Requirements
 
 ### Requirement 1
 
-**User Story:** 개발자로서, 최신 Next.js 15 App Router 패턴을 사용하여 더 나은 성능과 개발 경험을 얻고 싶습니다.
+**User Story:** 개발자로서, 최신 Next.js 15 App Router 패턴을 사용하여 더 나은 성능과 개발 경험을
+얻고 싶습니다.
 
 #### Acceptance Criteria
 
@@ -19,7 +22,8 @@
 
 ### Requirement 2
 
-**User Story:** 개발자로서, 일관된 TypeScript 설정과 타입 안전성을 통해 런타임 오류를 줄이고 싶습니다.
+**User Story:** 개발자로서, 일관된 TypeScript 설정과 타입 안전성을 통해 런타임 오류를 줄이고
+싶습니다.
 
 #### Acceptance Criteria
 
@@ -41,7 +45,8 @@
 
 ### Requirement 4
 
-**User Story:** 개발자로서, 최적화된 프로젝트 구조를 통해 코드 유지보수성과 확장성을 향상시키고 싶습니다.
+**User Story:** 개발자로서, 최적화된 프로젝트 구조를 통해 코드 유지보수성과 확장성을 향상시키고
+싶습니다.
 
 #### Acceptance Criteria
 
@@ -63,7 +68,8 @@
 
 ### Requirement 6
 
-**User Story:** 개발자로서, 현대적인 상태 관리와 폼 처리를 통해 복잡한 UI 상호작용을 효율적으로 관리하고 싶습니다.
+**User Story:** 개발자로서, 현대적인 상태 관리와 폼 처리를 통해 복잡한 UI 상호작용을 효율적으로
+관리하고 싶습니다.
 
 #### Acceptance Criteria
 

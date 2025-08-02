@@ -71,47 +71,47 @@ export function AuthError() {
 
   if (!error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-muted-foreground">오류 정보를 불러오는 중...</p>
+      <div className='min-h-screen flex items-center justify-center'>
+        <div className='text-center'>
+          <p className='text-muted-foreground'>오류 정보를 불러오는 중...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
-            <AlertTriangle className="h-6 w-6 text-destructive" />
+    <div className='flex items-center justify-center min-h-[60vh]'>
+      <Card className='w-full max-w-md'>
+        <CardHeader className='text-center'>
+          <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10'>
+            <AlertTriangle className='h-6 w-6 text-destructive' />
           </div>
-          <CardTitle className="text-2xl font-bold text-destructive">
+          <CardTitle className='text-2xl font-bold text-destructive'>
             {getErrorTitle(errorType)}
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className='text-center'>
             {getErrorMessage(errorType)}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className='space-y-4'>
           {canRetry && (
-            <Link href="/auth/signin" className="block">
-              <Button className="w-full" size="lg">
-                <RefreshCw className="mr-2 h-4 w-4" />
+            <Link href='/auth/signin' className='block'>
+              <Button className='w-full' size='lg'>
+                <RefreshCw className='mr-2 h-4 w-4' />
                 다시 시도
               </Button>
             </Link>
           )}
-          <Link href="/" className="block">
-            <Button variant="outline" className="w-full">
-              <Home className="mr-2 h-4 w-4" />
+          <Link href='/' className='block'>
+            <Button variant='outline' className='w-full'>
+              <Home className='mr-2 h-4 w-4' />
               홈으로 돌아가기
             </Button>
           </Link>
 
           {process.env.NODE_ENV === 'development' && (
-            <div className="mt-4 p-3 bg-muted rounded-md">
-              <p className="text-xs text-muted-foreground font-mono">
+            <div className='mt-4 p-3 bg-muted rounded-md'>
+              <p className='text-xs text-muted-foreground font-mono'>
                 Debug: {error}
               </p>
             </div>

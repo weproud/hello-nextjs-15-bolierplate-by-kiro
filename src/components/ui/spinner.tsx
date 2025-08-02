@@ -15,11 +15,11 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
     <div
       ref={ref}
       className={cn(spinnerVariants({ size, variant }), className)}
-      role="status"
+      role='status'
       aria-label={label || 'Loading'}
       {...props}
     >
-      <span className="sr-only">{label || 'Loading...'}</span>
+      <span className='sr-only'>{label || 'Loading...'}</span>
     </div>
   )
 )

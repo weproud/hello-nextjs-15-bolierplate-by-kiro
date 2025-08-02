@@ -84,7 +84,7 @@ export async function SidebarLayoutServer({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className='flex min-h-screen'>
       {/* Static sidebar structure with dynamic client interactions */}
       <SidebarLayoutClient navigationData={navigationData}>
         {children}
@@ -127,7 +127,7 @@ export function SimpleSidebarLayoutServer({
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className='flex min-h-screen'>
       <SidebarLayoutClient navigationData={staticNavigationData}>
         {children}
       </SidebarLayoutClient>

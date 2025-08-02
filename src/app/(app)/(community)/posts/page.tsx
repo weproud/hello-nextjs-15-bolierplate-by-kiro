@@ -12,35 +12,35 @@ import { db, prisma } from '@/lib/prisma'
 // 로딩 스켈레톤 컴포넌트
 function PostListSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
       {Array.from({ length: 6 }, (_, index) => (
         <div
           key={index}
-          className="border border-border/50 rounded-lg p-6 bg-card/50 backdrop-blur-sm"
+          className='border border-border/50 rounded-lg p-6 bg-card/50 backdrop-blur-sm'
         >
-          <div className="space-y-3 mb-4">
-            <Skeleton className="h-6 w-3/4" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-5/6" />
-              <Skeleton className="h-4 w-4/6" />
+          <div className='space-y-3 mb-4'>
+            <Skeleton className='h-6 w-3/4' />
+            <div className='space-y-2'>
+              <Skeleton className='h-4 w-full' />
+              <Skeleton className='h-4 w-5/6' />
+              <Skeleton className='h-4 w-4/6' />
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-6 w-6 rounded-full" />
-                <Skeleton className="h-4 w-20" />
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-2'>
+                <Skeleton className='h-6 w-6 rounded-full' />
+                <Skeleton className='h-4 w-20' />
               </div>
-              <div className="flex items-center gap-1">
-                <Skeleton className="h-4 w-4" />
-                <Skeleton className="h-4 w-16" />
+              <div className='flex items-center gap-1'>
+                <Skeleton className='h-4 w-4' />
+                <Skeleton className='h-4 w-16' />
               </div>
             </div>
-            <Skeleton className="h-5 w-12" />
+            <Skeleton className='h-5 w-12' />
           </div>
-          <div className="mt-4 pt-3 border-t border-border/50">
-            <Skeleton className="h-4 w-20" />
+          <div className='mt-4 pt-3 border-t border-border/50'>
+            <Skeleton className='h-4 w-20' />
           </div>
         </div>
       ))}
@@ -112,26 +112,26 @@ async function PostListContent() {
     const { posts, pagination, stats } = await getPostsWithStats()
 
     return (
-      <div className="space-y-6">
+      <div className='space-y-6'>
         {/* Statistics section */}
         {stats.total > 0 && (
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border p-4">
-              <div className="text-2xl font-bold">{stats.total}</div>
-              <p className="text-xs text-muted-foreground">총 포스트</p>
+          <div className='grid gap-4 md:grid-cols-3'>
+            <div className='rounded-lg border p-4'>
+              <div className='text-2xl font-bold'>{stats.total}</div>
+              <p className='text-xs text-muted-foreground'>총 포스트</p>
             </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-2xl font-bold">{stats.published}</div>
-              <p className="text-xs text-muted-foreground">게시된 포스트</p>
+            <div className='rounded-lg border p-4'>
+              <div className='text-2xl font-bold'>{stats.published}</div>
+              <p className='text-xs text-muted-foreground'>게시된 포스트</p>
             </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-2xl font-bold">
+            <div className='rounded-lg border p-4'>
+              <div className='text-2xl font-bold'>
                 {stats.total > 0
                   ? Math.round((stats.published / stats.total) * 100)
                   : 0}
                 %
               </div>
-              <p className="text-xs text-muted-foreground">게시율</p>
+              <p className='text-xs text-muted-foreground'>게시율</p>
             </div>
           </div>
         )}
@@ -142,19 +142,19 @@ async function PostListContent() {
           initialHasMore={pagination.hasMore}
           limit={6}
           published={true}
-          className="w-full"
+          className='w-full'
         />
       </div>
     )
   } catch (error) {
     console.error('Failed to load posts:', error)
     return (
-      <div className="text-center py-12">
-        <div className="text-muted-foreground">
-          <div className="text-lg font-medium mb-2">
+      <div className='text-center py-12'>
+        <div className='text-muted-foreground'>
+          <div className='text-lg font-medium mb-2'>
             포스트를 불러올 수 없습니다
           </div>
-          <p className="text-sm">잠시 후 다시 시도해주세요.</p>
+          <p className='text-sm'>잠시 후 다시 시도해주세요.</p>
         </div>
       </div>
     )
@@ -165,12 +165,12 @@ export default async function PostsPage() {
   const session = await auth()
 
   return (
-    <div className="container mx-auto py-8">
+    <div className='container mx-auto py-8'>
       {/* 헤더 섹션 */}
-      <div className="flex items-center justify-between mb-8">
+      <div className='flex items-center justify-between mb-8'>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">포스트</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className='text-3xl font-bold tracking-tight'>포스트</h1>
+          <p className='text-muted-foreground mt-2'>
             다양한 주제의 포스트를 탐색해보세요
           </p>
         </div>
@@ -178,8 +178,8 @@ export default async function PostsPage() {
         {/* 포스트 작성 버튼 (인증된 사용자만) */}
         {session?.user && (
           <Button asChild>
-            <Link href="/posts/new">
-              <Plus className="h-4 w-4 mr-2" />새 포스트 작성
+            <Link href='/posts/new'>
+              <Plus className='h-4 w-4 mr-2' />새 포스트 작성
             </Link>
           </Button>
         )}

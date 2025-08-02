@@ -58,12 +58,12 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          variant="outline"
-          size="sm"
-          className="text-destructive hover:text-destructive"
+          variant='outline'
+          size='sm'
+          className='text-destructive hover:text-destructive'
         >
-          <Trash2 className="h-4 w-4 sm:mr-2" />
-          <span className="hidden sm:inline">삭제</span>
+          <Trash2 className='h-4 w-4 sm:mr-2' />
+          <span className='hidden sm:inline'>삭제</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -79,16 +79,16 @@ export function DeletePostButton({ postId }: DeletePostButtonProps) {
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
           >
             {isDeleting ? (
               <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                <Loader2 className='h-4 w-4 mr-2 animate-spin' />
                 삭제 중...
               </>
             ) : (
               <>
-                <Trash2 className="h-4 w-4 mr-2" />
+                <Trash2 className='h-4 w-4 mr-2' />
                 삭제
               </>
             )}

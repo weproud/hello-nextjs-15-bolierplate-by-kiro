@@ -115,7 +115,7 @@ const ProjectCreateForm = memo(function ProjectCreateForm({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus className="h-4 w-4 mr-2" />새 프로젝트
+          <Plus className='h-4 w-4 mr-2' />새 프로젝트
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -125,46 +125,46 @@ const ProjectCreateForm = memo(function ProjectCreateForm({
             새로운 프로젝트를 생성하여 작업을 시작하세요.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">프로젝트 제목</Label>
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+          <div className='space-y-2'>
+            <Label htmlFor='title'>프로젝트 제목</Label>
             <Input
-              id="title"
+              id='title'
               {...register('title')}
-              placeholder="프로젝트 제목을 입력하세요"
+              placeholder='프로젝트 제목을 입력하세요'
               disabled={status === 'executing'}
             />
             {errors.title && (
-              <p className="text-sm text-red-500">{errors.title.message}</p>
+              <p className='text-sm text-red-500'>{errors.title.message}</p>
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">프로젝트 설명 (선택사항)</Label>
+          <div className='space-y-2'>
+            <Label htmlFor='description'>프로젝트 설명 (선택사항)</Label>
             <Textarea
-              id="description"
+              id='description'
               {...register('description')}
-              placeholder="프로젝트에 대한 간단한 설명을 입력하세요"
+              placeholder='프로젝트에 대한 간단한 설명을 입력하세요'
               disabled={status === 'executing'}
               rows={3}
             />
             {errors.description && (
-              <p className="text-sm text-red-500">
+              <p className='text-sm text-red-500'>
                 {errors.description.message}
               </p>
             )}
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className='flex justify-end space-x-2'>
             <Button
-              type="button"
-              variant="outline"
+              type='button'
+              variant='outline'
               onClick={() => setIsOpen(false)}
               disabled={status === 'executing'}
             >
               취소
             </Button>
-            <Button type="submit" disabled={status === 'executing'}>
+            <Button type='submit' disabled={status === 'executing'}>
               {status === 'executing' ? '생성 중...' : '프로젝트 생성'}
             </Button>
           </div>
@@ -227,7 +227,7 @@ const ProjectEditForm = memo(function ProjectEditForm({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={e => e.preventDefault()}>
-          <Edit className="h-4 w-4 mr-2" />
+          <Edit className='h-4 w-4 mr-2' />
           수정
         </DropdownMenuItem>
       </DialogTrigger>
@@ -236,44 +236,44 @@ const ProjectEditForm = memo(function ProjectEditForm({
           <DialogTitle>프로젝트 수정</DialogTitle>
           <DialogDescription>프로젝트 정보를 수정하세요.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">프로젝트 제목</Label>
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+          <div className='space-y-2'>
+            <Label htmlFor='title'>프로젝트 제목</Label>
             <Input
-              id="title"
+              id='title'
               {...register('title')}
               disabled={status === 'executing'}
             />
             {errors.title && (
-              <p className="text-sm text-red-500">{errors.title.message}</p>
+              <p className='text-sm text-red-500'>{errors.title.message}</p>
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">프로젝트 설명</Label>
+          <div className='space-y-2'>
+            <Label htmlFor='description'>프로젝트 설명</Label>
             <Textarea
-              id="description"
+              id='description'
               {...register('description')}
               disabled={status === 'executing'}
               rows={3}
             />
             {errors.description && (
-              <p className="text-sm text-red-500">
+              <p className='text-sm text-red-500'>
                 {errors.description.message}
               </p>
             )}
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className='flex justify-end space-x-2'>
             <Button
-              type="button"
-              variant="outline"
+              type='button'
+              variant='outline'
               onClick={() => setIsOpen(false)}
               disabled={status === 'executing'}
             >
               취소
             </Button>
-            <Button type="submit" disabled={status === 'executing'}>
+            <Button type='submit' disabled={status === 'executing'}>
               {status === 'executing' ? '수정 중...' : '프로젝트 수정'}
             </Button>
           </div>
@@ -315,9 +315,9 @@ const ProjectDeleteDialog = memo(function ProjectDeleteDialog({
           e.preventDefault()
           setIsOpen(true)
         }}
-        className="text-red-600"
+        className='text-red-600'
       >
-        <Trash2 className="h-4 w-4 mr-2" />
+        <Trash2 className='h-4 w-4 mr-2' />
         삭제
       </DropdownMenuItem>
       <AlertDialogContent>
@@ -335,7 +335,7 @@ const ProjectDeleteDialog = memo(function ProjectDeleteDialog({
           <AlertDialogAction
             onClick={handleDelete}
             disabled={status === 'executing'}
-            className="bg-red-600 hover:bg-red-700"
+            className='bg-red-600 hover:bg-red-700'
           >
             {status === 'executing' ? '삭제 중...' : '삭제'}
           </AlertDialogAction>
@@ -359,29 +359,29 @@ function ProjectCard({
   }
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <CardTitle className="text-lg line-clamp-1">
+    <Card className='hover:shadow-md transition-shadow'>
+      <CardHeader className='pb-3'>
+        <div className='flex items-start justify-between'>
+          <div className='flex-1'>
+            <CardTitle className='text-lg line-clamp-1'>
               {project.title}
             </CardTitle>
             {project.description && (
-              <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+              <p className='text-sm text-muted-foreground mt-1 line-clamp-2'>
                 {project.description}
               </p>
             )}
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <MoreHorizontal className="h-4 w-4" />
+              <Button variant='ghost' size='sm'>
+                <MoreHorizontal className='h-4 w-4' />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align='end'>
               <ProjectEditForm project={project} onSuccess={onRefresh} />
               <DropdownMenuItem onClick={handleDuplicate}>
-                <Copy className="h-4 w-4 mr-2" />
+                <Copy className='h-4 w-4 mr-2' />
                 복사
               </DropdownMenuItem>
               <ProjectDeleteDialog project={project} onSuccess={onRefresh} />
@@ -390,14 +390,14 @@ function ProjectCard({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-1" />
+        <div className='flex items-center justify-between text-sm text-muted-foreground'>
+          <div className='flex items-center space-x-4'>
+            <div className='flex items-center'>
+              <Calendar className='h-4 w-4 mr-1' />
               {new Date(project.createdAt).toLocaleDateString()}
             </div>
           </div>
-          <Badge variant="secondary">
+          <Badge variant='secondary'>
             {project.user.name || project.user.email}
           </Badge>
         </div>
@@ -410,58 +410,58 @@ function ProjectCard({
 function ProjectStatsDashboard() {
   // Temporarily disabled - stats action not implemented
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div className='grid grid-cols-1 md:grid-cols-4 gap-4 mb-6'>
       <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center">
-            <FolderOpen className="h-8 w-8 text-blue-600" />
-            <div className="ml-4">
-              <p className="text-sm font-medium text-muted-foreground">
+        <CardContent className='p-6'>
+          <div className='flex items-center'>
+            <FolderOpen className='h-8 w-8 text-blue-600' />
+            <div className='ml-4'>
+              <p className='text-sm font-medium text-muted-foreground'>
                 총 프로젝트
               </p>
-              <p className="text-2xl font-bold">-</p>
+              <p className='text-2xl font-bold'>-</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center">
-            <Calendar className="h-8 w-8 text-green-600" />
-            <div className="ml-4">
-              <p className="text-sm font-medium text-muted-foreground">
+        <CardContent className='p-6'>
+          <div className='flex items-center'>
+            <Calendar className='h-8 w-8 text-green-600' />
+            <div className='ml-4'>
+              <p className='text-sm font-medium text-muted-foreground'>
                 총 단계
               </p>
-              <p className="text-2xl font-bold">-</p>
+              <p className='text-2xl font-bold'>-</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center">
-            <User className="h-8 w-8 text-purple-600" />
-            <div className="ml-4">
-              <p className="text-sm font-medium text-muted-foreground">
+        <CardContent className='p-6'>
+          <div className='flex items-center'>
+            <User className='h-8 w-8 text-purple-600' />
+            <div className='ml-4'>
+              <p className='text-sm font-medium text-muted-foreground'>
                 평균 단계/프로젝트
               </p>
-              <p className="text-2xl font-bold">-</p>
+              <p className='text-2xl font-bold'>-</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center">
-            <Plus className="h-8 w-8 text-orange-600" />
-            <div className="ml-4">
-              <p className="text-sm font-medium text-muted-foreground">
+        <CardContent className='p-6'>
+          <div className='flex items-center'>
+            <Plus className='h-8 w-8 text-orange-600' />
+            <div className='ml-4'>
+              <p className='text-sm font-medium text-muted-foreground'>
                 이번 달
               </p>
-              <p className="text-2xl font-bold">-</p>
+              <p className='text-2xl font-bold'>-</p>
             </div>
           </div>
         </CardContent>
@@ -514,10 +514,10 @@ export function ProjectCrudExamples() {
   }, [execute, currentPage, refreshKey])
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">프로젝트 관리</h1>
-        <p className="text-gray-600">
+    <div className='container mx-auto py-8'>
+      <div className='mb-8'>
+        <h1 className='text-3xl font-bold mb-4'>프로젝트 관리</h1>
+        <p className='text-gray-600'>
           next-safe-action을 사용한 완전한 CRUD 작업 예제
         </p>
       </div>
@@ -526,16 +526,16 @@ export function ProjectCrudExamples() {
       <ProjectStatsDashboard />
 
       {/* Search and Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="flex-1 flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <div className='flex flex-col sm:flex-row gap-4 mb-6'>
+        <div className='flex-1 flex gap-2'>
+          <div className='relative flex-1'>
+            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
             <Input
-              placeholder="프로젝트 검색..."
+              placeholder='프로젝트 검색...'
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
-              className="pl-10"
+              className='pl-10'
             />
           </div>
           <Button onClick={handleSearch} disabled={status === 'executing'}>
@@ -543,18 +543,18 @@ export function ProjectCrudExamples() {
           </Button>
         </div>
 
-        <div className="flex gap-2">
+        <div className='flex gap-2'>
           <Select
             value={sortBy}
             onValueChange={(value: any) => setSortBy(value)}
           >
-            <SelectTrigger className="w-32">
+            <SelectTrigger className='w-32'>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="createdAt">생성일</SelectItem>
-              <SelectItem value="updatedAt">수정일</SelectItem>
-              <SelectItem value="title">제목</SelectItem>
+              <SelectItem value='createdAt'>생성일</SelectItem>
+              <SelectItem value='updatedAt'>수정일</SelectItem>
+              <SelectItem value='title'>제목</SelectItem>
             </SelectContent>
           </Select>
 
@@ -562,12 +562,12 @@ export function ProjectCrudExamples() {
             value={sortOrder}
             onValueChange={(value: any) => setSortOrder(value)}
           >
-            <SelectTrigger className="w-24">
+            <SelectTrigger className='w-24'>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="desc">내림차순</SelectItem>
-              <SelectItem value="asc">오름차순</SelectItem>
+              <SelectItem value='desc'>내림차순</SelectItem>
+              <SelectItem value='asc'>오름차순</SelectItem>
             </SelectContent>
           </Select>
 
@@ -577,14 +577,14 @@ export function ProjectCrudExamples() {
 
       {/* Projects Grid */}
       {status === 'executing' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {[...Array(6)].map((_, i) => (
             <Card key={i}>
-              <CardContent className="p-6">
-                <div className="animate-pulse">
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <CardContent className='p-6'>
+                <div className='animate-pulse'>
+                  <div className='h-6 bg-gray-200 rounded w-3/4 mb-2'></div>
+                  <div className='h-4 bg-gray-200 rounded w-full mb-4'></div>
+                  <div className='h-4 bg-gray-200 rounded w-1/2'></div>
                 </div>
               </CardContent>
             </Card>
@@ -592,7 +592,7 @@ export function ProjectCrudExamples() {
         </div>
       ) : result?.data?.projects?.length ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             {result.data.projects.map((project: any) => (
               <ProjectCard
                 key={project.id}
@@ -604,34 +604,34 @@ export function ProjectCrudExamples() {
 
           {/* Pagination */}
           {result.data.pagination.hasMore && (
-            <div className="flex items-center justify-center space-x-2 mt-8">
+            <div className='flex items-center justify-center space-x-2 mt-8'>
               <Button
-                variant="outline"
-                size="sm"
+                variant='outline'
+                size='sm'
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className='h-4 w-4' />
                 이전
               </Button>
 
-              <span className="px-4 py-2 text-sm text-muted-foreground">
+              <span className='px-4 py-2 text-sm text-muted-foreground'>
                 페이지 {currentPage}
               </span>
 
               <Button
-                variant="outline"
-                size="sm"
+                variant='outline'
+                size='sm'
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={!result.data.pagination.hasMore}
               >
                 다음
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className='h-4 w-4' />
               </Button>
             </div>
           )}
 
-          <div className="text-center text-sm text-muted-foreground mt-4">
+          <div className='text-center text-sm text-muted-foreground mt-4'>
             총 {result.data.pagination.total}개 프로젝트 중{' '}
             {result.data.pagination.offset + 1}-
             {Math.min(
@@ -642,12 +642,12 @@ export function ProjectCrudExamples() {
           </div>
         </>
       ) : (
-        <div className="text-center py-12">
-          <FolderOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+        <div className='text-center py-12'>
+          <FolderOpen className='h-12 w-12 text-gray-400 mx-auto mb-4' />
+          <h3 className='text-lg font-medium text-gray-900 mb-2'>
             프로젝트가 없습니다
           </h3>
-          <p className="text-gray-500 mb-4">
+          <p className='text-gray-500 mb-4'>
             {searchQuery
               ? '검색 결과가 없습니다.'
               : '첫 번째 프로젝트를 생성해보세요.'}

@@ -97,71 +97,71 @@ export function PerformanceMonitor({
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-sm">
-      <Card className="shadow-lg border-2">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-medium">성능 모니터</CardTitle>
-            <Badge variant="outline" className="text-xs">
+    <div className='fixed bottom-4 right-4 z-50 max-w-sm'>
+      <Card className='shadow-lg border-2'>
+        <CardHeader className='pb-3'>
+          <div className='flex items-center justify-between'>
+            <CardTitle className='text-sm font-medium'>성능 모니터</CardTitle>
+            <Badge variant='outline' className='text-xs'>
               실시간
             </Badge>
           </div>
-          <CardDescription className="text-xs">
+          <CardDescription className='text-xs'>
             Core Web Vitals 및 성능 메트릭
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className='space-y-4'>
           {/* 전체 점수 */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">전체 점수</span>
-              <span className="text-sm font-bold">{getOverallScore()}/100</span>
+          <div className='space-y-2'>
+            <div className='flex items-center justify-between'>
+              <span className='text-sm font-medium'>전체 점수</span>
+              <span className='text-sm font-bold'>{getOverallScore()}/100</span>
             </div>
-            <Progress value={getOverallScore()} className="h-2" />
+            <Progress value={getOverallScore()} className='h-2' />
           </div>
 
           {/* 메트릭 요약 */}
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="text-center">
-              <div className="font-medium text-green-600">
+          <div className='grid grid-cols-3 gap-2 text-xs'>
+            <div className='text-center'>
+              <div className='font-medium text-green-600'>
                 {report.summary.good}
               </div>
-              <div className="text-muted-foreground">좋음</div>
+              <div className='text-muted-foreground'>좋음</div>
             </div>
-            <div className="text-center">
-              <div className="font-medium text-yellow-600">
+            <div className='text-center'>
+              <div className='font-medium text-yellow-600'>
                 {report.summary.needsImprovement}
               </div>
-              <div className="text-muted-foreground">개선 필요</div>
+              <div className='text-muted-foreground'>개선 필요</div>
             </div>
-            <div className="text-center">
-              <div className="font-medium text-red-600">
+            <div className='text-center'>
+              <div className='font-medium text-red-600'>
                 {report.summary.poor}
               </div>
-              <div className="text-muted-foreground">나쁨</div>
+              <div className='text-muted-foreground'>나쁨</div>
             </div>
           </div>
 
           {/* 상세 메트릭 */}
           {showDetails && report.metrics.length > 0 && (
-            <div className="space-y-2">
-              <div className="text-xs font-medium text-muted-foreground">
+            <div className='space-y-2'>
+              <div className='text-xs font-medium text-muted-foreground'>
                 상세 메트릭
               </div>
-              <div className="space-y-1">
+              <div className='space-y-1'>
                 {report.metrics.map((metric, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between text-xs"
+                    className='flex items-center justify-between text-xs'
                   >
-                    <span className="font-medium">{metric.name}</span>
-                    <div className="flex items-center gap-2">
+                    <span className='font-medium'>{metric.name}</span>
+                    <div className='flex items-center gap-2'>
                       <span>
                         {formatMetricValue(metric.name, metric.value)}
                       </span>
                       <Badge
                         variant={getRatingBadgeVariant(metric.rating)}
-                        className="text-xs px-1 py-0"
+                        className='text-xs px-1 py-0'
                       >
                         {metric.rating === 'good'
                           ? '좋음'
@@ -177,7 +177,7 @@ export function PerformanceMonitor({
           )}
 
           {/* 마지막 업데이트 시간 */}
-          <div className="text-xs text-muted-foreground text-center">
+          <div className='text-xs text-muted-foreground text-center'>
             마지막 업데이트: {new Date(report.timestamp).toLocaleTimeString()}
           </div>
         </CardContent>
@@ -237,16 +237,16 @@ export function PerformanceDashboard() {
 
   if (loading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {Array.from({ length: 6 }).map((_, i) => (
           <Card key={i}>
             <CardHeader>
-              <div className="h-4 bg-muted rounded animate-pulse" />
+              <div className='h-4 bg-muted rounded animate-pulse' />
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                <div className="h-8 bg-muted rounded animate-pulse" />
-                <div className="h-4 bg-muted rounded animate-pulse" />
+              <div className='space-y-2'>
+                <div className='h-8 bg-muted rounded animate-pulse' />
+                <div className='h-4 bg-muted rounded animate-pulse' />
               </div>
             </CardContent>
           </Card>
@@ -256,31 +256,31 @@ export function PerformanceDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       <div>
-        <h2 className="text-2xl font-bold mb-2">성능 대시보드</h2>
-        <p className="text-muted-foreground">
+        <h2 className='text-2xl font-bold mb-2'>성능 대시보드</h2>
+        <p className='text-muted-foreground'>
           실시간 성능 메트릭 및 Core Web Vitals 모니터링
         </p>
       </div>
 
       {/* Core Web Vitals */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-5'>
         {['CLS', 'FID', 'FCP', 'LCP', 'TTFB'].map(metricName => {
           const metricData = metrics.filter(m => m.name === metricName)
           const latestMetric = metricData[metricData.length - 1]
 
           return (
             <Card key={metricName}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">
+              <CardHeader className='pb-2'>
+                <CardTitle className='text-sm font-medium'>
                   {metricName}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {latestMetric ? (
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold">
+                  <div className='space-y-2'>
+                    <div className='text-2xl font-bold'>
                       {formatMetricValue(metricName, latestMetric.value)}
                     </div>
                     <Badge variant={getRatingBadgeVariant(latestMetric.rating)}>
@@ -292,7 +292,7 @@ export function PerformanceDashboard() {
                     </Badge>
                   </div>
                 ) : (
-                  <div className="text-muted-foreground text-sm">
+                  <div className='text-muted-foreground text-sm'>
                     데이터 없음
                   </div>
                 )}
@@ -305,8 +305,8 @@ export function PerformanceDashboard() {
       {/* 커스텀 메트릭 */}
       {customMetrics.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4">커스텀 메트릭</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <h3 className='text-lg font-semibold mb-4'>커스텀 메트릭</h3>
+          <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
             {[
               'navigation-timing',
               'slow-resource',
@@ -319,16 +319,16 @@ export function PerformanceDashboard() {
 
               return (
                 <Card key={metricName}>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium capitalize">
+                  <CardHeader className='pb-2'>
+                    <CardTitle className='text-sm font-medium capitalize'>
                       {metricName.replace('-', ' ')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className='text-2xl font-bold'>
                       {metricData.length}
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className='text-sm text-muted-foreground'>
                       지난 24시간
                     </div>
                   </CardContent>

@@ -28,19 +28,19 @@ export function ErrorFallbackOptimized({
 }: ErrorFallbackProps) {
   return (
     <div className={`flex items-center justify-center p-4 ${className}`}>
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-3">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+      <Card className='w-full max-w-md'>
+        <CardHeader className='text-center'>
+          <div className='mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-3'>
+            <AlertTriangle className='w-6 h-6 text-red-600' />
           </div>
-          <CardTitle className="text-lg text-red-600">{title}</CardTitle>
+          <CardTitle className='text-lg text-red-600'>{title}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-center text-gray-600 text-sm">{message}</p>
+        <CardContent className='space-y-4'>
+          <p className='text-center text-gray-600 text-sm'>{message}</p>
 
           {/* Error details in development - Static content */}
           {error && process.env.NODE_ENV === 'development' && (
-            <div className="bg-gray-100 p-3 rounded text-xs">
+            <div className='bg-gray-100 p-3 rounded text-xs'>
               <strong>Error:</strong> {error.message}
             </div>
           )}
@@ -76,14 +76,14 @@ export function InlineErrorOptimized({
     <div
       className={`flex items-center justify-center p-4 text-center ${className}`}
     >
-      <div className="space-y-3">
-        <div className="flex items-center justify-center text-red-600">
-          <AlertTriangle className="w-5 h-5 mr-2" />
-          <span className="text-sm font-medium">{message}</span>
+      <div className='space-y-3'>
+        <div className='flex items-center justify-center text-red-600'>
+          <AlertTriangle className='w-5 h-5 mr-2' />
+          <span className='text-sm font-medium'>{message}</span>
         </div>
 
         {error && process.env.NODE_ENV === 'development' && (
-          <p className="text-xs text-gray-500">{error.message}</p>
+          <p className='text-xs text-gray-500'>{error.message}</p>
         )}
 
         {/* Dynamic retry button - Client Component */}
@@ -113,8 +113,8 @@ export function NetworkErrorOptimized({
 }) {
   return (
     <ErrorFallbackOptimized
-      title="연결 문제"
-      message="네트워크 연결을 확인하고 다시 시도해 주세요."
+      title='연결 문제'
+      message='네트워크 연결을 확인하고 다시 시도해 주세요.'
       resetError={onRetry}
       showHome={false}
       className={className}
@@ -139,15 +139,15 @@ export function NotFoundErrorOptimized({
 }) {
   return (
     <div className={`flex items-center justify-center p-4 ${className}`}>
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-3">
-            <AlertTriangle className="w-6 h-6 text-yellow-600" />
+      <Card className='w-full max-w-md'>
+        <CardHeader className='text-center'>
+          <div className='mx-auto w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-3'>
+            <AlertTriangle className='w-6 h-6 text-yellow-600' />
           </div>
-          <CardTitle className="text-lg text-yellow-600">{title}</CardTitle>
+          <CardTitle className='text-lg text-yellow-600'>{title}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-center text-gray-600 text-sm">{message}</p>
+        <CardContent className='space-y-4'>
+          <p className='text-center text-gray-600 text-sm'>{message}</p>
 
           {/* Dynamic navigation buttons - Client Component */}
           <ErrorFallbackClient

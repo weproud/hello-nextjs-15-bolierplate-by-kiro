@@ -31,11 +31,11 @@ function ScreenReaderAnnouncement({
 }) {
   return (
     <div
-      role="status"
+      role='status'
       aria-live={priority}
-      aria-atomic="true"
-      className="sr-only"
-      aria-relevant="additions text"
+      aria-atomic='true'
+      className='sr-only'
+      aria-relevant='additions text'
     >
       {message}
     </div>
@@ -45,11 +45,11 @@ function ScreenReaderAnnouncement({
 // Loading fallback for SignInForm
 function FormLoadingFallback() {
   return (
-    <div className="space-y-4">
-      <div className="animate-pulse">
-        <div className="h-12 bg-gray-200 rounded-md"></div>
+    <div className='space-y-4'>
+      <div className='animate-pulse'>
+        <div className='h-12 bg-gray-200 rounded-md'></div>
       </div>
-      <div className="text-center text-sm text-gray-500">
+      <div className='text-center text-sm text-gray-500'>
         로그인 폼을 불러오는 중...
       </div>
     </div>
@@ -286,29 +286,29 @@ export function SigninModal({
       )}
 
       <div
-        className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+        className='fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4'
         onClick={handleBackdropClick}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="signin-modal-title"
-        aria-describedby="signin-modal-description"
+        role='dialog'
+        aria-modal='true'
+        aria-labelledby='signin-modal-title'
+        aria-describedby='signin-modal-description'
       >
         <div
           ref={modalRef}
-          className="relative w-full max-w-md max-h-[90vh] overflow-y-auto"
+          className='relative w-full max-w-md max-h-[90vh] overflow-y-auto'
           onClick={e => e.stopPropagation()}
-          role="document"
+          role='document'
         >
-          <Card className="w-full">
-            <CardHeader className="text-center relative items-center justify-center">
+          <Card className='w-full'>
+            <CardHeader className='text-center relative items-center justify-center'>
               <Button
                 ref={closeButtonRef}
-                variant="ghost"
-                size="sm"
-                className="absolute right-2 top-2 h-8 w-8 p-0 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                variant='ghost'
+                size='sm'
+                className='absolute right-2 top-2 h-8 w-8 p-0 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
                 onClick={handleClose}
-                aria-label="로그인 모달 닫기. ESC 키를 눌러도 닫을 수 있습니다"
-                title="모달 닫기 (ESC)"
+                aria-label='로그인 모달 닫기. ESC 키를 눌러도 닫을 수 있습니다'
+                title='모달 닫기 (ESC)'
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
@@ -316,12 +316,12 @@ export function SigninModal({
                   }
                 }}
               >
-                <X className="h-4 w-4" aria-hidden="true" />
+                <X className='h-4 w-4' aria-hidden='true' />
               </Button>
-              <CardTitle id="signin-modal-title" className="text-2xl font-bold">
+              <CardTitle id='signin-modal-title' className='text-2xl font-bold'>
                 로그인
               </CardTitle>
-              <CardDescription id="signin-modal-description">
+              <CardDescription id='signin-modal-description'>
                 Google 계정으로 로그인하세요. 배경을 클릭하거나 ESC 키를 눌러
                 모달을 닫을 수 있습니다.
               </CardDescription>

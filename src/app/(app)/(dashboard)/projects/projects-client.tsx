@@ -89,57 +89,57 @@ export function ProjectsPageClient({
       : 0
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="space-y-8">
+    <main className='container mx-auto px-4 py-8'>
+      <div className='space-y-8'>
         {/* Header Section */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold">프로젝트</h1>
-            <p className="text-muted-foreground">
+        <div className='flex items-center justify-between'>
+          <div className='space-y-2'>
+            <h1 className='text-3xl font-bold'>프로젝트</h1>
+            <p className='text-muted-foreground'>
               {user?.name || user?.email}님의 프로젝트를 관리하세요
             </p>
           </div>
           <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />새 프로젝트
+            <Plus className='mr-2 h-4 w-4' />새 프로젝트
           </Button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className='grid gap-4 md:grid-cols-4'>
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <FolderOpen className="h-4 w-4 text-muted-foreground" />
-                <div className="text-2xl font-bold">{totalProjects}</div>
+            <CardContent className='p-6'>
+              <div className='flex items-center space-x-2'>
+                <FolderOpen className='h-4 w-4 text-muted-foreground' />
+                <div className='text-2xl font-bold'>{totalProjects}</div>
               </div>
-              <p className="text-xs text-muted-foreground">총 프로젝트</p>
+              <p className='text-xs text-muted-foreground'>총 프로젝트</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <Clock className="h-4 w-4 text-blue-500" />
-                <div className="text-2xl font-bold">{activeProjects}</div>
+            <CardContent className='p-6'>
+              <div className='flex items-center space-x-2'>
+                <Clock className='h-4 w-4 text-blue-500' />
+                <div className='text-2xl font-bold'>{activeProjects}</div>
               </div>
-              <p className="text-xs text-muted-foreground">진행 중</p>
+              <p className='text-xs text-muted-foreground'>진행 중</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <div className="text-2xl font-bold">{completedProjects}</div>
+            <CardContent className='p-6'>
+              <div className='flex items-center space-x-2'>
+                <CheckCircle className='h-4 w-4 text-green-500' />
+                <div className='text-2xl font-bold'>{completedProjects}</div>
               </div>
-              <p className="text-xs text-muted-foreground">완료됨</p>
+              <p className='text-xs text-muted-foreground'>완료됨</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="text-2xl font-bold">{completionRate}%</div>
-              <p className="text-xs text-muted-foreground">완료율</p>
+            <CardContent className='p-6'>
+              <div className='text-2xl font-bold'>{completionRate}%</div>
+              <p className='text-xs text-muted-foreground'>완료율</p>
             </CardContent>
           </Card>
         </div>
@@ -153,7 +153,7 @@ export function ProjectsPageClient({
 
         {/* Quick Actions - Only show when there are projects */}
         {projects.length > 0 && (
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className='grid gap-6 md:grid-cols-2'>
             <Card>
               <CardHeader>
                 <CardTitle>프로젝트 템플릿</CardTitle>
@@ -162,24 +162,24 @@ export function ProjectsPageClient({
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className='space-y-2'>
                   <Button
-                    variant="outline"
-                    className="w-full justify-start"
+                    variant='outline'
+                    className='w-full justify-start'
                     onClick={() => setIsCreateDialogOpen(true)}
                   >
                     📚 개인 성장 프로젝트
                   </Button>
                   <Button
-                    variant="outline"
-                    className="w-full justify-start"
+                    variant='outline'
+                    className='w-full justify-start'
                     onClick={() => setIsCreateDialogOpen(true)}
                   >
                     💼 커리어 전환 프로젝트
                   </Button>
                   <Button
-                    variant="outline"
-                    className="w-full justify-start"
+                    variant='outline'
+                    className='w-full justify-start'
                     onClick={() => setIsCreateDialogOpen(true)}
                   >
                     🚀 사업 시작 프로젝트
@@ -196,14 +196,14 @@ export function ProjectsPageClient({
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className='space-y-2'>
                   {projects.slice(0, 3).map(project => (
                     <div
                       key={project.id}
-                      className="flex items-center justify-between p-2 bg-muted/50 rounded"
+                      className='flex items-center justify-between p-2 bg-muted/50 rounded'
                     >
-                      <span className="text-sm truncate">{project.title}</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className='text-sm truncate'>{project.title}</span>
+                      <span className='text-xs text-muted-foreground'>
                         {new Date(project.updatedAt).toLocaleDateString(
                           'ko-KR'
                         )}
@@ -226,14 +226,14 @@ export function ProjectsPageClient({
 
       {/* Edit Project Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className='max-w-2xl'>
           <DialogHeader>
             <DialogTitle>프로젝트 수정</DialogTitle>
             <DialogDescription>프로젝트 정보를 수정하세요.</DialogDescription>
           </DialogHeader>
           {editingProject && (
             <ProjectForm
-              mode="edit"
+              mode='edit'
               initialData={editingProject}
               onSuccess={handleEditSuccess}
               onCancel={() => {

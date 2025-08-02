@@ -39,28 +39,28 @@ export const PageHeader = React.forwardRef<HTMLDivElement, PageHeaderProps>(
       <div ref={ref} className={cn('space-y-4 pb-4', className)} {...props}>
         {backButton && (
           <Button
-            variant="ghost"
-            size="sm"
+            variant='ghost'
+            size='sm'
             onClick={handleBack}
-            className="mb-2 -ml-2"
+            className='mb-2 -ml-2'
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className='mr-2 h-4 w-4' />
             {typeof backButton === 'object' && backButton.label
               ? backButton.label
               : 'Back'}
           </Button>
         )}
 
-        <Flex justify="between" align="start" className="gap-4">
-          <Stack spacing="xs" className="flex-1 min-w-0">
+        <Flex justify='between' align='start' className='gap-4'>
+          <Stack spacing='xs' className='flex-1 min-w-0'>
             <ResponsiveText
               size={{
                 base: '2xl',
                 sm: '3xl',
                 lg: '4xl',
               }}
-              weight="bold"
-              className="tracking-tight"
+              weight='bold'
+              className='tracking-tight'
             >
               {title}
             </ResponsiveText>
@@ -70,7 +70,7 @@ export const PageHeader = React.forwardRef<HTMLDivElement, PageHeaderProps>(
                   base: 'sm',
                   sm: 'base',
                 }}
-                className="text-muted-foreground max-w-2xl"
+                className='text-muted-foreground max-w-2xl'
               >
                 {description}
               </ResponsiveText>
@@ -78,7 +78,7 @@ export const PageHeader = React.forwardRef<HTMLDivElement, PageHeaderProps>(
           </Stack>
 
           {actions && (
-            <div className="flex items-center gap-2 shrink-0">{actions}</div>
+            <div className='flex items-center gap-2 shrink-0'>{actions}</div>
           )}
         </Flex>
 
@@ -158,15 +158,15 @@ export const PageLayout = React.forwardRef<HTMLDivElement, PageLayoutProps>(
       >
         {header}
 
-        <div className="flex-1 flex">
+        <div className='flex-1 flex'>
           {sidebar && (
-            <aside className="hidden lg:block w-64 border-r bg-muted/10">
+            <aside className='hidden lg:block w-64 border-r bg-muted/10'>
               {sidebar}
             </aside>
           )}
 
-          <main className="flex-1">
-            <Container size={containerSize} className="py-6">
+          <main className='flex-1'>
+            <Container size={containerSize} className='py-6'>
               {children}
             </Container>
           </main>
@@ -217,19 +217,19 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
         {...props}
       >
         {(title || description || actions) && (
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
+          <div className='flex items-start justify-between gap-4'>
+            <div className='space-y-1'>
               {title && (
-                <h2 className="text-xl font-semibold tracking-tight">
+                <h2 className='text-xl font-semibold tracking-tight'>
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
+                <p className='text-sm text-muted-foreground'>{description}</p>
               )}
             </div>
             {actions && (
-              <div className="flex items-center gap-2">{actions}</div>
+              <div className='flex items-center gap-2'>{actions}</div>
             )}
           </div>
         )}
@@ -328,10 +328,10 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
         )}
         {...props}
       >
-        {icon && <div className="mb-4 text-muted-foreground">{icon}</div>}
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
+        {icon && <div className='mb-4 text-muted-foreground'>{icon}</div>}
+        <h3 className='text-lg font-semibold mb-2'>{title}</h3>
         {description && (
-          <p className="text-sm text-muted-foreground mb-4 max-w-sm">
+          <p className='text-sm text-muted-foreground mb-4 max-w-sm'>
             {description}
           </p>
         )}

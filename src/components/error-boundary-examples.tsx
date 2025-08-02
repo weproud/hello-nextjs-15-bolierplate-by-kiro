@@ -18,8 +18,8 @@ const ErrorThrowingComponent: React.FC<{ shouldError: boolean }> = ({
   }
 
   return (
-    <div className="p-4 bg-green-100 dark:bg-green-900/20 rounded-lg">
-      <p className="text-green-800 dark:text-green-200">
+    <div className='p-4 bg-green-100 dark:bg-green-900/20 rounded-lg'>
+      <p className='text-green-800 dark:text-green-200'>
         Component rendered successfully!
       </p>
     </div>
@@ -53,18 +53,18 @@ const HookErrorComponent: React.FC = () => {
   }
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Error Boundary Hook Example</h3>
-      <div className="flex gap-2">
+    <div className='space-y-4'>
+      <h3 className='text-lg font-semibold'>Error Boundary Hook Example</h3>
+      <div className='flex gap-2'>
         <button
           onClick={handleSyncError}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600'
         >
           Trigger Sync Error
         </button>
         <button
           onClick={handleAsyncError}
-          className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+          className='px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600'
         >
           Trigger Async Error
         </button>
@@ -79,76 +79,76 @@ export const ErrorBoundaryExamples: React.FC = () => {
   const [pageError, setPageError] = useState(false)
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      <h1 className="text-2xl font-bold">Error Boundary Examples</h1>
+    <div className='max-w-4xl mx-auto p-6 space-y-8'>
+      <h1 className='text-2xl font-bold'>Error Boundary Examples</h1>
 
       {/* Component Error Boundary Example */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Component Error Boundary</h2>
-        <p className="text-muted-foreground">
+      <section className='space-y-4'>
+        <h2 className='text-xl font-semibold'>Component Error Boundary</h2>
+        <p className='text-muted-foreground'>
           This demonstrates how individual components can be wrapped with error
           boundaries to prevent the entire page from crashing.
         </p>
 
-        <div className="flex gap-2 mb-4">
+        <div className='flex gap-2 mb-4'>
           <button
             onClick={() => setComponentError(!componentError)}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
           >
             {componentError ? 'Fix Component' : 'Break Component'}
           </button>
         </div>
 
         <ComponentErrorBoundary
-          componentName="TestComponent"
-          fallbackMessage="The test component failed to render."
+          componentName='TestComponent'
+          fallbackMessage='The test component failed to render.'
         >
           <ErrorThrowingComponent shouldError={componentError} />
         </ComponentErrorBoundary>
       </section>
 
       {/* Page Error Boundary Example */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Page Error Boundary</h2>
-        <p className="text-muted-foreground">
+      <section className='space-y-4'>
+        <h2 className='text-xl font-semibold'>Page Error Boundary</h2>
+        <p className='text-muted-foreground'>
           This demonstrates how page-level errors are handled with a more
           comprehensive error display.
         </p>
 
-        <div className="flex gap-2 mb-4">
+        <div className='flex gap-2 mb-4'>
           <button
             onClick={() => setPageError(!pageError)}
-            className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+            className='px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600'
           >
             {pageError ? 'Fix Page Section' : 'Break Page Section'}
           </button>
         </div>
 
-        <PageErrorBoundary pageName="ExamplePage">
-          <div className="p-4 border rounded-lg">
+        <PageErrorBoundary pageName='ExamplePage'>
+          <div className='p-4 border rounded-lg'>
             <ErrorThrowingComponent shouldError={pageError} />
           </div>
         </PageErrorBoundary>
       </section>
 
       {/* Hook Example */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Error Boundary Hook</h2>
-        <p className="text-muted-foreground">
+      <section className='space-y-4'>
+        <h2 className='text-xl font-semibold'>Error Boundary Hook</h2>
+        <p className='text-muted-foreground'>
           This demonstrates how to use the useErrorBoundary hook to handle
           errors programmatically.
         </p>
 
-        <ComponentErrorBoundary componentName="HookErrorComponent">
+        <ComponentErrorBoundary componentName='HookErrorComponent'>
           <HookErrorComponent />
         </ComponentErrorBoundary>
       </section>
 
       {/* Best Practices */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Best Practices</h2>
-        <div className="bg-muted p-4 rounded-lg">
-          <ul className="space-y-2 text-sm">
+      <section className='space-y-4'>
+        <h2 className='text-xl font-semibold'>Best Practices</h2>
+        <div className='bg-muted p-4 rounded-lg'>
+          <ul className='space-y-2 text-sm'>
             <li>• Use ComponentErrorBoundary for individual UI components</li>
             <li>• Use PageErrorBoundary for page-level error handling</li>
             <li>

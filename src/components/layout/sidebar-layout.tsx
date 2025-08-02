@@ -51,20 +51,20 @@ export function SidebarLayout({
       <AppSidebar projects={projects} />
       <SidebarInset>
         {/* Enhanced Header with responsive design */}
-        <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className='sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
           <Container size={fullWidth ? 'full' : containerSize} centered={false}>
             <Flex
-              align="center"
-              justify="between"
-              className="h-16 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+              align='center'
+              justify='between'
+              className='h-16 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'
             >
-              <Flex align="center" gap="sm">
-                <SidebarTrigger className="-ml-1" />
-                <Separator orientation="vertical" className="mr-2 h-4" />
+              <Flex align='center' gap='sm'>
+                <SidebarTrigger className='-ml-1' />
+                <Separator orientation='vertical' className='mr-2 h-4' />
 
                 {/* Breadcrumbs - hidden on mobile if too long */}
                 {breadcrumbs && breadcrumbs.length > 0 && (
-                  <Show above="sm">
+                  <Show above='sm'>
                     <Breadcrumb>
                       <BreadcrumbList>
                         {breadcrumbs.map((breadcrumb, index) => (
@@ -92,7 +92,7 @@ export function SidebarLayout({
 
                 {/* Mobile breadcrumb - show only current page */}
                 {breadcrumbs && breadcrumbs.length > 0 && isMobile && (
-                  <div className="text-sm font-medium text-foreground">
+                  <div className='text-sm font-medium text-foreground'>
                     {breadcrumbs[breadcrumbs.length - 1]?.label}
                   </div>
                 )}
@@ -100,14 +100,14 @@ export function SidebarLayout({
 
               {/* Header actions */}
               {headerActions && (
-                <div className="flex items-center gap-2">{headerActions}</div>
+                <div className='flex items-center gap-2'>{headerActions}</div>
               )}
             </Flex>
           </Container>
         </header>
 
         {/* Main content area with responsive container */}
-        <main className="flex-1">
+        <main className='flex-1'>
           <Container
             size={fullWidth ? 'full' : containerSize}
             className={cn('py-4', !fullWidth && 'px-4 sm:px-6 lg:px-8')}

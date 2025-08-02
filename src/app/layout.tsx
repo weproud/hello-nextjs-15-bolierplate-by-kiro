@@ -1,8 +1,8 @@
+import { ClientProviders } from '@/providers/client-providers'
+import { ServerProviders } from '@/providers/server-providers'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { ClientProviders } from '@/providers/client-providers'
-import { ServerProviders } from '@/providers/server-providers'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,13 +27,22 @@ export default function RootLayout({
   modal: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='ko' suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ServerProviders>
           <ClientProviders>
-            {children}
+            {/* Skip to main content link for keyboard users */}
+            <a
+              href='#main-content'
+              className='sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background focus:text-foreground focus:px-4 focus:py-2 focus:rounded-md focus:border focus:border-border focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200'
+            >
+              메인 콘텐츠로 건너뛰기
+            </a>
+            <div id='main-content' tabIndex={-1}>
+              {children}
+            </div>
             {modal}
           </ClientProviders>
         </ServerProviders>

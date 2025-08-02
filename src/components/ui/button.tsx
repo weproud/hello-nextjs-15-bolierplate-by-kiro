@@ -1,7 +1,7 @@
-import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { type VariantProps } from 'class-variance-authority'
 import { Loader2 } from 'lucide-react'
+import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { enhancedButtonVariants, spinnerVariants } from './variants'
@@ -37,7 +37,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         ref={ref}
-        data-slot="button"
+        data-slot='button'
         className={cn(
           enhancedButtonVariants({
             variant,
@@ -47,6 +47,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           })
         )}
         disabled={isDisabled}
+        aria-disabled={isDisabled}
+        aria-busy={loading}
         {...props}
       >
         {loading && (
@@ -56,11 +58,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 size: size === 'sm' ? 'sm' : size === 'lg' ? 'lg' : 'default',
               })
             )}
+            aria-hidden='true'
           />
         )}
-        {!loading && leftIcon && <span className="shrink-0">{leftIcon}</span>}
+        {!loading && leftIcon && (
+          <span className='shrink-0' aria-hidden='true'>
+            {leftIcon}
+          </span>
+        )}
         {children}
-        {!loading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
+        {!loading && rightIcon && (
+          <span className='shrink-0' aria-hidden='true'>
+            {rightIcon}
+          </span>
+        )}
       </Comp>
     )
   }

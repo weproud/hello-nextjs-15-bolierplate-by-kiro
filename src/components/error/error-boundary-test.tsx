@@ -35,12 +35,12 @@ function ErrorTrigger({ errorType }: { errorType: string }) {
   }
 
   return (
-    <div className="p-4 border rounded">
-      <p className="mb-2">에러 타입: {errorType}</p>
+    <div className='p-4 border rounded'>
+      <p className='mb-2'>에러 타입: {errorType}</p>
       <Button
         onClick={() => setShouldError(true)}
-        variant="destructive"
-        size="sm"
+        variant='destructive'
+        size='sm'
       >
         {errorType} 에러 발생시키기
       </Button>
@@ -55,17 +55,17 @@ function ComponentErrorTest() {
       <CardHeader>
         <CardTitle>컴포넌트 레벨 에러 바운더리 테스트</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <ComponentErrorBoundary componentName="network-component">
-          <ErrorTrigger errorType="network" />
+      <CardContent className='space-y-4'>
+        <ComponentErrorBoundary componentName='network-component'>
+          <ErrorTrigger errorType='network' />
         </ComponentErrorBoundary>
 
-        <ComponentErrorBoundary componentName="validation-component">
-          <ErrorTrigger errorType="validation" />
+        <ComponentErrorBoundary componentName='validation-component'>
+          <ErrorTrigger errorType='validation' />
         </ComponentErrorBoundary>
 
-        <ComponentErrorBoundary componentName="auth-component">
-          <ErrorTrigger errorType="auth" />
+        <ComponentErrorBoundary componentName='auth-component'>
+          <ErrorTrigger errorType='auth' />
         </ComponentErrorBoundary>
       </CardContent>
     </Card>
@@ -79,13 +79,13 @@ function PageErrorTest() {
       <CardHeader>
         <CardTitle>페이지 레벨 에러 바운더리 테스트</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <PageErrorBoundary pageName="test-page">
-          <ErrorTrigger errorType="database" />
+      <CardContent className='space-y-4'>
+        <PageErrorBoundary pageName='test-page'>
+          <ErrorTrigger errorType='database' />
         </PageErrorBoundary>
 
-        <PageErrorBoundary pageName="test-page-2">
-          <ErrorTrigger errorType="permission" />
+        <PageErrorBoundary pageName='test-page-2'>
+          <ErrorTrigger errorType='permission' />
         </PageErrorBoundary>
       </CardContent>
     </Card>
@@ -99,9 +99,9 @@ function ModalErrorTest() {
       <CardHeader>
         <CardTitle>모달 레벨 에러 바운더리 테스트</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <ModalErrorBoundary modalName="test-modal">
-          <ErrorTrigger errorType="unknown" />
+      <CardContent className='space-y-4'>
+        <ModalErrorBoundary modalName='test-modal'>
+          <ErrorTrigger errorType='unknown' />
         </ModalErrorBoundary>
       </CardContent>
     </Card>
@@ -111,15 +111,15 @@ function ModalErrorTest() {
 // 메인 테스트 컴포넌트
 export function ErrorBoundaryTest() {
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">에러 바운더리 시스템 테스트</h1>
-        <p className="text-muted-foreground">
+    <div className='container mx-auto p-6 space-y-6'>
+      <div className='text-center'>
+        <h1 className='text-3xl font-bold mb-2'>에러 바운더리 시스템 테스트</h1>
+        <p className='text-muted-foreground'>
           각 버튼을 클릭하여 계층적 에러 바운더리 시스템을 테스트해보세요.
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+      <div className='grid gap-6 md:grid-cols-1 lg:grid-cols-2'>
         <ComponentErrorTest />
         <PageErrorTest />
       </div>
@@ -131,7 +131,7 @@ export function ErrorBoundaryTest() {
           <CardTitle>테스트 안내</CardTitle>
         </CardHeader>
         <CardContent>
-          <ul className="list-disc list-inside space-y-2 text-sm">
+          <ul className='list-disc list-inside space-y-2 text-sm'>
             <li>각 에러 타입별로 다른 UI와 복구 옵션이 표시됩니다</li>
             <li>컴포넌트 레벨 에러는 해당 컴포넌트만 영향을 받습니다</li>
             <li>페이지 레벨 에러는 더 큰 영역에 영향을 줍니다</li>

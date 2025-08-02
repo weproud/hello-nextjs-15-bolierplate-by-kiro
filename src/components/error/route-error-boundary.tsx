@@ -252,54 +252,54 @@ export class RouteErrorBoundary extends Component<Props, State> {
 
       // 기본 라우트 에러 UI
       return (
-        <div className="min-h-[50vh] flex items-center justify-center p-4">
+        <div className='min-h-[50vh] flex items-center justify-center p-4'>
           <Card className={`w-full max-w-lg ${styles.borderColor} border`}>
-            <CardHeader className="text-center">
+            <CardHeader className='text-center'>
               <div
                 className={`mx-auto w-16 h-16 ${styles.bgColor} rounded-full flex items-center justify-center mb-4`}
               >
                 <Route className={`w-8 h-8 ${styles.iconColor}`} />
               </div>
-              <div className="flex items-center justify-center gap-2 mb-2">
+              <div className='flex items-center justify-center gap-2 mb-2'>
                 <CardTitle className={`text-xl ${styles.iconColor}`}>
                   페이지 로딩 중 오류 발생
                 </CardTitle>
-                <Badge variant={styles.badgeVariant} className="text-xs">
+                <Badge variant={styles.badgeVariant} className='text-xs'>
                   {this.state.error.severity}
                 </Badge>
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className='text-gray-600 text-sm'>
                 {this.props.routeName} 페이지에서 문제가 발생했습니다
               </p>
             </CardHeader>
 
-            <CardContent className="space-y-4">
+            <CardContent className='space-y-4'>
               {/* 라우트 정보 */}
-              <div className="text-center text-sm text-gray-500">
+              <div className='text-center text-sm text-gray-500'>
                 {this.props.routePath && (
-                  <p className="mb-1">
+                  <p className='mb-1'>
                     경로:{' '}
-                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                    <code className='bg-gray-100 px-2 py-1 rounded text-xs'>
                       {this.props.routePath}
                     </code>
                   </p>
                 )}
                 <p>
                   오류 ID:{' '}
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                  <code className='bg-gray-100 px-2 py-1 rounded text-xs'>
                     {this.state.error.id}
                   </code>
                 </p>
                 {this.state.retryCount > 0 && (
-                  <p className="mt-1">재시도 횟수: {this.state.retryCount}</p>
+                  <p className='mt-1'>재시도 횟수: {this.state.retryCount}</p>
                 )}
               </div>
 
               {/* 개발 환경 에러 상세 정보 */}
               {this.props.showDetails &&
                 process.env.NODE_ENV === 'development' && (
-                  <div className="bg-gray-100 p-3 rounded text-sm">
-                    <div className="space-y-1">
+                  <div className='bg-gray-100 p-3 rounded text-sm'>
+                    <div className='space-y-1'>
                       <div>
                         <strong>타입:</strong> {this.state.error.type}
                       </div>
@@ -307,11 +307,11 @@ export class RouteErrorBoundary extends Component<Props, State> {
                         <strong>메시지:</strong> {this.state.error.message}
                       </div>
                       {this.state.error.originalError?.stack && (
-                        <details className="mt-2">
-                          <summary className="cursor-pointer font-medium">
+                        <details className='mt-2'>
+                          <summary className='cursor-pointer font-medium'>
                             스택 트레이스
                           </summary>
-                          <pre className="mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-32">
+                          <pre className='mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-32'>
                             {this.state.error.originalError.stack}
                           </pre>
                         </details>
@@ -321,23 +321,23 @@ export class RouteErrorBoundary extends Component<Props, State> {
                 )}
 
               {/* 복구 액션 버튼들 */}
-              <div className="flex flex-col gap-2">
+              <div className='flex flex-col gap-2'>
                 {this.state.recoveryActions.map(action => (
                   <Button
                     key={action.id}
                     onClick={() => this.handleRecoveryAction(action)}
                     disabled={this.state.isRecovering}
                     variant={action.primary ? 'default' : 'outline'}
-                    className="w-full flex items-center justify-center"
+                    className='w-full flex items-center justify-center'
                   >
                     {action.type === 'retry' && (
-                      <RefreshCw className="w-4 h-4 mr-2" />
+                      <RefreshCw className='w-4 h-4 mr-2' />
                     )}
                     {action.id === 'go-back' && (
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      <ArrowLeft className='w-4 h-4 mr-2' />
                     )}
                     {action.type === 'redirect' && action.href === '/' && (
-                      <Home className="w-4 h-4 mr-2" />
+                      <Home className='w-4 h-4 mr-2' />
                     )}
                     {this.state.isRecovering ? '처리 중...' : action.label}
                   </Button>
@@ -345,23 +345,23 @@ export class RouteErrorBoundary extends Component<Props, State> {
 
                 {/* 기본 액션들 */}
                 <Button
-                  variant="outline"
+                  variant='outline'
                   onClick={this.handleGoBack}
                   disabled={this.state.isRecovering}
-                  className="w-full flex items-center justify-center"
+                  className='w-full flex items-center justify-center'
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  <ArrowLeft className='w-4 h-4 mr-2' />
                   이전 페이지로
                 </Button>
               </div>
 
               {/* 추가 도움말 */}
-              <div className="text-center text-xs text-gray-500 border-t pt-3">
+              <div className='text-center text-xs text-gray-500 border-t pt-3'>
                 <p>
                   문제가 지속되면{' '}
                   <a
-                    href="/"
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    href='/'
+                    className='text-blue-600 hover:text-blue-800 underline'
                   >
                     홈페이지
                   </a>

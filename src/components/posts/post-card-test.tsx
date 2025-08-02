@@ -52,23 +52,23 @@ export function PostCardTest() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">포스트 카드 컴포넌트 테스트</h1>
+    <div className='container mx-auto py-8'>
+      <h1 className='text-3xl font-bold mb-8'>포스트 카드 컴포넌트 테스트</h1>
 
-      <div className="space-y-8">
+      <div className='space-y-8'>
         <section>
-          <h2 className="text-xl font-semibold mb-4">기본 포스트 카드</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <h2 className='text-xl font-semibold mb-4'>기본 포스트 카드</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             <PostCard post={mockPost} />
             <PostCard post={mockDraftPost} />
           </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className='text-xl font-semibold mb-4'>
             액션 버튼이 있는 포스트 카드
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             <PostCard
               post={mockPost}
               showActions={true}
@@ -85,13 +85,13 @@ export function PostCardTest() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className='text-xl font-semibold mb-4'>
             커스텀 스타일 포스트 카드
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             <PostCard
               post={mockPost}
-              className="border-primary/20 bg-primary/5"
+              className='border-primary/20 bg-primary/5'
             />
           </div>
         </section>

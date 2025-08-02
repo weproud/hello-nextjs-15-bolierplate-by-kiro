@@ -1,15 +1,13 @@
 'use client'
 
-import { memo, type ReactNode } from 'react'
-import { SessionProvider } from '@/providers/session-provider'
 import { AuthProvider } from '@/components/auth/auth-provider'
-import { ThemeProvider } from '@/components/theme-provider'
-import { AppStoreProvider } from '@/store/provider'
-import { LoadingProvider } from '@/contexts/loading-context'
 import { GlobalErrorBoundary } from '@/components/error/hierarchical-error-boundary'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
-import { StagewiseToolbar } from '@stagewise/toolbar-next'
-import ReactPlugin from '@stagewise-plugins/react'
+import { LoadingProvider } from '@/contexts/loading-context'
+import { SessionProvider } from '@/providers/session-provider'
+import { AppStoreProvider } from '@/store/provider'
+import { memo, type ReactNode } from 'react'
 
 interface ClientProvidersProps {
   children: ReactNode
@@ -28,7 +26,8 @@ interface ClientProvidersProps {
  * 4. LoadingProvider - 로딩 상태 관리
  * 5. AppStoreProvider - Zustand 애플리케이션 상태
  * 6. ThemeProvider - 테마 관리
- * 7. UI 컴포넌트들 (Toaster, StagewiseToolbar)
+ * 7. AccessibilityProvider - 접근성 설정 관리
+ * 8. UI 컴포넌트들 (Toaster, StagewiseToolbar)
  */
 export const ClientProviders = memo(function ClientProviders({
   children,
@@ -40,20 +39,30 @@ export const ClientProviders = memo(function ClientProviders({
           <LoadingProvider>
             <AppStoreProvider>
               <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
+                attribute='class'
+                defaultTheme='system'
                 enableSystem
-                disableTransitionOnChange
+                disableTransitionOnChange={false}
               >
-                {children}
-                <Toaster
-                  position="top-right"
-                  expand={false}
-                  richColors
-                  closeButton
-                  duration={4000}
-                />
-                {/* <StagewiseToolbar config={{ plugins: [ReactPlugin] }} /> */}
+                <AccessibilityProvider>
+                  <GlobalThemeTransition />
+                  {children}
+                  <Toaster
+                    position='top-right'
+                    expand={false}
+                    richColors
+                    closeButton
+                    duration={4000}
+                    toastOptions={{
+                      // 접근성을 위한 토스트 설정
+                      ariaProps: {
+                        role: 'status',
+                        'aria-live': 'polite',
+                      },
+                    }}
+                  />
+                  {/* <StagewiseToolbar config={{ plugins: [ReactPlugin] }} /> */}
+                </AccessibilityProvider>
               </ThemeProvider>
             </AppStoreProvider>
           </LoadingProvider>

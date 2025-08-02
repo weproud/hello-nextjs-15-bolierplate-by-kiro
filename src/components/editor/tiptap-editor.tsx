@@ -105,9 +105,9 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
             className
           )}
         >
-          <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-2/3"></div>
+          <div className='h-4 bg-muted rounded w-3/4 mb-2'></div>
+          <div className='h-4 bg-muted rounded w-1/2 mb-2'></div>
+          <div className='h-4 bg-muted rounded w-2/3'></div>
         </div>
       )
     }
@@ -122,12 +122,12 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
         {showToolbar && (
           <Suspense
             fallback={
-              <div className="flex items-center gap-1 p-2 border-b border-border bg-muted/50 h-12">
-                <div className="flex items-center gap-1">
+              <div className='flex items-center gap-1 p-2 border-b border-border bg-muted/50 h-12'>
+                <div className='flex items-center gap-1'>
                   {Array.from({ length: 8 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-8 w-8 bg-muted rounded animate-pulse"
+                      className='h-8 w-8 bg-muted rounded animate-pulse'
                     />
                   ))}
                 </div>
@@ -137,7 +137,7 @@ export const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
             <EditorToolbar editor={editor} />
           </Suspense>
         )}
-        <EditorContent editor={editor} className="tiptap-editor" />
+        <EditorContent editor={editor} className='tiptap-editor' />
       </div>
     )
   }

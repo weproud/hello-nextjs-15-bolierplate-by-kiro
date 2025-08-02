@@ -60,31 +60,31 @@ export function SigninModalLite() {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+      className='fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4'
       onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-label="로그인"
+      role='dialog'
+      aria-modal='true'
+      aria-label='로그인'
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-md bg-white rounded-lg shadow-lg"
+        className='relative w-full max-w-md bg-white rounded-lg shadow-lg'
         onClick={e => e.stopPropagation()}
       >
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">로그인</h2>
+        <div className='p-6'>
+          <div className='flex items-center justify-between mb-4'>
+            <h2 className='text-xl font-semibold'>로그인</h2>
             <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 w-8 p-0"
+              variant='ghost'
+              size='sm'
+              className='h-8 w-8 p-0'
               onClick={handleClose}
-              aria-label="모달 닫기"
+              aria-label='모달 닫기'
             >
-              <X className="h-4 w-4" />
+              <X className='h-4 w-4' />
             </Button>
           </div>
-          <p className="text-sm text-gray-600 mb-6">
+          <p className='text-sm text-gray-600 mb-6'>
             Google 계정으로 로그인하세요.
           </p>
           <SignInForm

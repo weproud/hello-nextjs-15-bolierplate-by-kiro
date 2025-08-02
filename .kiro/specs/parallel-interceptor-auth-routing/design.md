@@ -2,7 +2,9 @@
 
 ## Overview
 
-This design implements Next.js 13+ parallel routing combined with interceptor routing for the auth/signin functionality. The solution provides dual access patterns: a full-page signin experience for direct navigation and a modal overlay for contextual signin from other pages.
+This design implements Next.js 13+ parallel routing combined with interceptor routing for the
+auth/signin functionality. The solution provides dual access patterns: a full-page signin experience
+for direct navigation and a modal overlay for contextual signin from other pages.
 
 The implementation leverages Next.js App Router's advanced routing features:
 

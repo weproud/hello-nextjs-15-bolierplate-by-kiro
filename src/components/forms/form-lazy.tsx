@@ -26,23 +26,23 @@ const AdvancedForm = lazy(() =>
 // Loading fallbacks for different form types
 function MultiStepFormSkeleton() {
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <Skeleton className="h-8 w-48 mx-auto mb-2" />
-        <Skeleton className="h-4 w-64 mx-auto" />
+    <div className='max-w-4xl mx-auto p-6'>
+      <div className='text-center mb-8'>
+        <Skeleton className='h-8 w-48 mx-auto mb-2' />
+        <Skeleton className='h-4 w-64 mx-auto' />
       </div>
 
       {/* Step Indicator Skeleton */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
+      <div className='mb-8'>
+        <div className='flex items-center justify-between'>
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center">
-              <Skeleton className="w-10 h-10 rounded-full" />
-              <div className="ml-3">
-                <Skeleton className="h-4 w-20 mb-1" />
-                <Skeleton className="h-3 w-32" />
+            <div key={i} className='flex items-center'>
+              <Skeleton className='w-10 h-10 rounded-full' />
+              <div className='ml-3'>
+                <Skeleton className='h-4 w-20 mb-1' />
+                <Skeleton className='h-3 w-32' />
               </div>
-              {i < 2 && <Skeleton className="flex-1 h-0.5 mx-4" />}
+              {i < 2 && <Skeleton className='flex-1 h-0.5 mx-4' />}
             </div>
           ))}
         </div>
@@ -51,27 +51,27 @@ function MultiStepFormSkeleton() {
       {/* Form Content Skeleton */}
       <Card>
         <CardHeader>
-          <Skeleton className="h-6 w-32 mb-2" />
-          <Skeleton className="h-4 w-48" />
+          <Skeleton className='h-6 w-32 mb-2' />
+          <Skeleton className='h-4 w-48' />
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardContent className='space-y-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
-              <Skeleton className="h-4 w-16 mb-2" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className='h-4 w-16 mb-2' />
+              <Skeleton className='h-10 w-full' />
             </div>
             <div>
-              <Skeleton className="h-4 w-20 mb-2" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className='h-4 w-20 mb-2' />
+              <Skeleton className='h-10 w-full' />
             </div>
           </div>
           <div>
-            <Skeleton className="h-4 w-24 mb-2" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className='h-4 w-24 mb-2' />
+            <Skeleton className='h-10 w-full' />
           </div>
-          <div className="flex justify-between pt-6">
-            <Skeleton className="h-10 w-20" />
-            <Skeleton className="h-10 w-20" />
+          <div className='flex justify-between pt-6'>
+            <Skeleton className='h-10 w-20' />
+            <Skeleton className='h-10 w-20' />
           </div>
         </CardContent>
       </Card>
@@ -81,55 +81,55 @@ function MultiStepFormSkeleton() {
 
 function ComprehensiveFormSkeleton() {
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <Skeleton className="h-8 w-48 mx-auto mb-2" />
-        <Skeleton className="h-4 w-64 mx-auto" />
+    <div className='max-w-2xl mx-auto p-6'>
+      <div className='text-center mb-8'>
+        <Skeleton className='h-8 w-48 mx-auto mb-2' />
+        <Skeleton className='h-4 w-64 mx-auto' />
       </div>
 
-      <div className="space-y-6">
+      <div className='space-y-6'>
         {/* Basic Information Section */}
-        <div className="space-y-4 p-4 border rounded-lg">
-          <Skeleton className="h-6 w-24 mb-4" />
-          <div className="space-y-4">
+        <div className='space-y-4 p-4 border rounded-lg'>
+          <Skeleton className='h-6 w-24 mb-4' />
+          <div className='space-y-4'>
             <div>
-              <Skeleton className="h-4 w-16 mb-2" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-3 w-32 mt-1" />
+              <Skeleton className='h-4 w-16 mb-2' />
+              <Skeleton className='h-10 w-full' />
+              <Skeleton className='h-3 w-32 mt-1' />
             </div>
             <div>
-              <Skeleton className="h-4 w-20 mb-2" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className='h-4 w-20 mb-2' />
+              <Skeleton className='h-10 w-full' />
             </div>
             <div>
-              <Skeleton className="h-4 w-12 mb-2" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-3 w-48 mt-1" />
+              <Skeleton className='h-4 w-12 mb-2' />
+              <Skeleton className='h-10 w-full' />
+              <Skeleton className='h-3 w-48 mt-1' />
             </div>
           </div>
         </div>
 
         {/* Role Selection Section */}
-        <div className="space-y-4 p-4 border rounded-lg">
-          <Skeleton className="h-6 w-20 mb-4" />
+        <div className='space-y-4 p-4 border rounded-lg'>
+          <Skeleton className='h-6 w-20 mb-4' />
           <div>
-            <Skeleton className="h-4 w-16 mb-2" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className='h-4 w-16 mb-2' />
+            <Skeleton className='h-10 w-full' />
           </div>
         </div>
 
         {/* Advanced Options Section */}
-        <div className="space-y-4 p-4 border rounded-lg">
-          <div className="flex items-center justify-between">
-            <Skeleton className="h-6 w-24" />
-            <Skeleton className="h-8 w-16" />
+        <div className='space-y-4 p-4 border rounded-lg'>
+          <div className='flex items-center justify-between'>
+            <Skeleton className='h-6 w-24' />
+            <Skeleton className='h-8 w-16' />
           </div>
         </div>
 
         {/* Form Actions */}
-        <div className="flex gap-4 pt-4">
-          <Skeleton className="h-10 w-20" />
-          <Skeleton className="h-10 flex-1" />
+        <div className='flex gap-4 pt-4'>
+          <Skeleton className='h-10 w-20' />
+          <Skeleton className='h-10 flex-1' />
         </div>
       </div>
     </div>
@@ -138,19 +138,19 @@ function ComprehensiveFormSkeleton() {
 
 function AdvancedFormSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
+    <div className='space-y-6'>
+      <div className='space-y-4'>
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i}>
-            <Skeleton className="h-4 w-20 mb-2" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-3 w-32 mt-1" />
+            <Skeleton className='h-4 w-20 mb-2' />
+            <Skeleton className='h-10 w-full' />
+            <Skeleton className='h-3 w-32 mt-1' />
           </div>
         ))}
       </div>
-      <div className="flex gap-4 pt-4">
-        <Skeleton className="h-10 w-20" />
-        <Skeleton className="h-10 flex-1" />
+      <div className='flex gap-4 pt-4'>
+        <Skeleton className='h-10 w-20' />
+        <Skeleton className='h-10 flex-1' />
       </div>
     </div>
   )
@@ -171,18 +171,18 @@ export function ProgressiveFormLoader({
   const getFallback = () => {
     if (fallbackType === 'spinner') {
       return (
-        <div className="flex items-center justify-center p-8">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <span className="ml-3">폼을 불러오는 중...</span>
+        <div className='flex items-center justify-center p-8'>
+          <div className='w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin' />
+          <span className='ml-3'>폼을 불러오는 중...</span>
         </div>
       )
     }
 
     if (fallbackType === 'minimal') {
       return (
-        <div className="p-8 text-center text-muted-foreground">
-          <div className="text-lg font-medium mb-2">폼 로딩 중</div>
-          <p className="text-sm">잠시만 기다려주세요...</p>
+        <div className='p-8 text-center text-muted-foreground'>
+          <div className='text-lg font-medium mb-2'>폼 로딩 중</div>
+          <p className='text-sm'>잠시만 기다려주세요...</p>
         </div>
       )
     }
@@ -253,15 +253,15 @@ function getFallback(type: 'skeleton' | 'spinner' | 'minimal') {
   switch (type) {
     case 'spinner':
       return (
-        <div className="flex items-center justify-center p-8">
-          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <span className="ml-2 text-sm">로딩 중...</span>
+        <div className='flex items-center justify-center p-8'>
+          <div className='w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin' />
+          <span className='ml-2 text-sm'>로딩 중...</span>
         </div>
       )
     case 'minimal':
       return (
-        <div className="p-4 text-center text-muted-foreground">
-          <div className="text-sm">폼 준비 중...</div>
+        <div className='p-4 text-center text-muted-foreground'>
+          <div className='text-sm'>폼 준비 중...</div>
         </div>
       )
     case 'skeleton':

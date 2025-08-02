@@ -28,37 +28,37 @@ interface InfinitePostListProps {
 const PostCardSkeleton = memo(function PostCardSkeleton() {
   return (
     <div
-      className="border border-border/50 rounded-lg p-6 bg-card/50 backdrop-blur-sm"
-      data-testid="skeleton"
+      className='border border-border/50 rounded-lg p-6 bg-card/50 backdrop-blur-sm'
+      data-testid='skeleton'
     >
       {/* 헤더 */}
-      <div className="space-y-3 mb-4">
-        <Skeleton className="h-6 w-3/4" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-4/6" />
+      <div className='space-y-3 mb-4'>
+        <Skeleton className='h-6 w-3/4' />
+        <div className='space-y-2'>
+          <Skeleton className='h-4 w-full' />
+          <Skeleton className='h-4 w-5/6' />
+          <Skeleton className='h-4 w-4/6' />
         </div>
       </div>
 
       {/* 메타 정보 */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-6 w-6 rounded-full" />
-            <Skeleton className="h-4 w-20" />
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-2'>
+            <Skeleton className='h-6 w-6 rounded-full' />
+            <Skeleton className='h-4 w-20' />
           </div>
-          <div className="flex items-center gap-1">
-            <Skeleton className="h-4 w-4" />
-            <Skeleton className="h-4 w-16" />
+          <div className='flex items-center gap-1'>
+            <Skeleton className='h-4 w-4' />
+            <Skeleton className='h-4 w-16' />
           </div>
         </div>
-        <Skeleton className="h-5 w-12" />
+        <Skeleton className='h-5 w-12' />
       </div>
 
       {/* 하단 링크 */}
-      <div className="mt-4 pt-3 border-t border-border/50">
-        <Skeleton className="h-4 w-20" />
+      <div className='mt-4 pt-3 border-t border-border/50'>
+        <Skeleton className='h-4 w-20' />
       </div>
     </div>
   )
@@ -88,18 +88,18 @@ const ErrorState = memo(function ErrorState({
   onRetry: () => void
 }) {
   return (
-    <div className="col-span-full">
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription className="flex items-center justify-between">
+    <div className='col-span-full'>
+      <Alert variant='destructive'>
+        <AlertCircle className='h-4 w-4' />
+        <AlertDescription className='flex items-center justify-between'>
           <span>{error}</span>
           <Button
-            variant="outline"
-            size="sm"
+            variant='outline'
+            size='sm'
             onClick={onRetry}
-            className="ml-4"
+            className='ml-4'
           >
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCw className='h-4 w-4 mr-2' />
             다시 시도
           </Button>
         </AlertDescription>
@@ -111,10 +111,10 @@ const ErrorState = memo(function ErrorState({
 // 빈 상태 컴포넌트
 const EmptyState = memo(function EmptyState() {
   return (
-    <div className="col-span-full text-center py-12">
-      <div className="text-muted-foreground">
-        <div className="text-lg font-medium mb-2">포스트가 없습니다</div>
-        <p className="text-sm">첫 번째 포스트를 작성해보세요!</p>
+    <div className='col-span-full text-center py-12'>
+      <div className='text-muted-foreground'>
+        <div className='text-lg font-medium mb-2'>포스트가 없습니다</div>
+        <p className='text-sm'>첫 번째 포스트를 작성해보세요!</p>
       </div>
     </div>
   )
@@ -123,9 +123,9 @@ const EmptyState = memo(function EmptyState() {
 // 더 이상 포스트가 없음을 알리는 컴포넌트
 const NoMorePosts = memo(function NoMorePosts() {
   return (
-    <div className="col-span-full text-center py-8">
-      <div className="text-muted-foreground">
-        <div className="text-sm">더 이상 포스트가 없습니다</div>
+    <div className='col-span-full text-center py-8'>
+      <div className='text-muted-foreground'>
+        <div className='text-sm'>더 이상 포스트가 없습니다</div>
       </div>
     </div>
   )
@@ -137,10 +137,10 @@ const LoadMoreIndicator = memo(function LoadMoreIndicator() {
     <>
       {/* 추가 로딩 스켈레톤 */}
       <LoadingSkeleton count={3} />
-      <div className="col-span-full text-center py-4">
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <RefreshCw className="h-4 w-4 animate-spin" />
-          <span className="text-sm">더 많은 포스트를 불러오는 중...</span>
+      <div className='col-span-full text-center py-4'>
+        <div className='flex items-center justify-center gap-2 text-muted-foreground'>
+          <RefreshCw className='h-4 w-4 animate-spin' />
+          <span className='text-sm'>더 많은 포스트를 불러오는 중...</span>
         </div>
       </div>
     </>
@@ -175,7 +175,7 @@ export const InfinitePostList = memo(function InfinitePostList({
 
   return (
     <div className={cn('w-full', className)}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {/* 에러 상태 */}
         {isError && error && <ErrorState error={error} onRetry={retry} />}
 
@@ -207,10 +207,10 @@ export const InfinitePostList = memo(function InfinitePostList({
       {hasMore && !isLoading && !isError && (
         <div
           ref={observerRef}
-          className="h-20 flex items-center justify-center"
-          aria-hidden="true"
+          className='h-20 flex items-center justify-center'
+          aria-hidden='true'
         >
-          <div className="text-muted-foreground text-sm">
+          <div className='text-muted-foreground text-sm'>
             스크롤하여 더 많은 포스트 보기
           </div>
         </div>

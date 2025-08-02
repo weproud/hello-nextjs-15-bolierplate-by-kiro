@@ -365,21 +365,21 @@ function DefaultHierarchicalErrorFallback({
       className={isCompact ? 'min-h-32' : 'min-h-64'}
     >
       {/* 추가 정보 표시 */}
-      <div className="mt-4 space-y-2">
+      <div className='mt-4 space-y-2'>
         {isRetrying && (
-          <div className="text-sm text-blue-600 text-center">
+          <div className='text-sm text-blue-600 text-center'>
             재시도 중... ({retryCount + 1}/{maxRetries})
           </div>
         )}
 
         {canRetry && !isRetrying && (
-          <div className="text-xs text-gray-500 text-center">
+          <div className='text-xs text-gray-500 text-center'>
             재시도 가능: {maxRetries - retryCount}회 남음
           </div>
         )}
 
         {process.env.NODE_ENV === 'development' && (
-          <div className="text-xs text-gray-400 text-center">
+          <div className='text-xs text-gray-400 text-center'>
             에러 레벨: {getLevelDisplayName(level)} | ID: {error.id}
           </div>
         )}

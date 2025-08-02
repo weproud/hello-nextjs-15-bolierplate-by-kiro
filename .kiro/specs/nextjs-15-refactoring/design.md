@@ -2,7 +2,8 @@
 
 ## Overview
 
-현재 Next.js 15 App Router 프로젝트는 기본적인 구조는 잘 갖추어져 있지만, 최신 베스트 프랙티스를 완전히 활용하지 못하고 있습니다. 이 리팩토링은 다음 5개 핵심 영역을 개선합니다:
+현재 Next.js 15 App Router 프로젝트는 기본적인 구조는 잘 갖추어져 있지만, 최신 베스트 프랙티스를
+완전히 활용하지 못하고 있습니다. 이 리팩토링은 다음 5개 핵심 영역을 개선합니다:
 
 1. **파일 구조 표준화**: App Router 규칙 완전 준수
 2. **라우팅 최적화**: 병렬/인터셉터 라우트 성능 개선
@@ -187,9 +188,7 @@ const RichTextEditor = lazy(() => import('@/components/editor/rich-editor'))
 // Conditional loading based on device capabilities
 const ConditionalComponent = lazy(() => {
   const isLowEnd = navigator.hardwareConcurrency < 4
-  return isLowEnd
-    ? import('@/components/lite-version')
-    : import('@/components/full-version')
+  return isLowEnd ? import('@/components/lite-version') : import('@/components/full-version')
 })
 ```
 

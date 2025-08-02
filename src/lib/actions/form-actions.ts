@@ -88,7 +88,7 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
     const validatedData = projectSchema.parse(rawData)
 
     // Create project in database
-    const { prisma } = await import('@/lib/prisma')
+    const { projectRepository } = await import('@/lib/repositories')
     const { getCurrentSession } = await import('@/services/auth')
 
     const session = await getCurrentSession()
@@ -96,11 +96,11 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
       throw new Error('로그인이 필요합니다.')
     }
 
-    const project = await prisma.project.create({
-      data: {
-        title: validatedData.title,
-        description: validatedData.description,
-        userId: session.user.id,
+    const project = await projectRepository.create({
+      title: validatedData.title,
+      description: validatedData.description,
+      user: {
+        connect: { id: session.user.id },
       },
     })
 
@@ -171,22 +171,18 @@ export const registerUser = action
       })
 
       // Create user in database
-      const { prisma } = await import('@/lib/prisma')
+      const { userRepository } = await import('@/lib/repositories')
 
       // Check if user already exists
-      const existingUser = await prisma.user.findUnique({
-        where: { email: parsedInput.email },
-      })
+      const existingUser = await userRepository.findByEmail(parsedInput.email)
 
       if (existingUser) {
         throw new Error('이미 등록된 이메일 주소입니다.')
       }
 
-      const user = await prisma.user.create({
-        data: {
-          name: parsedInput.name,
-          email: parsedInput.email,
-        },
+      const user = await userRepository.create({
+        name: parsedInput.name,
+        email: parsedInput.email,
       })
 
       logger.info('User registered successfully', { userId: user.id })
@@ -226,14 +222,11 @@ export const updateProfile = authAction
       })
 
       // Update user profile in database
-      const { prisma } = await import('@/lib/prisma')
+      const { userRepository } = await import('@/lib/repositories')
 
-      await prisma.user.update({
-        where: { id: ctx.userId },
-        data: {
-          name: parsedInput.name,
-          email: parsedInput.email,
-        },
+      await userRepository.update(ctx.userId, {
+        name: parsedInput.name,
+        email: parsedInput.email,
       })
 
       revalidatePath('/profile')
@@ -456,9 +449,16 @@ export const batchDeleteItems = authAction
       for (const id of parsedInput.ids) {
         try {
           if (parsedInput.type === 'projects') {
-            await prisma.project.delete({
-              where: { id, userId: ctx.userId }, // Only delete user's own projects
+            const { projectRepository } = await import('@/lib/repositories')
+            // Check if project belongs to user before deleting
+            const project = await projectRepository.findFirst({
+              where: { id, userId: ctx.userId },
             })
+            if (project) {
+              await projectRepository.delete(id)
+            } else {
+              throw new Error('Project not found or access denied')
+            }
           }
           // Add other types as needed
           successIds.push(id)

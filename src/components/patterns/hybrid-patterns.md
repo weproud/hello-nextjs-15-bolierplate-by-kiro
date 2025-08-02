@@ -53,7 +53,7 @@ export function ProjectListClient({ projects }) {
 // Server Component - 정적 구조
 export function ErrorFallbackOptimized({ error, title, message }) {
   return (
-    <div className="error-container">
+    <div className='error-container'>
       <h2>{title}</h2>
       <p>{message}</p>
       {/* 동적 액션 버튼 - Client Component */}
@@ -118,8 +118,8 @@ export function ConditionalFeature({ user, isLowEndDevice }) {
 export function EnhancedForm({ action }) {
   return (
     <form action={action}>
-      <input name="email" type="email" required />
-      <button type="submit">제출</button>
+      <input name='email' type='email' required />
+      <button type='submit'>제출</button>
       {/* 향상된 기능 - Client Component */}
       <FormEnhancementClient />
     </form>
@@ -184,7 +184,7 @@ export function PageLayout({ children, metadata }) {
     <html>
       <head>
         <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
+        <meta name='description' content={metadata.description} />
       </head>
       <body>
         <header>정적 헤더</header>

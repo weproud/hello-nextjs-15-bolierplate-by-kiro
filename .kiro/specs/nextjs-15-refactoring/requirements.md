@@ -2,24 +2,29 @@
 
 ## Introduction
 
-현재 Next.js 15 App Router를 사용하는 프로젝트를 최신 베스트 프랙티스에 맞게 전면 리팩토링합니다. 파일 구조 최적화, 라우팅 패턴 개선, 컴포넌트 구조 정리, 성능 최적화, 그리고 타입 안전성 강화를 통해 유지보수성과 성능을 향상시킵니다.
+현재 Next.js 15 App Router를 사용하는 프로젝트를 최신 베스트 프랙티스에 맞게 전면 리팩토링합니다.
+파일 구조 최적화, 라우팅 패턴 개선, 컴포넌트 구조 정리, 성능 최적화, 그리고 타입 안전성 강화를 통해
+유지보수성과 성능을 향상시킵니다.
 
 ## Requirements
 
 ### Requirement 1
 
-**User Story:** 개발자로서, App Router 파일 구조가 Next.js 15 규칙에 완벽히 맞게 정리되기를 원합니다. 그래야 코드 탐색과 유지보수가 쉬워집니다.
+**User Story:** 개발자로서, App Router 파일 구조가 Next.js 15 규칙에 완벽히 맞게 정리되기를
+원합니다. 그래야 코드 탐색과 유지보수가 쉬워집니다.
 
 #### Acceptance Criteria
 
-1. WHEN 프로젝트 구조를 검토할 때 THEN 모든 라우트에 적절한 `layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx` 파일이 배치되어야 합니다
+1. WHEN 프로젝트 구조를 검토할 때 THEN 모든 라우트에 적절한 `layout.tsx`, `page.tsx`, `loading.tsx`,
+   `error.tsx` 파일이 배치되어야 합니다
 2. WHEN 라우트 그룹을 확인할 때 THEN `()` 패턴이 URL에 영향 없이 논리적 조직화에 활용되어야 합니다
 3. WHEN 파일 명명 규칙을 검토할 때 THEN 모든 파일이 kebab-case 규칙을 따라야 합니다
 4. WHEN 디렉토리 구조를 분석할 때 THEN 기능별로 명확하게 분류되어야 합니다
 
 ### Requirement 2
 
-**User Story:** 개발자로서, 병렬 라우트와 인터셉터 라우트가 최적화되어 모달과 복잡한 UI 패턴이 효율적으로 작동하기를 원합니다.
+**User Story:** 개발자로서, 병렬 라우트와 인터셉터 라우트가 최적화되어 모달과 복잡한 UI 패턴이
+효율적으로 작동하기를 원합니다.
 
 #### Acceptance Criteria
 
@@ -30,7 +35,8 @@
 
 ### Requirement 3
 
-**User Story:** 개발자로서, Server Components와 Client Components가 명확히 분리되어 성능이 최적화되기를 원합니다.
+**User Story:** 개발자로서, Server Components와 Client Components가 명확히 분리되어 성능이
+최적화되기를 원합니다.
 
 #### Acceptance Criteria
 
@@ -41,18 +47,21 @@
 
 ### Requirement 4
 
-**User Story:** 개발자로서, 동적 임포트와 코드 분할이 적극 활용되어 번들 크기가 최적화되기를 원합니다.
+**User Story:** 개발자로서, 동적 임포트와 코드 분할이 적극 활용되어 번들 크기가 최적화되기를
+원합니다.
 
 #### Acceptance Criteria
 
 1. WHEN 컴포넌트 로딩을 확인할 때 THEN 무거운 컴포넌트들이 lazy loading되어야 합니다
-2. WHEN `next.config.ts`를 검토할 때 THEN `optimizePackageImports` 설정이 최신 패키지들을 포함해야 합니다
+2. WHEN `next.config.ts`를 검토할 때 THEN `optimizePackageImports` 설정이 최신 패키지들을 포함해야
+   합니다
 3. WHEN 번들 분석을 실행할 때 THEN 불필요한 중복 코드가 제거되어야 합니다
 4. WHEN 라우트별 청크를 확인할 때 THEN 적절한 크기로 분할되어야 합니다
 
 ### Requirement 5
 
-**User Story:** 개발자로서, TypeScript 5.8+ 엄격 모드 설정이 완벽히 적용되어 타입 안전성이 보장되기를 원합니다.
+**User Story:** 개발자로서, TypeScript 5.8+ 엄격 모드 설정이 완벽히 적용되어 타입 안전성이
+보장되기를 원합니다.
 
 #### Acceptance Criteria
 
@@ -74,7 +83,8 @@
 
 ### Requirement 7
 
-**User Story:** 개발자로서, 성능 모니터링과 최적화 도구들이 완벽히 설정되어 성능 이슈를 쉽게 파악할 수 있기를 원합니다.
+**User Story:** 개발자로서, 성능 모니터링과 최적화 도구들이 완벽히 설정되어 성능 이슈를 쉽게 파악할
+수 있기를 원합니다.
 
 #### Acceptance Criteria
 

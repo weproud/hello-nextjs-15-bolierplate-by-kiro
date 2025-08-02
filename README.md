@@ -1,8 +1,10 @@
 # hello-nextjs-15-bolierplate-by-kiro
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) project bootstrapped with
+[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A modern, full-stack Next.js 15 application with TypeScript, Tailwind CSS, Prisma, and NextAuth.js. This project follows strict type safety, code quality standards, and modern development practices.
+A modern, full-stack Next.js 15 application with TypeScript, Tailwind CSS, Prisma, and NextAuth.js.
+This project follows strict type safety, code quality standards, and modern development practices.
 
 ## 🚀 Quick Start
 
@@ -39,8 +41,7 @@ A modern, full-stack Next.js 15 application with TypeScript, Tailwind CSS, Prism
    npm run dev
    ```
 
-4. **Open your browser:**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+4. **Open your browser:** Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 🛠 Technology Stack
 

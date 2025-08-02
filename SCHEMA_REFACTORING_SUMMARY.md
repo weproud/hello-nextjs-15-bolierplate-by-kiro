@@ -1,14 +1,18 @@
 # 스키마 리팩토링 완료 요약
 
 ## 개요
-코드베이스에서 인라인으로 정의된 Zod 스키마들을 별도의 스키마 파일로 분리하여 재사용성과 유지보수성을 향상시켰습니다.
+
+코드베이스에서 인라인으로 정의된 Zod 스키마들을 별도의 스키마 파일로 분리하여 재사용성과
+유지보수성을 향상시켰습니다.
 
 ## 생성된 스키마 파일들
 
 ### 1. `src/lib/validations/form-action-schemas.ts`
+
 **목적**: `form-actions.ts`에서 사용되는 스키마들을 정의
 
 **포함된 스키마들**:
+
 - `fileUploadSchema` - 파일 업로드 검증
 - `batchDeleteSchema` - 일괄 삭제 검증
 - `searchItemsSchema` - 검색 필터 검증
@@ -16,9 +20,11 @@
 - `multiStepFormSchema` - 멀티스텝 폼 검증 (basicInfo, preferences, verification 포함)
 
 ### 2. `src/lib/validations/component-schemas.ts`
+
 **목적**: 컴포넌트에서 사용되는 스키마들을 정의
 
 **포함된 스키마들**:
+
 - `simpleFormSchema` - 간단한 폼 검증
 - `comprehensiveFormSchema` - 복합 폼 검증 (조건부 검증 포함)
 - `fileUploadFormSchema` - 컴포넌트용 파일 업로드 검증
@@ -34,57 +40,64 @@
 ## 수정된 파일들
 
 ### 액션 파일들
+
 - `src/lib/actions/form-actions.ts` - 인라인 스키마를 import로 교체
 - `src/lib/actions/test-safe-action-basic.ts` - 테스트 스키마 import
 - `src/lib/actions/test-safe-action.ts` - 테스트 스키마 import
 - `src/lib/actions/sample-actions.ts` - 샘플 액션 스키마들 import
 
 ### 컴포넌트 파일들
+
 - `src/components/forms/simple-form-example.tsx` - 간단한 폼 스키마 import
 - `src/components/forms/comprehensive-form-example.tsx` - 복합 폼 스키마 import
 - `src/components/forms/advanced-safe-action-examples.tsx` - 고급 폼 스키마들 import
 - `src/components/projects/project-crud-examples.tsx` - 프로젝트 CRUD 스키마들 import
 
 ### 검증 파일들
+
 - `src/lib/validations/common.ts` - 멀티스텝 폼 스키마를 re-export로 변경
 
 ## 개선 사항
 
 ### 1. 재사용성 향상
+
 - 동일한 스키마를 여러 곳에서 재사용 가능
 - 중복 코드 제거
 
 ### 2. 유지보수성 향상
+
 - 스키마 변경 시 한 곳에서만 수정
 - 타입 안전성 보장
 
 ### 3. 코드 구조 개선
+
 - 관심사 분리 (비즈니스 로직과 검증 로직 분리)
 - 명확한 파일 구조
 
 ### 4. 타입 안전성
+
 - 모든 스키마에 대응하는 TypeScript 타입 export
 - 컴파일 타임 타입 검증
 
 ## 사용 예시
 
 ### Before (인라인 스키마)
+
 ```typescript
-const uploadFile = authAction
-  .inputSchema(
-    z.object({
-      file: z.instanceof(File),
-      category: z.enum(['avatar', 'document', 'image']),
-    })
-  )
+const uploadFile = authAction.inputSchema(
+  z.object({
+    file: z.instanceof(File),
+    category: z.enum(['avatar', 'document', 'image']),
+  })
+)
 ```
 
 ### After (분리된 스키마)
+
 ```typescript
 import { fileUploadSchema } from '@/lib/validations/form-action-schemas'
 
-const uploadFile = authAction
-  .inputSchema(fileUploadSchema)
+const uploadFile = authAction.inputSchema(fileUploadSchema)
 ```
 
 ## 다음 단계 권장사항
@@ -95,6 +108,7 @@ const uploadFile = authAction
 4. **스키마 버전 관리**: API 변경 시 스키마 버전 관리 고려
 
 ## 파일 구조
+
 ```
 src/lib/validations/
 ├── common.ts              # 공통 스키마들

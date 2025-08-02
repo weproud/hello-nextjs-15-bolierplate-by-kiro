@@ -10,15 +10,15 @@ import { CheckCircle, Shield, Zap } from 'lucide-react'
 
 export function FeaturesSection() {
   return (
-    <div className="grid md:grid-cols-3 gap-8 mb-16">
+    <div className='grid md:grid-cols-3 gap-8 mb-16'>
       <SelectableCard
         onSelectionChange={selected =>
           console.log('체계적인 관리 선택:', selected)
         }
       >
         <SelectableCardHeader>
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-            <CheckCircle className="h-6 w-6 text-primary" />
+          <div className='w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4'>
+            <CheckCircle className='h-6 w-6 text-primary' />
           </div>
           <SelectableCardTitle>체계적인 관리</SelectableCardTitle>
           <SelectableCardDescription>
@@ -33,8 +33,8 @@ export function FeaturesSection() {
         }
       >
         <SelectableCardHeader>
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-            <Shield className="h-6 w-6 text-primary" />
+          <div className='w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4'>
+            <Shield className='h-6 w-6 text-primary' />
           </div>
           <SelectableCardTitle>안전한 인증</SelectableCardTitle>
           <SelectableCardDescription>
@@ -47,8 +47,8 @@ export function FeaturesSection() {
         onSelectionChange={selected => console.log('빠른 성능 선택:', selected)}
       >
         <SelectableCardHeader>
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-            <Zap className="h-6 w-6 text-primary" />
+          <div className='w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4'>
+            <Zap className='h-6 w-6 text-primary' />
           </div>
           <SelectableCardTitle>빠른 성능</SelectableCardTitle>
           <SelectableCardDescription>

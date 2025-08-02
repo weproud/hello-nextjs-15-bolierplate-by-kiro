@@ -37,12 +37,7 @@ import { UnifiedErrorBoundary } from '@/components/error/unified-error-boundary'
 // 컴포넌트 레벨 에러 바운더리
 function MyComponent() {
   return (
-    <UnifiedErrorBoundary
-      level="component"
-      name="MyComponent"
-      inline={true}
-      minimal={true}
-    >
+    <UnifiedErrorBoundary level='component' name='MyComponent' inline={true} minimal={true}>
       <SomeComponentThatMightFail />
     </UnifiedErrorBoundary>
   )
@@ -51,7 +46,7 @@ function MyComponent() {
 // 라우트 레벨 에러 바운더리
 function MyPage() {
   return (
-    <UnifiedErrorBoundary level="route" name="MyPage" routePath="/my-page">
+    <UnifiedErrorBoundary level='route' name='MyPage' routePath='/my-page'>
       <PageContent />
     </UnifiedErrorBoundary>
   )
@@ -64,15 +59,11 @@ function MyPage() {
 import { withComponentErrorBoundary } from '@/components/error/unified-error-boundary'
 
 // 컴포넌트를 에러 바운더리로 감싸기
-const ProtectedComponent = withComponentErrorBoundary(
-  MyComponent,
-  'MyComponent',
-  {
-    inline: true,
-    minimal: true,
-    showDetails: true,
-  }
-)
+const ProtectedComponent = withComponentErrorBoundary(MyComponent, 'MyComponent', {
+  inline: true,
+  minimal: true,
+  showDetails: true,
+})
 ```
 
 ### 3. 계층적 구조 적용
@@ -83,10 +74,10 @@ import { HierarchicalErrorBoundaryWrapper } from '@/components/error/unified-err
 function App() {
   return (
     <HierarchicalErrorBoundaryWrapper
-      appName="MyApp"
-      routeName="CurrentRoute"
-      routePath="/current-route"
-      componentName="MainComponent"
+      appName='MyApp'
+      routeName='CurrentRoute'
+      routePath='/current-route'
+      componentName='MainComponent'
       showDetails={process.env.NODE_ENV === 'development'}
     >
       <AppContent />
@@ -176,12 +167,7 @@ debugErrorBoundaries()
 
 ```tsx
 import { ErrorBoundaryTester } from '@/components/error/unified-error-boundary'
-
-;<ErrorBoundaryTester
-  level="component"
-  errorType="network"
-  message="Test network error"
-/>
+;<ErrorBoundaryTester level='component' errorType='network' message='Test network error' />
 ```
 
 ### 예제 페이지
@@ -201,7 +187,6 @@ import { ErrorBoundaryExamples } from '@/components/error/error-boundary-example
 
 ```tsx
 import { ErrorBoundary } from '@/components/error/error-boundary'
-
 ;<ErrorBoundary>
   <MyComponent />
 </ErrorBoundary>
@@ -211,8 +196,7 @@ import { ErrorBoundary } from '@/components/error/error-boundary'
 
 ```tsx
 import { UnifiedErrorBoundary } from '@/components/error/unified-error-boundary'
-
-;<UnifiedErrorBoundary level="component" name="MyComponent">
+;<UnifiedErrorBoundary level='component' name='MyComponent'>
   <MyComponent />
 </UnifiedErrorBoundary>
 ```

@@ -204,8 +204,8 @@ export function AdvancedForm<T extends FieldValues>({
         <AutoSaveIndicator />
 
         {showSummaryErrors && formErrors.length > 0 && (
-          <div className="mb-6 p-4 border border-destructive/20 bg-destructive/5 rounded-md">
-            <h3 className="text-sm font-medium text-destructive mb-2">
+          <div className='mb-6 p-4 border border-destructive/20 bg-destructive/5 rounded-md'>
+            <h3 className='text-sm font-medium text-destructive mb-2'>
               다음 오류를 수정해주세요:
             </h3>
             <FormErrorList errors={formErrors} />
@@ -214,18 +214,18 @@ export function AdvancedForm<T extends FieldValues>({
 
         {children}
 
-        <div className="flex gap-4 pt-4">
+        <div className='flex gap-4 pt-4'>
           {form.formState.isDirty && (
             <Button
-              type="button"
-              variant="outline"
+              type='button'
+              variant='outline'
               onClick={() => form.reset()}
               disabled={isPending}
             >
               초기화
             </Button>
           )}
-          <Button type="submit" disabled={isPending} className="flex-1">
+          <Button type='submit' disabled={isPending} className='flex-1'>
             {isPending ? '처리 중...' : submitText}
           </Button>
         </div>
@@ -272,9 +272,9 @@ export function AdvancedFormField<T extends FieldValues>({
         <FormItem className={className}>
           <FormLabel>
             {label}
-            {required && <span className="text-destructive ml-1">*</span>}
+            {required && <span className='text-destructive ml-1'>*</span>}
             {isValidating && (
-              <span className="text-xs text-muted-foreground ml-2">
+              <span className='text-xs text-muted-foreground ml-2'>
                 (검증 중...)
               </span>
             )}
@@ -303,8 +303,8 @@ export function AdvancedFormField<T extends FieldValues>({
           {fieldState.error?.type === 'server' && (
             <FormError
               message={fieldState.error.message}
-              type="error"
-              className="mt-1"
+              type='error'
+              className='mt-1'
             />
           )}
         </FormItem>
@@ -329,9 +329,9 @@ export function FormValidationStatus({
   const progress = totalFields > 0 ? (validFields / totalFields) * 100 : 0
 
   return (
-    <div className="mb-4 p-3 bg-muted/50 rounded-md">
-      <div className="flex items-center justify-between text-sm">
-        <span className="font-medium">폼 검증 상태</span>
+    <div className='mb-4 p-3 bg-muted/50 rounded-md'>
+      <div className='flex items-center justify-between text-sm'>
+        <span className='font-medium'>폼 검증 상태</span>
         <span
           className={formState.isValid ? 'text-green-600' : 'text-orange-600'}
         >
@@ -340,8 +340,8 @@ export function FormValidationStatus({
       </div>
 
       {showProgress && (
-        <div className="mt-2">
-          <div className="w-full bg-muted rounded-full h-2">
+        <div className='mt-2'>
+          <div className='w-full bg-muted rounded-full h-2'>
             <div
               className={`h-2 rounded-full transition-all duration-300 ${
                 formState.isValid ? 'bg-green-500' : 'bg-orange-500'
@@ -353,7 +353,7 @@ export function FormValidationStatus({
       )}
 
       {formState.isDirty && !formState.isValid && (
-        <div className="mt-2 text-xs text-muted-foreground">
+        <div className='mt-2 text-xs text-muted-foreground'>
           {Object.keys(formState.errors).length}개의 오류를 수정해주세요.
         </div>
       )}
@@ -410,20 +410,20 @@ export function FormSection({
         onClick={collapsible ? () => setIsExpanded(!isExpanded) : undefined}
       >
         <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
+          <h3 className='text-lg font-semibold'>{title}</h3>
           {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p className='text-sm text-muted-foreground'>{description}</p>
           )}
         </div>
         {collapsible && (
-          <Button variant="ghost" size="sm">
+          <Button variant='ghost' size='sm'>
             {isExpanded ? '접기' : '펼치기'}
           </Button>
         )}
       </div>
 
       {(!collapsible || isExpanded) && (
-        <div className="space-y-4">{children}</div>
+        <div className='space-y-4'>{children}</div>
       )}
     </div>
   )

@@ -40,7 +40,7 @@ export function FormError({
         className
       )}
     >
-      <Icon className="h-4 w-4 shrink-0" />
+      <Icon className='h-4 w-4 shrink-0' />
       <span>{message}</span>
     </div>
   )
@@ -117,21 +117,21 @@ export function FormErrorSummary({
         className
       )}
     >
-      <div className="flex items-center gap-2 mb-3">
-        <AlertCircle className="h-5 w-5 text-destructive" />
-        <h3 className="text-sm font-medium text-destructive">{title}</h3>
+      <div className='flex items-center gap-2 mb-3'>
+        <AlertCircle className='h-5 w-5 text-destructive' />
+        <h3 className='text-sm font-medium text-destructive'>{title}</h3>
       </div>
 
-      <div className="space-y-1">
+      <div className='space-y-1'>
         {displayErrors.map(([field, messages]) => (
-          <div key={field} className="text-sm text-destructive">
-            {showFieldNames && <span className="font-medium">{field}: </span>}
+          <div key={field} className='text-sm text-destructive'>
+            {showFieldNames && <span className='font-medium'>{field}: </span>}
             {messages[0]}
           </div>
         ))}
 
         {hasMoreErrors && (
-          <div className="text-sm text-muted-foreground mt-2">
+          <div className='text-sm text-muted-foreground mt-2'>
             그 외 {errorEntries.length - maxErrors}개의 오류가 더 있습니다.
           </div>
         )}
@@ -162,7 +162,7 @@ export function FieldValidationIndicator({
           className
         )}
       >
-        <div className="animate-spin h-3 w-3 border border-current border-t-transparent rounded-full" />
+        <div className='animate-spin h-3 w-3 border border-current border-t-transparent rounded-full' />
         <span>검증 중...</span>
       </div>
     )
@@ -176,7 +176,7 @@ export function FieldValidationIndicator({
           className
         )}
       >
-        <AlertCircle className="h-3 w-3" />
+        <AlertCircle className='h-3 w-3' />
         <span>{error}</span>
       </div>
     )
@@ -190,7 +190,7 @@ export function FieldValidationIndicator({
           className
         )}
       >
-        <CheckCircle2 className="h-3 w-3" />
+        <CheckCircle2 className='h-3 w-3' />
         <span>유효함</span>
       </div>
     )
@@ -221,8 +221,8 @@ export function FormProgress({
   return (
     <div className={cn('space-y-2', className)}>
       {showText && (
-        <div className="flex items-center justify-between text-sm">
-          <span className="font-medium">폼 완성도</span>
+        <div className='flex items-center justify-between text-sm'>
+          <span className='font-medium'>폼 완성도</span>
           <span
             className={isComplete ? 'text-green-600' : 'text-muted-foreground'}
           >
@@ -232,7 +232,7 @@ export function FormProgress({
         </div>
       )}
 
-      <div className="w-full bg-muted rounded-full h-2">
+      <div className='w-full bg-muted rounded-full h-2'>
         <div
           className={cn(
             'h-2 rounded-full transition-all duration-300',

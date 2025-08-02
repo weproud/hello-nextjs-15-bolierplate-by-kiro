@@ -12,7 +12,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ className, variant, size, shape, ...props }, ref) => (
     <div
       ref={ref}
-      data-slot="skeleton"
+      data-slot='skeleton'
       className={cn(skeletonVariants({ variant, size, shape }), className)}
       {...props}
     />
@@ -28,7 +28,7 @@ const SkeletonText = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Skeleton
     ref={ref}
-    shape="default"
+    shape='default'
     className={cn('w-full', className)}
     {...props}
   />
@@ -42,7 +42,7 @@ const SkeletonAvatar = React.forwardRef<
 >(({ className, size = 'default', ...props }, ref) => (
   <Skeleton
     ref={ref}
-    shape="circle"
+    shape='circle'
     size={size}
     className={cn(
       {
@@ -65,7 +65,7 @@ const SkeletonButton = React.forwardRef<
 >(({ className, size = 'default', ...props }, ref) => (
   <Skeleton
     ref={ref}
-    shape="default"
+    shape='default'
     className={cn(
       {
         'h-8 w-20': size === 'sm',

@@ -166,66 +166,66 @@ export class ComponentErrorBoundary extends Component<Props, State> {
     if (!this.state.error) return null
 
     return (
-      <div className="relative bg-red-50 border border-red-200 rounded-lg p-4 my-2">
+      <div className='relative bg-red-50 border border-red-200 rounded-lg p-4 my-2'>
         {this.props.dismissible && (
           <Button
-            variant="ghost"
-            size="sm"
+            variant='ghost'
+            size='sm'
             onClick={this.handleDismiss}
-            className="absolute top-2 right-2 h-6 w-6 p-0 text-red-600 hover:text-red-800"
+            className='absolute top-2 right-2 h-6 w-6 p-0 text-red-600 hover:text-red-800'
           >
-            <X className="w-4 h-4" />
+            <X className='w-4 h-4' />
           </Button>
         )}
 
-        <div className="flex items-start space-x-3">
-          <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h4 className="text-sm font-medium text-red-800">
+        <div className='flex items-start space-x-3'>
+          <AlertTriangle className='w-5 h-5 text-red-600 mt-0.5 flex-shrink-0' />
+          <div className='flex-1 min-w-0'>
+            <div className='flex items-center gap-2 mb-1'>
+              <h4 className='text-sm font-medium text-red-800'>
                 컴포넌트 오류
               </h4>
-              <Badge variant="destructive" className="text-xs">
+              <Badge variant='destructive' className='text-xs'>
                 COMPONENT
               </Badge>
             </div>
 
             {this.props.componentName && (
-              <p className="text-xs text-red-600 mb-2">
+              <p className='text-xs text-red-600 mb-2'>
                 컴포넌트: {this.props.componentName}
               </p>
             )}
 
-            <p className="text-sm text-red-700 mb-3">
+            <p className='text-sm text-red-700 mb-3'>
               이 컴포넌트를 불러오는 중에 문제가 발생했습니다.
             </p>
 
             {/* 개발 환경 에러 상세 정보 */}
             {this.props.showDetails &&
               process.env.NODE_ENV === 'development' && (
-                <div className="bg-red-100 p-2 rounded text-xs text-red-800 mb-3">
+                <div className='bg-red-100 p-2 rounded text-xs text-red-800 mb-3'>
                   <div>
                     <strong>메시지:</strong> {this.state.error.message}
                   </div>
-                  <div className="mt-1">
+                  <div className='mt-1'>
                     <strong>ID:</strong> {this.state.error.id}
                   </div>
                 </div>
               )}
 
             {/* 복구 액션 버튼들 */}
-            <div className="flex flex-wrap gap-2">
+            <div className='flex flex-wrap gap-2'>
               {this.state.recoveryActions.map(action => (
                 <Button
                   key={action.id}
                   onClick={() => this.handleRecoveryAction(action)}
                   disabled={this.state.isRecovering}
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-xs"
+                  variant='outline'
+                  size='sm'
+                  className='h-7 text-xs'
                 >
                   {action.type === 'retry' && (
-                    <RefreshCw className="w-3 h-3 mr-1" />
+                    <RefreshCw className='w-3 h-3 mr-1' />
                   )}
                   {this.state.isRecovering ? '처리 중...' : action.label}
                 </Button>
@@ -244,69 +244,69 @@ export class ComponentErrorBoundary extends Component<Props, State> {
     if (!this.state.error) return null
 
     return (
-      <Card className="border-red-200 bg-red-50">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
-              <CardTitle className="text-base text-red-800">
+      <Card className='border-red-200 bg-red-50'>
+        <CardHeader className='pb-3'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
+              <AlertTriangle className='w-5 h-5 text-red-600' />
+              <CardTitle className='text-base text-red-800'>
                 컴포넌트 오류
               </CardTitle>
-              <Badge variant="destructive" className="text-xs">
+              <Badge variant='destructive' className='text-xs'>
                 COMPONENT
               </Badge>
             </div>
             {this.props.dismissible && (
               <Button
-                variant="ghost"
-                size="sm"
+                variant='ghost'
+                size='sm'
                 onClick={this.handleDismiss}
-                className="h-6 w-6 p-0 text-red-600 hover:text-red-800"
+                className='h-6 w-6 p-0 text-red-600 hover:text-red-800'
               >
-                <X className="w-4 h-4" />
+                <X className='w-4 h-4' />
               </Button>
             )}
           </div>
           {this.props.componentName && (
-            <p className="text-sm text-red-600">
+            <p className='text-sm text-red-600'>
               컴포넌트: {this.props.componentName}
             </p>
           )}
         </CardHeader>
 
-        <CardContent className="space-y-4">
-          <p className="text-sm text-red-700">
+        <CardContent className='space-y-4'>
+          <p className='text-sm text-red-700'>
             이 컴포넌트를 불러오는 중에 문제가 발생했습니다.
           </p>
 
           {/* 에러 정보 */}
-          <div className="text-xs text-red-600">
+          <div className='text-xs text-red-600'>
             <p>
               오류 ID:{' '}
-              <code className="bg-red-100 px-1 py-0.5 rounded">
+              <code className='bg-red-100 px-1 py-0.5 rounded'>
                 {this.state.error.id}
               </code>
             </p>
             {this.state.retryCount > 0 && (
-              <p className="mt-1">재시도 횟수: {this.state.retryCount}</p>
+              <p className='mt-1'>재시도 횟수: {this.state.retryCount}</p>
             )}
           </div>
 
           {/* 개발 환경 에러 상세 정보 */}
           {this.props.showDetails && process.env.NODE_ENV === 'development' && (
-            <div className="bg-red-100 p-3 rounded text-xs text-red-800">
+            <div className='bg-red-100 p-3 rounded text-xs text-red-800'>
               <div>
                 <strong>타입:</strong> {this.state.error.type}
               </div>
-              <div className="mt-1">
+              <div className='mt-1'>
                 <strong>메시지:</strong> {this.state.error.message}
               </div>
               {this.state.error.originalError?.stack && (
-                <details className="mt-2">
-                  <summary className="cursor-pointer font-medium">
+                <details className='mt-2'>
+                  <summary className='cursor-pointer font-medium'>
                     스택 트레이스
                   </summary>
-                  <pre className="mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-24">
+                  <pre className='mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-24'>
                     {this.state.error.originalError.stack}
                   </pre>
                 </details>
@@ -315,18 +315,18 @@ export class ComponentErrorBoundary extends Component<Props, State> {
           )}
 
           {/* 복구 액션 버튼들 */}
-          <div className="flex flex-wrap gap-2">
+          <div className='flex flex-wrap gap-2'>
             {this.state.recoveryActions.map(action => (
               <Button
                 key={action.id}
                 onClick={() => this.handleRecoveryAction(action)}
                 disabled={this.state.isRecovering}
                 variant={action.primary ? 'default' : 'outline'}
-                size="sm"
-                className="flex items-center"
+                size='sm'
+                className='flex items-center'
               >
                 {action.type === 'retry' && (
-                  <RefreshCw className="w-3 h-3 mr-1" />
+                  <RefreshCw className='w-3 h-3 mr-1' />
                 )}
                 {this.state.isRecovering ? '처리 중...' : action.label}
               </Button>

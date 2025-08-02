@@ -1,7 +1,8 @@
 # 구현 계획
 
 - [x] 1. 프로젝트 설정 및 의존성 설치
-  - pnpm을 사용하여 Tiptap 관련 패키지 설치 (@tiptap/react, @tiptap/pm, @tiptap/starter-kit, @tiptap/extension-heading)
+  - pnpm을 사용하여 Tiptap 관련 패키지 설치 (@tiptap/react, @tiptap/pm, @tiptap/starter-kit,
+    @tiptap/extension-heading)
   - 필요한 shadcn/ui 컴포넌트 추가 설치 (필요시)
   - TypeScript 타입 정의 파일 생성
   - _요구사항: 1.1, 1.8_

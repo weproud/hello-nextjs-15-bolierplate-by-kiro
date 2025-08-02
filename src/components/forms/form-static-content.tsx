@@ -15,8 +15,8 @@ export function FormHeader({
 }) {
   return (
     <div className={`text-center mb-8 ${className}`}>
-      <h1 className="text-2xl font-bold mb-2">{title}</h1>
-      {description && <p className="text-muted-foreground">{description}</p>}
+      <h1 className='text-2xl font-bold mb-2'>{title}</h1>
+      {description && <p className='text-muted-foreground'>{description}</p>}
     </div>
   )
 }
@@ -39,9 +39,9 @@ export function FormSectionStatic({
   return (
     <div className={`space-y-4 ${className}`}>
       <div>
-        <h3 className="text-lg font-medium">{title}</h3>
+        <h3 className='text-lg font-medium'>{title}</h3>
         {description && (
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
+          <p className='text-sm text-muted-foreground mt-1'>{description}</p>
         )}
       </div>
       {children}
@@ -66,12 +66,12 @@ export function FieldLabelStatic({
 }) {
   return (
     <div className={`space-y-1 ${className}`}>
-      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+      <label className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className='text-red-500 ml-1'>*</span>}
       </label>
       {description && (
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className='text-xs text-muted-foreground'>{description}</p>
       )}
     </div>
   )
@@ -134,8 +134,8 @@ export function FormHelpStatic({
 }) {
   return (
     <div className={`bg-muted p-4 rounded-lg ${className}`}>
-      <h4 className="font-medium mb-2">{title}</h4>
-      <ul className="space-y-1 text-sm text-muted-foreground">
+      <h4 className='font-medium mb-2'>{title}</h4>
+      <ul className='space-y-1 text-sm text-muted-foreground'>
         {tips.map((tip, index) => (
           <li key={index}>• {tip}</li>
         ))}

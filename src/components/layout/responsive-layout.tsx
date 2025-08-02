@@ -259,7 +259,7 @@ export const Hide: React.FC<ShowProps> = ({ above, below, only, children }) => {
 
   return (
     <Show {...showProps}>
-      <div className="hidden">{children}</div>
+      <div className='hidden'>{children}</div>
     </Show>
   )
 }

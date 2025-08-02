@@ -68,7 +68,7 @@ export function AppSidebar({
   const isCollapsed = state === 'collapsed'
 
   return (
-    <Sidebar collapsible="icon" {...props} variant="inset">
+    <Sidebar collapsible='icon' {...props} variant='inset'>
       <SidebarHeader>
         <Logo showText={!isCollapsed} />
       </SidebarHeader>
@@ -80,7 +80,7 @@ export function AppSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>내 워크스페이스</SidebarGroupLabel>
           <AppSidebarMenu items={data.navWorkspace} />
-          <div className="mt-3" />
+          <div className='mt-3' />
           <ProjectSwitcher projects={projects} />
         </SidebarGroup>
       </SidebarContent>

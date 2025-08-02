@@ -43,8 +43,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     return (
       <div
         ref={ref}
-        data-slot="alert"
-        role="alert"
+        data-slot='alert'
+        role='alert'
         className={cn(
           enhancedAlertVariants({ variant, size }),
           dismissible && 'pr-10',
@@ -53,15 +53,15 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {...props}
       >
         {showIcon && iconElement}
-        <div className="flex-1">{children}</div>
+        <div className='flex-1'>{children}</div>
         {dismissible && (
           <button
-            type="button"
+            type='button'
             onClick={onDismiss}
-            className="absolute right-2 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            aria-label="Dismiss alert"
+            className='absolute right-2 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+            aria-label='Dismiss alert'
           >
-            <X className="h-4 w-4" />
+            <X className='h-4 w-4' />
           </button>
         )}
       </div>
@@ -77,7 +77,7 @@ const AlertTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    data-slot="alert-title"
+    data-slot='alert-title'
     className={cn('mb-1 font-medium leading-none tracking-tight', className)}
     {...props}
   />
@@ -91,7 +91,7 @@ const AlertDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    data-slot="alert-description"
+    data-slot='alert-description'
     className={cn('text-sm [&_p]:leading-relaxed', className)}
     {...props}
   />
