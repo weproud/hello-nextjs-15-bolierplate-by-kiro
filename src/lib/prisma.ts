@@ -3,7 +3,6 @@ import { Prisma, PrismaClient } from '@prisma/client'
 // Re-export the enhanced prisma client
 export { extendedPrisma } from './prisma/client'
 export { DatabaseConnection } from './prisma/connection'
-export { userQueries, projectQueries, genericQueries } from './prisma/queries'
 export type { ExtendedPrismaClient } from './prisma/extensions'
 
 const globalForPrisma = globalThis as unknown as {

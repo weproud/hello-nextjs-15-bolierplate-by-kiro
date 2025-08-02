@@ -1,20 +1,16 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { ActionLogger } from '@/lib/error-handling'
+import { postRepository } from '@/lib/repositories'
 import { authActionClient, publicActionClient } from '@/lib/safe-action'
 import {
   createPostSchema,
-  updatePostSchema,
   deletePostSchema,
   getPostSchema,
   getPostsSchema,
+  updatePostSchema,
 } from '@/lib/validations/post'
-import { ActionLogger } from '@/lib/error-handling'
-import { postRepository } from '@/lib/repositories'
-import {
-  DuplicateError,
-  NotFoundError,
-} from '@/lib/repositories/base-repository'
+import { revalidatePath } from 'next/cache'
 
 /**
  * Create a new post
@@ -51,7 +47,7 @@ export const createPostAction = authActionClient
             connect: { id: user.id },
           },
         },
-        include: {
+        {
           author: {
             select: {
               id: true,
@@ -60,8 +56,8 @@ export const createPostAction = authActionClient
               image: true,
             },
           },
-        },
-      })
+        }
+      )
 
       // Revalidate relevant pages
       revalidatePath('/posts')
@@ -132,20 +128,15 @@ export const updatePostAction = authActionClient
       if (slug !== undefined) updateData.slug = slug
       if (published !== undefined) updateData.published = published
 
-      const post = await postRepository.update(
-        id,
-        updateData,
-        {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
-            },
+      const post = await postRepository.update(id, updateData, {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
           },
-        }
-      )
+        },
       })
 
       // Revalidate relevant pages

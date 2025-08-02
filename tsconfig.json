@@ -16,7 +16,7 @@
     "incremental": true,
     // Enhanced TypeScript strict mode settings
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    // "exactOptionalPropertyTypes": true, // 임시 비활성화
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,

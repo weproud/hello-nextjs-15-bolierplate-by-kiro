@@ -1,15 +1,14 @@
-import type { User, Prisma } from '@prisma/client'
-import { prisma } from '@/lib/prisma'
+import { dbErrors, prisma } from '@/lib/prisma'
+import type { Prisma, User } from '@prisma/client'
 import {
   AbstractRepository,
   BaseRepository,
-  NotFoundError,
   DuplicateError,
+  NotFoundError,
   type PaginatedResult,
   type PaginationOptions,
   type SortOptions,
 } from './base-repository'
-import { dbErrors } from '@/lib/prisma'
 
 /**
  * User 모델에 대한 Repository 클래스
@@ -42,7 +41,7 @@ export class UserRepository
         orderBy: options?.orderBy ?? { createdAt: 'desc' },
         take: options?.take,
         skip: options?.skip,
-        include: options?.include,
+        include: options?.include || undefined,
       })
     } catch (error) {
       throw new Error(`Failed to fetch users: ${error}`)

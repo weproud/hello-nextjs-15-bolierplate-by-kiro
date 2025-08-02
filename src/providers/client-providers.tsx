@@ -2,8 +2,10 @@
 
 import { AuthProvider } from '@/components/auth/auth-provider'
 import { GlobalErrorBoundary } from '@/components/error/hierarchical-error-boundary'
+import { AccessibilityProvider } from '@/components/providers/accessibility-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { GlobalThemeTransition } from '@/components/ui/theme-transition'
 import { LoadingProvider } from '@/contexts/loading-context'
 import { SessionProvider } from '@/providers/session-provider'
 import { AppStoreProvider } from '@/store/provider'
