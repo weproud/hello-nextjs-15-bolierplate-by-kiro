@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
+    "error-check": "pnpm type-check 2>&1 | tee typescript-errors.log",
     "ui:add": "pnpm dlx shadcn@latest add",
     "test": "vitest",
     "test:watch": "vitest --watch",

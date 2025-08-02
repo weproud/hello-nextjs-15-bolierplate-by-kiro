@@ -1,0 +1,720 @@
+
+> hello-nextjs-15-bolierplate-v2@0.1.0 type-check /Users/raiiz/labs/workspace/hello-nextjs-15-bolierplate-by-kiro
+> tsc --noEmit
+
+.next/types/app/(app)/(community)/posts/[id]/page.ts(34,29): error TS2344: Type 'PostDetailPageProps' does not satisfy the constraint 'PageProps'.
+  Types of property 'params' are incompatible.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+.next/types/app/(app)/(community)/posts/[id]/page.ts(38,31): error TS2344: Type 'PostDetailPageProps' does not satisfy the constraint 'PageProps'.
+  Types of property 'params' are incompatible.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(48,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
+  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(74,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
+  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(101,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
+  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(118,32): error TS2345: Argument of type 'null' is not assignable to parameter of type 'NextMiddleware'.
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(137,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
+  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
+src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(159,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
+  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(8,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(9,13): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(10,13): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(13,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(14,9): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(17,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(18,18): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(21,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(31,31): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(32,49): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(35,39): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(36,39): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(38,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(57,3): error TS2304: Cannot find name 'beforeEach'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(58,5): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(61,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(66,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(71,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(79,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(82,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(88,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(91,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(101,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(105,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(114,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(115,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(116,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/[id]/page.tsx(48,24): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(48,44): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(85,10): error TS2532: Object is possibly 'undefined'.
+src/app/(app)/(community)/posts/[id]/page.tsx(99,27): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(99,47): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(100,43): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(100,67): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(157,46): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/[id]/page.tsx(163,31): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(6,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(7,9): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(11,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(12,13): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(16,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(22,31): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(24,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(25,3): error TS2304: Cannot find name 'beforeEach'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(26,5): error TS2708: Cannot use namespace 'jest' as a value.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(29,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(43,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(44,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(49,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(50,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(53,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(54,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(55,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(58,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(66,5): error TS2304: Cannot find name 'expect'.
+src/app/(app)/(community)/posts/page.tsx(95,40): error TS2532: Object is possibly 'undefined'.
+src/app/(app)/(dashboard)/projects/page.tsx(75,29): error TS2322: Type 'AuthUser' is not assignable to type 'User'.
+  Types of property 'name' are incompatible.
+    Type 'string | null | undefined' is not assignable to type 'string | null'.
+      Type 'undefined' is not assignable to type 'string | null'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(17,10): error TS2300: Duplicate identifier 'Dialog'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(18,10): error TS2300: Duplicate identifier 'DialogContent'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(19,10): error TS2300: Duplicate identifier 'DialogHeader'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(20,10): error TS2300: Duplicate identifier 'DialogDescription'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(21,10): error TS2300: Duplicate identifier 'DialogDescription'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(22,10): error TS2300: Duplicate identifier 'DialogTitle'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(23,10): error TS2300: Duplicate identifier 'DialogTitle'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(24,10): error TS2300: Duplicate identifier 'DialogHeader'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(25,10): error TS2300: Duplicate identifier 'DialogContent'.
+src/app/(app)/(dashboard)/projects/projects-client.tsx(26,10): error TS2300: Duplicate identifier 'Dialog'.
+src/app/api/analytics/custom-metrics/route.ts(244,49): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/app/api/analytics/custom-metrics/route.ts(292,8): error TS2532: Object is possibly 'undefined'.
+src/app/api/analytics/custom-metrics/route.ts(292,26): error TS2532: Object is possibly 'undefined'.
+src/app/api/analytics/custom-metrics/route.ts(293,7): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/app/api/analytics/custom-metrics/route.ts(300,3): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/components/auth/index.ts(15,10): error TS2724: '"./signin-modal"' has no exported member named 'SignInModal'. Did you mean 'SigninModal'?
+src/components/auth/index.ts(16,10): error TS2724: '"./signin-modal-lite"' has no exported member named 'SignInModalLite'. Did you mean 'SigninModalLite'?
+src/components/dashboard/index.ts(12,15): error TS2724: '"./dashboard-stats"' has no exported member named 'DashboardStatsProps'. Did you mean 'DashboardStats'?
+src/components/dashboard/index.ts(13,15): error TS2724: '"./dashboard-activity"' has no exported member named 'DashboardActivityProps'. Did you mean 'DashboardActivity'?
+src/components/error-boundary-examples.tsx(4,40): error TS2307: Cannot find module './component-error-boundary' or its corresponding type declarations.
+src/components/error-boundary-examples.tsx(5,35): error TS2307: Cannot find module './page-error-boundary' or its corresponding type declarations.
+src/components/error/error-boundary-examples.tsx(7,58): error TS2307: Cannot find module '@/components/ui/tabs' or its corresponding type declarations.
+src/components/error/error-handling-examples.tsx(16,3): error TS2305: Module '"@/components/error"' has no exported member 'ComponentErrorWrapper'.
+src/components/error/error-recovery.tsx(148,13): error TS7030: Not all code paths return a value.
+src/components/error/hierarchical-error-boundary.tsx(136,3): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<HierarchicalErrorBoundaryProps, HierarchicalErrorBoundaryState, any>'.
+src/components/error/hierarchical-error-boundary.tsx(141,3): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<HierarchicalErrorBoundaryProps, HierarchicalErrorBoundaryState, any>'.
+src/components/error/hierarchical-error-boundary.tsx(160,9): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<HierarchicalErrorBoundaryProps, HierarchicalErrorBoundaryState, any>'.
+src/components/error/hierarchical-error-boundary.tsx(264,3): error TS4114: This member must have an 'override' modifier because it overrides a member in the base class 'Component<HierarchicalErrorBoundaryProps, HierarchicalErrorBoundaryState, any>'.
+src/components/error/hierarchical-error-boundary.tsx(502,7): error TS2322: Type '{ children: ReactNode; componentName: string; inline: boolean; minimal: boolean; fallback: ReactNode; onError: ((error: Error, errorInfo: ErrorInfo) => void) | undefined; onRecover: (() => void) | undefined; showDetails: boolean; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+  Property 'minimal' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+src/components/error/hierarchical-error-boundary.tsx(533,7): error TS2322: Type '{ children: ReactNode; componentName: string; inline: true; minimal: boolean; fallback: ReactNode; onError: ((error: Error, errorInfo: ErrorInfo) => void) | undefined; onRecover: (() => void) | undefined; showDetails: boolean; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+  Property 'minimal' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+src/components/error/page-error-boundary.tsx(41,5): error TS2345: Argument of type '"page"' is not assignable to parameter of type 'ErrorBoundaryLevel'.
+src/components/error/page-error-boundary.tsx(101,11): error TS2353: Object literal may only specify known properties, and 'page' does not exist in type 'ErrorContext'.
+src/components/error/unified-error-boundary.tsx(78,11): error TS2322: Type '{ children: ReactNode; componentName: string; inline: boolean; minimal: boolean; fallback: ReactNode; onError: ((error: Error, errorInfo: ErrorInfo) => void) | undefined; onRecover: (() => void) | undefined; showDetails: boolean; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+  Property 'minimal' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<ComponentErrorBoundary> & Readonly<Props>'.
+src/components/forms/advanced-form.tsx(118,38): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(name: string, value: string | Blob): void', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'string | Blob'.
+      Type 'undefined' is not assignable to type 'string | Blob'.
+  Overload 2 of 3, '(name: string, value: string): void', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+  Overload 3 of 3, '(name: string, blobValue: Blob, filename?: string | undefined): void', gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type 'Blob'.
+      Type 'undefined' is not assignable to type 'Blob'.
+src/components/forms/advanced-form.tsx(286,30): error TS2554: Expected 0 arguments, but got 1.
+src/components/forms/advanced-safe-action-examples.tsx(178,37): error TS2339: Property 'id' does not exist on type 'UploadResult'.
+src/components/forms/advanced-safe-action-examples.tsx(213,29): error TS2339: Property 'successCount' does not exist on type '{ data: { success: string[]; failed: string[]; total: number; successCount: number; failedCount: number; }; input: { ids: string[]; type: "projects" | "files" | "comments"; }; }'.
+src/components/forms/advanced-safe-action-examples.tsx(214,16): error TS2339: Property 'failedCount' does not exist on type '{ data: { success: string[]; failed: string[]; total: number; successCount: number; failedCount: number; }; input: { ids: string[]; type: "projects" | "files" | "comments"; }; }'.
+src/components/forms/advanced-safe-action-examples.tsx(215,31): error TS2339: Property 'failedCount' does not exist on type '{ data: { success: string[]; failed: string[]; total: number; successCount: number; failedCount: number; }; input: { ids: string[]; type: "projects" | "files" | "comments"; }; }'.
+src/components/forms/advanced-safe-action-examples.tsx(340,5): error TS2322: Type 'Resolver<{ query: string; category?: string | undefined; sortBy?: "date" | "name" | "relevance" | undefined; }, any, { query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }>' is not assignable to type 'Resolver<{ query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }, any, { query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }>' is not assignable to type 'ResolverOptions<{ query: string; category?: string | undefined; sortBy?: "date" | "name" | "relevance" | undefined; }>'.
+      Type '"date" | "name" | "relevance" | undefined' is not assignable to type '"date" | "name" | "relevance"'.
+        Type 'undefined' is not assignable to type '"date" | "name" | "relevance"'.
+src/components/forms/advanced-safe-action-examples.tsx(348,29): error TS2339: Property 'items' does not exist on type '{ data: { items: { id: string; title: string; description: string; category: string; createdAt: Date; relevanceScore: number; }[]; pagination: { page: number; limit: number; total: number; totalPages: number; }; query: string; filters: { ...; } | undefined; searchTime: number; }; input: { ...; }; }'.
+src/components/forms/advanced-safe-action-examples.tsx(376,38): error TS2345: Argument of type '(data: SearchInput) => void' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }'.
+      Type 'FieldValues' is missing the following properties from type '{ query: string; sortBy: "date" | "name" | "relevance"; category?: string | undefined; }': query, sortBy
+src/components/forms/advanced-safe-action-examples.tsx(494,26): error TS2339: Property 'message' does not exist on type '{ data: { message: string; subscriptionId: string; }; input: { email: string; preferences: ("tech" | "design" | "business" | "marketing")[]; frequency: "daily" | "weekly" | "monthly"; }; }'.
+src/components/forms/comprehensive-form-example.tsx(88,38): error TS2345: Argument of type 'SafeActionFn<string, ZodObject<{ name: ZodString; email: ZodString; age: ZodNumber; phone: ZodOptional<ZodString>; website: ZodUnion<[ZodOptional<ZodString>, ZodLiteral<...>]>; newsletter: ZodBoolean; role: ZodEnum<...>; company: ZodOptional<...>; studentId: ZodOptional<...>; }, $strip>, readonly [], { ...; }, { ......' is not assignable to parameter of type 'FormAction<{ name: string; email: string; age: number; newsletter: boolean; role: "student" | "professional" | "freelancer"; phone?: string | undefined; website?: string | undefined; company?: string | undefined; studentId?: string | undefined; }, { ...; }>'.
+  Type 'SafeActionFn<string, ZodObject<{ name: ZodString; email: ZodString; age: ZodNumber; phone: ZodOptional<ZodString>; website: ZodUnion<[ZodOptional<ZodString>, ZodLiteral<...>]>; newsletter: ZodBoolean; role: ZodEnum<...>; company: ZodOptional<...>; studentId: ZodOptional<...>; }, $strip>, readonly [], { ...; }, { ......' is not assignable to type 'ServerAction<{ name: string; email: string; age: number; newsletter: boolean; role: "student" | "professional" | "freelancer"; phone?: string | undefined; website?: string | undefined; company?: string | undefined; studentId?: string | undefined; }, { ...; }>'.
+    Type 'Promise<SafeActionResult<string, ZodObject<{ name: ZodString; email: ZodString; age: ZodNumber; phone: ZodOptional<ZodString>; website: ZodUnion<[ZodOptional<ZodString>, ZodLiteral<...>]>; newsletter: ZodBoolean; role: ZodEnum<...>; company: ZodOptional<...>; studentId: ZodOptional<...>; }, $strip>, { ...; }, { ...;...' is not assignable to type 'Promise<ActionResult<{ createdAt: Date; status: string; name: string; email: string; age: number; newsletter: boolean; role: "student" | "professional" | "freelancer"; phone?: string | undefined; website?: string | undefined; company?: string | undefined; studentId?: string | undefined; id: string; }>>'.
+      Type 'SafeActionResult<string, ZodObject<{ name: ZodString; email: ZodString; age: ZodNumber; phone: ZodOptional<ZodString>; website: ZodUnion<[ZodOptional<ZodString>, ZodLiteral<...>]>; newsletter: ZodBoolean; role: ZodEnum<...>; company: ZodOptional<...>; studentId: ZodOptional<...>; }, $strip>, { ...; }, { ...; }, obje...' is not assignable to type 'ActionResult<{ createdAt: Date; status: string; name: string; email: string; age: number; newsletter: boolean; role: "student" | "professional" | "freelancer"; phone?: string | undefined; website?: string | undefined; company?: string | undefined; studentId?: string | undefined; id: string; }>'.
+        Types of property 'validationErrors' are incompatible.
+          Type '{ formErrors: string[]; fieldErrors: { email?: string[] | undefined; name?: string[] | undefined; phone?: string[] | undefined; role?: string[] | undefined; company?: string[] | undefined; age?: string[] | undefined; studentId?: string[] | undefined; website?: string[] | undefined; newsletter?: string[] | undefined;...' is not assignable to type 'Record<string, string[]> | undefined'.
+            Type '{ formErrors: string[]; fieldErrors: { email?: string[] | undefined; name?: string[] | undefined; phone?: string[] | undefined; role?: string[] | undefined; company?: string[] | undefined; age?: string[] | undefined; studentId?: string[] | undefined; website?: string[] | undefined; newsletter?: string[] | undefined;...' is not assignable to type 'Record<string, string[]>'.
+              Property 'fieldErrors' is incompatible with index signature.
+                Type '{ email?: string[] | undefined; name?: string[] | undefined; phone?: string[] | undefined; role?: string[] | undefined; company?: string[] | undefined; age?: string[] | undefined; studentId?: string[] | undefined; website?: string[] | undefined; newsletter?: string[] | undefined; }' is missing the following properties from type 'string[]': length, pop, push, concat, and 35 more.
+src/components/forms/contact-form-safe-action.tsx(31,36): error TS2345: Argument of type 'SafeActionFn<string, ZodObject<{ name: ZodString; email: ZodEmail; subject: ZodString; message: ZodString; }, $strip>, readonly [], { formErrors: string[]; fieldErrors: { ...; }; }, { ...; }>' is not assignable to parameter of type 'FormAction<{ name: string; email: string; subject: string; message: string; }, { message: string; }>'.
+  Type 'SafeActionFn<string, ZodObject<{ name: ZodString; email: ZodEmail; subject: ZodString; message: ZodString; }, $strip>, readonly [], { formErrors: string[]; fieldErrors: { ...; }; }, { ...; }>' is not assignable to type 'ServerAction<{ name: string; email: string; subject: string; message: string; }, { message: string; }>'.
+    Type 'Promise<SafeActionResult<string, ZodObject<{ name: ZodString; email: ZodEmail; subject: ZodString; message: ZodString; }, $strip>, { formErrors: string[]; fieldErrors: { ...; }; }, { ...; }, object>>' is not assignable to type 'Promise<ActionResult<{ message: string; }>>'.
+      Type 'SafeActionResult<string, ZodObject<{ name: ZodString; email: ZodEmail; subject: ZodString; message: ZodString; }, $strip>, { formErrors: string[]; fieldErrors: { ...; }; }, { ...; }, object>' is not assignable to type 'ActionResult<{ message: string; }>'.
+        Types of property 'validationErrors' are incompatible.
+          Type '{ formErrors: string[]; fieldErrors: { email?: string[] | undefined; name?: string[] | undefined; message?: string[] | undefined; subject?: string[] | undefined; }; } | undefined' is not assignable to type 'Record<string, string[]> | undefined'.
+            Type '{ formErrors: string[]; fieldErrors: { email?: string[] | undefined; name?: string[] | undefined; message?: string[] | undefined; subject?: string[] | undefined; }; }' is not assignable to type 'Record<string, string[]>'.
+              Property 'fieldErrors' is incompatible with index signature.
+                Type '{ email?: string[] | undefined; name?: string[] | undefined; message?: string[] | undefined; subject?: string[] | undefined; }' is missing the following properties from type 'string[]': length, pop, push, concat, and 35 more.
+src/components/forms/contact-form.tsx(7,24): error TS2724: '"./enhanced-form"' has no exported member named 'EnhancedFormField'. Did you mean 'EnhancedForm'?
+src/components/forms/contact-form.tsx(7,43): error TS2305: Module '"./enhanced-form"' has no exported member 'FormSection'.
+src/components/forms/contact-form.tsx(40,8): error TS2322: Type '{ children: Element[]; form: UseFormReturn<{ name: string; email: string; subject: string; message: string; }>; onSubmit: (data: { name: string; email: string; subject: string; message: string; }) => Promise<...>; ... 6 more ...; showSummaryErrors: boolean; }' is not assignable to type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+src/components/forms/contact-form.tsx(63,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/contact-form.tsx(73,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/contact-form.tsx(91,14): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/contact-form.tsx(104,14): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/enhanced-form.tsx(47,11): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/components/forms/enhanced-form.tsx(169,40): error TS2345: Argument of type 'string | FieldError | Merge<FieldError["message" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<DeepRequired<TFormData>[string]>["message" & keyof DeepRequired<...>[string]]> | Merge<...> | undefined' is not assignable to parameter of type 'string | undefined'.
+  Type 'FieldError' is not assignable to type 'string'.
+src/components/forms/enhanced-form.tsx(178,12): error TS2322: Type '{ inputProps: { onChange: ChangeHandler; onBlur: ChangeHandler; ref: RefCallBack; name: Path<TFormData>; min?: string | number | undefined; ... 6 more ...; placeholder: string | undefined; }; ... 8 more ...; key: Path<...>; }' is not assignable to type 'InputFieldProps'.
+  Types of property 'error' are incompatible.
+    Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'string | FieldError | undefined'.
+      Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'string | FieldError | undefined'.
+        Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+          Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'string | FieldError | undefined'.
+            Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+              Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                  Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                    Types of property 'type' are incompatible.
+                      Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                        Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                Types of property 'type' are incompatible.
+                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                      Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'FieldError'.
+                                        Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'FieldError'.
+                                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                                Types of property 'type' are incompatible.
+                                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                      Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'FieldError'.
+                                                        Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'FieldError'.
+                                                          Type 'undefined' is not assignable to type 'FieldError'.
+src/components/forms/enhanced-form.tsx(191,12): error TS2322: Type '{ textareaProps: { onChange: ChangeHandler; onBlur: ChangeHandler; ref: RefCallBack; name: Path<TFormData>; min?: string | number | undefined; ... 6 more ...; placeholder: string | undefined; }; ... 8 more ...; key: Path<...>; }' is not assignable to type 'TextareaFieldProps'.
+  Types of property 'error' are incompatible.
+    Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'string | FieldError | undefined'.
+      Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'string | FieldError | undefined'.
+        Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+          Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'string | FieldError | undefined'.
+            Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+              Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                  Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                    Types of property 'type' are incompatible.
+                      Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                        Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                Types of property 'type' are incompatible.
+                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                      Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'FieldError'.
+                                        Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'FieldError'.
+                                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                                Types of property 'type' are incompatible.
+                                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                      Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'FieldError'.
+                                                        Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'FieldError'.
+                                                          Type 'undefined' is not assignable to type 'FieldError'.
+src/components/forms/enhanced-form.tsx(204,12): error TS2322: Type '{ placeholder: string | undefined; options: { value: string; label: string; }[] | undefined; selectProps: { onChange: ChangeHandler; onBlur: ChangeHandler; ... 8 more ...; disabled?: boolean | undefined; }; ... 8 more ...; key: Path<...>; }' is not assignable to type 'SelectFieldProps'.
+  Types of property 'error' are incompatible.
+    Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'string | FieldError | undefined'.
+      Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'string | FieldError | undefined'.
+        Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+          Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'string | FieldError | undefined'.
+            Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+              Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                  Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                    Types of property 'type' are incompatible.
+                      Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                        Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                Types of property 'type' are incompatible.
+                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                      Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'FieldError'.
+                                        Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'FieldError'.
+                                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                                Types of property 'type' are incompatible.
+                                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                      Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'FieldError'.
+                                                        Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'FieldError'.
+                                                          Type 'undefined' is not assignable to type 'FieldError'.
+src/components/forms/enhanced-form.tsx(218,12): error TS2322: Type '{ label: string; description: string | undefined; checkboxProps: { onChange: ChangeHandler; onBlur: ChangeHandler; ref: RefCallBack; name: Path<...>; ... 6 more ...; disabled?: boolean | undefined; }; ... 7 more ...; key: Path<...>; }' is not assignable to type 'CheckboxFieldProps'.
+  Types of property 'error' are incompatible.
+    Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'string | FieldError | undefined'.
+      Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'string | FieldError | undefined'.
+        Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+          Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'string | FieldError | undefined'.
+            Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'string | FieldError | undefined'.
+              Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'string | FieldError | undefined'.
+                  Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                    Types of property 'type' are incompatible.
+                      Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                        Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                Types of property 'type' are incompatible.
+                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                      Type 'DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError' is not assignable to type 'FieldError'.
+                                        Type 'FieldError | (DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError)' is not assignable to type 'FieldError'.
+                                          Type 'DeepRequired<TFormData>[string] extends object ? Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>> : FieldError' is not assignable to type 'FieldError'.
+                                            Type 'FieldError | Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                              Type 'Merge<FieldError, FieldErrorsImpl<DeepRequired<TFormData>[string]>>' is not assignable to type 'FieldError'.
+                                                Types of property 'type' are incompatible.
+                                                  Type '("type" extends keyof FieldError & keyof DeepRequired<TFormData>[string] ? [FieldError["type" & keyof DeepRequired<TFormData>[string]], FieldErrorsImpl<...>["type" & keyof DeepRequired<...>[string]]] extends [...] ? Merge<...> : FieldError["type" & keyof DeepRequired<...>[string]] | FieldErrorsImpl<...>["type" & key...' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                    Type 'undefined' is not assignable to type 'LiteralUnion<"disabled" | "value" | "required" | "onChange" | "onBlur" | "shouldUnregister" | "min" | "max" | "maxLength" | "minLength" | "validate" | "setValueAs" | "deps" | "pattern" | "valueAsNumber" | "valueAsDate", string>'.
+                                                      Type 'FieldErrors<TFormData>[Path<TFormData>]' is not assignable to type 'FieldError'.
+                                                        Type '(DeepRequired<TFormData>[string] extends Blob | BrowserNativeObject ? FieldError : DeepRequired<TFormData>[string] extends object ? Merge<...> : FieldError) | undefined' is not assignable to type 'FieldError'.
+                                                          Type 'undefined' is not assignable to type 'FieldError'.
+src/components/forms/enhanced-form.tsx(250,7): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/components/forms/enhanced-form.tsx(266,13): error TS2322: Type '{}' is not assignable to type 'Record<string, string[]>'.
+  Index signature for type 'string' is missing in type '{}'.
+src/components/forms/enhanced-form.tsx(323,47): error TS2322: Type '{}' is not assignable to type 'ReactNode'.
+src/components/forms/enhanced-form.tsx(335,13): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/components/forms/enhanced-form.tsx(366,13): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/components/forms/enhanced-form.tsx(397,13): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/components/forms/multi-step-form.tsx(9,3): error TS2724: '"./enhanced-form"' has no exported member named 'EnhancedFormField'. Did you mean 'EnhancedForm'?
+src/components/forms/multi-step-form.tsx(10,3): error TS2305: Module '"./enhanced-form"' has no exported member 'FormSection'.
+src/components/forms/multi-step-form.tsx(11,3): error TS2305: Module '"./enhanced-form"' has no exported member 'FormValidationStatus'.
+src/components/forms/multi-step-form.tsx(157,8): error TS2322: Type '{ children: (false | Element)[]; form: { validateStep: (stepFields: ("preferences" | "basicInfo" | "verification")[]) => Promise<boolean>; getStepErrors: (stepFields: ("preferences" | "basicInfo" | "verification")[]) => Record<...>; ... 15 more ...; subscribe: UseFormSubscribe<...>; }; ... 7 more ...; showSummaryErr...' is not assignable to type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+src/components/forms/multi-step-form.tsx(186,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(205,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(226,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(253,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(292,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(317,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(334,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(351,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(379,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(397,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(414,18): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/multi-step-form.tsx(434,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/project-form-enhanced.tsx(133,7): error TS2322: Type '{ formOptions: { defaultValues: { title: string; description: string; }; }; successMessage: string; onSuccess: (data: any, formData: ProjectFormData) => void; resetOnSuccess: boolean; showToast: boolean; }' is not assignable to type 'UseFormWithActionOptions<ZodObject<{ title: ZodString; description: ZodOptional<ZodString>; }, $strip>, { title: string; description: string; }, any>'.
+  Types of property 'onSuccess' are incompatible.
+    Type '(data: any, formData: ProjectFormData) => void' is not assignable to type '(data?: any, formData?: { title: string; description: string; } | undefined) => void'.
+      Types of parameters 'formData' and 'formData' are incompatible.
+        Type '{ title: string; description: string; } | undefined' is not assignable to type '{ title: string; description?: string | undefined; }'.
+          Type 'undefined' is not assignable to type '{ title: string; description?: string | undefined; }'.
+src/components/forms/safe-action-example.tsx(37,49): error TS2345: Argument of type '(formData: FormData) => Promise<ActionResult<unknown>>' is not assignable to parameter of type 'HookSafeActionFn<unknown, StandardSchemaV1<unknown, unknown> | undefined, unknown, unknown>'.
+  Types of parameters 'formData' and 'input' are incompatible.
+    Type 'unknown' is not assignable to type 'FormData'.
+src/components/forms/safe-action-example.tsx(44,19): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ... 4 more ... | undefined'.
+src/components/forms/safe-action-example.tsx(96,11): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+src/components/forms/safe-action-example.tsx(99,39): error TS2339: Property 'id' does not exist on type '{}'.
+src/components/forms/safe-action-example.tsx(206,26): error TS2345: Argument of type '"priority"' is not assignable to parameter of type '"title" | "description" | "type"'.
+src/components/forms/safe-action-example.tsx(206,61): error TS2339: Property 'priority' does not exist on type '{ type: "bug" | "feature" | "general"; title: string; description: string; }'.
+src/components/forms/safe-action-example.tsx(219,21): error TS2339: Property 'priority' does not exist on type 'FieldErrors<{ type: "bug" | "feature" | "general"; title: string; description: string; }>'.
+src/components/forms/safe-action-example.tsx(220,59): error TS2339: Property 'priority' does not exist on type 'FieldErrors<{ type: "bug" | "feature" | "general"; title: string; description: string; }>'.
+src/components/forms/simple-form-example.tsx(40,5): error TS2322: Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter?: boolean | undefined; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>' is not assignable to type 'ResolverOptions<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter?: boolean | undefined; }>'.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+src/components/forms/simple-form-example.tsx(44,11): error TS2339: Property 'executeAction' does not exist on type '{ execute: (formDataOrInput: FormData) => void; isPending: boolean; result: ActionResult<unknown> | null; reset: () => void; isSuccess: boolean; isError: boolean; }'.
+src/components/forms/simple-form-example.tsx(44,26): error TS2339: Property 'isExecuting' does not exist on type '{ execute: (formDataOrInput: FormData) => void; isPending: boolean; result: ActionResult<unknown> | null; reset: () => void; isSuccess: boolean; isError: boolean; }'.
+src/components/forms/simple-form-example.tsx(44,42): error TS2554: Expected 1-2 arguments, but got 0.
+src/components/forms/simple-form-example.tsx(63,43): error TS2345: Argument of type '(data: SimpleFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }'.
+      Type 'FieldValues' is missing the following properties from type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }': name, email, role, newsletter
+src/components/forms/simple-form-example.tsx(66,15): error TS2322: Type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }> | undefined'.
+      Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+        Type 'TFieldValues' is not assignable to type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }'.
+          Type 'FieldValues' is missing the following properties from type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }': name, email, role, newsletter
+src/components/forms/simple-form-example.tsx(73,15): error TS2322: Type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }> | undefined'.
+      Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+        Type 'TFieldValues' is not assignable to type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }'.
+          Type 'FieldValues' is missing the following properties from type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }': name, email, role, newsletter
+src/components/forms/simple-form-example.tsx(81,15): error TS2322: Type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }> | undefined'.
+      Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+        Type 'TFieldValues' is not assignable to type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }'.
+          Type 'FieldValues' is missing the following properties from type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }': name, email, role, newsletter
+src/components/forms/simple-form-example.tsx(91,15): error TS2322: Type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Control<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }> | undefined'.
+      Type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, TFieldValues>' is not assignable to type 'Resolver<{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }, any, { name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }>'.
+        Type 'TFieldValues' is not assignable to type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }'.
+          Type 'FieldValues' is missing the following properties from type '{ name: string; email: string; role: "student" | "professional" | "freelancer"; newsletter: boolean; }': name, email, role, newsletter
+src/components/forms/survey-form.tsx(7,24): error TS2724: '"./enhanced-form"' has no exported member named 'EnhancedFormField'. Did you mean 'EnhancedForm'?
+src/components/forms/survey-form.tsx(7,43): error TS2305: Module '"./enhanced-form"' has no exported member 'FormSection'.
+src/components/forms/survey-form.tsx(9,10): error TS2305: Module '"@/lib/actions/form-actions"' has no exported member 'createTypedFormAction'.
+src/components/forms/survey-form.tsx(14,9): error TS7006: Parameter 'data' implicitly has an 'any' type.
+src/components/forms/survey-form.tsx(72,10): error TS2322: Type '{ children: Element[]; form: UseFormReturn<{ rating: number; feedback: string; recommend: boolean; improvements: never[]; }>; onSubmit: (data: { responses: { questionId: string; answer: string | ... 1 more ... | string[]; }[]; }) => Promise<...>; ... 6 more ...; showSummaryErrors: boolean; }' is not assignable to type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & EnhancedFormProps<ZodType<any, any, any>, any, unknown>'.
+src/components/forms/survey-form.tsx(94,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/survey-form.tsx(157,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/survey-form.tsx(173,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/forms/survey-form.tsx(214,16): error TS7006: Parameter 'field' implicitly has an 'any' type.
+src/components/global-error-boundary.tsx(55,24): error TS2339: Property 'timestamp' does not exist on type 'AppError'.
+src/components/global-error-boundary.tsx(120,7): error TS2322: Type 'FC<{ error: AppError; resetError: () => void; }>' is not assignable to type 'ReactNode'.
+src/components/index.ts(11,1): error TS2308: Module './ui' has already exported a member named 'AspectRatio'. Consider explicitly re-exporting to resolve the ambiguity.
+src/components/index.ts(18,1): error TS2308: Module './ui' has already exported a member named 'FormField'. Consider explicitly re-exporting to resolve the ambiguity.
+src/components/index.ts(33,10): error TS2305: Module '"./patterns/server-client-boundary"' has no exported member 'ServerClientBoundary'.
+src/components/index.ts(34,10): error TS2305: Module '"./patterns/hybrid-examples"' has no exported member 'HybridExamples'.
+src/components/index.ts(38,10): error TS2305: Module '"./loading/server-client-coordination"' has no exported member 'ServerClientCoordination'.
+src/components/layout/responsive-layout.tsx(11,10): error TS2305: Module '"@/hooks/use-mobile"' has no exported member 'useMediaQuery'.
+src/components/layout/sidebar-layout.tsx(20,10): error TS2305: Module '"@/hooks/use-mobile"' has no exported member 'useMediaQuery'.
+src/components/lazy/lazy-components.tsx(127,5): error TS2322: Type 'ComponentType | (() => Element)' is not assignable to type '((loadingProps: DynamicOptionsLoadingProps) => ReactNode) | undefined'.
+  Type 'ComponentClass<{}, any>' is not assignable to type '(loadingProps: DynamicOptionsLoadingProps) => ReactNode'.
+    Type 'ComponentClass<{}, any>' provides no match for the signature '(loadingProps: DynamicOptionsLoadingProps): ReactNode'.
+src/components/lazy/lazy-components.tsx(145,16): error TS2307: Cannot find module '@/components/ui/modal' or its corresponding type declarations.
+src/components/lazy/lazy-components.tsx(161,12): error TS2307: Cannot find module '@/components/ui/data-table' or its corresponding type declarations.
+src/components/lazy/lazy-components.tsx(169,12): error TS2307: Cannot find module '@/components/charts/chart' or its corresponding type declarations.
+src/components/lazy/lazy-components.tsx(184,12): error TS2307: Cannot find module '@/components/forms/post-form' or its corresponding type declarations.
+src/components/lazy/lazy-components.tsx(206,13): error TS2339: Property 'fallback' does not exist on type 'JSX.IntrinsicElements'.
+src/components/lazy/lazy-components.tsx(225,5): error TS2322: Type 'ComponentType | (() => Element)' is not assignable to type '((loadingProps: DynamicOptionsLoadingProps) => ReactNode) | undefined'.
+  Type 'ComponentClass<{}, any>' is not assignable to type '(loadingProps: DynamicOptionsLoadingProps) => ReactNode'.
+    Type 'ComponentClass<{}, any>' provides no match for the signature '(loadingProps: DynamicOptionsLoadingProps): ReactNode'.
+src/components/loading/server-client-coordination.tsx(32,24): error TS2554: Expected 1 arguments, but got 0.
+src/components/patterns/hybrid-examples-client.tsx(8,58): error TS2307: Cannot find module '@/components/ui/tabs' or its corresponding type declarations.
+src/components/patterns/hybrid-examples-client.tsx(152,19): error TS4111: Property 'email' comes from an index signature, so it must be accessed with ['email'].
+src/components/patterns/hybrid-examples-client.tsx(155,37): error TS4111: Property 'email' comes from an index signature, so it must be accessed with ['email'].
+src/components/patterns/hybrid-examples-client.tsx(163,19): error TS4111: Property 'message' comes from an index signature, so it must be accessed with ['message'].
+src/components/patterns/hybrid-examples-client.tsx(165,31): error TS4111: Property 'message' comes from an index signature, so it must be accessed with ['message'].
+src/components/patterns/hybrid-examples.tsx(168,9): error TS2322: Type '{ id: string; image: string; } & User' is not assignable to type 'User | undefined'.
+  Type '{ id: string; image: string; } & User' is not assignable to type 'User'.
+    Types of property 'name' are incompatible.
+      Type 'string | null | undefined' is not assignable to type 'string | null'.
+        Type 'undefined' is not assignable to type 'string | null'.
+src/components/patterns/hybrid-examples.tsx(200,42): error TS4111: Property 'email' comes from an index signature, so it must be accessed with ['email'].
+src/components/patterns/hybrid-examples.tsx(213,42): error TS4111: Property 'message' comes from an index signature, so it must be accessed with ['message'].
+src/components/performance/performance-monitor.tsx(286,37): error TS2304: Cannot find name 'getRatingBadgeVariant'.
+src/components/posts/__tests__/post-form.test.tsx(6,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(8,11): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(12,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(14,14): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(15,12): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(19,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(20,21): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(21,21): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(24,1): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(35,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(36,3): error TS2304: Cannot find name 'beforeEach'.
+src/components/posts/__tests__/post-form.test.tsx(37,5): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(40,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(43,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(44,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(47,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(48,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(51,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(61,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(62,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(65,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(72,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(75,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(79,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(84,7): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(85,7): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(89,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(96,7): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(97,7): error TS2304: Cannot find name 'expect'.
+src/components/posts/__tests__/post-form.test.tsx(101,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+src/components/posts/__tests__/post-form.test.tsx(102,22): error TS2708: Cannot use namespace 'jest' as a value.
+src/components/posts/__tests__/post-form.test.tsx(108,5): error TS2304: Cannot find name 'expect'.
+src/components/posts/post-card.tsx(52,10): error TS2532: Object is possibly 'undefined'.
+src/components/posts/post-card.tsx(133,30): error TS2322: Type 'string | null | undefined' is not assignable to type 'string | Blob | undefined'.
+  Type 'null' is not assignable to type 'string | Blob | undefined'.
+src/components/posts/post-form.tsx(28,8): error TS2724: '"@/components/editor/tiptap-editor"' has no exported member named 'TiptapEditorRef'. Did you mean 'TiptapEditor'?
+src/components/posts/post-form.tsx(60,30): error TS2554: Expected 1 arguments, but got 0.
+src/components/posts/post-form.tsx(63,5): error TS2322: Type 'Resolver<{ title: string; content: string; excerpt?: string | undefined; published?: boolean | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }>' is not assignable to type 'ResolverOptions<{ title: string; content: string; excerpt?: string | undefined; published?: boolean | undefined; }>'.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+src/components/posts/post-form.tsx(78,13): error TS7030: Not all code paths return a value.
+src/components/posts/post-form.tsx(235,47): error TS2345: Argument of type '(data: PostFormInput) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }'.
+      Type 'FieldValues' is missing the following properties from type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }': title, content, published
+src/components/posts/post-form.tsx(237,17): error TS2322: Type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }> | undefined'.
+      Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+        Type 'TFieldValues' is not assignable to type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }'.
+          Type 'FieldValues' is missing the following properties from type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }': title, content, published
+src/components/posts/post-form.tsx(259,17): error TS2322: Type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }> | undefined'.
+      Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+        Type 'TFieldValues' is not assignable to type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }'.
+          Type 'FieldValues' is missing the following properties from type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }': title, content, published
+src/components/posts/post-form.tsx(284,17): error TS2322: Type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }> | undefined'.
+      Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+        Type 'TFieldValues' is not assignable to type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }'.
+          Type 'FieldValues' is missing the following properties from type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }': title, content, published
+src/components/posts/post-form.tsx(308,17): error TS2322: Type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+  The types of '_options.resolver' are incompatible between these types.
+    Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues> | undefined' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }> | undefined'.
+      Type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, TFieldValues>' is not assignable to type 'Resolver<{ title: string; content: string; published: boolean; excerpt?: string | undefined; }, any, { title: string; content: string; published: boolean; excerpt?: string | undefined; }>'.
+        Type 'TFieldValues' is not assignable to type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }'.
+          Type 'FieldValues' is missing the following properties from type '{ title: string; content: string; published: boolean; excerpt?: string | undefined; }': title, content, published
+src/components/projects/index.ts(15,10): error TS2305: Module '"./project-crud-lazy"' has no exported member 'ProjectCrudLazy'.
+src/components/ui/form-field.tsx(132,19): error TS18046: 'child.props' is of type 'unknown'.
+src/components/ui/form-field.tsx(136,17): error TS2698: Spread types may only be created from object types.
+src/components/ui/form-field.tsx(145,13): error TS2322: Type '{ id: string; message: string; type: "error"; }' is not assignable to type 'IntrinsicAttributes & FormErrorProps'.
+  Property 'id' does not exist on type 'IntrinsicAttributes & FormErrorProps'.
+src/components/ui/image-upload.tsx(144,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string | string[]'.
+  Type 'undefined' is not assignable to type 'string | string[]'.
+src/components/ui/image-upload.tsx(204,24): error TS2345: Argument of type 'undefined' is not assignable to parameter of type 'string | string[]'.
+src/components/ui/index.ts(89,10): error TS2724: '"./progress-indicators"' has no exported member named 'ProgressIndicators'. Did you mean 'ProgressIndicator'?
+src/components/ui/index.ts(164,3): error TS2459: Module '"./sheet"' declares 'SheetPortal' locally, but it is not exported.
+src/components/ui/index.ts(165,3): error TS2459: Module '"./sheet"' declares 'SheetOverlay' locally, but it is not exported.
+src/components/ui/index.ts(226,10): error TS2305: Module '"./skeleton-components"' has no exported member 'SkeletonComponents'.
+src/components/ui/index.ts(228,10): error TS2459: Module '"./sonner"' declares 'Sonner' locally, but it is not exported.
+src/components/ui/progress-indicators.tsx(320,26): error TS2532: Object is possibly 'undefined'.
+src/components/ui/sidebar.tsx(264,6): error TS2322: Type '{ children: Element[]; loading?: boolean | undefined; title?: string | undefined; variant: "success" | "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "warning" | "info" | null; ... 295 more ...; onClick: (event: MouseEvent<...>) => void; }' is not assignable to type 'Omit<ButtonProps, "ref">'.
+  Types of property '"aria-expanded"' are incompatible.
+    Type '((url?: string | URL | undefined, target?: string | undefined, features?: string | undefined) => Window | null) | Booleanish' is not assignable to type 'Booleanish | undefined'.
+      Type '(url?: string | URL | undefined, target?: string | undefined, features?: string | undefined) => Window | null' is not assignable to type 'Booleanish | undefined'.
+src/components/ui/theme-transition.tsx(32,31): error TS2554: Expected 1 arguments, but got 0.
+src/components/ui/theme-transition.tsx(38,19): error TS7030: Not all code paths return a value.
+src/components/ui/theme-transition.tsx(131,25): error TS18048: 'r' is possibly 'undefined'.
+src/components/ui/theme-transition.tsx(131,38): error TS18048: 'g' is possibly 'undefined'.
+src/components/ui/theme-transition.tsx(131,51): error TS18048: 'b' is possibly 'undefined'.
+src/data/forms.ts(348,52): error TS2556: A spread argument must either have a tuple type or be passed to a rest parameter.
+src/data/forms.ts(361,55): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/data/forms.ts(365,43): error TS2339: Property 'length' does not exist on type '{}'.
+src/data/forms.ts(369,43): error TS2339: Property 'length' does not exist on type '{}'.
+src/data/index.ts(11,15): error TS2307: Cannot find module './mock-data' or its corresponding type declarations.
+src/hooks/__tests__/use-infinite-posts.test.ts(49,30): error TS1308: 'await' expressions are only allowed within async functions and at the top levels of modules.
+src/hooks/__tests__/use-infinite-posts.test.ts(76,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/hooks/__tests__/use-infinite-posts.test.ts(121,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/hooks/__tests__/use-infinite-posts.test.ts(182,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/hooks/__tests__/use-infinite-posts.test.ts(217,7): error TS2322: Type 'Post | undefined' is not assignable to type 'Post'.
+  Type 'undefined' is not assignable to type 'Post'.
+src/hooks/__tests__/use-infinite-posts.test.ts(235,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/hooks/__tests__/use-infinite-posts.test.ts(271,17): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object> | PromiseLike<...>'.
+src/hooks/use-error-handler.ts(95,22): error TS2352: Conversion of type 'Promise<ErrorHandlerResult>' to type 'AppErrorClass' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'Promise<ErrorHandlerResult>' is missing the following properties from type 'AppErrorClass': code, details, timestamp, name, message
+src/hooks/use-error-handler.ts(329,13): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/hooks/use-form-action.ts(4,10): error TS2300: Duplicate identifier 'T'.
+src/hooks/use-form-action.ts(5,10): error TS2300: Duplicate identifier 'T'.
+src/hooks/use-form-action.ts(6,10): error TS2300: Duplicate identifier 'T'.
+src/hooks/use-form-action.ts(103,15): error TS2322: Type 'TOutput & ({} | null)' is not assignable to type 'TestSequencer | undefined'.
+  Type 'TOutput & null' is not assignable to type 'TestSequencer | undefined'.
+    Type 'TOutput & null' is not assignable to type 'TestSequencer'.
+src/hooks/use-form-action.ts(105,23): error TS2345: Argument of type 'ActionResult<TestSequencer>' is not assignable to parameter of type 'SetStateAction<ActionResult<TOutput> | null>'.
+  Type 'ActionResult<TestSequencer>' is not assignable to type 'ActionResult<TOutput>'.
+    Type 'TestSequencer' is not assignable to type 'TOutput'.
+      'TOutput' could be instantiated with an arbitrary type which could be unrelated to 'TestSequencer'.
+src/hooks/use-form-action.ts(121,23): error TS2345: Argument of type 'ActionResult<TestSequencer>' is not assignable to parameter of type 'SetStateAction<ActionResult<TOutput> | null>'.
+  Type 'ActionResult<TestSequencer>' is not assignable to type 'ActionResult<TOutput>'.
+    Type 'TestSequencer' is not assignable to type 'TOutput'.
+      'TOutput' could be instantiated with an arbitrary type which could be unrelated to 'TestSequencer'.
+src/hooks/use-form-action.ts(128,35): error TS2345: Argument of type 'keyof TFormData' is not assignable to parameter of type '"root" | `root.${string}` | Path<TFormData>'.
+  Type 'string | number | symbol' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+    Type 'string' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+src/hooks/use-form-action.ts(152,23): error TS2345: Argument of type 'ActionResult<TestSequencer>' is not assignable to parameter of type 'SetStateAction<ActionResult<TOutput> | null>'.
+  Type 'ActionResult<TestSequencer>' is not assignable to type 'ActionResult<TOutput>'.
+    Type 'TestSequencer' is not assignable to type 'TOutput'.
+      'TOutput' could be instantiated with an arbitrary type which could be unrelated to 'TestSequencer'.
+src/hooks/use-form-action.ts(159,35): error TS2345: Argument of type 'keyof TFormData' is not assignable to parameter of type '"root" | `root.${string}` | Path<TFormData>'.
+  Type 'string | number | symbol' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+    Type 'string' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+src/hooks/use-form-action.ts(284,31): error TS2345: Argument of type '(TOutput | undefined)[]' is not assignable to parameter of type 'TOutput[]'.
+  Type 'TOutput | undefined' is not assignable to type 'TOutput'.
+    'TOutput' could be instantiated with an arbitrary type which could be unrelated to 'TOutput | undefined'.
+src/hooks/use-form-with-action.ts(56,11): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/hooks/use-form-with-action.ts(76,5): error TS2322: Type 'Resolver<input<TSchema>, any, output<TSchema>>' is not assignable to type 'Resolver<TFormData, any, TFormData>'.
+  Types of parameters 'values' and 'values' are incompatible.
+    Type 'TFormData' is not assignable to type 'input<TSchema>'.
+      Type 'FieldValues' is not assignable to type 'input<TSchema>'.
+src/hooks/use-form-with-action.ts(99,21): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ... 4 more ... | undefined'.
+src/hooks/use-form-with-action.ts(101,17): error TS2345: Argument of type '{}' is not assignable to parameter of type 'string'.
+src/hooks/use-form-with-action.ts(111,27): error TS2345: Argument of type 'keyof TFormData' is not assignable to parameter of type '"root" | `root.${string}` | Path<TFormData>'.
+  Type 'string | number | symbol' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+    Type 'string' is not assignable to type '"root" | `root.${string}` | Path<TFormData>'.
+src/hooks/use-form-with-action.ts(149,42): error TS2345: Argument of type '(data: TFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type 'TFormData'.
+      'TFieldValues' is assignable to the constraint of type 'TFormData', but 'TFormData' could be instantiated with a different subtype of constraint 'FieldValues'.
+src/hooks/use-form-with-action.ts(248,11): error TS2314: Generic type 'HookSafeActionFn' requires 4 type argument(s).
+src/hooks/use-form-with-action.ts(303,53): error TS18048: 'stepConfig' is possibly 'undefined'.
+src/hooks/use-infinite-posts.ts(67,11): error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.
+  Type 'null' is not assignable to type 'string | undefined'.
+src/hooks/use-infinite-posts.ts(80,22): error TS2345: Argument of type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }[]' is not assignable to parameter of type 'SetStateAction<Post[]>'.
+  Type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }[]' is not assignable to type 'Post[]'.
+    Property 'author' is missing in type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }' but required in type 'Post'.
+src/hooks/use-infinite-posts.ts(87,22): error TS2345: Argument of type '(prevPosts: Post[]) => ({ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; } | Post)[]' is not assignable to parameter of type 'SetStateAction<Post[]>'.
+  Type '(prevPosts: Post[]) => ({ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; } | Post)[]' is not assignable to type '(prevState: Post[]) => Post[]'.
+    Type '({ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; } | Post)[]' is not assignable to type 'Post[]'.
+      Type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; } | Post' is not assignable to type 'Post'.
+        Property 'author' is missing in type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }' but required in type 'Post'.
+src/hooks/use-infinite-posts.ts(102,34): error TS2339: Property 'message' does not exist on type 'string'.
+src/hooks/use-infinite-posts.ts(104,23): error TS2339: Property 'error' does not exist on type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/hooks/use-infinite-posts.ts(105,23): error TS2339: Property 'error' does not exist on type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
+src/i18n/index.ts(303,5): error TS2322: Type '{}' is not assignable to type 'string'.
+src/i18n/index.ts(337,31): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/accessibility.ts(249,11): error TS18048: 'lastElement' is possibly 'undefined'.
+src/lib/accessibility.ts(255,11): error TS18048: 'firstElement' is possibly 'undefined'.
+src/lib/accessibility.ts(307,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/accessibility.ts(308,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/accessibility.ts(309,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/accessibility.ts(322,21): error TS18048: 'rs' is possibly 'undefined'.
+src/lib/accessibility.ts(322,35): error TS18048: 'gs' is possibly 'undefined'.
+src/lib/accessibility.ts(322,49): error TS18048: 'bs' is possibly 'undefined'.
+src/lib/actions/safe-action-wrapper.ts(265,20): error TS2339: Property 'role' does not exist on type 'AuthUser'.
+src/lib/actions/safe-action-wrapper.ts(265,37): error TS2339: Property 'role' does not exist on type 'AuthUser'.
+src/lib/actions/safe-action-wrapper.ts(268,29): error TS2339: Property 'role' does not exist on type 'AuthUser'.
+src/lib/actions/safe-action-wrapper.ts(342,10): error TS2684: The 'this' context of type 'SafeActionClient<string, "flattened", undefined, undefined, true, { actionType: "public"; requestId: string; timestamp: Date; }, undefined, ZodType<TInput, unknown, $ZodTypeInternals<TInput, unknown>>, undefined, readonly [], { ...; }> | SafeActionClient<...>' is not assignable to method's 'this' of type 'SafeActionClient<string, "flattened", undefined, undefined, true, { actionType: "public"; requestId: string; timestamp: Date; }, undefined, ZodType<TInput, unknown, $ZodTypeInternals<TInput, unknown>>, undefined, readonly [], { ...; }> & SafeActionClient<...>'.
+  Type 'SafeActionClient<string, "flattened", undefined, undefined, true, { actionType: "public"; requestId: string; timestamp: Date; }, undefined, ZodType<TInput, unknown, $ZodTypeInternals<TInput, unknown>>, undefined, readonly [], { ...; }>' is not assignable to type 'SafeActionClient<string, "flattened", undefined, undefined, true, { actionType: "public"; requestId: string; timestamp: Date; }, undefined, ZodType<TInput, unknown, $ZodTypeInternals<TInput, unknown>>, undefined, readonly [], { ...; }> & SafeActionClient<...>'.
+    Type 'SafeActionClient<string, "flattened", undefined, undefined, true, { actionType: "public"; requestId: string; timestamp: Date; }, undefined, ZodType<TInput, unknown, $ZodTypeInternals<TInput, unknown>>, undefined, readonly [], { ...; }>' is not assignable to type 'SafeActionClient<string, "flattened", undefined, undefined, true, { userId: string; user: AuthUser; session: Session; actionType: "authenticated"; requestId: string; timestamp: Date; }, ... 4 more ..., { ...; }>'.
+      Types of property 'use' are incompatible.
+        Type '<NextCtx extends object>(middlewareFn: MiddlewareFn<string, undefined, { actionType: "public"; requestId: string; timestamp: Date; }, { actionType: "public"; requestId: string; timestamp: Date; } & NextCtx>) => SafeActionClient<...>' is not assignable to type '<NextCtx extends object>(middlewareFn: MiddlewareFn<string, undefined, { userId: string; user: AuthUser; session: Session; actionType: "authenticated"; requestId: string; timestamp: Date; }, { userId: string; ... 4 more ...; timestamp: Date; } & NextCtx>) => SafeActionClient<...>'.
+          Types of parameters 'middlewareFn' and 'middlewareFn' are incompatible.
+            Types of parameters 'opts' and 'opts' are incompatible.
+              Type '{ clientInput: unknown; bindArgsClientInputs: unknown[]; ctx: { actionType: "public"; requestId: string; timestamp: Date; }; metadata: undefined; next: <NC extends object = {}>(opts?: { ctx?: NC | undefined; } | undefined) => Promise<...>; }' is not assignable to type '{ clientInput: unknown; bindArgsClientInputs: unknown[]; ctx: { userId: string; user: AuthUser; session: Session; actionType: "authenticated"; requestId: string; timestamp: Date; }; metadata: undefined; next: <NC extends object = {}>(opts?: { ...; } | undefined) => Promise<...>; }'.
+                Types of property 'ctx' are incompatible.
+                  Type '{ actionType: "public"; requestId: string; timestamp: Date; }' is missing the following properties from type '{ userId: string; user: AuthUser; session: Session; actionType: "authenticated"; requestId: string; timestamp: Date; }': userId, user, session
+src/lib/actions/test-safe-action.ts(43,5): error TS2304: Cannot find name 'z'.
+src/lib/actions/test-safe-action.ts(44,20): error TS2304: Cannot find name 'z'.
+src/lib/actions/test-safe-action.ts(45,18): error TS2304: Cannot find name 'z'.
+src/lib/auth-error-handler.ts(81,9): error TS2345: Argument of type 'AuthErrorContext' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'AuthErrorContext'.
+src/lib/auth-error-handler.ts(89,57): error TS2554: Expected 2-3 arguments, but got 4.
+src/lib/auth-error-handler.ts(93,63): error TS2554: Expected 2-3 arguments, but got 4.
+src/lib/auth-error-handler.ts(110,68): error TS2554: Expected 2-3 arguments, but got 4.
+src/lib/auth-error-handler.ts(121,9): error TS2345: Argument of type 'AuthErrorContext' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'AuthErrorContext'.
+src/lib/auth-error-handler.ts(128,69): error TS2554: Expected 2-3 arguments, but got 4.
+src/lib/auth-error-handler.ts(134,60): error TS2554: Expected 2-3 arguments, but got 4.
+src/lib/auth-error-handler.ts(138,59): error TS2345: Argument of type 'AuthErrorContext' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'AuthErrorContext'.
+src/lib/auth-error-handler.ts(144,67): error TS2345: Argument of type 'AuthErrorContext' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'AuthErrorContext'.
+src/lib/auth-error-handler.ts(158,59): error TS2345: Argument of type 'AuthErrorContext' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'AuthErrorContext'.
+src/lib/cache/examples.ts(41,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+src/lib/cache/examples.ts(41,4): error TS1270: Decorator function return type 'PropertyDescriptor' is not assignable to type 'void | ((userId: string) => Promise<{ title: string; description: string | null; id: string; userId: string; createdAt: Date; updatedAt: Date; }[]>)'.
+src/lib/cache/examples.ts(49,3): error TS1241: Unable to resolve signature of method decorator when called as an expression.
+  The runtime will invoke the decorator with 2 arguments, but the decorator expects 3.
+src/lib/cache/examples.ts(49,4): error TS1270: Decorator function return type 'PropertyDescriptor' is not assignable to type 'void | ((projectId: string) => Promise<({ user: { email: string; password: string | null; image: string | null; name: string | null; id: string; emailVerified: Date | null; displayName: string | null; isAdmin: boolean; createdAt: Date; updatedAt: Date; }; } & { ...; }) | null>)'.
+src/lib/cache/index.ts(68,10): error TS2305: Module '"./strategies"' has no exported member 'cacheStrategies'.
+src/lib/cache/index.ts(68,27): error TS2305: Module '"./strategies"' has no exported member 'cacheWarming'.
+src/lib/cache/index.ts(68,41): error TS2305: Module '"./strategies"' has no exported member 'cacheHealth'.
+src/lib/cache/index.ts(159,17): error TS2345: Argument of type '`user-${string}`' is not assignable to parameter of type '"user"'.
+src/lib/cache/index.ts(170,17): error TS2345: Argument of type 'string' is not assignable to parameter of type '"projects"'.
+src/lib/cache/index.ts(263,10): error TS2724: '"./memory"' has no exported member named 'memoryCache'. Did you mean 'MemoryCache'?
+src/lib/cache/init.ts(5,10): error TS2305: Module '"./strategies"' has no exported member 'cacheWarming'.
+src/lib/cache/init.ts(5,24): error TS2305: Module '"./strategies"' has no exported member 'cacheHealth'.
+src/lib/cache/init.ts(89,34): error TS2339: Property 'getOverallCacheStats' does not exist on type 'PerformanceMonitor'.
+src/lib/cache/init.ts(90,15): error TS2551: Property 'logMetrics' does not exist on type 'PerformanceMonitor'. Did you mean 'getMetrics'?
+src/lib/cache/memory.ts(83,19): error TS2339: Property 'trackCacheHit' does not exist on type 'PerformanceMonitor'.
+src/lib/cache/memory.ts(84,19): error TS2339: Property 'updateCacheSize' does not exist on type 'PerformanceMonitor'.
+src/lib/cache/strategies.ts(57,9): error TS2353: Object literal may only specify known properties, and 'select' does not exist in type 'UserInclude<DefaultArgs>'.
+src/lib/cache/strategies.ts(101,11): error TS2353: Object literal may only specify known properties, and 'select' does not exist in type 'UserInclude<DefaultArgs>'.
+src/lib/cache/strategies.ts(289,25): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/cache/strategies.ts(289,47): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/cache/strategies.ts(348,35): error TS2307: Cannot find module '@/lib/auth' or its corresponding type declarations.
+src/lib/error-boundary-system.ts(10,15): error TS2459: Module '"./error-types"' declares 'ErrorType' locally, but it is not exported.
+src/lib/error-recovery.ts(111,5): error TS2322: Type 'boolean | undefined' is not assignable to type 'boolean'.
+  Type 'undefined' is not assignable to type 'boolean'.
+src/lib/error-recovery.ts(413,40): error TS2345: Argument of type '(error: Error, attempt: number) => Promise<boolean>' is not assignable to parameter of type '(error: Error, attempt: number) => boolean'.
+  Type 'Promise<boolean>' is not assignable to type 'boolean'.
+src/lib/image/image-utils.ts(341,34): error TS2345: Argument of type 'readonly [{ readonly name: "small"; readonly width: 40; readonly height: 40; readonly quality: 0.9; }, { readonly name: "medium"; readonly width: 80; readonly height: 80; readonly quality: 0.9; }, { ...; }] | readonly [...] | readonly [...] | readonly [...]' is not assignable to parameter of type '{ name: string; width: number; height?: number | undefined; quality?: number | undefined; }[]'.
+  The type 'readonly [{ readonly name: "small"; readonly width: 40; readonly height: 40; readonly quality: 0.9; }, { readonly name: "medium"; readonly width: 80; readonly height: 80; readonly quality: 0.9; }, { ...; }]' is 'readonly' and cannot be assigned to the mutable type '{ name: string; width: number; height?: number | undefined; quality?: number | undefined; }[]'.
+src/lib/lazy/route-loader.tsx(239,5): error TS2322: Type 'ComponentType | (() => Element)' is not assignable to type '((loadingProps: DynamicOptionsLoadingProps) => ReactNode) | undefined'.
+  Type 'ComponentClass<{}, any>' is not assignable to type '(loadingProps: DynamicOptionsLoadingProps) => ReactNode'.
+    Type 'ComponentClass<{}, any>' provides no match for the signature '(loadingProps: DynamicOptionsLoadingProps): ReactNode'.
+src/lib/performance-utils.ts(214,27): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'LazyExoticComponent<T>' is not assignable to parameter of type 'string | FunctionComponent<{}> | ComponentClass<{}, any>'.
+      Type 'LazyExoticComponent<T>' is not assignable to type 'FunctionComponent<{}>'.
+        Types of parameters 'props' and 'props' are incompatible.
+          Type '{}' is not assignable to type 'CustomComponentPropsWithRef<T>'.
+src/lib/performance-utils.ts(229,13): error TS18048: 'entry' is possibly 'undefined'.
+src/lib/performance/bundle-analyzer.ts(57,5): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/lib/performance/bundle-analyzer.ts(57,12): error TS18048: 'filename' is possibly 'undefined'.
+src/lib/performance/bundle-analyzer.ts(209,38): error TS4111: Property 'ANALYZE' comes from an index signature, so it must be accessed with ['ANALYZE'].
+src/lib/prisma.ts(330,51): error TS4111: Property 'NEXT_RUNTIME' comes from an index signature, so it must be accessed with ['NEXT_RUNTIME'].
+src/lib/repositories/base-repository.ts(206,5): error TS4115: This parameter property must have an 'override' modifier because it overrides a member in base class 'Error'.
+src/lib/repositories/index.ts(36,9): error TS2304: Cannot find name 'userRepository'.
+src/lib/repositories/index.ts(37,9): error TS2304: Cannot find name 'postRepository'.
+src/lib/repositories/index.ts(38,12): error TS2304: Cannot find name 'projectRepository'.
+src/lib/repositories/post-repository.ts(171,9): error TS2322: Type 'PostCreateInput[]' is not assignable to type 'PostCreateManyInput | PostCreateManyInput[]'.
+  Type 'PostCreateInput[]' is not assignable to type 'PostCreateManyInput[]'.
+    Property 'authorId' is missing in type 'PostCreateInput' but required in type 'PostCreateManyInput'.
+src/lib/repositories/project-repository.ts(152,9): error TS2322: Type 'ProjectCreateInput[]' is not assignable to type 'ProjectCreateManyInput | ProjectCreateManyInput[]'.
+  Type 'ProjectCreateInput[]' is not assignable to type 'ProjectCreateManyInput[]'.
+    Property 'userId' is missing in type 'ProjectCreateInput' but required in type 'ProjectCreateManyInput'.
+src/lib/validations/__tests__/post.test.ts(47,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(61,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(77,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(91,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(121,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(150,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(194,16): error TS2532: Object is possibly 'undefined'.
+src/lib/validations/__tests__/post.test.ts(220,16): error TS2532: Object is possibly 'undefined'.
+src/providers/client-providers.tsx(60,23): error TS2353: Object literal may only specify known properties, and 'ariaProps' does not exist in type 'ToastOptions'.
+src/services/api.ts(80,19): error TS2339: Property 'message' does not exist on type 'NonNullable<T>'.
+src/services/api.ts(86,9): error TS2322: Type 'T | null' is not assignable to type 'T | undefined'.
+  Type 'null' is not assignable to type 'T | undefined'.
+src/stores/posts-store.ts(99,20): error TS2322: Type '{ setPosts: (posts: PostWithAuthor[]) => void; addPost: (post: PostWithAuthor) => void; updatePost: (id: string, updates: Partial<PostWithAuthor>) => void; removePost: (id: string) => void; ... 20 more ...; filters: { ...; }; }' is not assignable to type 'PostsState'.
+  Types of property 'pagination' are incompatible.
+    Type '{ page: number; limit: number; total: number; totalPages: number; }' is missing the following properties from type 'PaginationMeta': totalCount, hasNextPage, hasPreviousPage
+src/stores/posts-store.ts(111,30): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/posts-store.ts(118,15): error TS2322: Type '{ author?: { id: string; name: string | null; email: string; image: string | null; } | undefined; title?: string | undefined; id?: string | undefined; content?: string | undefined; createdAt?: Date | undefined; ... 4 more ...; authorId?: string | undefined; }' is not assignable to type 'WritableDraft<PostWithAuthor>'.
+  Types of property 'author' are incompatible.
+    Type '{ id: string; name: string | null; email: string; image: string | null; } | undefined' is not assignable to type 'WritableDraft<{ id: string; name: string | null; email: string; image: string | null; }>'.
+      Type 'undefined' is not assignable to type 'WritableDraft<{ id: string; name: string | null; email: string; image: string | null; }>'.
+src/stores/posts-store.ts(130,30): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/posts-store.ts(130,67): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/projects-store.ts(118,20): error TS2322: Type '{ setProjects: (projects: ProjectWithUser[]) => void; addProject: (project: ProjectWithUser) => void; updateProject: (id: string, updates: Partial<ProjectWithUser>) => void; removeProject: (id: string) => void; ... 25 more ...; sort: { ...; }; }' is not assignable to type 'ProjectsState'.
+  Types of property 'pagination' are incompatible.
+    Type '{ page: number; limit: number; total: number; totalPages: number; }' is missing the following properties from type 'PaginationMeta': totalCount, hasNextPage, hasPreviousPage
+src/stores/projects-store.ts(130,30): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/projects-store.ts(137,15): error TS2322: Type '{ user?: { id: string; name: string | null; email: string; image: string | null; } | undefined; title?: string | undefined; description?: string | null | undefined; id?: string | undefined; userId?: string | undefined; createdAt?: Date | undefined; updatedAt?: Date | undefined; }' is not assignable to type 'WritableDraft<ProjectWithUser>'.
+  Types of property 'user' are incompatible.
+    Type '{ id: string; name: string | null; email: string; image: string | null; } | undefined' is not assignable to type 'WritableDraft<{ id: string; name: string | null; email: string; image: string | null; }>'.
+      Type 'undefined' is not assignable to type 'WritableDraft<{ id: string; name: string | null; email: string; image: string | null; }>'.
+src/stores/projects-store.ts(149,30): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/projects-store.ts(149,67): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/stores/projects-store.ts(167,30): error TS2339: Property 'total' does not exist on type 'WritableDraft<PaginationMeta>'.
+src/test/performance-test.ts(6,3): error TS2724: '"@/lib/performance-monitor"' has no exported member named 'getPerformanceMonitor'. Did you mean 'PerformanceMonitor'?
+src/test/performance-test.ts(7,3): error TS2305: Module '"@/lib/performance-monitor"' has no exported member 'analyzeBundleSize'.
+src/types/index.ts(12,1): error TS2308: Module './common' has already exported a member named 'ValidationError'. Consider explicitly re-exporting to resolve the ambiguity.
+ ELIFECYCLE  Command failed with exit code 1.
