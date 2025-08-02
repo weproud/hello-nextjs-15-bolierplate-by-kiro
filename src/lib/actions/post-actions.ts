@@ -1,7 +1,7 @@
 'use server'
 
 import { ActionLogger } from '@/lib/error-handling'
-import { postRepository } from '@/lib/repositories'
+import { postRepository } from '@/lib/repositories/post-repository'
 import { authActionClient, publicActionClient } from '@/lib/safe-action'
 import {
   createPostSchema,

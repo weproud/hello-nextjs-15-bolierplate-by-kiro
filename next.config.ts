@@ -31,21 +31,16 @@ const nextConfig: NextConfig = {
     // Enable optimized CSS loading
     optimizeCss: true,
 
-    // Enable Turbo for faster builds
-    // turbo: {
-    //   rules: {
-    //     // Optimize SVG imports
-    //     '*.svg': {
-    //       loaders: ['@svgr/webpack'],
-    //       as: '*.js',
-    //     },
-    //     // Optimize image imports
-    //     '*.{png,jpg,jpeg,gif,webp,avif}': {
-    //       loaders: ['next-optimized-images-loader'],
-    //       as: '*.js',
-    //     },
-    //   },
-    // },
+    // Enable Turbopack for faster builds (Next.js 15 default)
+    turbo: {
+      rules: {
+        // SVG handling for Turbopack
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
 
   // Compiler optimizations
@@ -58,75 +53,8 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
 
-  // Webpack optimizations
-  webpack: (config, { dev }) => {
-    // Production optimizations
-    if (!dev) {
-      // Enable advanced tree shaking
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        sideEffects: false,
-        // Custom chunk splitting strategy
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            // Vendor chunk for stable dependencies
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-              priority: 10,
-            },
-            // UI components chunk
-            ui: {
-              test: /[\\/]src[\\/]components[\\/]ui[\\/]/,
-              name: 'ui-components',
-              chunks: 'all',
-              priority: 20,
-            },
-            // Form components chunk
-            forms: {
-              test: /[\\/]src[\\/]components[\\/]forms[\\/]/,
-              name: 'form-components',
-              chunks: 'all',
-              priority: 15,
-            },
-            // Auth components chunk
-            auth: {
-              test: /[\\/]src[\\/]components[\\/]auth[\\/]/,
-              name: 'auth-components',
-              chunks: 'all',
-              priority: 15,
-            },
-            // TipTap editor chunk
-            editor: {
-              test: /[\\/](@tiptap|prosemirror)[\\/]/,
-              name: 'editor',
-              chunks: 'all',
-              priority: 25,
-            },
-          },
-        },
-      }
-
-      // Bundle size optimizations
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        // Use lighter alternatives for production
-        'react-dom$': 'react-dom/profiling',
-        'scheduler/tracing': 'scheduler/tracing-profiling',
-      }
-    }
-
-    // SVG optimization
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-
-    return config
-  },
+  // Turbopack은 자동으로 최적화를 처리하므로 webpack 설정 제거
+  // SVG는 turbo.rules에서 처리됨
 
   // Image optimization
   images: {

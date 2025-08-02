@@ -1,17 +1,16 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { ActionLogger } from '@/lib/error-handling'
+import { projectRepository } from '@/lib/repositories/project-repository'
 import { authActionClient } from '@/lib/safe-action'
 import {
   createProjectSchema,
-  updateProjectSchema,
   deleteProjectSchema,
   getProjectSchema,
   getUserProjectsSchema,
+  updateProjectSchema,
 } from '@/lib/validations/project'
-import { ActionLogger } from '@/lib/error-handling'
-import { projectRepository } from '@/lib/repositories'
-import { NotFoundError } from '@/lib/repositories/base-repository'
+import { revalidatePath } from 'next/cache'
 
 /**
  * Create a new project
