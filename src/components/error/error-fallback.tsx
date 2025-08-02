@@ -1,24 +1,41 @@
 'use client'
 
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
+import { AlertTriangle, RefreshCw, Home, Bug, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+
+export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical'
+export type ErrorType =
+  | 'component'
+  | 'page'
+  | 'global'
+  | 'network'
+  | 'auth'
+  | 'validation'
 
 interface ErrorFallbackProps {
-  error: Error | undefined
-  resetError: (() => void) | undefined
-  title: string | undefined
-  message: string | undefined
-  showRetry: boolean | undefined
-  showHome: boolean | undefined
-  className: string | undefined
+  error?: Error
+  resetError?: () => void
+  title?: string
+  message?: string
+  showRetry?: boolean
+  showHome?: boolean
+  className?: string
+  children?: React.ReactNode
+  severity?: ErrorSeverity
+  type?: ErrorType
+  errorId?: string
+  showDetails?: boolean
+  retryCount?: number
+  onGoBack?: () => void
+  compact?: boolean
 }
 
 /**
- * Simple Error Fallback Component
+ * 통합 에러 폴백 컴포넌트
  *
- * A reusable error display component that can be used
- * as a fallback UI for error boundaries or error states.
+ * 다양한 에러 상황에 대응할 수 있는 재사용 가능한 에러 표시 컴포넌트
  */
 export function ErrorFallback({
   error,
@@ -29,16 +46,14 @@ export function ErrorFallback({
   showHome = true,
   className = '',
   children,
-}: {
-  error?: Error
-  resetError?: () => void
-  title?: string
-  message?: string
-  showRetry?: boolean
-  showHome?: boolean
-  className?: string
-  children?: React.ReactNode
-}) {
+  severity = 'medium',
+  type = 'component',
+  errorId,
+  showDetails = false,
+  retryCount = 0,
+  onGoBack,
+  compact = false,
+}: ErrorFallbackProps) {
   const handleReload = () => {
     if (typeof window !== 'undefined') {
       window.location.reload()
@@ -51,26 +66,212 @@ export function ErrorFallback({
     }
   }
 
+  const handleGoBack = () => {
+    if (onGoBack) {
+      onGoBack()
+    } else if (typeof window !== 'undefined') {
+      if (window.history.length > 1) {
+        window.history.back()
+      } else {
+        window.location.href = '/'
+      }
+    }
+  }
+
+  /**
+   * 심각도에 따른 스타일 반환
+   */
+  const getSeverityStyles = (severity: ErrorSeverity) => {
+    switch (severity) {
+      case 'critical':
+        return {
+          bgColor: 'bg-red-50',
+          borderColor: 'border-red-200',
+          iconBg: 'bg-red-100',
+          iconColor: 'text-red-600',
+          titleColor: 'text-red-800',
+          badgeVariant: 'destructive' as const,
+          icon: Shield,
+        }
+      case 'high':
+        return {
+          bgColor: 'bg-orange-50',
+          borderColor: 'border-orange-200',
+          iconBg: 'bg-orange-100',
+          iconColor: 'text-orange-600',
+          titleColor: 'text-orange-800',
+          badgeVariant: 'secondary' as const,
+          icon: AlertTriangle,
+        }
+      case 'medium':
+        return {
+          bgColor: 'bg-yellow-50',
+          borderColor: 'border-yellow-200',
+          iconBg: 'bg-yellow-100',
+          iconColor: 'text-yellow-600',
+          titleColor: 'text-yellow-800',
+          badgeVariant: 'outline' as const,
+          icon: AlertTriangle,
+        }
+      default:
+        return {
+          bgColor: 'bg-gray-50',
+          borderColor: 'border-gray-200',
+          iconBg: 'bg-gray-100',
+          iconColor: 'text-gray-600',
+          titleColor: 'text-gray-800',
+          badgeVariant: 'secondary' as const,
+          icon: AlertTriangle,
+        }
+    }
+  }
+
+  /**
+   * 에러 타입에 따른 라벨 반환
+   */
+  const getTypeLabel = (type: ErrorType) => {
+    switch (type) {
+      case 'component':
+        return 'COMPONENT'
+      case 'page':
+        return 'PAGE'
+      case 'global':
+        return 'SYSTEM'
+      case 'network':
+        return 'NETWORK'
+      case 'auth':
+        return 'AUTH'
+      case 'validation':
+        return 'VALIDATION'
+      default:
+        return 'ERROR'
+    }
+  }
+
+  const styles = getSeverityStyles(severity)
+  const IconComponent = styles.icon
+
+  // 컴팩트 모드
+  if (compact) {
+    return (
+      <div
+        className={`${styles.bgColor} border ${styles.borderColor} rounded-lg p-3 ${className}`}
+      >
+        <div className="flex items-center space-x-3">
+          <IconComponent
+            className={`w-5 h-5 ${styles.iconColor} flex-shrink-0`}
+          />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <h4 className={`text-sm font-medium ${styles.titleColor}`}>
+                {title}
+              </h4>
+              <Badge variant={styles.badgeVariant} className="text-xs">
+                {getTypeLabel(type)}
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-600">{message}</p>
+
+            {/* 에러 정보 */}
+            {(errorId || retryCount > 0) && (
+              <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                {errorId && (
+                  <div>
+                    ID:{' '}
+                    <code className="bg-white px-1 py-0.5 rounded">
+                      {errorId}
+                    </code>
+                  </div>
+                )}
+                {retryCount > 0 && <div>재시도: {retryCount}회</div>}
+              </div>
+            )}
+
+            {/* 개발 환경 에러 상세 정보 */}
+            {showDetails && error && process.env.NODE_ENV === 'development' && (
+              <div className="bg-white p-2 rounded text-xs text-gray-700 mt-2">
+                <strong>Error:</strong> {error.message}
+              </div>
+            )}
+          </div>
+
+          {/* 액션 버튼 */}
+          <div className="flex gap-1">
+            {showRetry && resetError && (
+              <Button size="sm" variant="outline" onClick={resetError}>
+                <RefreshCw className="w-3 h-3" />
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // 일반 모드
   return (
     <div className={`flex items-center justify-center p-4 ${className}`}>
-      <Card className="w-full max-w-md">
+      <Card className={`w-full max-w-md ${styles.borderColor} border`}>
         <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-3">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+          <div
+            className={`mx-auto w-12 h-12 ${styles.iconBg} rounded-full flex items-center justify-center mb-3`}
+          >
+            <IconComponent className={`w-6 h-6 ${styles.iconColor}`} />
           </div>
-          <CardTitle className="text-lg text-red-600">{title}</CardTitle>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <CardTitle className={`text-lg ${styles.titleColor}`}>
+              {title}
+            </CardTitle>
+            <Badge variant={styles.badgeVariant} className="text-xs">
+              {getTypeLabel(type)}
+            </Badge>
+          </div>
         </CardHeader>
+
         <CardContent className="space-y-4">
           <p className="text-center text-gray-600 text-sm">{message}</p>
 
-          {/* Error details in development */}
-          {error && process.env.NODE_ENV === 'development' && (
-            <div className="bg-gray-100 p-3 rounded text-xs">
-              <strong>Error:</strong> {error.message}
+          {/* 에러 정보 */}
+          {(errorId || retryCount > 0) && (
+            <div className="text-center text-xs text-gray-500 space-y-1">
+              {errorId && (
+                <p>
+                  오류 ID:{' '}
+                  <code className="bg-gray-100 px-2 py-1 rounded">
+                    {errorId}
+                  </code>
+                </p>
+              )}
+              {retryCount > 0 && <p>재시도 횟수: {retryCount}회</p>}
             </div>
           )}
 
-          {/* Action buttons */}
+          {/* 개발 환경 에러 상세 정보 */}
+          {showDetails && error && process.env.NODE_ENV === 'development' && (
+            <div className="bg-gray-100 p-3 rounded text-xs">
+              <div className="flex items-center gap-2 mb-2">
+                <Bug className="w-4 h-4" />
+                <strong>개발자 정보</strong>
+              </div>
+              <div className="space-y-1">
+                <div>
+                  <strong>메시지:</strong> {error.message}
+                </div>
+                {error.stack && (
+                  <details className="mt-2">
+                    <summary className="cursor-pointer font-medium">
+                      스택 트레이스 보기
+                    </summary>
+                    <pre className="mt-1 text-xs bg-white p-2 rounded border overflow-auto max-h-32">
+                      {error.stack}
+                    </pre>
+                  </details>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* 액션 버튼들 */}
           <div className="flex flex-col gap-2">
             {showRetry && resetError && (
               <Button onClick={resetError} className="w-full">
@@ -84,16 +285,28 @@ export function ErrorFallback({
                 페이지 새로고침
               </Button>
             )}
-            {showHome && (
-              <Button
-                variant="outline"
-                onClick={handleGoHome}
-                className="w-full"
-              >
-                <Home className="w-4 h-4 mr-2" />
-                홈으로 이동
-              </Button>
-            )}
+
+            <div className="flex gap-2">
+              {onGoBack && (
+                <Button
+                  variant="outline"
+                  onClick={handleGoBack}
+                  className="flex-1"
+                >
+                  이전으로
+                </Button>
+              )}
+              {showHome && (
+                <Button
+                  variant="outline"
+                  onClick={handleGoHome}
+                  className={onGoBack ? 'flex-1' : 'w-full'}
+                >
+                  <Home className="w-4 h-4 mr-2" />
+                  홈으로 이동
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* 추가 컨텐츠 */}

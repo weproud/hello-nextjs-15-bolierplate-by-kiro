@@ -7,6 +7,7 @@
 // Core error boundary components
 export { ErrorBoundary } from './error-boundary'
 export { GlobalErrorBoundary } from './global-error-boundary'
+export { PageErrorBoundary } from './page-error-boundary'
 export { ComponentErrorBoundary } from './component-error-boundary'
 export { RouteErrorBoundary } from './route-error-boundary'
 export { HierarchicalErrorBoundary } from './hierarchical-error-boundary'

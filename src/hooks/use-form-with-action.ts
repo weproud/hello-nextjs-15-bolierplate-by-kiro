@@ -1,4 +1,4 @@
-import { useState, useTransition } from 'react'
+import { useState, useEffect } from 'react'
 import {
   useForm,
   type UseFormProps,
@@ -10,16 +10,6 @@ import { type z } from 'zod'
 import { toast } from 'sonner'
 import { useAction } from 'next-safe-action/hooks'
 import type { HookSafeActionFn } from 'next-safe-action/hooks'
-
-// 통합 폼 액션 결과 타입
-export interface FormActionResult<T = unknown> {
-  success?: boolean
-  data?: T
-  error?: string
-  fieldErrors?: Record<string, string[]>
-  serverError?: string
-  validationErrors?: Record<string, string[]>
-}
 
 // 통합 폼 훅 옵션
 export interface UseFormWithActionOptions<
@@ -97,44 +87,8 @@ export function useFormWithAction<
     null
   )
 
-  // 폼 제출 핸들러
-  const handleSubmit = form.handleSubmit(async (data: TFormData) => {
-    try {
-      setIsSubmitting(true)
-      setLastSubmittedData(data)
-
-      // 제출 시작 콜백
-      onSubmitStart?.(data)
-
-      // 에러 클리어 (옵션에 따라)
-      if (clearErrorsOnSubmit) {
-        form.clearErrors()
-      }
-
-      // 액션 실행
-      await execute(data as z.input<TSchema>)
-    } catch (error) {
-      console.error('Form submission error:', error)
-
-      const message = error instanceof Error ? error.message : errorMessage
-
-      if (showToast) {
-        toast.error(message)
-      }
-
-      onError?.(message, data)
-
-      if (resetOnError) {
-        form.reset()
-      }
-    } finally {
-      setIsSubmitting(false)
-      onSubmitEnd?.(data)
-    }
-  })
-
   // 결과 처리 (next-safe-action 결과 모니터링)
-  useState(() => {
+  useEffect(() => {
     if (!result) return
 
     const { data, serverError, validationErrors } = result
@@ -177,6 +131,53 @@ export function useFormWithAction<
       if (resetOnSuccess) {
         form.reset()
       }
+    }
+  }, [
+    result,
+    showToast,
+    successMessage,
+    onSuccess,
+    onError,
+    lastSubmittedData,
+    resetOnSuccess,
+    resetOnError,
+    setFieldErrorsFromServer,
+    form,
+  ])
+
+  // 폼 제출 핸들러
+  const handleSubmit = form.handleSubmit(async (data: TFormData) => {
+    try {
+      setIsSubmitting(true)
+      setLastSubmittedData(data)
+
+      // 제출 시작 콜백
+      onSubmitStart?.(data)
+
+      // 에러 클리어 (옵션에 따라)
+      if (clearErrorsOnSubmit) {
+        form.clearErrors()
+      }
+
+      // 액션 실행
+      await execute(data as z.input<TSchema>)
+    } catch (error) {
+      console.error('Form submission error:', error)
+
+      const message = error instanceof Error ? error.message : errorMessage
+
+      if (showToast) {
+        toast.error(message)
+      }
+
+      onError?.(message, data)
+
+      if (resetOnError) {
+        form.reset()
+      }
+    } finally {
+      setIsSubmitting(false)
+      onSubmitEnd?.(data)
     }
   })
 

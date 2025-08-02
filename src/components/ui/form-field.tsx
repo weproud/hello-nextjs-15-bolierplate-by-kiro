@@ -2,22 +2,30 @@
  * Enhanced FormField Component
  *
  * 재사용 가능한 폼 필드 컴포넌트로 라벨, 입력, 에러 메시지를 통합 관리합니다.
+ * useFormWithAction 훅과 완벽하게 통합되어 작동합니다.
  */
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Label } from './label'
-import { FormError } from './form-error'
+import { FormError, FieldValidationIndicator } from './form-error'
+import { type FieldError, type FieldValues, type Path } from 'react-hook-form'
 
 export interface FormFieldProps {
   label?: string
-  error?: string
+  error?: string | FieldError
   helperText?: string
   required?: boolean
   optional?: boolean
   className?: string
   children: React.ReactNode
   htmlFor?: string
+  // 새로운 기능들
+  showValidationIndicator?: boolean
+  isValidating?: boolean
+  isValid?: boolean
+  tooltip?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
@@ -31,34 +39,70 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
       className,
       children,
       htmlFor,
+      showValidationIndicator = false,
+      isValidating = false,
+      isValid,
+      tooltip,
+      size = 'md',
       ...props
     },
     ref
   ) => {
     const fieldId = htmlFor || React.useId()
 
+    // 에러 메시지 추출 (FieldError 객체 또는 문자열 처리)
+    const errorMessage = typeof error === 'string' ? error : error?.message
+
+    // 크기별 스타일
+    const sizeStyles = {
+      sm: 'space-y-1',
+      md: 'space-y-2',
+      lg: 'space-y-3',
+    }
+
     return (
-      <div ref={ref} className={cn('space-y-2', className)} {...props}>
+      <div ref={ref} className={cn(sizeStyles[size], className)} {...props}>
         {label && (
-          <Label
-            htmlFor={fieldId}
-            className={cn(
-              'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-              error && 'text-destructive'
+          <div className="flex items-center justify-between">
+            <Label
+              htmlFor={fieldId}
+              className={cn(
+                'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                errorMessage && 'text-destructive',
+                size === 'sm' && 'text-xs',
+                size === 'lg' && 'text-base'
+              )}
+            >
+              {label}
+              {required && (
+                <span className="ml-1 text-destructive" aria-label="required">
+                  *
+                </span>
+              )}
+              {optional && (
+                <span className="ml-1 text-muted-foreground text-xs">
+                  (선택사항)
+                </span>
+              )}
+              {tooltip && (
+                <span
+                  className="ml-1 text-muted-foreground cursor-help"
+                  title={tooltip}
+                >
+                  ⓘ
+                </span>
+              )}
+            </Label>
+
+            {showValidationIndicator && (
+              <FieldValidationIndicator
+                isValid={isValid}
+                isValidating={isValidating}
+                error={errorMessage}
+                className="ml-2"
+              />
             )}
-          >
-            {label}
-            {required && (
-              <span className="ml-1 text-destructive" aria-label="required">
-                *
-              </span>
-            )}
-            {optional && (
-              <span className="ml-1 text-muted-foreground text-xs">
-                (optional)
-              </span>
-            )}
-          </Label>
+          </div>
         )}
 
         <div className="relative">
@@ -66,12 +110,17 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
             if (React.isValidElement(child)) {
               return React.cloneElement(child, {
                 id: fieldId,
-                'aria-invalid': !!error,
-                'aria-describedby': error
+                'aria-invalid': !!errorMessage,
+                'aria-describedby': errorMessage
                   ? `${fieldId}-error`
                   : helperText
                     ? `${fieldId}-helper`
                     : undefined,
+                className: cn(
+                  child.props.className,
+                  errorMessage && 'border-destructive focus:border-destructive',
+                  isValid && 'border-green-500 focus:border-green-500'
+                ),
                 ...child.props,
               })
             }
@@ -79,12 +128,22 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
           })}
         </div>
 
-        {error && (
-          <FormError id={`${fieldId}-error`} message={error} type="error" />
+        {errorMessage && (
+          <FormError
+            id={`${fieldId}-error`}
+            message={errorMessage}
+            type="error"
+          />
         )}
 
-        {helperText && !error && (
-          <p id={`${fieldId}-helper`} className="text-sm text-muted-foreground">
+        {helperText && !errorMessage && (
+          <p
+            id={`${fieldId}-helper`}
+            className={cn(
+              'text-muted-foreground',
+              size === 'sm' ? 'text-xs' : 'text-sm'
+            )}
+          >
             {helperText}
           </p>
         )}
@@ -211,3 +270,6 @@ const CheckboxField = React.forwardRef<HTMLDivElement, CheckboxFieldProps>(
 CheckboxField.displayName = 'CheckboxField'
 
 export { FormField, InputField, TextareaField, SelectField, CheckboxField }
+
+// 편의를 위한 기본 내보내기
+export default FormField

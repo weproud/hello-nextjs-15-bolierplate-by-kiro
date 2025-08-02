@@ -2,9 +2,8 @@
 
 import { useCallback, useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { handleError, logError } from '../lib/error-handling'
+import { useErrorHandler } from './use-error-handler'
 import type { AppError } from '../lib/error-handling'
-import { getUserFriendlyErrorMessage } from '../lib/global-error-handler'
 
 interface ServerActionResult<T = any> {
   success: boolean
@@ -28,6 +27,14 @@ export function useServerActionError<T = any>(
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<ServerActionResult<T> | null>(null)
   const [retryCount, setRetryCount] = useState(0)
+
+  // 새로운 통합 에러 처리 훅 사용
+  const { handleError: handleErrorWithHandler } = useErrorHandler({
+    showToast: options.showToast ?? true,
+    logError: true,
+    reportError: false, // 서버 액션 에러는 서버에서 이미 리포팅됨
+    context: 'server-action',
+  })
 
   const {
     onSuccess,
@@ -59,38 +66,29 @@ export function useServerActionError<T = any>(
               onSuccess(actionResult.data)
             }
           } else {
-            const error = handleError(
-              new Error(actionResult.error || 'Action failed')
-            )
-            lastError = error
+            const error = new Error(actionResult.error || 'Action failed')
+            lastError = error as AppError
 
-            if (showToast) {
-              toast.error(getUserFriendlyErrorMessage(error))
-            }
+            // 통합 에러 처리 사용
+            await handleErrorWithHandler(error)
 
             if (onError) {
-              onError(error)
+              onError(error as AppError)
             }
           }
         } catch (error) {
-          const appError = handleError(error)
-          lastError = appError
-
-          if (context) {
-            logError(appError, context)
-          }
+          lastError = error as AppError
 
           setResult({
             success: false,
-            error: appError.message,
+            error: error instanceof Error ? error.message : 'Action failed',
           })
 
-          if (showToast) {
-            toast.error(getUserFriendlyErrorMessage(appError))
-          }
+          // 통합 에러 처리 사용
+          await handleErrorWithHandler(error)
 
           if (onError) {
-            onError(appError)
+            onError(error as AppError)
           }
         }
       }

@@ -1,255 +1,262 @@
-# Form System Documentation
+# 통합 폼 시스템
 
-This comprehensive form system integrates React Hook Form with Zod validation to provide a robust, type-safe, and user-friendly form handling solution.
+이 디렉토리는 React Hook Form + Zod + next-safe-action을 통합한 완전한 폼 처리 시스템을 제공합니다.
 
-## 🚀 Next-Safe-Action Integration
+## 주요 특징
 
-We've successfully integrated **next-safe-action** for enhanced type safety and better developer experience:
+- **통합된 폼 처리**: `useFormWithAction` 훅으로 폼 상태, 유효성 검사, 서버 액션을 한 번에 처리
+- **재사용 가능한 컴포넌트**: 다양한 폼 필드 타입을 지원하는 컴포넌트들
+- **실시간 유효성 검사**: 사용자 입력에 따른 즉시 피드백
+- **에러 처리**: 서버 에러와 클라이언트 에러를 통합 처리
+- **진행률 표시**: 폼 완성도를 시각적으로 표시
+- **다중 단계 폼**: 복잡한 폼을 단계별로 나누어 처리
 
-### Key Benefits
+## 사용법
 
-- **End-to-end Type Safety**: From client form to server action
-- **Automatic Validation**: Zod schemas automatically applied on server
-- **Simplified Error Handling**: Automatic field error mapping
-- **Better DX**: Less boilerplate, more safety
-
-### Quick Example
+### 1. 기본 폼 사용
 
 ```tsx
-// Server Action (src/lib/actions/form-actions.ts)
-export const submitContact = action
-  .schema(contactSchema)
-  .action(async ({ parsedInput }) => {
-    // parsedInput is fully typed and validated!
-    return { message: 'Success!' }
-  })
+import { useFormWithAction } from '@/hooks'
+import { FormField } from '@/components/forms'
+import { z } from 'zod'
 
-// Client Usage
-const formAction = useFormAction(submitContact, {
-  form,
-  showToast: true,
-  onSuccess: () => form.reset(),
+const schema = z.object({
+  name: z.string().min(1, '이름을 입력해주세요'),
+  email: z.string().email('올바른 이메일을 입력해주세요'),
 })
-
-const onSubmit = data => {
-  formAction.execute(data) // Type-safe execution
-}
-```
-
-## Features
-
-- **🚀 Next-Safe-Action Integration** - Type-safe server actions with automatic validation
-- **Type-safe validation** with Zod schemas
-- **Real-time validation** with debouncing
-- **Multi-step forms** with progressive validation
-- **Conditional fields** based on form values
-- **Auto-save functionality** with status indicators
-- **Server action integration** with Next.js
-- **Comprehensive error handling** with field-level and form-level errors
-- **Accessibility compliant** form components
-- **Optimistic updates** for better UX
-
-## 🚀 Next-Safe-Action Integration
-
-We've successfully integrated **next-safe-action** for enhanced type safety and better developer experience:
-
-### Key Benefits
-
-- **End-to-end Type Safety**: From client form to server action
-- **Automatic Validation**: Zod schemas automatically applied on server
-- **Simplified Error Handling**: Automatic field error mapping
-- **Better DX**: Less boilerplate, more safety
-
-### Quick Example
-
-```tsx
-// Server Action (src/lib/actions/form-actions.ts)
-export const submitContact = action
-  .schema(contactSchema)
-  .action(async ({ parsedInput }) => {
-    // parsedInput is fully typed and validated!
-    return { message: 'Success!' }
-  })
-
-// Client Usage
-const formAction = useFormAction(submitContact, {
-  form,
-  showToast: true,
-  onSuccess: () => form.reset(),
-})
-
-const onSubmit = data => {
-  formAction.execute(data) // Type-safe execution
-}
-```
-
-## Core Components
-
-### 1. Enhanced Form (`EnhancedForm`)
-
-The main form wrapper that provides all the advanced functionality.
-
-```tsx
-import {
-  EnhancedForm,
-  EnhancedFormField,
-} from '@/components/forms/enhanced-form'
-import { useFormWithValidation } from '@/hooks/use-form'
-import { contactSchema } from '@/lib/validations/common'
 
 function MyForm() {
-  const form = useFormWithValidation(contactSchema, {
-    defaultValues: { name: '', email: '' },
-  })
+  const { form, handleSubmit, isLoading } = useFormWithAction(
+    schema,
+    myAction,
+    {
+      successMessage: '성공적으로 저장되었습니다!',
+      onSuccess: data => console.log('Success:', data),
+    }
+  )
 
   return (
-    <EnhancedForm
-      form={form}
-      onSubmit={handleSubmit}
-      serverAction={submitContact}
-      autoSave={true}
-      showSummaryErrors={true}
-    >
-      <EnhancedFormField form={form} name="name" label="Name" required>
-        {field => <Input {...field} />}
-      </EnhancedFormField>
-    </EnhancedForm>
+    <form onSubmit={handleSubmit}>
+      <FormField label="이름" error={form.formState.errors.name} required>
+        <input {...form.register('name')} />
+      </FormField>
+
+      <FormField label="이메일" error={form.formState.errors.email} required>
+        <input type="email" {...form.register('email')} />
+      </FormField>
+
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? '처리 중...' : '제출'}
+      </button>
+    </form>
   )
 }
 ```
 
-#### Props
-
-- `form`: React Hook Form instance with Zod validation
-- `onSubmit`: Client-side submit handler
-- `serverAction`: Optional Next.js server action
-- `autoSave`: Enable auto-save functionality
-- `autoSaveDelay`: Delay in ms for auto-save (default: 2000)
-- `showSummaryErrors`: Show error summary at top of form
-- `resetOnSuccess`: Reset form after successful submission
-
-### 2. Enhanced Form Field (`EnhancedFormField`)
-
-Individual form field wrapper with validation and error handling.
+### 2. 향상된 폼 컴포넌트 사용
 
 ```tsx
-<EnhancedFormField
-  form={form}
-  name="email"
-  label="Email Address"
-  required
-  validateOnBlur={true}
-  validateOnChange={false}
-  description="We'll never share your email"
->
-  {field => <Input type="email" {...field} />}
-</EnhancedFormField>
+import { EnhancedForm } from '@/components/forms'
+import { z } from 'zod'
+
+const schema = z.object({
+  name: z.string().min(1, '이름을 입력해주세요'),
+  email: z.string().email('올바른 이메일을 입력해주세요'),
+  message: z.string().min(10, '메시지는 10자 이상 입력해주세요'),
+})
+
+function ContactForm() {
+  return (
+    <EnhancedForm
+      schema={schema}
+      action={contactAction}
+      fields={[
+        {
+          name: 'name',
+          type: 'input',
+          label: '이름',
+          required: true,
+          validation: { showIndicator: true },
+        },
+        {
+          name: 'email',
+          type: 'input',
+          label: '이메일',
+          required: true,
+          validation: { showIndicator: true, realTime: true },
+        },
+        {
+          name: 'message',
+          type: 'textarea',
+          label: '메시지',
+          required: true,
+          props: { rows: 5 },
+        },
+      ]}
+      title="연락하기"
+      description="궁금한 점이 있으시면 언제든 연락해주세요."
+      submitText="메시지 보내기"
+      showProgress={true}
+      showErrorSummary={true}
+    />
+  )
+}
 ```
 
-#### Props
-
-- `form`: React Hook Form instance
-- `name`: Field name (type-safe)
-- `label`: Field label
-- `required`: Show required indicator
-- `validateOnBlur`: Validate when field loses focus
-- `validateOnChange`: Validate on every change
-- `debounceMs`: Debounce delay for real-time validation
-- `description`: Help text for the field
-
-### 3. Form Section (`FormSection`)
-
-Organize form fields into logical sections.
+### 3. 다중 단계 폼 사용
 
 ```tsx
-<FormSection
-  title="Personal Information"
-  description="Enter your personal details"
-  collapsible={true}
-  defaultExpanded={true}
->
-  {/* Form fields */}
-</FormSection>
-```
+import { useMultiStepFormWithAction } from '@/hooks'
 
-### 4. Conditional Form Field (`ConditionalFormField`)
-
-Show/hide fields based on form values.
-
-```tsx
-<ConditionalFormField
-  form={form}
-  condition={values => values.userType === 'business'}
->
-  <EnhancedFormField name="companyName" label="Company Name">
-    {field => <Input {...field} />}
-  </EnhancedFormField>
-</ConditionalFormField>
-```
-
-### 5. Form Validation Status (`FormValidationStatus`)
-
-Display form completion progress and validation status.
-
-```tsx
-<FormValidationStatus form={form} showProgress={true} />
-```
-
-## Hooks
-
-### 1. `useFormWithValidation`
-
-Basic form hook with Zod validation.
-
-```tsx
-const form = useFormWithValidation(schema, {
-  defaultValues: {
-    /* ... */
+const steps = [
+  {
+    name: '기본 정보',
+    fields: ['name', 'email'],
   },
-  mode: 'onChange',
+  {
+    name: '추가 정보',
+    fields: ['phone', 'address'],
+  },
+  {
+    name: '확인',
+    fields: ['terms', 'newsletter'],
+  },
+]
+
+function MultiStepForm() {
+  const {
+    form,
+    currentStep,
+    isLastStep,
+    nextStep,
+    prevStep,
+    submitForm,
+    progress,
+  } = useMultiStepFormWithAction(schema, action, steps)
+
+  return (
+    <div>
+      <div className="progress-bar">
+        <div style={{ width: `${progress}%` }} />
+      </div>
+
+      <form onSubmit={isLastStep ? submitForm : nextStep}>
+        {/* 현재 단계의 필드들 렌더링 */}
+
+        <div className="buttons">
+          {currentStep > 0 && (
+            <button type="button" onClick={prevStep}>
+              이전
+            </button>
+          )}
+
+          <button type="submit">{isLastStep ? '제출' : '다음'}</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+```
+
+### 4. 폼 템플릿 사용
+
+```tsx
+import { EnhancedForm, FormTemplates } from '@/components/forms'
+
+function LoginPage() {
+  return (
+    <EnhancedForm
+      {...FormTemplates.login(loginSchema, loginAction)}
+      formOptions={{
+        onSuccess: () => router.push('/dashboard'),
+      }}
+    />
+  )
+}
+```
+
+## 컴포넌트 API
+
+### useFormWithAction
+
+React Hook Form + Zod + next-safe-action을 통합한 훅입니다.
+
+```tsx
+const {
+  form, // React Hook Form 인스턴스
+  handleSubmit, // 폼 제출 핸들러
+  isLoading, // 로딩 상태
+  isSuccess, // 성공 상태
+  hasErrors, // 에러 존재 여부
+  error, // 일반 에러 메시지
+  fieldErrors, // 필드별 에러
+  result, // 액션 결과 데이터
+  reset, // 폼 리셋
+} = useFormWithAction(schema, action, options)
+```
+
+### EnhancedForm
+
+완전한 폼 솔루션을 제공하는 컴포넌트입니다.
+
+```tsx
+<EnhancedForm
+  schema={zodSchema}
+  action={safeAction}
+  fields={fieldConfigs}
+  title="폼 제목"
+  description="폼 설명"
+  showProgress={true}
+  showErrorSummary={true}
+  layout="vertical" // 'vertical' | 'horizontal' | 'grid'
+  onSuccess={data => console.log(data)}
+/>
+```
+
+### FormField
+
+재사용 가능한 폼 필드 컴포넌트입니다.
+
+```tsx
+<FormField
+  label="필드 라벨"
+  error={fieldError}
+  helperText="도움말 텍스트"
+  required={true}
+  showValidationIndicator={true}
+  isValidating={false}
+  isValid={true}
+>
+  <input {...register('fieldName')} />
+</FormField>
+```
+
+## 고급 기능
+
+### 실시간 유효성 검사
+
+```tsx
+const { form } = useFormWithAction(schema, action, {
+  formOptions: { mode: 'onChange' },
 })
+
+// 필드별 실시간 검사
+<FormField
+  showValidationIndicator={true}
+  isValidating={form.formState.isValidating}
+  isValid={!form.formState.errors.fieldName}
+>
 ```
 
-### 2. `useProgressiveForm`
-
-For multi-step forms with step-by-step validation.
+### 자동 저장
 
 ```tsx
-const form = useProgressiveForm(schema, options)
+import { useAutoSaveForm } from '@/hooks'
 
-// Validate specific step
-const isValid = await form.validateStep(['field1', 'field2'])
-
-// Get errors for specific step
-const stepErrors = form.getStepErrors(['field1', 'field2'])
-```
-
-### 3. `useFormAction`
-
-Handle server actions with forms.
-
-```tsx
-const formAction = useFormAction(serverAction, {
-  form,
-  showToast: true,
-  successMessage: 'Success!',
-  onSuccess: data => console.log(data),
-})
-
-// Execute the action
-formAction.execute(formData)
-```
-
-### 4. `useAutoSaveForm`
-
-Form with automatic saving functionality.
-
-```tsx
 const form = useAutoSaveForm(
   schema,
   async data => {
-    // Auto-save logic
-    await saveToServer(data)
+    await autoSaveAction(data)
   },
   {
     autoSaveDelay: 2000,
@@ -258,298 +265,46 @@ const form = useAutoSaveForm(
 )
 ```
 
-## Validation Utilities
-
-### 1. `createValidationHelper`
-
-Create consistent validation between client and server.
+### 낙관적 업데이트
 
 ```tsx
-import { createValidationHelper } from '@/lib/validations/form-utils'
+import { useOptimisticFormAction } from '@/hooks'
 
-const validator = createValidationHelper(schema)
-
-// Validate form data
-const result = validator.validateFormData(formData)
-
-// Validate single field
-const fieldResult = validator.validateField('email', 'test@example.com')
-
-// Get field error
-const error = validator.getFieldError(errors, 'email')
-```
-
-### 2. `createEnhancedValidationHelper`
-
-Advanced validation with additional features.
-
-```tsx
-const validator = createEnhancedValidationHelper(schema)
-
-// Async field validation
-const result = await validator.validateFieldAsync('email', value, 300)
-
-// Validate multiple fields
-const results = validator.validateFields({
-  email: 'test@example.com',
-  name: 'John Doe',
-})
-
-// Get validation summary
-const summary = validator.getValidationSummary(formData)
-```
-
-## Server Actions
-
-### 1. `createTypedFormAction`
-
-Create type-safe server actions with validation.
-
-```tsx
-export const submitContact = createTypedFormAction(
-  contactSchema,
-  async data => {
-    // Process validated data
-    const result = await saveContact(data)
-    return result
-  },
-  {
-    successMessage: 'Contact saved successfully!',
-    errorMessage: 'Failed to save contact',
-    revalidatePaths: ['/contacts'],
-  }
+const { execute, optimisticData } = useOptimisticFormAction(
+  updateAction,
+  formData => ({
+    // 낙관적 업데이트 데이터
+    id: 'temp-id',
+    ...Object.fromEntries(formData),
+  })
 )
 ```
 
-### 2. Built-in Actions
+## 모범 사례
 
-Pre-built server actions for common use cases:
+1. **스키마 정의**: Zod 스키마를 명확하게 정의하고 에러 메시지를 한국어로 작성
+2. **에러 처리**: 서버 에러와 클라이언트 에러를 구분하여 처리
+3. **사용자 경험**: 로딩 상태, 진행률, 실시간 피드백 제공
+4. **접근성**: 적절한 라벨, ARIA 속성, 키보드 네비게이션 지원
+5. **성능**: 불필요한 리렌더링 방지, 디바운싱 활용
 
-- `createProject` - Create a new project
-- `submitContact` - Submit contact form
-- `registerUser` - User registration
-- `updateProfile` - Update user profile
-- `submitFeedback` - Submit feedback
-- `inviteTeamMember` - Invite team member
+## 문제 해결
 
-## Validation Schemas
+### 일반적인 문제들
 
-### Common Schemas
+1. **타입 에러**: 스키마와 폼 데이터 타입이 일치하는지 확인
+2. **액션 에러**: next-safe-action 설정이 올바른지 확인
+3. **유효성 검사**: Zod 스키마가 예상한 데이터 구조와 일치하는지 확인
+4. **리렌더링**: 불필요한 의존성이 useEffect에 포함되지 않았는지 확인
 
-Pre-built Zod schemas for common form fields:
-
-```tsx
-import {
-  emailSchema,
-  passwordSchema,
-  nameSchema,
-  phoneSchema,
-  contactSchema,
-  projectSchema,
-  registerSchema,
-} from '@/lib/validations/common'
-```
-
-### Custom Schemas
-
-Create custom validation schemas:
+### 디버깅 팁
 
 ```tsx
-// Create schemas in dedicated validation files
-// src/lib/validations/my-schemas.ts
-import { z } from 'zod'
+// 폼 상태 디버깅
+console.log('Form state:', form.formState)
+console.log('Form values:', form.getValues())
+console.log('Form errors:', form.formState.errors)
 
-export const customSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().optional(),
-  priority: z.enum(['low', 'medium', 'high']),
-  dueDate: z.date().min(new Date(), 'Due date must be in the future'),
-})
-
-export type CustomInput = z.infer<typeof customSchema>
-
-// Then import in your component
-import { customSchema, type CustomInput } from '@/lib/validations/my-schemas'
+// 액션 결과 디버깅
+console.log('Action result:', actionResult)
 ```
-
-## Error Handling
-
-### Form Error Components
-
-```tsx
-import {
-  FormError,
-  FormErrorList,
-  FormErrorSummary,
-  FieldValidationIndicator
-} from '@/components/ui/form-error'
-
-// Single error
-<FormError message="This field is required" type="error" />
-
-// Error list
-<FormErrorList errors={['Error 1', 'Error 2']} />
-
-// Error summary
-<FormErrorSummary errors={formErrors} showFieldNames={true} />
-
-// Validation indicator
-<FieldValidationIndicator
-  isValid={true}
-  isValidating={false}
-  error="Invalid email"
-/>
-```
-
-## Examples
-
-### 1. Simple Form
-
-```tsx
-function SimpleForm() {
-  const form = useFormWithValidation(projectSchema)
-
-  return (
-    <EnhancedForm form={form} onSubmit={handleSubmit}>
-      <EnhancedFormField form={form} name="title" label="Title" required>
-        {field => <Input {...field} />}
-      </EnhancedFormField>
-    </EnhancedForm>
-  )
-}
-```
-
-### 2. Multi-Step Form
-
-```tsx
-function MultiStepForm() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const form = useProgressiveForm(multiStepSchema)
-
-  const handleNext = async () => {
-    const isValid = await form.validateStep(getStepFields(currentStep))
-    if (isValid) setCurrentStep(currentStep + 1)
-  }
-
-  return (
-    <EnhancedForm form={form} onSubmit={handleSubmit}>
-      {currentStep === 1 && <Step1Fields />}
-      {currentStep === 2 && <Step2Fields />}
-      <Button onClick={handleNext}>Next</Button>
-    </EnhancedForm>
-  )
-}
-```
-
-### 3. Conditional Form
-
-```tsx
-function ConditionalForm() {
-  const form = useFormWithValidation(conditionalSchema)
-
-  return (
-    <EnhancedForm form={form} onSubmit={handleSubmit}>
-      <EnhancedFormField form={form} name="userType" label="User Type">
-        {field => (
-          <select {...field}>
-            <option value="individual">Individual</option>
-            <option value="business">Business</option>
-          </select>
-        )}
-      </EnhancedFormField>
-
-      <ConditionalFormField
-        form={form}
-        condition={values => values.userType === 'business'}
-      >
-        <EnhancedFormField form={form} name="companyName" label="Company">
-          {field => <Input {...field} />}
-        </EnhancedFormField>
-      </ConditionalFormField>
-    </EnhancedForm>
-  )
-}
-```
-
-### 4. Auto-Save Form
-
-```tsx
-function AutoSaveForm() {
-  const form = useAutoSaveForm(
-    schema,
-    async data => {
-      await saveToServer(data)
-    },
-    { autoSaveDelay: 1000 }
-  )
-
-  return (
-    <EnhancedForm
-      form={form}
-      onSubmit={handleSubmit}
-      autoSave={true}
-      onAutoSave={handleAutoSave}
-    >
-      {/* Form fields */}
-    </EnhancedForm>
-  )
-}
-```
-
-## Best Practices
-
-1. **Use TypeScript**: All components are fully typed for better DX
-2. **Validate early**: Use `validateOnBlur` for better UX
-3. **Provide feedback**: Use toast notifications and error summaries
-4. **Progressive enhancement**: Start with basic forms, add features as needed
-5. **Consistent schemas**: Reuse validation schemas between client and server
-6. **Accessibility**: All components follow WCAG guidelines
-7. **Performance**: Use debouncing for real-time validation
-8. **Error handling**: Provide clear, actionable error messages
-
-## Troubleshooting
-
-### Common Issues
-
-1. **TypeScript errors**: Ensure schemas match form field names exactly
-2. **Validation not working**: Check that schema is properly imported
-3. **Server actions failing**: Verify FormData conversion in server actions
-4. **Auto-save not triggering**: Ensure form is valid and dirty
-
-### Debug Tools
-
-Use the debug information in development:
-
-```tsx
-<details>
-  <summary>Debug Info</summary>
-  <pre>{JSON.stringify(form.formState, null, 2)}</pre>
-  <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
-</details>
-```
-
-## Migration Guide
-
-### From Basic React Hook Form
-
-1. Replace `useForm` with `useFormWithValidation`
-2. Add Zod schema for validation
-3. Replace form wrapper with `EnhancedForm`
-4. Replace field components with `EnhancedFormField`
-
-### From Other Form Libraries
-
-1. Convert validation rules to Zod schemas
-2. Update field components to use render props pattern
-3. Replace submit handlers with server actions where appropriate
-4. Add error handling components
-
-## Contributing
-
-When adding new form components or features:
-
-1. Follow the existing patterns and naming conventions
-2. Add proper TypeScript types
-3. Include comprehensive examples
-4. Update this documentation
-5. Add tests for new functionality
