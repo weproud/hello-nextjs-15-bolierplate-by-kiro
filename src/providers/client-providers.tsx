@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { GlobalThemeTransition } from '@/components/ui/theme-transition'
 import { LoadingProvider } from '@/contexts/loading-context'
 import { SessionProvider } from '@/providers/session-provider'
-import { AppStoreProvider } from '@/store/provider'
+import { AppStoreProvider } from '@/stores/provider'
 import { memo, type ReactNode } from 'react'
 
 interface ClientProvidersProps {

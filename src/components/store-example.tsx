@@ -1,7 +1,7 @@
 'use client'
 
+import { useAppStore } from '@/stores'
 import { memo, useCallback } from 'react'
-import { useAppStore } from '@/store'
 
 export const StoreExample = memo(function StoreExample() {
   const sidebarOpen = useAppStore(state => state.sidebarOpen)
