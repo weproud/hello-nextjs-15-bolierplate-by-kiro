@@ -1,27 +1,27 @@
 'use server'
 
+import { createLogger } from '@/lib/logger'
+import { ApiResponse } from '@/lib/type-utils'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { createLogger } from '@/lib/logger'
+import { actionClient } from '../safe-action'
 import {
   contactSchema,
+  feedbackSchema,
+  profileSchema,
   projectSchema,
   registerSchema,
-  profileSchema,
-  feedbackSchema,
   teamInviteSchema,
 } from '../validations/common'
 import {
-  fileUploadSchema,
   batchDeleteSchema,
-  searchItemsSchema,
-  newsletterSubscriptionSchema,
+  fileUploadSchema,
   multiStepFormSchema,
+  newsletterSubscriptionSchema,
+  searchItemsSchema,
 } from '../validations/form-action-schemas'
-import { ApiResponse } from '@/lib/type-utils'
 
 const logger = createLogger('form-actions')
-import { actionClient } from '../safe-action'
 
 // Helper functions for file validation
 function validateFileSize(file: File, maxSize: number = 5 * 1024 * 1024): void {
@@ -630,3 +630,14 @@ export const submitMultiStepForm = action
         : new Error('회원가입 중 오류가 발생했습니다.')
     }
   })
+
+// Generic typed form action creator
+export function createTypedFormAction<TSchema extends z.ZodType>(
+  schema: TSchema,
+  handler: (data: z.infer<TSchema>) => Promise<any>
+) {
+  return action.inputSchema(schema).action(async ({ parsedInput }) => {
+    'use server'
+    return await handler(parsedInput)
+  })
+}

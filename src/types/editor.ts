@@ -10,13 +10,13 @@ import type { BaseComponentProps } from './common'
 // Tiptap Editor Types - Tiptap 에디터 관련 타입들
 export interface TiptapEditorProps extends BaseComponentProps {
   content: string
-  onChange: (content: string) => void
+  onChange: (content: string) => void | Promise<void>
   placeholder?: string
   editable?: boolean
   showToolbar?: boolean
-  onFocus?: () => void
-  onBlur?: () => void
-  onUpdate?: (content: string) => void
+  onFocus?: () => void | Promise<void>
+  onBlur?: () => void | Promise<void>
+  onUpdate?: (content: string) => void | Promise<void>
 }
 
 export interface TiptapEditorRef {
@@ -303,12 +303,12 @@ export interface EditorEvent {
 }
 
 export interface EditorEventHandlers {
-  onCreate?: (editor: Editor) => void
-  onUpdate?: (editor: Editor) => void
-  onSelectionUpdate?: (editor: Editor) => void
-  onFocus?: (editor: Editor) => void
-  onBlur?: (editor: Editor) => void
-  onDestroy?: () => void
+  onCreate?: (editor: Editor) => void | Promise<void>
+  onUpdate?: (editor: Editor) => void | Promise<void>
+  onSelectionUpdate?: (editor: Editor) => void | Promise<void>
+  onFocus?: (editor: Editor) => void | Promise<void>
+  onBlur?: (editor: Editor) => void | Promise<void>
+  onDestroy?: () => void | Promise<void>
 }
 
 // Editor Performance Types - 에디터 성능 타입들

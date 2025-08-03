@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 /**
  * TypeScript 에러 분석 및 분류 시스템
@@ -17,10 +17,12 @@ const ERROR_CATEGORIES = {
   IMPORT_EXPORT: 'import_export',
   GENERIC: 'generic',
   MINOR: 'minor',
-}
+} as const
+
+type ErrorCategory = (typeof ERROR_CATEGORIES)[keyof typeof ERROR_CATEGORIES]
 
 // 에러 우선순위 매트릭스
-const PRIORITY_MATRIX = {
+const PRIORITY_MATRIX: Record<ErrorCategory, number> = {
   [ERROR_CATEGORIES.CRITICAL]: 1,
   [ERROR_CATEGORIES.TYPE_SAFETY]: 2,
   [ERROR_CATEGORIES.IMPORT_EXPORT]: 3,
@@ -29,7 +31,7 @@ const PRIORITY_MATRIX = {
 }
 
 // 에러 코드별 카테고리 매핑
-const ERROR_CODE_MAPPING = {
+const ERROR_CODE_MAPPING: Record<string, ErrorCategory> = {
   // Critical Errors - 빌드를 완전히 차단하는 에러
   TS2307: ERROR_CATEGORIES.CRITICAL, // Cannot find module
   TS2724: ERROR_CATEGORIES.CRITICAL, // has no exported member
@@ -66,10 +68,27 @@ const ERROR_CODE_MAPPING = {
  * TypeScript 에러 객체 정의
  */
 class TypeScriptError {
-  constructor(file, line, column, code, message, category, priority) {
+  public file: string
+  public line: number
+  public column: number
+  public code: string
+  public message: string
+  public category: ErrorCategory
+  public priority: number
+  public dependencies: string[]
+
+  constructor(
+    file: string,
+    line: string | number,
+    column: string | number,
+    code: string,
+    message: string,
+    category: ErrorCategory,
+    priority: number
+  ) {
     this.file = file
-    this.line = parseInt(line) || 0
-    this.column = parseInt(column) || 0
+    this.line = parseInt(String(line)) || 0
+    this.column = parseInt(String(column)) || 0
     this.code = code
     this.message = message
     this.category = category
@@ -78,13 +97,49 @@ class TypeScriptError {
   }
 }
 
+interface ErrorStats {
+  total: number
+  byCategory: Record<ErrorCategory, number>
+  byPriority: Record<number, number>
+  byFile: Record<string, number>
+  topFiles: Array<{ file: string; count: number }>
+  criticalCount: number
+  resolutionEstimate: number
+}
+
+interface ResolutionPhase {
+  name: string
+  description: string
+  errors: TypeScriptError[]
+  estimatedTime: string
+}
+
+interface ResolutionPlan {
+  phases: ResolutionPhase[]
+  totalErrors: number
+  estimatedTotalTime: string
+  riskLevel: 'low' | 'medium' | 'high'
+}
+
+interface AnalysisResult {
+  timestamp: string
+  errors: TypeScriptError[]
+  statistics: ErrorStats
+  resolutionPlan: ResolutionPlan
+  metadata: {
+    totalFiles: number
+    errorCodes: string[]
+    categories: string[]
+  }
+}
+
 /**
  * 에러 로그 파싱 함수
- * @param {string} logContent - TypeScript 에러 로그 내용
- * @returns {TypeScriptError[]} - 파싱된 에러 배열
+ * @param logContent - TypeScript 에러 로그 내용
+ * @returns 파싱된 에러 배열
  */
-function parseErrorLog(logContent) {
-  const errors = []
+function parseErrorLog(logContent: string): TypeScriptError[] {
+  const errors: TypeScriptError[] = []
   const lines = logContent.split('\n')
 
   // TypeScript 에러 패턴: file(line,column): error TSxxxx: message
@@ -116,12 +171,16 @@ function parseErrorLog(logContent) {
 
 /**
  * 에러 카테고리 분류 함수
- * @param {string} code - TypeScript 에러 코드
- * @param {string} message - 에러 메시지
- * @param {string} file - 파일 경로
- * @returns {string} - 에러 카테고리
+ * @param code - TypeScript 에러 코드
+ * @param message - 에러 메시지
+ * @param file - 파일 경로
+ * @returns 에러 카테고리
  */
-function categorizeError(code, message, file) {
+function categorizeError(
+  code: string,
+  message: string,
+  file: string
+): ErrorCategory {
   // 에러 코드 기반 분류
   if (ERROR_CODE_MAPPING[code]) {
     return ERROR_CODE_MAPPING[code]
@@ -157,18 +216,18 @@ function categorizeError(code, message, file) {
 
 /**
  * 의존성 관계 매핑 함수
- * @param {TypeScriptError[]} errors - 에러 배열
- * @returns {TypeScriptError[]} - 의존성이 매핑된 에러 배열
+ * @param errors - 에러 배열
+ * @returns 의존성이 매핑된 에러 배열
  */
-function mapDependencies(errors) {
-  const fileErrorMap = new Map()
+function mapDependencies(errors: TypeScriptError[]): TypeScriptError[] {
+  const fileErrorMap = new Map<string, TypeScriptError[]>()
 
   // 파일별 에러 그룹핑
   errors.forEach(error => {
     if (!fileErrorMap.has(error.file)) {
       fileErrorMap.set(error.file, [])
     }
-    fileErrorMap.get(error.file).push(error)
+    fileErrorMap.get(error.file)!.push(error)
   })
 
   // 의존성 관계 설정
@@ -191,12 +250,12 @@ function mapDependencies(errors) {
 
 /**
  * 관련 파일 찾기 함수
- * @param {string} file - 기준 파일
- * @param {TypeScriptError[]} errors - 전체 에러 배열
- * @returns {string[]} - 관련 파일 목록
+ * @param file - 기준 파일
+ * @param errors - 전체 에러 배열
+ * @returns 관련 파일 목록
  */
-function findRelatedFiles(file, errors) {
-  const related = []
+function findRelatedFiles(file: string, errors: TypeScriptError[]): string[] {
+  const related: string[] = []
   const baseName = path.basename(file, path.extname(file))
 
   errors.forEach(error => {
@@ -210,12 +269,12 @@ function findRelatedFiles(file, errors) {
 
 /**
  * 의존하는 파일 찾기 함수
- * @param {string} file - 기준 파일
- * @param {TypeScriptError[]} errors - 전체 에러 배열
- * @returns {string[]} - 의존하는 파일 목록
+ * @param file - 기준 파일
+ * @param errors - 전체 에러 배열
+ * @returns 의존하는 파일 목록
  */
-function findDependentFiles(file, errors) {
-  const dependent = []
+function findDependentFiles(file: string, errors: TypeScriptError[]): string[] {
+  const dependent: string[] = []
   const directory = path.dirname(file)
 
   errors.forEach(error => {
@@ -229,13 +288,13 @@ function findDependentFiles(file, errors) {
 
 /**
  * 에러 통계 생성 함수
- * @param {TypeScriptError[]} errors - 에러 배열
- * @returns {Object} - 에러 통계 객체
+ * @param errors - 에러 배열
+ * @returns 에러 통계 객체
  */
-function generateErrorStats(errors) {
-  const stats = {
+function generateErrorStats(errors: TypeScriptError[]): ErrorStats {
+  const stats: ErrorStats = {
     total: errors.length,
-    byCategory: {},
+    byCategory: {} as Record<ErrorCategory, number>,
     byPriority: {},
     byFile: {},
     topFiles: [],
@@ -279,10 +338,10 @@ function generateErrorStats(errors) {
 
 /**
  * 해결 계획 생성 함수
- * @param {TypeScriptError[]} errors - 에러 배열
- * @returns {Object} - 해결 계획 객체
+ * @param errors - 에러 배열
+ * @returns 해결 계획 객체
  */
-function generateResolutionPlan(errors) {
+function generateResolutionPlan(errors: TypeScriptError[]): ResolutionPlan {
   // 우선순위별로 에러 정렬
   const sortedErrors = errors.sort((a, b) => {
     if (a.priority !== b.priority) {
@@ -292,7 +351,7 @@ function generateResolutionPlan(errors) {
     return a.file.localeCompare(b.file)
   })
 
-  const phases = [
+  const phases: ResolutionPhase[] = [
     {
       name: 'Phase 1: Critical Infrastructure Errors',
       description: '빌드를 차단하는 핵심 에러 해결',
@@ -342,10 +401,10 @@ function generateResolutionPlan(errors) {
 
 /**
  * 결과를 JSON 파일로 저장하는 함수
- * @param {Object} data - 저장할 데이터
- * @param {string} filename - 파일명
+ * @param data - 저장할 데이터
+ * @param filename - 파일명
  */
-function saveToFile(data, filename) {
+function saveToFile(data: AnalysisResult, filename: string): void {
   const outputPath = path.join(process.cwd(), filename)
   fs.writeFileSync(outputPath, JSON.stringify(data, null, 2), 'utf8')
   console.log(`✅ 결과가 ${filename}에 저장되었습니다.`)
@@ -353,10 +412,10 @@ function saveToFile(data, filename) {
 
 /**
  * 콘솔에 요약 정보를 출력하는 함수
- * @param {Object} stats - 에러 통계
- * @param {Object} plan - 해결 계획
+ * @param stats - 에러 통계
+ * @param plan - 해결 계획
  */
-function printSummary(stats, plan) {
+function printSummary(stats: ErrorStats, plan: ResolutionPlan): void {
   console.log('\n🔍 TypeScript 에러 분석 결과')
   console.log('='.repeat(50))
 
@@ -394,7 +453,7 @@ function printSummary(stats, plan) {
 /**
  * 메인 실행 함수
  */
-function main() {
+function main(): void {
   try {
     console.log('🔍 TypeScript 에러 분석을 시작합니다...')
 
@@ -430,7 +489,7 @@ function main() {
     const plan = generateResolutionPlan(categorizedErrors)
 
     // 결과 저장
-    const analysisResult = {
+    const analysisResult: AnalysisResult = {
       timestamp: new Date().toISOString(),
       errors: categorizedErrors,
       statistics: stats,
@@ -439,7 +498,7 @@ function main() {
         totalFiles: [...new Set(errors.map(e => e.file))].length,
         errorCodes: [...new Set(errors.map(e => e.code))],
         categories: Object.keys(stats.byCategory).filter(
-          cat => stats.byCategory[cat] > 0
+          cat => stats.byCategory[cat as ErrorCategory] > 0
         ),
       },
     }
@@ -449,23 +508,24 @@ function main() {
     // 요약 정보 출력
     printSummary(stats, plan)
   } catch (error) {
-    console.error('❌ 에러 분석 중 오류가 발생했습니다:', error.message)
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    console.error('❌ 에러 분석 중 오류가 발생했습니다:', errorMessage)
     process.exit(1)
   }
 }
 
 // 스크립트가 직접 실행될 때만 main 함수 호출
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main()
 }
 
-module.exports = {
-  parseErrorLog,
-  categorizeError,
-  mapDependencies,
-  generateErrorStats,
-  generateResolutionPlan,
-  TypeScriptError,
+export {
   ERROR_CATEGORIES,
   PRIORITY_MATRIX,
+  TypeScriptError,
+  categorizeError,
+  generateErrorStats,
+  generateResolutionPlan,
+  mapDependencies,
+  parseErrorLog,
 }

@@ -1,265 +1,45 @@
 {
-  "timestamp": "2025-08-02T10:20:17.410Z",
+  "timestamp": "2025-08-03T01:10:27.278Z",
   "errors": [
     {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 8,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
+      "file": ".next/types/app/(app)/(community)/posts/editor-test/page.ts",
+      "line": 2,
+      "column": 24,
+      "code": "TS2307",
+      "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.",
       "category": "critical",
       "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
+      "dependencies": []
     },
     {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 9,
-      "column": 13,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
+      "file": ".next/types/app/(app)/(community)/posts/editor-test/page.ts",
+      "line": 5,
+      "column": 29,
+      "code": "TS2307",
+      "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.",
       "category": "critical",
       "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
+      "dependencies": []
     },
     {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 10,
-      "column": 13,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
+      "file": ".next/types/app/(app)/(community)/posts/test-form/page.ts",
+      "line": 2,
+      "column": 24,
+      "code": "TS2307",
+      "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.",
       "category": "critical",
       "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
+      "dependencies": []
     },
     {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 13,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
+      "file": ".next/types/app/(app)/(community)/posts/test-form/page.ts",
+      "line": 5,
+      "column": 29,
+      "code": "TS2307",
+      "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.",
       "category": "critical",
       "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 14,
-      "column": 9,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 17,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 18,
-      "column": 18,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 21,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 31,
-      "column": 31,
-      "code": "TS2694",
-      "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 32,
-      "column": 49,
-      "code": "TS2694",
-      "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 35,
-      "column": 39,
-      "code": "TS2694",
-      "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 36,
-      "column": 39,
-      "code": "TS2694",
-      "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 58,
-      "column": 5,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 6,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 7,
-      "column": 9,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 11,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 12,
-      "column": 13,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 16,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 22,
-      "column": 31,
-      "code": "TS2694",
-      "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 26,
-      "column": 5,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": [
-        "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-        "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-      ]
+      "dependencies": []
     },
     {
       "file": "src/app/(app)/(dashboard)/projects/projects-client.tsx",
@@ -568,7 +348,6 @@
         "src/components/patterns/hybrid-examples-client.tsx",
         "src/components/patterns/hybrid-examples.tsx",
         "src/components/performance/performance-monitor.tsx",
-        "src/components/posts/__tests__/post-form.test.tsx",
         "src/components/posts/post-card.tsx",
         "src/components/posts/post-form.tsx",
         "src/components/projects/index.ts",
@@ -617,7 +396,6 @@
         "src/components/patterns/hybrid-examples-client.tsx",
         "src/components/patterns/hybrid-examples.tsx",
         "src/components/performance/performance-monitor.tsx",
-        "src/components/posts/__tests__/post-form.test.tsx",
         "src/components/posts/post-card.tsx",
         "src/components/posts/post-form.tsx",
         "src/components/projects/index.ts",
@@ -666,7 +444,6 @@
         "src/components/patterns/hybrid-examples-client.tsx",
         "src/components/patterns/hybrid-examples.tsx",
         "src/components/performance/performance-monitor.tsx",
-        "src/components/posts/__tests__/post-form.test.tsx",
         "src/components/posts/post-card.tsx",
         "src/components/posts/post-form.tsx",
         "src/components/projects/index.ts",
@@ -749,116 +526,6 @@
       "dependencies": []
     },
     {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 6,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 8,
-      "column": 11,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 12,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 14,
-      "column": 14,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 15,
-      "column": 12,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 19,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 20,
-      "column": 21,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 21,
-      "column": 21,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 24,
-      "column": 1,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 37,
-      "column": 5,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 102,
-      "column": 22,
-      "code": "TS2708",
-      "message": "Cannot use namespace 'jest' as a value.",
-      "category": "critical",
-      "priority": 1,
-      "dependencies": []
-    },
-    {
       "file": "src/components/posts/post-form.tsx",
       "line": 28,
       "column": 8,
@@ -866,9 +533,7 @@
       "message": "'\"@/components/editor/tiptap-editor\"' has no exported member named 'TiptapEditorRef'. Did you mean 'TiptapEditor'?",
       "category": "critical",
       "priority": 1,
-      "dependencies": [
-        "src/components/posts/__tests__/post-form.test.tsx"
-      ]
+      "dependencies": []
     },
     {
       "file": "src/components/projects/index.ts",
@@ -1023,7 +688,6 @@
       "category": "critical",
       "priority": 1,
       "dependencies": [
-        "src/hooks/__tests__/use-infinite-posts.test.ts",
         "src/hooks/use-infinite-posts.ts"
       ]
     },
@@ -1036,7 +700,6 @@
       "category": "critical",
       "priority": 1,
       "dependencies": [
-        "src/hooks/__tests__/use-infinite-posts.test.ts",
         "src/hooks/use-infinite-posts.ts"
       ]
     },
@@ -1086,66 +749,6 @@
       "column": 31,
       "code": "TS2344",
       "message": "Type 'PostDetailPageProps' does not satisfy the constraint 'PageProps'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 48,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 74,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 101,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 118,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type 'null' is not assignable to parameter of type 'NextMiddleware'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 137,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-      "line": 159,
-      "column": 32,
-      "code": "TS2345",
-      "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
       "category": "type_safety",
       "priority": 2,
       "dependencies": []
@@ -2251,16 +1854,6 @@
       "dependencies": []
     },
     {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 217,
-      "column": 7,
-      "code": "TS2322",
-      "message": "Type 'Post | undefined' is not assignable to type 'Post'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
       "file": "src/hooks/use-error-handler.ts",
       "line": 329,
       "column": 13,
@@ -2831,86 +2424,6 @@
       "dependencies": []
     },
     {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 47,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 61,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 77,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 91,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 121,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 150,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 194,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
-      "file": "src/lib/validations/__tests__/post.test.ts",
-      "line": 220,
-      "column": 16,
-      "code": "TS2532",
-      "message": "Object is possibly 'undefined'.",
-      "category": "type_safety",
-      "priority": 2,
-      "dependencies": []
-    },
-    {
       "file": "src/services/api.ts",
       "line": 80,
       "column": 19,
@@ -3041,266 +2554,6 @@
       "dependencies": []
     },
     {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 38,
-      "column": 1,
-      "code": "TS2582",
-      "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 57,
-      "column": 3,
-      "code": "TS2304",
-      "message": "Cannot find name 'beforeEach'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 61,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 66,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 71,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 79,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 82,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 88,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 91,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 101,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 105,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 114,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 115,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-      "line": 116,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 24,
-      "column": 1,
-      "code": "TS2582",
-      "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 25,
-      "column": 3,
-      "code": "TS2304",
-      "message": "Cannot find name 'beforeEach'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 29,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 43,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 44,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 49,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 50,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 53,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 54,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 55,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 58,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-      "line": 66,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
       "file": "src/components/error/page-error-boundary.tsx",
       "line": 101,
       "column": 11,
@@ -3316,266 +2569,6 @@
       "column": 37,
       "code": "TS2304",
       "message": "Cannot find name 'getRatingBadgeVariant'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 35,
-      "column": 1,
-      "code": "TS2582",
-      "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 36,
-      "column": 3,
-      "code": "TS2304",
-      "message": "Cannot find name 'beforeEach'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 40,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 43,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 44,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 47,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 48,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 51,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 61,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 62,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 65,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 72,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 75,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 79,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 84,
-      "column": 7,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 85,
-      "column": 7,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 89,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 96,
-      "column": 7,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 97,
-      "column": 7,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 101,
-      "column": 3,
-      "code": "TS2582",
-      "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/components/posts/__tests__/post-form.test.tsx",
-      "line": 108,
-      "column": 5,
-      "code": "TS2304",
-      "message": "Cannot find name 'expect'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 76,
-      "column": 7,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 121,
-      "column": 7,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 182,
-      "column": 7,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 235,
-      "column": 7,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-      "category": "import_export",
-      "priority": 3,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 271,
-      "column": 17,
-      "code": "TS2353",
-      "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object> | PromiseLike<...>'.",
       "category": "import_export",
       "priority": 3,
       "dependencies": []
@@ -3799,7 +2792,6 @@
         "src/components/patterns/hybrid-examples-client.tsx",
         "src/components/patterns/hybrid-examples.tsx",
         "src/components/performance/performance-monitor.tsx",
-        "src/components/posts/__tests__/post-form.test.tsx",
         "src/components/posts/post-card.tsx",
         "src/components/posts/post-form.tsx",
         "src/components/projects/index.ts",
@@ -3848,7 +2840,6 @@
         "src/components/patterns/hybrid-examples-client.tsx",
         "src/components/patterns/hybrid-examples.tsx",
         "src/components/performance/performance-monitor.tsx",
-        "src/components/posts/__tests__/post-form.test.tsx",
         "src/components/posts/post-card.tsx",
         "src/components/posts/post-form.tsx",
         "src/components/projects/index.ts",
@@ -4024,16 +3015,6 @@
       "column": 52,
       "code": "TS2556",
       "message": "A spread argument must either have a tuple type or be passed to a rest parameter.",
-      "category": "minor",
-      "priority": 5,
-      "dependencies": []
-    },
-    {
-      "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-      "line": 49,
-      "column": 30,
-      "code": "TS1308",
-      "message": "'await' expressions are only allowed within async functions and at the top levels of modules.",
       "category": "minor",
       "priority": 5,
       "dependencies": []
@@ -4220,27 +3201,26 @@
     }
   ],
   "statistics": {
-    "total": 387,
+    "total": 292,
     "byCategory": {
-      "critical": 84,
-      "type_safety": 196,
-      "import_export": 63,
+      "critical": 57,
+      "type_safety": 181,
+      "import_export": 11,
       "generic": 4,
-      "minor": 40
+      "minor": 39
     },
     "byPriority": {
-      "1": 84,
-      "2": 196,
-      "3": 63,
+      "1": 57,
+      "2": 181,
+      "3": 11,
       "4": 4,
-      "5": 40
+      "5": 39
     },
     "byFile": {
       ".next/types/app/(app)/(community)/posts/[id]/page.ts": 2,
-      "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx": 6,
-      "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx": 27,
+      ".next/types/app/(app)/(community)/posts/editor-test/page.ts": 2,
+      ".next/types/app/(app)/(community)/posts/test-form/page.ts": 2,
       "src/app/(app)/(community)/posts/[id]/page.tsx": 9,
-      "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx": 19,
       "src/app/(app)/(community)/posts/page.tsx": 1,
       "src/app/(app)/(dashboard)/projects/page.tsx": 1,
       "src/app/(app)/(dashboard)/projects/projects-client.tsx": 10,
@@ -4274,7 +3254,6 @@
       "src/components/patterns/hybrid-examples-client.tsx": 5,
       "src/components/patterns/hybrid-examples.tsx": 3,
       "src/components/performance/performance-monitor.tsx": 1,
-      "src/components/posts/__tests__/post-form.test.tsx": 32,
       "src/components/posts/post-card.tsx": 2,
       "src/components/posts/post-form.tsx": 9,
       "src/components/projects/index.ts": 1,
@@ -4286,7 +3265,6 @@
       "src/components/ui/theme-transition.tsx": 5,
       "src/data/forms.ts": 4,
       "src/data/index.ts": 1,
-      "src/hooks/__tests__/use-infinite-posts.test.ts": 7,
       "src/hooks/use-error-handler.ts": 2,
       "src/hooks/use-form-action.ts": 10,
       "src/hooks/use-form-with-action.ts": 8,
@@ -4312,7 +3290,6 @@
       "src/lib/repositories/index.ts": 3,
       "src/lib/repositories/post-repository.ts": 1,
       "src/lib/repositories/project-repository.ts": 1,
-      "src/lib/validations/__tests__/post.test.ts": 8,
       "src/providers/client-providers.tsx": 1,
       "src/services/api.ts": 2,
       "src/stores/posts-store.ts": 5,
@@ -4321,18 +3298,6 @@
       "src/types/index.ts": 1
     },
     "topFiles": [
-      {
-        "file": "src/components/posts/__tests__/post-form.test.tsx",
-        "count": 32
-      },
-      {
-        "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-        "count": 27
-      },
-      {
-        "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-        "count": 19
-      },
       {
         "file": "src/components/forms/multi-step-form.tsx",
         "count": 16
@@ -4360,10 +3325,22 @@
       {
         "file": "src/components/forms/simple-form-example.tsx",
         "count": 9
+      },
+      {
+        "file": "src/components/forms/survey-form.tsx",
+        "count": 9
+      },
+      {
+        "file": "src/components/posts/post-form.tsx",
+        "count": 9
+      },
+      {
+        "file": "src/components/forms/advanced-safe-action-examples.tsx",
+        "count": 8
       }
     ],
-    "criticalCount": 84,
-    "resolutionEstimate": 33
+    "criticalCount": 57,
+    "resolutionEstimate": 25
   },
   "resolutionPlan": {
     "phases": [
@@ -4372,264 +3349,44 @@
         "description": "빌드를 차단하는 핵심 에러 해결",
         "errors": [
           {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 8,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
+            "file": ".next/types/app/(app)/(community)/posts/editor-test/page.ts",
+            "line": 2,
+            "column": 24,
+            "code": "TS2307",
+            "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.",
             "category": "critical",
             "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
+            "dependencies": []
           },
           {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 9,
-            "column": 13,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
+            "file": ".next/types/app/(app)/(community)/posts/editor-test/page.ts",
+            "line": 5,
+            "column": 29,
+            "code": "TS2307",
+            "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.",
             "category": "critical",
             "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
+            "dependencies": []
           },
           {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 10,
-            "column": 13,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
+            "file": ".next/types/app/(app)/(community)/posts/test-form/page.ts",
+            "line": 2,
+            "column": 24,
+            "code": "TS2307",
+            "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.",
             "category": "critical",
             "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
+            "dependencies": []
           },
           {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 13,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
+            "file": ".next/types/app/(app)/(community)/posts/test-form/page.ts",
+            "line": 5,
+            "column": 29,
+            "code": "TS2307",
+            "message": "Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.",
             "category": "critical",
             "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 14,
-            "column": 9,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 17,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 18,
-            "column": 18,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 21,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 31,
-            "column": 31,
-            "code": "TS2694",
-            "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 32,
-            "column": 49,
-            "code": "TS2694",
-            "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 35,
-            "column": 39,
-            "code": "TS2694",
-            "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 36,
-            "column": 39,
-            "code": "TS2694",
-            "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 58,
-            "column": 5,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 6,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 7,
-            "column": 9,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 11,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 12,
-            "column": 13,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 16,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 22,
-            "column": 31,
-            "code": "TS2694",
-            "message": "Namespace 'global.jest' has no exported member 'MockedFunction'.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 26,
-            "column": 5,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": [
-              "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-              "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx"
-            ]
+            "dependencies": []
           },
           {
             "file": "src/app/(app)/(dashboard)/projects/projects-client.tsx",
@@ -4938,7 +3695,6 @@
               "src/components/patterns/hybrid-examples-client.tsx",
               "src/components/patterns/hybrid-examples.tsx",
               "src/components/performance/performance-monitor.tsx",
-              "src/components/posts/__tests__/post-form.test.tsx",
               "src/components/posts/post-card.tsx",
               "src/components/posts/post-form.tsx",
               "src/components/projects/index.ts",
@@ -4987,7 +3743,6 @@
               "src/components/patterns/hybrid-examples-client.tsx",
               "src/components/patterns/hybrid-examples.tsx",
               "src/components/performance/performance-monitor.tsx",
-              "src/components/posts/__tests__/post-form.test.tsx",
               "src/components/posts/post-card.tsx",
               "src/components/posts/post-form.tsx",
               "src/components/projects/index.ts",
@@ -5036,7 +3791,6 @@
               "src/components/patterns/hybrid-examples-client.tsx",
               "src/components/patterns/hybrid-examples.tsx",
               "src/components/performance/performance-monitor.tsx",
-              "src/components/posts/__tests__/post-form.test.tsx",
               "src/components/posts/post-card.tsx",
               "src/components/posts/post-form.tsx",
               "src/components/projects/index.ts",
@@ -5119,116 +3873,6 @@
             "dependencies": []
           },
           {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 6,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 8,
-            "column": 11,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 12,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 14,
-            "column": 14,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 15,
-            "column": 12,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 19,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 20,
-            "column": 21,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 21,
-            "column": 21,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 24,
-            "column": 1,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 37,
-            "column": 5,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 102,
-            "column": 22,
-            "code": "TS2708",
-            "message": "Cannot use namespace 'jest' as a value.",
-            "category": "critical",
-            "priority": 1,
-            "dependencies": []
-          },
-          {
             "file": "src/components/posts/post-form.tsx",
             "line": 28,
             "column": 8,
@@ -5236,9 +3880,7 @@
             "message": "'\"@/components/editor/tiptap-editor\"' has no exported member named 'TiptapEditorRef'. Did you mean 'TiptapEditor'?",
             "category": "critical",
             "priority": 1,
-            "dependencies": [
-              "src/components/posts/__tests__/post-form.test.tsx"
-            ]
+            "dependencies": []
           },
           {
             "file": "src/components/projects/index.ts",
@@ -5393,7 +4035,6 @@
             "category": "critical",
             "priority": 1,
             "dependencies": [
-              "src/hooks/__tests__/use-infinite-posts.test.ts",
               "src/hooks/use-infinite-posts.ts"
             ]
           },
@@ -5406,7 +4047,6 @@
             "category": "critical",
             "priority": 1,
             "dependencies": [
-              "src/hooks/__tests__/use-infinite-posts.test.ts",
               "src/hooks/use-infinite-posts.ts"
             ]
           },
@@ -5463,66 +4103,6 @@
             "column": 31,
             "code": "TS2344",
             "message": "Type 'PostDetailPageProps' does not satisfy the constraint 'PageProps'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 48,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 74,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 101,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 118,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type 'null' is not assignable to parameter of type 'NextMiddleware'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 137,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx",
-            "line": 159,
-            "column": 32,
-            "code": "TS2345",
-            "message": "Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.",
             "category": "type_safety",
             "priority": 2,
             "dependencies": []
@@ -6628,16 +5208,6 @@
             "dependencies": []
           },
           {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 217,
-            "column": 7,
-            "code": "TS2322",
-            "message": "Type 'Post | undefined' is not assignable to type 'Post'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
             "file": "src/hooks/use-error-handler.ts",
             "line": 329,
             "column": 13,
@@ -7208,86 +5778,6 @@
             "dependencies": []
           },
           {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 47,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 61,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 77,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 91,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 121,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 150,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 194,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
-            "file": "src/lib/validations/__tests__/post.test.ts",
-            "line": 220,
-            "column": 16,
-            "code": "TS2532",
-            "message": "Object is possibly 'undefined'.",
-            "category": "type_safety",
-            "priority": 2,
-            "dependencies": []
-          },
-          {
             "file": "src/services/api.ts",
             "line": 80,
             "column": 19,
@@ -7425,266 +5915,6 @@
         "description": "모듈 시스템 관련 에러 해결",
         "errors": [
           {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 38,
-            "column": 1,
-            "code": "TS2582",
-            "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 57,
-            "column": 3,
-            "code": "TS2304",
-            "message": "Cannot find name 'beforeEach'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 61,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 66,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 71,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 79,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 82,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 88,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 91,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 101,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 105,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 114,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 115,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx",
-            "line": 116,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 24,
-            "column": 1,
-            "code": "TS2582",
-            "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 25,
-            "column": 3,
-            "code": "TS2304",
-            "message": "Cannot find name 'beforeEach'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 29,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 43,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 44,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 49,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 50,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 53,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 54,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 55,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 58,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/app/(app)/(community)/posts/new/__tests__/page.test.tsx",
-            "line": 66,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
             "file": "src/components/error/page-error-boundary.tsx",
             "line": 101,
             "column": 11,
@@ -7700,266 +5930,6 @@
             "column": 37,
             "code": "TS2304",
             "message": "Cannot find name 'getRatingBadgeVariant'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 35,
-            "column": 1,
-            "code": "TS2582",
-            "message": "Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 36,
-            "column": 3,
-            "code": "TS2304",
-            "message": "Cannot find name 'beforeEach'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 40,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 43,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 44,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 47,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 48,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 51,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 61,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 62,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 65,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 72,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 75,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 79,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 84,
-            "column": 7,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 85,
-            "column": 7,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 89,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 96,
-            "column": 7,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 97,
-            "column": 7,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 101,
-            "column": 3,
-            "code": "TS2582",
-            "message": "Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/components/posts/__tests__/post-form.test.tsx",
-            "line": 108,
-            "column": 5,
-            "code": "TS2304",
-            "message": "Cannot find name 'expect'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 76,
-            "column": 7,
-            "code": "TS2353",
-            "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 121,
-            "column": 7,
-            "code": "TS2353",
-            "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 182,
-            "column": 7,
-            "code": "TS2353",
-            "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 235,
-            "column": 7,
-            "code": "TS2353",
-            "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.",
-            "category": "import_export",
-            "priority": 3,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 271,
-            "column": 17,
-            "code": "TS2353",
-            "message": "Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object> | PromiseLike<...>'.",
             "category": "import_export",
             "priority": 3,
             "dependencies": []
@@ -8197,7 +6167,6 @@
               "src/components/patterns/hybrid-examples-client.tsx",
               "src/components/patterns/hybrid-examples.tsx",
               "src/components/performance/performance-monitor.tsx",
-              "src/components/posts/__tests__/post-form.test.tsx",
               "src/components/posts/post-card.tsx",
               "src/components/posts/post-form.tsx",
               "src/components/projects/index.ts",
@@ -8246,7 +6215,6 @@
               "src/components/patterns/hybrid-examples-client.tsx",
               "src/components/patterns/hybrid-examples.tsx",
               "src/components/performance/performance-monitor.tsx",
-              "src/components/posts/__tests__/post-form.test.tsx",
               "src/components/posts/post-card.tsx",
               "src/components/posts/post-form.tsx",
               "src/components/projects/index.ts",
@@ -8422,16 +6390,6 @@
             "column": 52,
             "code": "TS2556",
             "message": "A spread argument must either have a tuple type or be passed to a rest parameter.",
-            "category": "minor",
-            "priority": 5,
-            "dependencies": []
-          },
-          {
-            "file": "src/hooks/__tests__/use-infinite-posts.test.ts",
-            "line": 49,
-            "column": 30,
-            "code": "TS1308",
-            "message": "'await' expressions are only allowed within async functions and at the top levels of modules.",
             "category": "minor",
             "priority": 5,
             "dependencies": []
@@ -8620,34 +6578,31 @@
         "estimatedTime": "2-4 hours"
       }
     ],
-    "totalErrors": 387,
+    "totalErrors": 292,
     "estimatedTotalTime": "11-22 hours",
-    "riskLevel": "high"
+    "riskLevel": "medium"
   },
   "metadata": {
-    "totalFiles": 83,
+    "totalFiles": 79,
     "errorCodes": [
-      "TS2708",
-      "TS2694",
+      "TS2307",
       "TS2300",
       "TS2724",
-      "TS2307",
       "TS2305",
       "TS2344",
-      "TS2345",
       "TS2551",
       "TS2532",
       "TS2322",
       "TS7006",
       "TS7030",
+      "TS2345",
       "TS2769",
       "TS2554",
       "TS2339",
       "TS2684",
       "TS1270",
-      "TS2582",
-      "TS2304",
       "TS2353",
+      "TS2304",
       "TS4114",
       "TS2314",
       "TS2308",
@@ -8657,7 +6612,6 @@
       "TS2459",
       "TS18048",
       "TS2556",
-      "TS1308",
       "TS2352",
       "TS1241",
       "TS4115"

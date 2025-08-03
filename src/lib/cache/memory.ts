@@ -1,13 +1,30 @@
+/**
+ * Cache item interface
+ */
+interface CacheItem<T> {
+  value: T
+  expires?: number
+  lastAccessed: number
+}
+
+/**
+ * Cache statistics interface
+ */
+export interface CacheStats {
+  size: number
+  maxSize: number
+  expiredCount: number
+  totalSize: number
+  utilizationPercent: number
+}
+
 // Enhanced in-memory cache implementation with LRU eviction
-export class MemoryCache<T = any> {
-  private cache = new Map<
-    string,
-    { value: T; expires?: number; lastAccessed: number }
-  >()
+export class MemoryCache<T = unknown> {
+  private cache = new Map<string, CacheItem<T>>()
   private timers = new Map<string, NodeJS.Timeout>()
-  private name: string
-  private maxSize: number
-  private compressionThreshold: number
+  private readonly name: string
+  private readonly maxSize: number
+  private readonly compressionThreshold: number
 
   constructor(
     name = 'default',
@@ -32,7 +49,7 @@ export class MemoryCache<T = any> {
     }
 
     const now = Date.now()
-    const cacheItem: { value: T; expires?: number; lastAccessed: number } = {
+    const cacheItem: CacheItem<T> = {
       value,
       lastAccessed: now,
     }
@@ -142,17 +159,22 @@ export class MemoryCache<T = any> {
   /**
    * Get cache statistics
    */
-  getStats() {
+  getStats(): CacheStats {
     const now = Date.now()
     let expiredCount = 0
     let totalSize = 0
 
-    for (const [key, item] of this.cache.entries()) {
+    for (const [, item] of this.cache.entries()) {
       if (item.expires && now > item.expires) {
         expiredCount++
       }
       // Rough size estimation
-      totalSize += JSON.stringify(item.value).length
+      try {
+        totalSize += JSON.stringify(item.value).length
+      } catch {
+        // Skip items that can't be serialized
+        totalSize += 0
+      }
     }
 
     return {

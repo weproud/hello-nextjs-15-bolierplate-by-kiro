@@ -1,18 +1,16 @@
-import { createSafeActionClient } from 'next-safe-action'
-import { z } from 'zod'
-import { getCurrentSession } from '@/services/auth'
 import {
   ActionError,
+  ActionLogger,
   AuthenticationError,
   AuthorizationError,
-  ValidationError,
-  NotFoundError,
   DatabaseError,
-  ActionLogger,
   handleError,
-  ERROR_CODES,
-  type AppError,
+  NotFoundError,
+  ValidationError,
 } from '@/lib/error-handling'
+import { getCurrentSession } from '@/services/auth'
+import { createSafeActionClient } from 'next-safe-action'
+import { z } from 'zod'
 
 /**
  * 에러 심각도 정의
@@ -262,10 +260,11 @@ export const authActionClient = actionClient.use(async ({ next }) => {
 export const adminActionClient = authActionClient.use(async ({ next, ctx }) => {
   try {
     // 관리자 권한 확인
-    if (!ctx.user?.role || ctx.user.role !== 'admin') {
+    const userRole = (ctx.user as any)?.role
+    if (!userRole || userRole !== 'admin') {
       ActionLogger.warn('admin-action', 'Admin access denied', {
         userId: ctx.userId,
-        userRole: ctx.user?.role,
+        userRole,
         requestId: ctx.requestId,
       })
       throw new AuthorizationError('관리자 권한이 필요합니다.')
@@ -339,20 +338,22 @@ export function createAction<TInput, TOutput>(
       ? authActionClient
       : publicActionClient
 
-  return client.schema(schema).action(async ({ parsedInput, ctx }) => {
-    try {
-      // Rate limiting (간단한 구현)
-      if (options.rateLimit) {
-        // TODO: 실제 rate limiting 구현
-      }
+  return (client as any)
+    .schema(schema)
+    .action(async ({ parsedInput, ctx }: any) => {
+      try {
+        // Rate limiting (간단한 구현)
+        if (options.rateLimit) {
+          // TODO: 실제 rate limiting 구현
+        }
 
-      return await handler(parsedInput, ctx)
-    } catch (error) {
-      // 추가 에러 처리 로직
-      const appError = handleError(error)
-      throw appError
-    }
-  })
+        return await handler(parsedInput, ctx)
+      } catch (error) {
+        // 추가 에러 처리 로직
+        const appError = handleError(error)
+        throw appError
+      }
+    })
 }
 
 /**

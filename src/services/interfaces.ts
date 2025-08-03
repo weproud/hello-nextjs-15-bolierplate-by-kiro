@@ -10,11 +10,77 @@ export interface IAuthService {
   getCurrentUser(): Promise<AuthUser | null>
   isAuthenticated(): Promise<boolean>
   requireAuth(): Promise<AuthUser>
-  signInWithProvider(provider: string, redirectTo?: string): Promise<void>
-  signOutUser(redirectTo?: string): Promise<void>
+  signInWithProvider(
+    provider: string,
+    redirectTo?: string
+  ): Promise<SignInResult>
+  signOutUser(redirectTo?: string): Promise<AuthResult>
   hasPermission(permission: string, user?: AuthUser): Promise<boolean>
+  checkPermission?(
+    permission: string,
+    user?: AuthUser
+  ): Promise<PermissionCheckResult>
   getUserPermissions(user?: AuthUser): Promise<string[]>
   validateSession(): Promise<boolean>
+  validateSessionDetailed?(): Promise<SessionValidationResult>
+  getUserStructuredPermissions?(user?: AuthUser): Promise<UserPermissions>
+  hasStructuredPermission?(
+    permissionKey: keyof UserPermissions,
+    user?: AuthUser
+  ): Promise<boolean>
+  getAuthenticationState?(): Promise<AuthenticationState>
+  refreshUserSession?(): Promise<AuthResult<ExtendedSession>>
+}
+
+export interface AuthResult<T = unknown> {
+  success: boolean
+  data?: T
+  error?: string
+}
+
+export interface SignInResult extends AuthResult {
+  redirectUrl?: string
+}
+
+export interface PermissionCheckResult extends AuthResult<boolean> {
+  permissions?: string[]
+}
+
+// Import types from next-auth module
+export interface UserPermissions {
+  canCreateProject: boolean
+  canEditProject: boolean
+  canDeleteProject: boolean
+  canManageUsers: boolean
+  canAccessAdmin: boolean
+}
+
+export interface ExtendedSession {
+  user: {
+    id: string
+    name?: string | null
+    email?: string | null
+    image?: string | null
+    role?: 'admin' | 'user' | 'guest'
+    permissions?: UserPermissions
+    lastLoginAt?: Date
+  }
+  expires: string
+  sessionToken?: string
+}
+
+export interface SessionValidationResult {
+  isValid: boolean
+  session?: ExtendedSession
+  error?: string
+  needsRefresh?: boolean
+}
+
+export interface AuthenticationState {
+  isAuthenticated: boolean
+  isLoading: boolean
+  user?: ExtendedSession['user']
+  error?: string
 }
 
 export interface AuthUser {

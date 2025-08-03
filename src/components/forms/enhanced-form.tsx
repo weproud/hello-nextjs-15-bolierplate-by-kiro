@@ -1,24 +1,23 @@
 'use client'
 
-import * as React from 'react'
-import { type z } from 'zod'
-import { type FieldValues, type Path } from 'react-hook-form'
-import { type HookSafeActionFn } from 'next-safe-action/hooks'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import {
-  FormField,
-  InputField,
-  TextareaField,
-  SelectField,
-  CheckboxField,
-} from '@/components/ui/form-field'
 import { FormErrorSummary, FormProgress } from '@/components/ui/form-error'
+import {
+  CheckboxField,
+  InputField,
+  SelectField,
+  TextareaField,
+} from '@/components/ui/form-field'
 import {
   useFormWithAction,
   type UseFormWithActionOptions,
 } from '@/hooks/use-form-with-action'
+import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
+import { type HookSafeActionFn } from 'next-safe-action/hooks'
+import * as React from 'react'
+import { type FieldValues, type Path } from 'react-hook-form'
+import { type z } from 'zod'
 
 // 폼 필드 타입 정의
 export interface FormFieldConfig<TFormData extends FieldValues> {
@@ -60,8 +59,8 @@ export interface EnhancedFormProps<
   layout?: 'vertical' | 'horizontal' | 'grid'
   columns?: number
 
-  // 이벤트 핸들러
-  onCancel?: () => void
+  // 이벤트 핸들러 - React 19 호환성 개선
+  onCancel?: () => void | Promise<void>
 
   // 스타일링
   className?: string
@@ -436,6 +435,143 @@ export const FormTemplates = {
     submitText: '가입하기',
     showProgress: true,
   }),
+}
+
+// 추가 컴포넌트들 export
+export function FormSection({
+  title,
+  description,
+  children,
+  className,
+}: {
+  title?: string
+  description?: string
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <div className={cn('space-y-4', className)}>
+      {title && <h3 className='text-lg font-medium'>{title}</h3>}
+      {description && (
+        <p className='text-sm text-muted-foreground'>{description}</p>
+      )}
+      {children}
+    </div>
+  )
+}
+
+export function EnhancedFormField({
+  config,
+  form,
+  className,
+}: {
+  config: FormFieldConfig<any>
+  form: any
+  className?: string
+}) {
+  const {
+    name,
+    type,
+    label,
+    placeholder,
+    helperText,
+    required,
+    options,
+    props,
+    render,
+  } = config
+  const fieldError = form.formState.errors[name]
+
+  const commonProps = {
+    label,
+    error: fieldError,
+    helperText,
+    required,
+    className,
+  }
+
+  if (render) {
+    return (
+      <div className={className}>
+        {render(form.register(name), fieldError?.message)}
+      </div>
+    )
+  }
+
+  switch (type) {
+    case 'input':
+      return (
+        <InputField
+          {...commonProps}
+          inputProps={{
+            placeholder,
+            ...form.register(name),
+            ...props,
+          }}
+        />
+      )
+    case 'textarea':
+      return (
+        <TextareaField
+          {...commonProps}
+          textareaProps={{
+            placeholder,
+            ...form.register(name),
+            ...props,
+          }}
+        />
+      )
+    case 'select':
+      return (
+        <SelectField
+          {...commonProps}
+          placeholder={placeholder}
+          options={options}
+          selectProps={{
+            ...form.register(name),
+            ...props,
+          }}
+        />
+      )
+    case 'checkbox':
+      return (
+        <CheckboxField
+          {...commonProps}
+          label={label}
+          description={helperText}
+          checkboxProps={{
+            ...form.register(name),
+            ...props,
+          }}
+        />
+      )
+    default:
+      return null
+  }
+}
+
+export function FormValidationStatus({
+  isValid,
+  isValidating,
+  error,
+}: {
+  isValid: boolean
+  isValidating: boolean
+  error?: string
+}) {
+  if (isValidating) {
+    return <div className='text-sm text-muted-foreground'>검증 중...</div>
+  }
+
+  if (error) {
+    return <div className='text-sm text-destructive'>{error}</div>
+  }
+
+  if (isValid) {
+    return <div className='text-sm text-green-600'>✓ 유효함</div>
+  }
+
+  return null
 }
 
 // 타입 내보내기

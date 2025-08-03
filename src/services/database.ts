@@ -25,6 +25,23 @@ export interface PaginationResult<T> {
   }
 }
 
+export interface DatabaseResult<T = unknown> {
+  success: boolean
+  data?: T
+  error?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface BatchOperationResult {
+  success: boolean
+  successCount: number
+  failureCount: number
+  errors: Array<{
+    index: number
+    error: string
+  }>
+}
+
 export interface SearchOptions {
   query?: string
   sortBy?: string
@@ -32,7 +49,7 @@ export interface SearchOptions {
 }
 
 /**
- * Generic pagination helper
+ * Generic pagination helper with improved type safety
  */
 export async function paginate<T>(
   model: {
@@ -50,46 +67,71 @@ export async function paginate<T>(
     include?: Record<string, unknown>
     orderBy?: Record<string, unknown>
   }
-): Promise<PaginationResult<T>> {
-  const { page, limit, where, include, orderBy } = options
-  const skip = (page - 1) * limit
+): Promise<DatabaseResult<PaginationResult<T>>> {
+  try {
+    const { page, limit, where, include, orderBy } = options
+    const skip = (page - 1) * limit
 
-  // Filter out undefined values to satisfy exactOptionalPropertyTypes
-  const findManyArgs: {
-    where?: Record<string, unknown>
-    include?: Record<string, unknown>
-    orderBy?: Record<string, unknown>
-    skip: number
-    take: number
-  } = {
-    skip,
-    take: limit,
-  }
+    // Validate pagination parameters
+    if (page < 1 || limit < 1) {
+      return {
+        success: false,
+        error:
+          'Invalid pagination parameters: page and limit must be positive integers',
+      }
+    }
 
-  if (where !== undefined) findManyArgs.where = where
-  if (include !== undefined) findManyArgs.include = include
-  if (orderBy !== undefined) findManyArgs.orderBy = orderBy
+    // Filter out undefined values to satisfy exactOptionalPropertyTypes
+    const findManyArgs: {
+      where?: Record<string, unknown>
+      include?: Record<string, unknown>
+      orderBy?: Record<string, unknown>
+      skip: number
+      take: number
+    } = {
+      skip,
+      take: limit,
+    }
 
-  const countArgs: { where?: Record<string, unknown> } = {}
-  if (where !== undefined) countArgs.where = where
+    if (where !== undefined) findManyArgs.where = where
+    if (include !== undefined) findManyArgs.include = include
+    if (orderBy !== undefined) findManyArgs.orderBy = orderBy
 
-  const [data, totalCount] = await Promise.all([
-    model.findMany(findManyArgs),
-    model.count(countArgs),
-  ])
+    const countArgs: { where?: Record<string, unknown> } = {}
+    if (where !== undefined) countArgs.where = where
 
-  const totalPages = Math.ceil(totalCount / limit)
+    const [data, totalCount] = await Promise.all([
+      model.findMany(findManyArgs),
+      model.count(countArgs),
+    ])
 
-  return {
-    data,
-    pagination: {
-      page,
-      limit,
-      totalCount,
-      totalPages,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1,
-    },
+    const totalPages = Math.ceil(totalCount / limit)
+
+    const result: PaginationResult<T> = {
+      data,
+      pagination: {
+        page,
+        limit,
+        totalCount,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      },
+    }
+
+    return {
+      success: true,
+      data: result,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Pagination failed',
+      metadata: {
+        options,
+        timestamp: new Date().toISOString(),
+      },
+    }
   }
 }
 
@@ -145,7 +187,7 @@ export const projectDb = {
   async findByUserId(
     userId: string,
     options: PaginationOptions & SearchOptions = { page: 1, limit: 10 }
-  ) {
+  ): Promise<DatabaseResult<PaginationResult<any>>> {
     const {
       page,
       limit,
@@ -164,7 +206,7 @@ export const projectDb = {
       }),
     }
 
-    return paginate(prisma.project, {
+    const result = await paginate(prisma.project, {
       page,
       limit,
       where,
@@ -181,6 +223,8 @@ export const projectDb = {
         [sortBy]: sortOrder,
       },
     })
+
+    return result
   },
 
   async update(
@@ -296,13 +340,44 @@ export const dbUtils = {
       createMany: (args: {
         data: Record<string, unknown>[]
         skipDuplicates: boolean
-      }) => Promise<unknown>
+      }) => Promise<{ count: number }>
     },
-  >(model: T, data: Record<string, unknown>[]) {
-    return model.createMany({
-      data,
-      skipDuplicates: true,
-    })
+  >(model: T, data: Record<string, unknown>[]): Promise<BatchOperationResult> {
+    try {
+      if (!Array.isArray(data) || data.length === 0) {
+        return {
+          success: false,
+          successCount: 0,
+          failureCount: 0,
+          errors: [{ index: -1, error: 'Invalid or empty data array' }],
+        }
+      }
+
+      const result = await model.createMany({
+        data,
+        skipDuplicates: true,
+      })
+
+      return {
+        success: true,
+        successCount: result.count,
+        failureCount: data.length - result.count,
+        errors: [],
+      }
+    } catch (error) {
+      return {
+        success: false,
+        successCount: 0,
+        failureCount: data.length,
+        errors: [
+          {
+            index: -1,
+            error:
+              error instanceof Error ? error.message : 'Batch create failed',
+          },
+        ],
+      }
+    }
   },
 
   async batchUpdate<

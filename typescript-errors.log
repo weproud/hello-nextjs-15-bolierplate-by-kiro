@@ -8,44 +8,10 @@
 .next/types/app/(app)/(community)/posts/[id]/page.ts(38,31): error TS2344: Type 'PostDetailPageProps' does not satisfy the constraint 'PageProps'.
   Types of property 'params' are incompatible.
     Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(48,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
-  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(74,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
-  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(101,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
-  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(118,32): error TS2345: Argument of type 'null' is not assignable to parameter of type 'NextMiddleware'.
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(137,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
-  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
-src/app/(app)/(community)/posts/[id]/__tests__/page.test.tsx(159,32): error TS2345: Argument of type '{ user: { id: string; name: string; email: string; }; }' is not assignable to parameter of type 'NextMiddleware'.
-  Type '{ user: { id: string; name: string; email: string; }; }' provides no match for the signature '(request: NextRequest, event: NextFetchEvent): NextMiddlewareResult | Promise<NextMiddlewareResult>'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(8,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(9,13): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(10,13): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(13,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(14,9): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(17,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(18,18): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(21,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(31,31): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(32,49): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(35,39): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(36,39): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(38,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(57,3): error TS2304: Cannot find name 'beforeEach'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(58,5): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(61,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(66,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(71,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(79,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(82,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(88,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(91,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(101,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(105,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(114,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(115,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/[id]/edit/__tests__/page.test.tsx(116,5): error TS2304: Cannot find name 'expect'.
+.next/types/app/(app)/(community)/posts/editor-test/page.ts(2,24): error TS2307: Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.
+.next/types/app/(app)/(community)/posts/editor-test/page.ts(5,29): error TS2307: Cannot find module '../../../../../../../src/app/(app)/(community)/posts/editor-test/page.js' or its corresponding type declarations.
+.next/types/app/(app)/(community)/posts/test-form/page.ts(2,24): error TS2307: Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.
+.next/types/app/(app)/(community)/posts/test-form/page.ts(5,29): error TS2307: Cannot find module '../../../../../../../src/app/(app)/(community)/posts/test-form/page.js' or its corresponding type declarations.
 src/app/(app)/(community)/posts/[id]/page.tsx(48,24): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
 src/app/(app)/(community)/posts/[id]/page.tsx(48,44): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
 src/app/(app)/(community)/posts/[id]/page.tsx(85,10): error TS2532: Object is possibly 'undefined'.
@@ -55,25 +21,6 @@ src/app/(app)/(community)/posts/[id]/page.tsx(100,43): error TS2551: Property 'a
 src/app/(app)/(community)/posts/[id]/page.tsx(100,67): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
 src/app/(app)/(community)/posts/[id]/page.tsx(157,46): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
 src/app/(app)/(community)/posts/[id]/page.tsx(163,31): error TS2551: Property 'author' does not exist on type '{ title: string; id: string; content: string; createdAt: Date; updatedAt: Date; excerpt: string | null; slug: string | null; published: boolean; authorId: string; }'. Did you mean 'authorId'?
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(6,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(7,9): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(11,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(12,13): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(16,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(22,31): error TS2694: Namespace 'global.jest' has no exported member 'MockedFunction'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(24,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(25,3): error TS2304: Cannot find name 'beforeEach'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(26,5): error TS2708: Cannot use namespace 'jest' as a value.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(29,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(43,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(44,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(49,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(50,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(53,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(54,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(55,5): error TS2304: Cannot find name 'expect'.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(58,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/app/(app)/(community)/posts/new/__tests__/page.test.tsx(66,5): error TS2304: Cannot find name 'expect'.
 src/app/(app)/(community)/posts/page.tsx(95,40): error TS2532: Object is possibly 'undefined'.
 src/app/(app)/(dashboard)/projects/page.tsx(75,29): error TS2322: Type 'AuthUser' is not assignable to type 'User'.
   Types of property 'name' are incompatible.
@@ -412,38 +359,6 @@ src/components/patterns/hybrid-examples.tsx(168,9): error TS2322: Type '{ id: st
 src/components/patterns/hybrid-examples.tsx(200,42): error TS4111: Property 'email' comes from an index signature, so it must be accessed with ['email'].
 src/components/patterns/hybrid-examples.tsx(213,42): error TS4111: Property 'message' comes from an index signature, so it must be accessed with ['message'].
 src/components/performance/performance-monitor.tsx(286,37): error TS2304: Cannot find name 'getRatingBadgeVariant'.
-src/components/posts/__tests__/post-form.test.tsx(6,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(8,11): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(12,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(14,14): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(15,12): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(19,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(20,21): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(21,21): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(24,1): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(35,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(36,3): error TS2304: Cannot find name 'beforeEach'.
-src/components/posts/__tests__/post-form.test.tsx(37,5): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(40,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(43,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(44,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(47,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(48,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(51,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(61,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(62,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(65,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(72,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(75,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(79,5): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(84,7): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(85,7): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(89,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(96,7): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(97,7): error TS2304: Cannot find name 'expect'.
-src/components/posts/__tests__/post-form.test.tsx(101,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
-src/components/posts/__tests__/post-form.test.tsx(102,22): error TS2708: Cannot use namespace 'jest' as a value.
-src/components/posts/__tests__/post-form.test.tsx(108,5): error TS2304: Cannot find name 'expect'.
 src/components/posts/post-card.tsx(52,10): error TS2532: Object is possibly 'undefined'.
 src/components/posts/post-card.tsx(133,30): error TS2322: Type 'string | null | undefined' is not assignable to type 'string | Blob | undefined'.
   Type 'null' is not assignable to type 'string | Blob | undefined'.
@@ -511,14 +426,6 @@ src/data/forms.ts(361,55): error TS2345: Argument of type '{}' is not assignable
 src/data/forms.ts(365,43): error TS2339: Property 'length' does not exist on type '{}'.
 src/data/forms.ts(369,43): error TS2339: Property 'length' does not exist on type '{}'.
 src/data/index.ts(11,15): error TS2307: Cannot find module './mock-data' or its corresponding type declarations.
-src/hooks/__tests__/use-infinite-posts.test.ts(49,30): error TS1308: 'await' expressions are only allowed within async functions and at the top levels of modules.
-src/hooks/__tests__/use-infinite-posts.test.ts(76,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
-src/hooks/__tests__/use-infinite-posts.test.ts(121,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
-src/hooks/__tests__/use-infinite-posts.test.ts(182,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
-src/hooks/__tests__/use-infinite-posts.test.ts(217,7): error TS2322: Type 'Post | undefined' is not assignable to type 'Post'.
-  Type 'undefined' is not assignable to type 'Post'.
-src/hooks/__tests__/use-infinite-posts.test.ts(235,7): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object>'.
-src/hooks/__tests__/use-infinite-posts.test.ts(271,17): error TS2353: Object literal may only specify known properties, and 'success' does not exist in type 'SafeActionResult<string, ZodObject<{ cursor: ZodOptional<ZodString>; limit: ZodDefault<ZodNumber>; published: ZodOptional<ZodBoolean>; authorId: ZodOptional<...>; }, $strip>, { ...; }, { ...; } | { ...; }, object> | PromiseLike<...>'.
 src/hooks/use-error-handler.ts(95,22): error TS2352: Conversion of type 'Promise<ErrorHandlerResult>' to type 'AppErrorClass' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
   Type 'Promise<ErrorHandlerResult>' is missing the following properties from type 'AppErrorClass': code, details, timestamp, name, message
 src/hooks/use-error-handler.ts(329,13): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
@@ -681,14 +588,6 @@ src/lib/repositories/post-repository.ts(171,9): error TS2322: Type 'PostCreateIn
 src/lib/repositories/project-repository.ts(152,9): error TS2322: Type 'ProjectCreateInput[]' is not assignable to type 'ProjectCreateManyInput | ProjectCreateManyInput[]'.
   Type 'ProjectCreateInput[]' is not assignable to type 'ProjectCreateManyInput[]'.
     Property 'userId' is missing in type 'ProjectCreateInput' but required in type 'ProjectCreateManyInput'.
-src/lib/validations/__tests__/post.test.ts(47,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(61,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(77,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(91,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(121,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(150,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(194,16): error TS2532: Object is possibly 'undefined'.
-src/lib/validations/__tests__/post.test.ts(220,16): error TS2532: Object is possibly 'undefined'.
 src/providers/client-providers.tsx(60,23): error TS2353: Object literal may only specify known properties, and 'ariaProps' does not exist in type 'ToastOptions'.
 src/services/api.ts(80,19): error TS2339: Property 'message' does not exist on type 'NonNullable<T>'.
 src/services/api.ts(86,9): error TS2322: Type 'T | null' is not assignable to type 'T | undefined'.
@@ -717,4 +616,4 @@ src/stores/projects-store.ts(167,30): error TS2339: Property 'total' does not ex
 src/test/performance-test.ts(6,3): error TS2724: '"@/lib/performance-monitor"' has no exported member named 'getPerformanceMonitor'. Did you mean 'PerformanceMonitor'?
 src/test/performance-test.ts(7,3): error TS2305: Module '"@/lib/performance-monitor"' has no exported member 'analyzeBundleSize'.
 src/types/index.ts(12,1): error TS2308: Module './common' has already exported a member named 'ValidationError'. Consider explicitly re-exporting to resolve the ambiguity.
- ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 2.

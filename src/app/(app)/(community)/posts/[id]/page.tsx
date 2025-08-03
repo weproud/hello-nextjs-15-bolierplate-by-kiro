@@ -1,25 +1,26 @@
-import { notFound, redirect } from 'next/navigation'
+import { ArrowLeft, Calendar, Edit } from 'lucide-react'
 import Link from 'next/link'
-import { Calendar, User, Edit, Trash2, ArrowLeft } from 'lucide-react'
+import { notFound } from 'next/navigation'
 
 import { auth } from '@/auth'
-import { getPostAction, deletePostAction } from '@/lib/actions/post-actions'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { getPostAction } from '@/lib/actions/post-actions'
 import { DeletePostButton } from './delete-post-button'
 
 interface PostDetailPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PostDetailPageProps) {
   try {
-    const result = await getPostAction({ id: params.id })
+    const { id } = await params
+    const result = await getPostAction({ id })
     const post = result?.data?.post
 
     if (!post) {
@@ -87,9 +88,10 @@ function getInitials(name: string, email: string): string {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const session = await auth()
+  const { id } = await params
 
   // 포스트 데이터 가져오기
-  const result = await getPostAction({ id: params.id })
+  const result = await getPostAction({ id })
 
   if (!result?.data?.post) {
     notFound()

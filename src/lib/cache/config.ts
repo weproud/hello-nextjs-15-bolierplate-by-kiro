@@ -2,13 +2,40 @@
  * Cache configuration and setup
  */
 
-import { initializeCache } from './init'
 import { cacheWarmingScheduler } from './advanced-strategies'
+import { initializeCache } from './init'
+
+/**
+ * Cache configuration interface
+ */
+export interface CacheConfig {
+  warmUp: {
+    static: boolean
+    user: boolean
+    userId?: string
+  }
+  monitoring: {
+    enabled: boolean
+    logInterval: number
+    healthChecks: boolean
+  }
+  cleanup: {
+    enabled: boolean
+    interval: number
+  }
+  memory: {
+    maxSize: number
+    compressionThreshold: number
+  }
+}
 
 /**
  * Default cache configuration for different environments
  */
-export const cacheConfig = {
+export const cacheConfig: Record<
+  'development' | 'production' | 'test',
+  CacheConfig
+> = {
   development: {
     warmUp: {
       static: true,
@@ -66,18 +93,23 @@ export const cacheConfig = {
       compressionThreshold: 1000,
     },
   },
-}
+} as const
 
 /**
  * Initialize cache system with environment-specific configuration
  */
-export async function setupCache(userId?: string) {
-  const env = process.env.NODE_ENV || 'development'
-  const config = cacheConfig[env] || cacheConfig.development
+export async function setupCache(userId?: string): Promise<CacheConfig> {
+  const env =
+    (process.env.NODE_ENV as keyof typeof cacheConfig) || 'development'
+  const baseConfig = cacheConfig[env] || cacheConfig.development
 
-  // Add userId to warmUp config if provided
-  if (userId && config.warmUp.user) {
-    ;(config.warmUp as any).userId = userId
+  // Create a mutable copy of the config
+  const config: CacheConfig = {
+    ...baseConfig,
+    warmUp: {
+      ...baseConfig.warmUp,
+      userId: userId && baseConfig.warmUp.user ? userId : undefined,
+    },
   }
 
   await initializeCache(config)

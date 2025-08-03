@@ -1,160 +1,188 @@
-# Test Suite Documentation
+# Testing Framework
 
-## Overview
+이 프로젝트는 Vitest와 React Testing Library를 사용하여 타입 안전한 테스트 환경을 제공합니다.
 
-This directory contains comprehensive tests for the Parallel Interceptor Auth Routing
-implementation.
-
-## Test Files
-
-### 1. `final-integration.test.tsx`
-
-- **Purpose**: End-to-end integration tests validating all requirements
-- **Coverage**: Modal overlay, full page experience, authentication consistency, URL parameter
-  handling, accessibility
-- **Framework**: Vitest with React Testing Library
-- **Status**: ✅ Ready (requires PostCSS fix to run)
-
-### 2. `e2e-integration.test.tsx`
-
-- **Purpose**: Comprehensive end-to-end validation of user journeys
-- **Coverage**: Complete user flows, cross-browser compatibility, performance validation
-- **Framework**: Vitest with React Testing Library
-- **Status**: ✅ Ready (requires PostCSS fix to run)
-
-### 3. `comprehensive-validation.test.tsx`
-
-- **Purpose**: Validates existing functionality preservation and new feature integration
-- **Coverage**: Backward compatibility, performance, accessibility compliance
-- **Framework**: Vitest with React Testing Library
-- **Status**: ✅ Ready (requires PostCSS fix to run)
-
-### 4. `validation-runner.js`
-
-- **Purpose**: Simple Node.js validation script that checks implementation without complex
-  dependencies
-- **Coverage**: File structure, component integration, prop validation, error handling
-- **Framework**: Pure Node.js
-- **Status**: ✅ Working (96% success rate)
-
-### 5. `setup.ts`
-
-- **Purpose**: Test environment setup and configuration
-- **Coverage**: Global mocks, test utilities, environment configuration
-- **Status**: ✅ Configured
-
-## Test Results Summary
-
-### Validation Runner Results (96% Success Rate)
-
-- ✅ **24/25 tests passed**
-- ✅ File structure validation
-- ✅ Component integration
-- ✅ Props and interfaces
-- ✅ Error handling
-- ✅ Accessibility features
-- ✅ Performance optimizations
-- ⚠️ 1 minor validation issue (NextAuth import detection)
-
-## Requirements Coverage
-
-### ✅ Requirement 1: Modal Overlay Experience
-
-- Modal displays signin form as overlay
-- Background content preserved
-- Modal dismissal returns to original state
-- Success handling closes modal and refreshes page
-
-### ✅ Requirement 2: Full Page Experience
-
-- Direct navigation shows full page signin
-- Refresh maintains full page layout
-- Bookmark access works correctly
-- Shared URL handling implemented
-
-### ✅ Requirement 3: Proper Routing Structure
-
-- `@modal` slot convention implemented
-- `(.)` prefix for same-level interception
-- Clear separation between implementations
-- Parallel routing configuration
-
-### ✅ Requirement 4: Consistent Authentication
-
-- Same authentication logic in both contexts
-- Consistent error handling and messages
-- Context-aware redirect handling
-- Unified error recovery
-
-### ✅ Requirement 5: Mobile Optimization
-
-- Responsive design for both modal and full page
-- Touch interaction support
-- Proper focus management
-- Orientation change handling
-
-## Running Tests
-
-### Option 1: Validation Runner (Recommended)
+## 테스트 실행
 
 ```bash
-node src/test/validation-runner.js
+pnpm test              # 테스트 실행
+pnpm test:watch        # 감시 모드로 테스트 실행
+pnpm test:ui           # UI 모드로 테스트 실행
+pnpm test:coverage     # 커버리지와 함께 테스트 실행
 ```
 
-- ✅ Works immediately
-- No dependencies required
-- Validates core implementation
-- 96% success rate
+## 테스트 구조
 
-### Option 2: Full Test Suite (Requires PostCSS Fix)
+```
+src/test/
+├── setup.ts          # 전역 테스트 설정
+├── utils.ts          # 테스트 유틸리티 함수
+├── types.ts          # 테스트 타입 정의
+├── fixtures.ts       # 테스트 데이터 픽스처
+└── mocks.ts          # 모킹 유틸리티
+```
+
+## 테스트 작성 가이드
+
+### 기본 컴포넌트 테스트
+
+```typescript
+import { describe, it, expect } from 'vitest'
+import { renderWithProviders } from '@/test/utils'
+import { createTestSession } from '@/test/fixtures'
+import { Button } from './button'
+
+describe('Button', () => {
+  it('renders correctly', () => {
+    const { getByRole } = renderWithProviders(
+      <Button>Click me</Button>
+    )
+
+    expect(getByRole('button')).toBeInTheDocument()
+    expect(getByRole('button')).toHaveTextContent('Click me')
+  })
+
+  it('handles click events', async () => {
+    const handleClick = vi.fn()
+    const { getByRole } = renderWithProviders(
+      <Button onClick={handleClick}>Click me</Button>
+    )
+
+    await userEvent.click(getByRole('button'))
+    expect(handleClick).toHaveBeenCalledOnce()
+  })
+})
+```
+
+### 인증이 필요한 컴포넌트 테스트
+
+```typescript
+import { renderWithProviders } from '@/test/utils'
+import { createTestSession } from '@/test/fixtures'
+
+describe('ProtectedComponent', () => {
+  it('renders for authenticated user', () => {
+    const session = createTestSession()
+    const { getByText } = renderWithProviders(
+      <ProtectedComponent />,
+      { session }
+    )
+
+    expect(getByText('Welcome back!')).toBeInTheDocument()
+  })
+})
+```
+
+### 서버 액션 테스트
+
+```typescript
+import { describe, it, expect, vi } from 'vitest'
+import { createMockServerAction } from '@/test/mocks'
+import { createTestUser } from '@/test/fixtures'
+
+describe('createUser action', () => {
+  it('creates user successfully', async () => {
+    const mockAction = createMockServerAction(async data => {
+      return { data: createTestUser(data) }
+    })
+
+    const result = await mockAction({
+      name: 'Test User',
+      email: 'test@example.com',
+    })
+
+    expect(result.data).toMatchObject({
+      name: 'Test User',
+      email: 'test@example.com',
+    })
+  })
+})
+```
+
+### 폼 테스트
+
+```typescript
+import { renderWithProviders } from '@/test/utils'
+import { createTestFormData } from '@/test/fixtures'
+import userEvent from '@testing-library/user-event'
+
+describe('ContactForm', () => {
+  it('submits form with valid data', async () => {
+    const onSubmit = vi.fn()
+    const { getByLabelText, getByRole } = renderWithProviders(
+      <ContactForm onSubmit={onSubmit} />
+    )
+
+    await userEvent.type(getByLabelText('Name'), 'John Doe')
+    await userEvent.type(getByLabelText('Email'), 'john@example.com')
+    await userEvent.click(getByRole('button', { name: 'Submit' }))
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      name: 'John Doe',
+      email: 'john@example.com'
+    })
+  })
+})
+```
+
+## 모킹 가이드
+
+### Prisma 클라이언트 모킹
+
+```typescript
+import { mockPrisma, setupUserMocks } from '@/test/mocks'
+
+describe('UserService', () => {
+  beforeEach(() => {
+    setupUserMocks()
+  })
+
+  it('finds user by id', async () => {
+    const user = await userService.findById('test-id')
+    expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
+      where: { id: 'test-id' },
+    })
+  })
+})
+```
+
+### Next.js 라우터 모킹
+
+```typescript
+import { mockNextRouter } from '@/test/mocks'
+
+describe('Navigation', () => {
+  it('navigates to correct page', async () => {
+    const { getByRole } = renderWithProviders(<Navigation />)
+
+    await userEvent.click(getByRole('link', { name: 'Home' }))
+    expect(mockNextRouter.push).toHaveBeenCalledWith('/')
+  })
+})
+```
+
+## 타입 안전성
+
+모든 테스트 유틸리티와 픽스처는 완전한 타입 안전성을 제공합니다:
+
+- `TestUser`, `TestPost`, `TestProject` 타입으로 데이터 일관성 보장
+- `MockFunction<T>` 타입으로 모킹 함수 타입 안전성 확보
+- `TestActionResult<T>` 타입으로 서버 액션 결과 타입 검증
+
+## 커버리지 설정
+
+테스트 커버리지는 다음 파일들을 제외합니다:
+
+- 설정 파일들 (`*.config.*`)
+- 타입 정의 파일들 (`*.d.ts`)
+- 테스트 파일들 자체
+- `node_modules` 및 빌드 결과물
+
+## 성능 테스트
+
+성능 관련 테스트는 별도로 실행할 수 있습니다:
 
 ```bash
-npm test
+pnpm perf:analyze     # 번들 크기 분석
+pnpm perf:lighthouse  # Lighthouse 성능 측정
 ```
-
-- Requires PostCSS configuration fix
-- Comprehensive test coverage
-- React component testing
-- User interaction simulation
-
-## Known Issues
-
-### PostCSS Configuration
-
-The Vitest configuration has a PostCSS plugin issue that prevents the full test suite from running.
-This is a configuration issue, not an implementation issue.
-
-**Workaround**: Use the validation runner script which bypasses this issue and provides
-comprehensive validation.
-
-## Implementation Quality
-
-### Code Quality Metrics
-
-- ✅ TypeScript strict mode compliance
-- ✅ Accessibility (ARIA attributes, screen readers)
-- ✅ Error boundaries and fallback handling
-- ✅ Performance optimizations (lazy loading, code splitting)
-- ✅ Mobile responsiveness
-- ✅ Cross-browser compatibility
-
-### Architecture Quality
-
-- ✅ Clean separation of concerns
-- ✅ Reusable component design
-- ✅ Consistent prop interfaces
-- ✅ Proper error handling hierarchy
-- ✅ Performance monitoring integration
-
-## Conclusion
-
-The implementation successfully meets all requirements with a 96% validation success rate. The
-single failing test is a minor validation script issue, not a functional problem. The architecture
-is robust, accessible, and performant.
-
-### Next Steps
-
-1. Fix PostCSS configuration for full test suite
-2. Add additional edge case tests
-3. Performance monitoring in production
-4. User acceptance testing

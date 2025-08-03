@@ -26,24 +26,24 @@ export const CACHE_DURATIONS = {
 } as const
 
 // Generic cache wrapper with type safety
-export function createCachedFunction<TArgs extends any[], TReturn>(
+export function createCachedFunction<TArgs extends readonly unknown[], TReturn>(
   fn: (...args: TArgs) => Promise<TReturn>,
   keyPrefix: string,
   options: {
     revalidate?: number
-    tags?: string[]
+    tags?: readonly string[]
   } = {}
-) {
+): (...args: TArgs) => Promise<TReturn> {
   return unstable_cache(fn, [keyPrefix], {
     revalidate: options.revalidate || CACHE_DURATIONS.MEDIUM,
-    tags: options.tags || [],
+    tags: options.tags ? [...options.tags] : [],
   })
 }
 
 // Request-level caching (React cache)
-export function createRequestCache<TArgs extends any[], TReturn>(
+export function createRequestCache<TArgs extends readonly unknown[], TReturn>(
   fn: (...args: TArgs) => Promise<TReturn>
-) {
+): (...args: TArgs) => Promise<TReturn> {
   return cache(fn)
 }
 

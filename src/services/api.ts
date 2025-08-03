@@ -12,6 +12,27 @@ export interface ApiResponse<T = unknown> {
   error?: string
   message?: string
   status: number
+  success: boolean
+}
+
+export interface ApiError {
+  code: string
+  message: string
+  details?: Record<string, unknown>
+  timestamp: string
+}
+
+export interface ApiSuccessResponse<T = unknown> extends ApiResponse<T> {
+  success: true
+  data: T
+  error?: never
+}
+
+export interface ApiErrorResponse extends ApiResponse<never> {
+  success: false
+  data?: never
+  error: string
+  details?: ApiError
 }
 
 export interface ApiRequestOptions<TBody = unknown> {
@@ -38,7 +59,7 @@ export class ApiClient {
   async request<T = unknown, TBody = unknown>(
     endpoint: string,
     options: ApiRequestOptions<TBody> = {}
-  ): Promise<ApiResponse<T>> {
+  ): Promise<ApiSuccessResponse<T> | ApiErrorResponse> {
     try {
       const session = await getCurrentSession()
 
@@ -68,29 +89,59 @@ export class ApiClient {
       const response = await fetch(url, config)
 
       let data: T | null = null
+      let errorData: any = null
+
       try {
-        data = await response.json()
+        const responseData = await response.json()
+        if (response.ok) {
+          data = responseData
+        } else {
+          errorData = responseData
+        }
       } catch {
-        data = null
+        // JSON 파싱 실패 시 처리
+        if (!response.ok) {
+          errorData = { message: response.statusText }
+        }
       }
 
       if (!response.ok) {
+        const apiError: ApiError = {
+          code: errorData?.code || `HTTP_${response.status}`,
+          message:
+            errorData?.message ||
+            `HTTP ${response.status}: ${response.statusText}`,
+          details: errorData?.details,
+          timestamp: new Date().toISOString(),
+        }
+
         return {
-          error:
-            data?.message || `HTTP ${response.status}: ${response.statusText}`,
+          success: false,
+          error: apiError.message,
+          details: apiError,
           status: response.status,
         }
       }
 
       return {
-        data,
+        success: true,
+        data: data as T,
         status: response.status,
       }
     } catch (error) {
       console.error('API request failed:', error)
-      return {
-        error:
+
+      const apiError: ApiError = {
+        code: 'NETWORK_ERROR',
+        message:
           error instanceof Error ? error.message : 'Unknown error occurred',
+        timestamp: new Date().toISOString(),
+      }
+
+      return {
+        success: false,
+        error: apiError.message,
+        details: apiError,
         status: 500,
       }
     }
@@ -161,44 +212,118 @@ export class ApiClient {
 // Default API client instance
 export const apiClient = new ApiClient('/api')
 
+// Type definitions for API responses
+export interface ProjectListResponse {
+  projects: Array<{
+    id: string
+    title: string
+    description?: string
+    userId: string
+    createdAt: string
+    updatedAt: string
+    user: {
+      id: string
+      name: string
+      email: string
+    }
+  }>
+  pagination: {
+    page: number
+    limit: number
+    totalCount: number
+    totalPages: number
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+}
+
+export interface ProjectResponse {
+  id: string
+  title: string
+  description?: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+  user: {
+    id: string
+    name: string
+    email: string
+  }
+}
+
+export interface UserProfileResponse {
+  id: string
+  name: string
+  email: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface FileUploadResponse {
+  url: string
+  key: string
+  size: number
+  type: string
+  filename: string
+}
+
 // Utility functions for common API operations
 export const api = {
   // Projects
   projects: {
     list: (params?: { page?: number; limit?: number; search?: string }) =>
-      apiClient.get('/projects', { next: { tags: ['projects'] } }),
+      apiClient.get<ProjectListResponse>('/projects', {
+        next: { tags: ['projects'] },
+      }),
 
     get: (id: string) =>
-      apiClient.get(`/projects/${id}`, { next: { tags: [`project-${id}`] } }),
+      apiClient.get<ProjectResponse>(`/projects/${id}`, {
+        next: { tags: [`project-${id}`] },
+      }),
 
     create: (data: { title: string; description?: string }) =>
-      apiClient.post('/projects', data),
+      apiClient.post<ProjectResponse>('/projects', data),
 
     update: (id: string, data: { title: string; description?: string }) =>
-      apiClient.put(`/projects/${id}`, data),
+      apiClient.put<ProjectResponse>(`/projects/${id}`, data),
 
-    delete: (id: string) => apiClient.delete(`/projects/${id}`),
+    delete: (id: string) =>
+      apiClient.delete<{ success: boolean; message: string }>(
+        `/projects/${id}`
+      ),
   },
 
   // User profile
   profile: {
-    get: () => apiClient.get('/profile', { next: { tags: ['profile'] } }),
+    get: () =>
+      apiClient.get<UserProfileResponse>('/profile', {
+        next: { tags: ['profile'] },
+      }),
 
     update: (data: { name?: string; email?: string }) =>
-      apiClient.put('/profile', data),
+      apiClient.put<UserProfileResponse>('/profile', data),
   },
 
   // File uploads
   files: {
-    upload: async (file: File, category: string) => {
+    upload: async (
+      file: File,
+      category: string
+    ): Promise<FileUploadResponse> => {
       const formData = new FormData()
       formData.append('file', file)
       formData.append('category', category)
 
-      return fetch('/api/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
-      }).then(res => res.json())
+      })
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.statusText}`)
+      }
+
+      return response.json()
     },
   },
 }

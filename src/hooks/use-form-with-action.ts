@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import type { HookSafeActionFn } from 'next-safe-action/hooks'
+import { useAction } from 'next-safe-action/hooks'
+import { useEffect, useState } from 'react'
 import {
   useForm,
-  type UseFormProps,
-  type UseFormReturn,
   type FieldValues,
+  type Path,
+  type UseFormProps,
 } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { type z } from 'zod'
 import { toast } from 'sonner'
-import { useAction } from 'next-safe-action/hooks'
-import type { HookSafeActionFn } from 'next-safe-action/hooks'
+import { type z } from 'zod'
 
 // 통합 폼 훅 옵션
 export interface UseFormWithActionOptions<
@@ -53,7 +53,7 @@ export function useFormWithAction<
   TResult = unknown,
 >(
   schema: TSchema,
-  action: HookSafeActionFn<any, TSchema, any>,
+  action: HookSafeActionFn<TResult, TSchema, any, any>,
   options: UseFormWithActionOptions<TSchema, TFormData, TResult> = {}
 ) {
   const {
@@ -71,7 +71,7 @@ export function useFormWithAction<
     setFieldErrorsFromServer = true,
   } = options
 
-  // React Hook Form 초기화
+  // React Hook Form 초기화 - 타입 안전성 개선
   const form = useForm<TFormData>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -95,23 +95,32 @@ export function useFormWithAction<
 
     if (serverError) {
       // 서버 에러 처리
+      const errorMessage =
+        typeof serverError === 'string'
+          ? serverError
+          : '서버 오류가 발생했습니다.'
       if (showToast) {
-        toast.error(serverError)
+        toast.error(errorMessage)
       }
-      onError?.(serverError, lastSubmittedData || undefined)
+      onError?.(errorMessage, lastSubmittedData || undefined)
 
       if (resetOnError) {
         form.reset()
       }
     } else if (validationErrors) {
-      // 유효성 검사 에러 처리
+      // 유효성 검사 에러 처리 - 타입 안전성 개선
       if (setFieldErrorsFromServer) {
         Object.entries(validationErrors).forEach(([field, errors]) => {
           if (Array.isArray(errors) && errors.length > 0) {
-            form.setError(field as keyof TFormData, {
-              type: 'server',
-              message: errors[0],
-            })
+            // 필드 경로가 유효한지 확인 후 에러 설정
+            try {
+              form.setError(field as Path<TFormData>, {
+                type: 'server',
+                message: errors[0],
+              })
+            } catch (error) {
+              console.warn(`Invalid field path for error: ${field}`, error)
+            }
           }
         })
       }
@@ -146,13 +155,14 @@ export function useFormWithAction<
   ])
 
   // 폼 제출 핸들러
-  const handleSubmit = form.handleSubmit(async (data: TFormData) => {
+  const handleSubmit = form.handleSubmit(async data => {
+    const formData = data as TFormData
     try {
       setIsSubmitting(true)
-      setLastSubmittedData(data)
+      setLastSubmittedData(formData)
 
       // 제출 시작 콜백
-      onSubmitStart?.(data)
+      onSubmitStart?.(formData)
 
       // 에러 클리어 (옵션에 따라)
       if (clearErrorsOnSubmit) {
@@ -160,7 +170,7 @@ export function useFormWithAction<
       }
 
       // 액션 실행
-      await execute(data as z.input<TSchema>)
+      await execute(formData as z.input<TSchema>)
     } catch (error) {
       console.error('Form submission error:', error)
 
@@ -170,14 +180,14 @@ export function useFormWithAction<
         toast.error(message)
       }
 
-      onError?.(message, data)
+      onError?.(message, formData)
 
       if (resetOnError) {
         form.reset()
       }
     } finally {
       setIsSubmitting(false)
-      onSubmitEnd?.(data)
+      onSubmitEnd?.(formData)
     }
   })
 
@@ -245,7 +255,7 @@ export function useMultiStepFormWithAction<
   TResult = unknown,
 >(
   schema: TSchema,
-  action: HookSafeActionFn<any, TSchema, any>,
+  action: HookSafeActionFn<TResult, TSchema, any, any>,
   steps: Array<{
     name: string
     fields: Array<keyof TFormData>
@@ -300,6 +310,7 @@ export function useMultiStepFormWithAction<
       // 현재 단계까지의 모든 단계 유효성 검사
       for (let i = 0; i <= Math.min(currentStep, stepIndex - 1); i++) {
         const stepConfig = steps[i]
+        if (!stepConfig) continue
         const isValid = await baseForm.form.trigger(stepConfig.fields as any)
         if (!isValid) {
           return false

@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 /**
  * 디바운스된 콜백을 생성하는 훅
  * 성능 최적화를 위해 빈번한 함수 호출을 제한합니다.
  */
-export function useDebounce<T extends (...args: any[]) => any>(
+export function useDebounce<T extends (...args: readonly unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -28,7 +28,7 @@ export function useDebounce<T extends (...args: any[]) => any>(
  * 스로틀된 콜백을 생성하는 훅
  * 지정된 시간 간격으로만 함수가 실행되도록 제한합니다.
  */
-export function useThrottle<T extends (...args: any[]) => any>(
+export function useThrottle<T extends (...args: readonly unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -61,10 +61,9 @@ export function useMemoizedCalculation<T>(
  * 안정적인 콜백 참조를 생성하는 훅
  * 의존성이 변경되지 않는 한 동일한 함수 참조를 유지합니다.
  */
-export function useStableCallback<T extends (...args: any[]) => any>(
-  callback: T,
-  dependencies: React.DependencyList
-): T {
+export function useStableCallback<
+  T extends (...args: readonly unknown[]) => unknown,
+>(callback: T, dependencies: React.DependencyList): T {
   return useCallback(callback, dependencies)
 }
 
@@ -72,7 +71,7 @@ export function useStableCallback<T extends (...args: any[]) => any>(
  * 객체의 얕은 비교를 수행하는 함수
  * React.memo의 비교 함수로 사용할 수 있습니다.
  */
-export function shallowEqual(obj1: any, obj2: any): boolean {
+export function shallowEqual(obj1: unknown, obj2: unknown): boolean {
   if (obj1 === obj2) {
     return true
   }
@@ -86,15 +85,18 @@ export function shallowEqual(obj1: any, obj2: any): boolean {
     return false
   }
 
-  const keys1 = Object.keys(obj1)
-  const keys2 = Object.keys(obj2)
+  const record1 = obj1 as Record<string, unknown>
+  const record2 = obj2 as Record<string, unknown>
+
+  const keys1 = Object.keys(record1)
+  const keys2 = Object.keys(record2)
 
   if (keys1.length !== keys2.length) {
     return false
   }
 
   for (const key of keys1) {
-    if (!keys2.includes(key) || obj1[key] !== obj2[key]) {
+    if (!keys2.includes(key) || record1[key] !== record2[key]) {
       return false
     }
   }
@@ -105,7 +107,10 @@ export function shallowEqual(obj1: any, obj2: any): boolean {
 /**
  * 배열의 얕은 비교를 수행하는 함수
  */
-export function shallowEqualArray(arr1: any[], arr2: any[]): boolean {
+export function shallowEqualArray(
+  arr1: readonly unknown[],
+  arr2: readonly unknown[]
+): boolean {
   if (arr1 === arr2) {
     return true
   }
@@ -197,15 +202,24 @@ export function logMemoryUsage(label?: string): void {
 }
 
 /**
+ * Lazy component wrapper type
+ */
+export type LazyComponentWrapper<T extends React.ComponentType<unknown>> = (
+  props: React.ComponentProps<T>
+) => React.ReactElement
+
+/**
  * 번들 크기 최적화를 위한 동적 import 헬퍼
  */
 export function createLazyComponent<T extends React.ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   fallback?: React.ComponentType
-) {
+): LazyComponentWrapper<T> {
   const LazyComponent = React.lazy(importFn)
 
-  return function LazyWrapper(props: React.ComponentProps<T>) {
+  return function LazyWrapper(
+    props: React.ComponentProps<T>
+  ): React.ReactElement {
     return React.createElement(
       React.Suspense,
       {
@@ -217,16 +231,24 @@ export function createLazyComponent<T extends React.ComponentType<unknown>>(
 }
 
 /**
+ * Lazy loading hook return type
+ */
+export interface UseLazyLoadingReturn {
+  ref: React.RefObject<HTMLElement>
+  isVisible: boolean
+}
+
+/**
  * 이미지 지연 로딩을 위한 Intersection Observer 훅
  */
-export function useLazyLoading(threshold = 0.1) {
+export function useLazyLoading(threshold = 0.1): UseLazyLoadingReturn {
   const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setIsVisible(true)
           observer.disconnect()
         }
@@ -234,11 +256,14 @@ export function useLazyLoading(threshold = 0.1) {
       { threshold }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+    }
   }, [threshold])
 
   return { ref, isVisible }

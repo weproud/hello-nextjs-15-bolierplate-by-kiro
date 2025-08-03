@@ -67,7 +67,7 @@ export interface BaseComponentProps {
 // Common Component Props - 자주 사용되는 컴포넌트 props 타입들
 export interface ModalProps extends BaseComponentProps {
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange: (open: boolean) => void | Promise<void>
   title?: string
   description?: string
 }
@@ -83,7 +83,7 @@ export interface ButtonProps extends BaseComponentProps {
   size?: 'default' | 'sm' | 'lg' | 'icon'
   disabled?: boolean
   loading?: boolean
-  onClick?: () => void
+  onClick?: () => void | Promise<void>
 }
 
 export interface InputProps extends BaseComponentProps {
@@ -94,12 +94,12 @@ export interface InputProps extends BaseComponentProps {
   disabled?: boolean
   required?: boolean
   error?: string
-  onChange?: (value: string) => void
+  onChange?: (value: string) => void | Promise<void>
 }
 
 export interface ErrorFallbackProps {
   error?: Error
-  resetError?: () => void
+  resetError?: () => void | Promise<void>
   showRetry?: boolean
   title?: string
   description?: string
@@ -269,16 +269,18 @@ export interface UseFormReturn<T> {
   touched: Record<keyof T, boolean>
   isValid: boolean
   isSubmitting: boolean
-  handleChange: (field: keyof T, value: any) => void
-  handleSubmit: (onSubmit: (values: T) => void | Promise<void>) => void
-  reset: () => void
+  handleChange: (field: keyof T, value: any) => void | Promise<void>
+  handleSubmit: (
+    onSubmit: (values: T) => void | Promise<void>
+  ) => void | Promise<void>
+  reset: () => void | Promise<void>
   setFieldError: (field: keyof T, error: string) => void
 }
 
 // Utility Function Types - 유틸리티 함수를 위한 타입들
 export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>
 
-export type EventHandler<T = any> = (event: T) => void
+export type EventHandler<T = any> = (event: T) => void | Promise<void>
 
 export type Validator<T> = (value: T) => string | null
 

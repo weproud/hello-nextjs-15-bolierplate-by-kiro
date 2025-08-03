@@ -20,7 +20,7 @@ export const ThemeToggle = React.memo(function ThemeToggle() {
     setMounted(true)
   }, [])
 
-  const getThemeLabel = (currentTheme: string | undefined) => {
+  const getThemeLabel = (currentTheme: string | undefined): string => {
     switch (currentTheme) {
       case 'light':
         return '라이트 모드'
@@ -33,7 +33,7 @@ export const ThemeToggle = React.memo(function ThemeToggle() {
     }
   }
 
-  const getCurrentIcon = () => {
+  const getCurrentIcon = (): React.ReactElement => {
     if (!mounted)
       return <Sun className='h-[1.2rem] w-[1.2rem]' aria-hidden='true' />
 

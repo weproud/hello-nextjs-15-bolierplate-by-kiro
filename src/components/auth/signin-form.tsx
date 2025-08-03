@@ -1,17 +1,17 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { createAuthErrorHandler, type AuthError } from '@/lib/auth-error-utils'
+import { AlertTriangle, ExternalLink, RefreshCw } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
-import { useState, useCallback, useMemo } from 'react'
-import { Button } from '@/components/ui/button'
-import { AlertTriangle, RefreshCw, ExternalLink } from 'lucide-react'
+import { useCallback, useMemo, useState } from 'react'
 import { useModalErrorHandler } from './modal-error-boundary'
-import { createAuthErrorHandler, type AuthError } from '@/lib/auth-error-utils'
 
 interface SignInFormProps {
   isModal?: boolean
-  onSuccess?: () => void
-  onError?: (error: Error) => void
+  onSuccess?: () => void | Promise<void>
+  onError?: (error: Error) => void | Promise<void>
   callbackUrl?: string
 }
 

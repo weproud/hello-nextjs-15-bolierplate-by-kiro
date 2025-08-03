@@ -1,11 +1,59 @@
 #!/usr/bin/env node
 
+import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
+
+// Type definitions for bundle analysis
+interface BundleSizeLimits {
+  [key: string]: number
+}
+
+interface PerformanceBudgets {
+  totalJavaScript: number
+  totalCSS: number
+  totalImages: number
+  chunkCount: number
+}
+
+interface Violation {
+  type: 'bundle-size' | 'performance-budget'
+  chunk?: string
+  size?: number
+  limit?: number
+  excess?: number
+  file?: string
+  metric?: string
+  value?: number
+}
+
+interface Recommendation {
+  type: string
+  title: string
+  description: string
+  actions: string[]
+}
+
+interface AnalysisResults {
+  timestamp: string
+  passed: boolean
+  violations: Violation[]
+  metrics: {
+    totalJavaScript?: number
+    totalCSS?: number
+    chunkCount?: number
+    pageCount?: number
+  }
+  recommendations: Recommendation[]
+}
+
+interface BuildManifest {
+  pages?: Record<string, string[]>
+  [key: string]: unknown
+}
 
 // Bundle size limits (in bytes)
-const BUNDLE_SIZE_LIMITS = {
+const BUNDLE_SIZE_LIMITS: BundleSizeLimits = {
   // Main bundles
   'pages/_app': 250 * 1024, // 250KB
   'pages/index': 100 * 1024, // 100KB
@@ -26,7 +74,7 @@ const BUNDLE_SIZE_LIMITS = {
 }
 
 // Performance budget thresholds
-const PERFORMANCE_BUDGETS = {
+const PERFORMANCE_BUDGETS: PerformanceBudgets = {
   totalJavaScript: 1000 * 1024, // 1MB total JS
   totalCSS: 100 * 1024, // 100KB total CSS
   totalImages: 2000 * 1024, // 2MB total images
@@ -34,6 +82,10 @@ const PERFORMANCE_BUDGETS = {
 }
 
 class BundleAnalyzer {
+  private readonly buildDir: string
+  private readonly reportDir: string
+  private results: AnalysisResults
+
   constructor() {
     this.buildDir = path.join(process.cwd(), '.next')
     this.reportDir = path.join(process.cwd(), 'reports')
@@ -46,14 +98,14 @@ class BundleAnalyzer {
     }
   }
 
-  async analyze() {
+  async analyze(): Promise<void> {
     console.log('🔍 Starting bundle analysis...')
 
     try {
       // Ensure build exists
       if (!fs.existsSync(this.buildDir)) {
         console.log('📦 Building application first...')
-        execSync('npm run build', { stdio: 'inherit' })
+        execSync('pnpm build', { stdio: 'inherit' })
       }
 
       // Create reports directory
@@ -64,7 +116,7 @@ class BundleAnalyzer {
       // Run bundle analyzer
       console.log('📊 Generating bundle report...')
       process.env.ANALYZE = 'true'
-      execSync('npm run build', { stdio: 'inherit' })
+      execSync('pnpm build', { stdio: 'inherit' })
 
       // Analyze build output
       await this.analyzeBuildOutput()
@@ -87,19 +139,22 @@ class BundleAnalyzer {
       // Exit with appropriate code
       process.exit(this.results.passed ? 0 : 1)
     } catch (error) {
-      console.error('❌ Bundle analysis failed:', error.message)
+      const errorMessage =
+        error instanceof Error ? error.message : String(error)
+      console.error('❌ Bundle analysis failed:', errorMessage)
       process.exit(1)
     }
   }
 
-  async analyzeBuildOutput() {
+  private async analyzeBuildOutput(): Promise<void> {
     const buildManifest = path.join(this.buildDir, 'build-manifest.json')
 
     if (!fs.existsSync(buildManifest)) {
       throw new Error('Build manifest not found. Please run build first.')
     }
 
-    const manifest = JSON.parse(fs.readFileSync(buildManifest, 'utf8'))
+    const manifestContent = fs.readFileSync(buildManifest, 'utf8')
+    const manifest: BuildManifest = JSON.parse(manifestContent)
 
     // Analyze pages
     const pages = manifest.pages || {}
@@ -112,7 +167,7 @@ class BundleAnalyzer {
     }
   }
 
-  analyzeStaticFiles(staticDir) {
+  private analyzeStaticFiles(staticDir: string): void {
     const chunks = path.join(staticDir, 'chunks')
     if (!fs.existsSync(chunks)) return
 
@@ -120,7 +175,7 @@ class BundleAnalyzer {
     let totalCSSSize = 0
     let chunkCount = 0
 
-    const analyzeDirectory = dir => {
+    const analyzeDirectory = (dir: string): void => {
       const files = fs.readdirSync(dir)
 
       for (const file of files) {
@@ -149,13 +204,13 @@ class BundleAnalyzer {
     this.results.metrics.chunkCount = chunkCount
   }
 
-  async checkBundleSizes() {
+  private async checkBundleSizes(): Promise<void> {
     console.log('📏 Checking bundle sizes against limits...')
 
     const chunksDir = path.join(this.buildDir, 'static', 'chunks')
     if (!fs.existsSync(chunksDir)) return
 
-    const checkDirectory = (dir, prefix = '') => {
+    const checkDirectory = (dir: string, prefix = ''): void => {
       const files = fs.readdirSync(dir)
 
       for (const file of files) {
@@ -187,7 +242,7 @@ class BundleAnalyzer {
     checkDirectory(chunksDir)
   }
 
-  getChunkName(filename) {
+  private getChunkName(filename: string): string {
     // Extract meaningful chunk names from filenames
     if (filename.includes('pages/_app')) return 'pages/_app'
     if (filename.includes('pages/index')) return 'pages/index'
@@ -205,13 +260,16 @@ class BundleAnalyzer {
     return 'other'
   }
 
-  async checkPerformanceBudgets() {
+  private async checkPerformanceBudgets(): Promise<void> {
     console.log('💰 Checking performance budgets...')
 
     const metrics = this.results.metrics
 
     // Check total JavaScript size
-    if (metrics.totalJavaScript > PERFORMANCE_BUDGETS.totalJavaScript) {
+    if (
+      metrics.totalJavaScript &&
+      metrics.totalJavaScript > PERFORMANCE_BUDGETS.totalJavaScript
+    ) {
       this.results.passed = false
       this.results.violations.push({
         type: 'performance-budget',
@@ -223,7 +281,7 @@ class BundleAnalyzer {
     }
 
     // Check total CSS size
-    if (metrics.totalCSS > PERFORMANCE_BUDGETS.totalCSS) {
+    if (metrics.totalCSS && metrics.totalCSS > PERFORMANCE_BUDGETS.totalCSS) {
       this.results.passed = false
       this.results.violations.push({
         type: 'performance-budget',
@@ -235,7 +293,10 @@ class BundleAnalyzer {
     }
 
     // Check chunk count
-    if (metrics.chunkCount > PERFORMANCE_BUDGETS.chunkCount) {
+    if (
+      metrics.chunkCount &&
+      metrics.chunkCount > PERFORMANCE_BUDGETS.chunkCount
+    ) {
       this.results.passed = false
       this.results.violations.push({
         type: 'performance-budget',
@@ -247,7 +308,7 @@ class BundleAnalyzer {
     }
   }
 
-  generateRecommendations() {
+  private generateRecommendations(): void {
     const violations = this.results.violations
 
     // Bundle size recommendations
@@ -299,7 +360,7 @@ class BundleAnalyzer {
     })
   }
 
-  async saveReport() {
+  private async saveReport(): Promise<void> {
     const reportPath = path.join(
       this.reportDir,
       `bundle-analysis-${Date.now()}.json`
@@ -313,7 +374,7 @@ class BundleAnalyzer {
     console.log(`📄 Report saved to: ${reportPath}`)
   }
 
-  printResults() {
+  private printResults(): void {
     console.log('\n' + '='.repeat(60))
     console.log('📊 BUNDLE ANALYSIS RESULTS')
     console.log('='.repeat(60))
@@ -321,13 +382,13 @@ class BundleAnalyzer {
     // Print metrics
     console.log('\n📈 Metrics:')
     console.log(
-      `  Total JavaScript: ${this.formatBytes(this.results.metrics.totalJavaScript)}`
+      `  Total JavaScript: ${this.formatBytes(this.results.metrics.totalJavaScript || 0)}`
     )
     console.log(
-      `  Total CSS: ${this.formatBytes(this.results.metrics.totalCSS)}`
+      `  Total CSS: ${this.formatBytes(this.results.metrics.totalCSS || 0)}`
     )
-    console.log(`  Chunk Count: ${this.results.metrics.chunkCount}`)
-    console.log(`  Page Count: ${this.results.metrics.pageCount}`)
+    console.log(`  Chunk Count: ${this.results.metrics.chunkCount || 0}`)
+    console.log(`  Page Count: ${this.results.metrics.pageCount || 0}`)
 
     // Print violations
     if (this.results.violations.length > 0) {
@@ -337,16 +398,16 @@ class BundleAnalyzer {
         if (violation.chunk) {
           console.log(`     Chunk: ${violation.chunk}`)
           console.log(
-            `     Size: ${this.formatBytes(violation.size)} (limit: ${this.formatBytes(violation.limit)})`
+            `     Size: ${this.formatBytes(violation.size || 0)} (limit: ${this.formatBytes(violation.limit || 0)})`
           )
-          console.log(`     Excess: ${this.formatBytes(violation.excess)}`)
+          console.log(`     Excess: ${this.formatBytes(violation.excess || 0)}`)
         } else if (violation.metric) {
           console.log(`     Metric: ${violation.metric}`)
           console.log(
-            `     Value: ${this.formatValue(violation.metric, violation.value)}`
+            `     Value: ${this.formatValue(violation.metric, violation.value || 0)}`
           )
           console.log(
-            `     Limit: ${this.formatValue(violation.metric, violation.limit)}`
+            `     Limit: ${this.formatValue(violation.metric, violation.limit || 0)}`
           )
         }
       })
@@ -376,7 +437,7 @@ class BundleAnalyzer {
     console.log('='.repeat(60))
   }
 
-  formatBytes(bytes) {
+  private formatBytes(bytes: number): string {
     if (bytes === 0) return '0 B'
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB']
@@ -384,7 +445,7 @@ class BundleAnalyzer {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
   }
 
-  formatValue(metric, value) {
+  private formatValue(metric: string, value: number): string {
     if (
       metric.includes('Size') ||
       metric.includes('JavaScript') ||

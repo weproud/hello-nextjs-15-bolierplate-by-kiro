@@ -5,7 +5,7 @@
  */
 
 // Bundle size tracking
-interface BundleMetrics {
+export interface BundleMetrics {
   name: string
   size: number
   gzipSize?: number
@@ -13,7 +13,18 @@ interface BundleMetrics {
   timestamp: number
 }
 
-class BundleAnalyzer {
+/**
+ * Bundle analysis report interface
+ */
+export interface BundleAnalysisReport {
+  totalSize: number
+  totalBundles: number
+  largestBundles: BundleMetrics[]
+  slowestBundles: BundleMetrics[]
+  timestamp: number
+}
+
+export class BundleAnalyzer {
   private metrics: BundleMetrics[] = []
   private observers: PerformanceObserver[] = []
 
@@ -23,7 +34,7 @@ class BundleAnalyzer {
     }
   }
 
-  private initializeObservers() {
+  private initializeObservers(): void {
     // Resource timing observer
     if ('PerformanceObserver' in window) {
       const resourceObserver = new PerformanceObserver(list => {
@@ -34,12 +45,16 @@ class BundleAnalyzer {
         }
       })
 
-      resourceObserver.observe({ entryTypes: ['resource'] })
-      this.observers.push(resourceObserver)
+      try {
+        resourceObserver.observe({ entryTypes: ['resource'] })
+        this.observers.push(resourceObserver)
+      } catch (error) {
+        console.warn('Failed to initialize resource observer:', error)
+      }
     }
   }
 
-  private trackResource(entry: PerformanceResourceTiming) {
+  private trackResource(entry: PerformanceResourceTiming): void {
     const metric: BundleMetrics = {
       name: this.extractBundleName(entry.name),
       size: entry.transferSize || 0,
@@ -54,10 +69,10 @@ class BundleAnalyzer {
   private extractBundleName(url: string): string {
     const parts = url.split('/')
     const filename = parts[parts.length - 1]
-    return filename.split('?')[0] // Remove query parameters
+    return filename ? filename.split('?')[0] : 'unknown' // Remove query parameters
   }
 
-  private reportMetric(metric: BundleMetrics) {
+  private reportMetric(metric: BundleMetrics): void {
     // Development mode logging
     if (process.env.NODE_ENV === 'development') {
       console.log('📦 Bundle loaded:', {
@@ -73,9 +88,17 @@ class BundleAnalyzer {
     }
   }
 
-  private sendToAnalytics(metric: BundleMetrics) {
-    // Example: Send to your analytics service
-    // analytics.track('bundle_loaded', metric)
+  private sendToAnalytics(metric: BundleMetrics): void {
+    // Send to analytics service
+    fetch('/api/analytics/bundle-metrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(metric),
+    }).catch(error => {
+      console.warn('Failed to send bundle metrics to analytics:', error)
+    })
   }
 
   // Public methods
@@ -98,26 +121,38 @@ class BundleAnalyzer {
       .slice(0, count)
   }
 
-  generateReport(): string {
+  generateReport(): BundleAnalysisReport {
     const totalSize = this.getTotalBundleSize()
     const largest = this.getLargestBundles(3)
     const slowest = this.getSlowestBundles(3)
 
+    return {
+      totalSize,
+      totalBundles: this.metrics.length,
+      largestBundles: largest,
+      slowestBundles: slowest,
+      timestamp: Date.now(),
+    }
+  }
+
+  generateTextReport(): string {
+    const report = this.generateReport()
+
     return `
 Bundle Analysis Report
 =====================
-Total Bundle Size: ${(totalSize / 1024).toFixed(2)}KB
-Total Bundles: ${this.metrics.length}
+Total Bundle Size: ${(report.totalSize / 1024).toFixed(2)}KB
+Total Bundles: ${report.totalBundles}
 
 Largest Bundles:
-${largest.map(m => `  ${m.name}: ${(m.size / 1024).toFixed(2)}KB`).join('\n')}
+${report.largestBundles.map(m => `  ${m.name}: ${(m.size / 1024).toFixed(2)}KB`).join('\n')}
 
 Slowest Loading Bundles:
-${slowest.map(m => `  ${m.name}: ${m.loadTime?.toFixed(2)}ms`).join('\n')}
+${report.slowestBundles.map(m => `  ${m.name}: ${m.loadTime?.toFixed(2)}ms`).join('\n')}
     `.trim()
   }
 
-  cleanup() {
+  cleanup(): void {
     this.observers.forEach(observer => observer.disconnect())
     this.observers = []
     this.metrics = []
@@ -142,7 +177,7 @@ export const BUNDLE_SIZE_THRESHOLDS = {
 } as const
 
 // Check bundle size and warn if necessary
-export function checkBundleSize(name: string, size: number) {
+export function checkBundleSize(name: string, size: number): void {
   const sizeKB = size / 1024
 
   if (sizeKB > BUNDLE_SIZE_THRESHOLDS.CRITICAL) {
@@ -201,23 +236,37 @@ export const CODE_SPLITTING_RECOMMENDATIONS = {
   LAZY_ROUTES: ['admin', 'settings', 'analytics', 'reports'],
 } as const
 
+/**
+ * Webpack configuration with bundle analyzer
+ */
+export interface WebpackBundleAnalyzerConfig {
+  webpack?: (config: unknown, context: { isServer: boolean }) => unknown
+}
+
 // Webpack bundle analyzer integration
-export function generateWebpackBundleAnalyzer() {
+export function generateWebpackBundleAnalyzer(): WebpackBundleAnalyzerConfig {
   if (process.env.NODE_ENV === 'development') {
     return {
-      webpack: (config: any, { isServer }: { isServer: boolean }) => {
-        if (!isServer && process.env.ANALYZE === 'true') {
-          const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+      webpack: (config: unknown, { isServer }: { isServer: boolean }) => {
+        if (!isServer && process.env['ANALYZE'] === 'true') {
+          // Dynamic import to avoid bundling in production
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-          config.plugins.push(
-            new BundleAnalyzerPlugin({
-              analyzerMode: 'static',
-              openAnalyzer: false,
-              reportFilename: 'bundle-report.html',
-              generateStatsFile: true,
-              statsFilename: 'bundle-stats.json',
-            })
-          )
+            const webpackConfig = config as { plugins: unknown[] }
+            webpackConfig.plugins.push(
+              new BundleAnalyzerPlugin({
+                analyzerMode: 'static',
+                openAnalyzer: false,
+                reportFilename: 'bundle-report.html',
+                generateStatsFile: true,
+                statsFilename: 'bundle-stats.json',
+              })
+            )
+          } catch (error) {
+            console.warn('webpack-bundle-analyzer not available:', error)
+          }
         }
         return config
       },
@@ -227,25 +276,32 @@ export function generateWebpackBundleAnalyzer() {
 }
 
 // Performance budget checker
-interface PerformanceBudget {
+export interface PerformanceBudget {
   maxBundleSize: number // in KB
   maxChunkSize: number // in KB
   maxAssetSize: number // in KB
+}
+
+/**
+ * Performance budget check result
+ */
+export interface PerformanceBudgetResult {
+  passed: boolean
+  violations: readonly string[]
+  totalSize: number
+  budgetUtilization: number
 }
 
 export const DEFAULT_PERFORMANCE_BUDGET: PerformanceBudget = {
   maxBundleSize: 1000, // 1MB
   maxChunkSize: 250, // 250KB
   maxAssetSize: 500, // 500KB
-}
+} as const
 
 export function checkPerformanceBudget(
-  metrics: BundleMetrics[],
+  metrics: readonly BundleMetrics[],
   budget: PerformanceBudget = DEFAULT_PERFORMANCE_BUDGET
-): {
-  passed: boolean
-  violations: string[]
-} {
+): PerformanceBudgetResult {
   const violations: string[] = []
 
   const totalSize = metrics.reduce((sum, m) => sum + m.size, 0) / 1024
@@ -264,8 +320,12 @@ export function checkPerformanceBudget(
     }
   })
 
+  const budgetUtilization = (totalSize / budget.maxBundleSize) * 100
+
   return {
     passed: violations.length === 0,
     violations,
+    totalSize,
+    budgetUtilization,
   }
 }

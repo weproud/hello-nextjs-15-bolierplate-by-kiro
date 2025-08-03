@@ -86,6 +86,63 @@ export type FormFields<T> = {
   [K in keyof T]: FormField<T[K]>
 }
 
+// Enhanced form types for better type safety
+export type FormFieldPath<T> =
+  T extends Record<string, any>
+    ? {
+        [K in keyof T]: K extends string
+          ? T[K] extends Record<string, any>
+            ? `${K}` | `${K}.${FormFieldPath<T[K]>}`
+            : `${K}`
+          : never
+      }[keyof T]
+    : never
+
+export type FormFieldValue<T, P extends string> = P extends keyof T
+  ? T[P]
+  : P extends `${infer K}.${infer Rest}`
+    ? K extends keyof T
+      ? T[K] extends Record<string, any>
+        ? FormFieldValue<T[K], Rest>
+        : never
+      : never
+    : never
+
+// Type-safe form error handling
+export interface FormError {
+  field: string
+  message: string
+  type: 'validation' | 'server' | 'required' | 'format'
+}
+
+export type FormErrors<T> = {
+  [K in keyof T]?: string[]
+}
+
+// Schema validation types for forms
+export interface SchemaValidationResult<T> {
+  success: boolean
+  data?: T
+  errors?: FormErrors<T>
+}
+
+// Type-safe form action result
+export interface FormActionResult<T = unknown> {
+  success: boolean
+  data?: T
+  errors?: FormErrors<any>
+  message?: string
+}
+
+// Helper type for extracting form data from schema
+export type InferFormData<T> = T extends { parse: (input: any) => infer R }
+  ? R
+  : T extends { _input: infer I }
+    ? I
+    : T extends { _output: infer O }
+      ? O
+      : unknown
+
 // Database types
 export interface PaginationParams {
   page: number

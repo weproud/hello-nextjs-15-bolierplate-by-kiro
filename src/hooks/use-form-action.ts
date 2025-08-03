@@ -1,9 +1,10 @@
 import { useState, useTransition } from 'react'
-import { type UseFormReturn, type FieldValues } from 'react-hook-form'
+import {
+  type FieldValues,
+  type Path,
+  type UseFormReturn,
+} from 'react-hook-form'
 import { toast } from 'sonner'
-import { T } from 'vitest/dist/reporters-w_64AS5f.js'
-import { T } from 'vitest/dist/reporters-w_64AS5f.js'
-import { T } from 'vitest/dist/reporters-w_64AS5f.js'
 
 // Type for server action result (compatible with next-safe-action)
 export interface ActionResult<T = unknown> {
@@ -98,7 +99,7 @@ export function useFormAction<
             !actionResult.serverError &&
             !actionResult.validationErrors
           ) {
-            const result: ActionResult<T> = {
+            const result: ActionResult<TOutput> = {
               success: true,
               data: actionResult.data,
             }
@@ -113,22 +114,29 @@ export function useFormAction<
 
           // next-safe-action error case
           if (actionResult.serverError || actionResult.validationErrors) {
-            const result: ActionResult<T> = {
+            const result: ActionResult<TOutput> = {
               success: false,
               error: actionResult.serverError || 'Validation failed',
               fieldErrors: actionResult.validationErrors,
             }
             setResult(result)
 
-            // Handle field errors
+            // Handle field errors - 타입 안전성 개선
             if (actionResult.validationErrors && form) {
               Object.entries(actionResult.validationErrors).forEach(
                 ([field, errors]) => {
                   if (Array.isArray(errors) && errors.length > 0) {
-                    form.setError(field as keyof TFormData, {
-                      type: 'server',
-                      message: errors[0],
-                    })
+                    try {
+                      form.setError(field as Path<TFormData>, {
+                        type: 'server',
+                        message: errors[0],
+                      })
+                    } catch (error) {
+                      console.warn(
+                        `Invalid field path for error: ${field}`,
+                        error
+                      )
+                    }
                   }
                 }
               )
@@ -144,22 +152,29 @@ export function useFormAction<
 
           // Handle other error formats
           if (actionResult.error || actionResult.fieldErrors) {
-            const result: ActionResult<T> = {
+            const result: ActionResult<TOutput> = {
               success: false,
               error: actionResult.error || errorMessage,
               fieldErrors: actionResult.fieldErrors,
             }
             setResult(result)
 
-            // Set field errors if available
+            // Set field errors if available - 타입 안전성 개선
             if (form && actionResult.fieldErrors) {
               Object.entries(actionResult.fieldErrors).forEach(
                 ([field, errors]) => {
                   if (Array.isArray(errors) && errors[0]) {
-                    form.setError(field as keyof TFormData, {
-                      type: 'server',
-                      message: errors[0],
-                    })
+                    try {
+                      form.setError(field as Path<TFormData>, {
+                        type: 'server',
+                        message: errors[0],
+                      })
+                    } catch (error) {
+                      console.warn(
+                        `Invalid field path for error: ${field}`,
+                        error
+                      )
+                    }
                   }
                 }
               )
@@ -281,7 +296,11 @@ export function useBatchFormAction<
               options.successMessage || '모든 작업이 성공적으로 완료되었습니다.'
             )
           }
-          options.onSuccess?.(batchResults.map(r => r.data))
+          options.onSuccess?.(
+            batchResults
+              .map(r => r.data)
+              .filter((data): data is TOutput => data !== undefined)
+          )
         } else {
           const failedCount = batchResults.filter(r => !r.success).length
           const message = `${failedCount}개의 작업이 실패했습니다.`

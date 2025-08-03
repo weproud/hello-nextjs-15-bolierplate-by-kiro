@@ -2,8 +2,7 @@
  * Cache utilities and strategies index
  */
 
-import { unstable_cache } from 'next/cache'
-import { revalidateTag, revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache'
 
 // Memory cache
 export * from './memory'
@@ -33,15 +32,15 @@ export * from './examples'
 export * from './validate'
 
 // Re-export commonly used utilities
-export { MemoryCache, globalCache, userCache, projectCache } from './memory'
+export { globalCache, MemoryCache, projectCache, userCache } from './memory'
 
 export {
-  CACHE_TAGS,
-  CACHE_DURATION,
-  cacheInvalidation,
-  routeConfig,
-  pageCache,
   apiCache,
+  CACHE_DURATION,
+  CACHE_TAGS,
+  cacheInvalidation,
+  pageCache,
+  routeConfig,
 } from './nextjs'
 
 export {
@@ -59,28 +58,28 @@ export {
 
 export {
   cacheConfig,
-  setupCache,
-  routeCacheConfig,
   cacheKeys,
   invalidationPatterns,
+  routeCacheConfig,
+  setupCache,
 } from './config'
 
-export { cacheStrategies, cacheWarming, cacheHealth } from './strategies'
+export { cacheHealth, cacheStrategies, cacheWarming } from './strategies'
 
 export {
-  cachePreloading,
-  smartInvalidation,
-  cacheCompression,
   cacheAnalytics,
-  distributedCachePrep,
+  cacheCompression,
+  cachePreloading,
   cacheWarmingScheduler,
+  distributedCachePrep,
+  smartInvalidation,
 } from './advanced-strategies'
 
 export {
-  initializeCache,
-  withCache,
   cached,
   cacheUtils as initCacheUtils,
+  initializeCache,
+  withCache,
 } from './init'
 
 // Cache configuration
@@ -110,14 +109,14 @@ export const CACHE_CONFIG = {
 /**
  * Create a cached function with automatic tag management
  */
-export function createCachedFunction<T extends any[], R>(
+export function createCachedFunction<T extends readonly unknown[], R>(
   fn: (...args: T) => Promise<R>,
   options: {
-    tags?: string[]
+    tags?: readonly string[]
     revalidate?: number
-    keyParts?: (...args: T) => string[]
+    keyParts?: (...args: T) => readonly string[]
   } = {}
-) {
+): (...args: T) => Promise<R> {
   const {
     tags = [],
     revalidate = CACHE_CONFIG.DEFAULT_DURATION,
@@ -125,7 +124,7 @@ export function createCachedFunction<T extends any[], R>(
   } = options
 
   return unstable_cache(fn, keyParts ? undefined : [fn.name], {
-    tags,
+    tags: [...tags],
     revalidate,
   })
 }
@@ -137,7 +136,7 @@ export const cacheUtils = {
   /**
    * Invalidate cache by tags
    */
-  invalidateTags(tags: string | string[]) {
+  invalidateTags(tags: string | readonly string[]): void {
     const tagArray = Array.isArray(tags) ? tags : [tags]
     tagArray.forEach(tag => revalidateTag(tag))
   },
@@ -145,7 +144,7 @@ export const cacheUtils = {
   /**
    * Invalidate cache by paths
    */
-  invalidatePaths(paths: string | string[]) {
+  invalidatePaths(paths: string | readonly string[]): void {
     const pathArray = Array.isArray(paths) ? paths : [paths]
     pathArray.forEach(path => revalidatePath(path))
   },
@@ -153,7 +152,7 @@ export const cacheUtils = {
   /**
    * Invalidate user-related cache
    */
-  invalidateUser(userId?: string) {
+  invalidateUser(userId?: string): void {
     const tags = [CACHE_CONFIG.TAGS.USER]
     if (userId) {
       tags.push(`${CACHE_CONFIG.TAGS.USER}-${userId}`)
@@ -164,7 +163,7 @@ export const cacheUtils = {
   /**
    * Invalidate project-related cache
    */
-  invalidateProjects(projectId?: string) {
+  invalidateProjects(projectId?: string): void {
     const tags = [CACHE_CONFIG.TAGS.PROJECTS]
     if (projectId) {
       tags.push(CACHE_CONFIG.TAGS.PROJECT(projectId))
@@ -176,7 +175,7 @@ export const cacheUtils = {
   /**
    * Invalidate statistics cache
    */
-  invalidateStats() {
+  invalidateStats(): void {
     this.invalidateTags(CACHE_CONFIG.TAGS.STATS)
     this.invalidatePaths('/dashboard')
   },
@@ -184,10 +183,10 @@ export const cacheUtils = {
   /**
    * Generate cache key from parameters
    */
-  generateKey(prefix: string, params: Record<string, any>): string {
+  generateKey(prefix: string, params: Record<string, unknown>): string {
     const sortedParams = Object.keys(params)
       .sort()
-      .map(key => `${key}:${params[key]}`)
+      .map(key => `${key}:${String(params[key])}`)
       .join('|')
     return `${prefix}:${sortedParams}`
   },

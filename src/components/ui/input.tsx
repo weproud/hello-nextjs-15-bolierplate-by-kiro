@@ -41,9 +41,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     }, [type, showPassword])
 
-    const togglePasswordVisibility = () => {
+    const togglePasswordVisibility = React.useCallback(() => {
       setShowPassword(!showPassword)
-    }
+    }, [showPassword])
 
     const inputState = error ? 'error' : state
 

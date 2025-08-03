@@ -1,5 +1,5 @@
+import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { z } from 'zod'
-import type { FieldErrors, FieldValues, FieldError } from 'react-hook-form'
 
 // Type definitions
 export interface ValidationResult<T = unknown> {
@@ -11,11 +11,20 @@ export interface ValidationResult<T = unknown> {
 
 // Form validation utilities
 export const formatZodErrors = (
-  error: z.ZodError
+  error: z.ZodError | null | undefined
 ): Record<string, string[]> => {
   const formattedErrors: Record<string, string[]> = {}
 
+  // null/undefined 체크 추가
+  if (!error || !error.issues) {
+    return formattedErrors
+  }
+
   error.issues.forEach((err: z.ZodIssue) => {
+    if (!err || !err.path || !err.message) {
+      return // 잘못된 에러 객체 건너뛰기
+    }
+
     const path = err.path.join('.')
     if (!formattedErrors[path]) {
       formattedErrors[path] = []
@@ -27,11 +36,17 @@ export const formatZodErrors = (
 }
 
 export const formatRHFErrors = (
-  errors: FieldErrors<FieldValues>
+  errors: FieldErrors<FieldValues> | null | undefined
 ): Record<string, string[]> => {
   const formattedErrors: Record<string, string[]> = {}
 
+  // null/undefined 체크 추가
+  if (!errors) {
+    return formattedErrors
+  }
+
   Object.entries(errors).forEach(([field, error]) => {
+    // 에러 객체와 메시지 존재 여부 확인
     if (error?.message && typeof error.message === 'string') {
       formattedErrors[field] = [error.message]
     }
@@ -40,24 +55,41 @@ export const formatRHFErrors = (
   return formattedErrors
 }
 
-// Form field helpers
+// Form field helpers - 타입 안전성 개선
 export const getFieldError = (
-  errors: Record<string, string[]>,
+  errors: Record<string, string[]> | null | undefined,
   fieldName: string
 ): string | undefined => {
-  return errors[fieldName]?.[0]
+  // null/undefined 체크 추가
+  if (!errors || !fieldName) {
+    return undefined
+  }
+
+  const fieldErrors = errors[fieldName]
+  return Array.isArray(fieldErrors) && fieldErrors.length > 0
+    ? fieldErrors[0]
+    : undefined
 }
 
-// Form state helpers
-export const isFormValid = (errors: Record<string, string[]>): boolean => {
+// Form state helpers - 타입 안전성 개선
+export const isFormValid = (
+  errors: Record<string, string[]> | null | undefined
+): boolean => {
+  if (!errors) {
+    return true
+  }
   return Object.keys(errors).length === 0
 }
 
-export const getErrorCount = (errors: Record<string, string[]>): number => {
-  return Object.values(errors).reduce(
-    (count, fieldErrors) => count + fieldErrors.length,
-    0
-  )
+export const getErrorCount = (
+  errors: Record<string, string[]> | null | undefined
+): number => {
+  if (!errors) {
+    return 0
+  }
+  return Object.values(errors).reduce((count, fieldErrors) => {
+    return count + (Array.isArray(fieldErrors) ? fieldErrors.length : 0)
+  }, 0)
 }
 
 // Form data transformers
@@ -78,12 +110,20 @@ export const transformFormData = <T extends Record<string, unknown>>(
   return transformed
 }
 
-// Helper to validate with schema
+// Helper to validate with schema - 타입 안전성 개선
 export function validateWithSchema<T extends z.ZodType>(
-  schema: T,
+  schema: T | null | undefined,
   data: unknown
 ): ValidationResult<z.infer<T>> {
   try {
+    // 스키마 null/undefined 체크
+    if (!schema) {
+      return {
+        success: false,
+        message: '유효성 검사 스키마가 제공되지 않았습니다.',
+      }
+    }
+
     const result = schema.safeParse(data)
     if (result.success) {
       return {
@@ -97,6 +137,7 @@ export function validateWithSchema<T extends z.ZodType>(
       }
     }
   } catch (error) {
+    console.error('Schema validation error:', error)
     return {
       success: false,
       message: '유효성 검사 중 오류가 발생했습니다.',
@@ -104,13 +145,28 @@ export function validateWithSchema<T extends z.ZodType>(
   }
 }
 
-// Helper to validate a single field
+// Helper to validate a single field - 타입 안전성 개선
 export function validateField<T extends z.ZodType>(
-  schema: T,
-  fieldName: string,
+  schema: T | null | undefined,
+  fieldName: string | null | undefined,
   value: unknown
 ): ValidationResult<z.infer<T>> {
   try {
+    // 입력값 null/undefined 체크
+    if (!schema) {
+      return {
+        success: false,
+        message: '유효성 검사 스키마가 제공되지 않았습니다.',
+      }
+    }
+
+    if (!fieldName) {
+      return {
+        success: false,
+        message: '필드명이 제공되지 않았습니다.',
+      }
+    }
+
     // Create a partial object with just the field we want to validate
     const partialData = { [fieldName]: value }
 
@@ -129,6 +185,7 @@ export function validateField<T extends z.ZodType>(
       }
     }
   } catch (error) {
+    console.error('Field validation error:', error)
     return {
       success: false,
       message: '필드 유효성 검사 중 오류가 발생했습니다.',
@@ -228,9 +285,67 @@ export const createAsyncFormValidator = <T extends z.ZodTypeAny>(
   }
 }
 
-// Helper to convert FormData to object with proper type handling
-export function formDataToObject(formData: FormData): Record<string, unknown> {
+// 스키마 타입과 데이터 타입 일치성 확보를 위한 타입 유틸리티
+export type SchemaInferredType<T extends z.ZodType> = z.infer<T>
+export type SchemaInputType<T extends z.ZodType> = z.input<T>
+export type SchemaOutputType<T extends z.ZodType> = z.output<T>
+
+// 타입 안전한 스키마 검증 헬퍼
+export function createTypeSafeValidator<T extends z.ZodType>(schema: T) {
+  return {
+    validate: (data: unknown): ValidationResult<SchemaInferredType<T>> => {
+      return validateWithSchema(schema, data)
+    },
+
+    validatePartial: (
+      data: Partial<SchemaInputType<T>>
+    ): ValidationResult<Partial<SchemaInferredType<T>>> => {
+      const partialSchema = schema.partial()
+      return validateWithSchema(partialSchema, data)
+    },
+
+    validateRequired: (
+      data: SchemaInputType<T>
+    ): ValidationResult<SchemaInferredType<T>> => {
+      return validateWithSchema(schema.required(), data)
+    },
+
+    // 타입 가드 함수
+    isValid: (data: unknown): data is SchemaInferredType<T> => {
+      const result = schema.safeParse(data)
+      return result.success
+    },
+
+    // 안전한 파싱
+    safeParse: (data: unknown) => {
+      try {
+        return schema.safeParse(data)
+      } catch (error) {
+        return {
+          success: false as const,
+          error: new z.ZodError([
+            {
+              code: 'custom',
+              message: '파싱 중 오류가 발생했습니다.',
+              path: [],
+            },
+          ]),
+        }
+      }
+    },
+  }
+}
+
+// Helper to convert FormData to object with proper type handling - 타입 안전성 개선
+export function formDataToObject(
+  formData: FormData | null | undefined
+): Record<string, unknown> {
   const obj: Record<string, unknown> = {}
+
+  // null/undefined 체크 추가
+  if (!formData) {
+    return obj
+  }
 
   for (const [key, value] of formData.entries()) {
     if (obj[key]) {

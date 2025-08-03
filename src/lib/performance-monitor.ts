@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
-import { onLCP, onINP, onFCP, onTTFB } from 'web-vitals'
+import { useCallback, useEffect, useState } from 'react'
+import { onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 
 // Core Web Vitals 메트릭 타입
 export interface WebVitalsMetric {
@@ -8,7 +8,27 @@ export interface WebVitalsMetric {
   value: number
   rating: 'good' | 'needs-improvement' | 'poor'
   delta: number
-  entries: PerformanceEntry[]
+  entries: readonly PerformanceEntry[]
+}
+
+/**
+ * 캐시 성능 메트릭 인터페이스
+ */
+export interface CacheMetrics {
+  name: string
+  hitRate: number
+  size: number
+  hits: number
+  misses: number
+}
+
+/**
+ * 전체 캐시 통계 인터페이스
+ */
+export interface OverallCacheStats {
+  totalSize: number
+  hitRate: number
+  caches: Record<string, CacheMetrics>
 }
 
 // 성능 메트릭 수집기
@@ -16,6 +36,7 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor
   private metrics: Map<string, WebVitalsMetric> = new Map()
   private observers: Map<string, PerformanceObserver> = new Map()
+  private cacheMetrics: Map<string, CacheMetrics> = new Map()
 
   private constructor() {
     this.initializeWebVitals()
@@ -183,8 +204,9 @@ export class PerformanceMonitor {
   }
 
   // 커스텀 메트릭 처리
-  private handleCustomMetric(name: string, data: any) {
+  private handleCustomMetric(name: string, data: unknown): void {
     if (process.env.NODE_ENV === 'development') {
+      console.log(`[Performance] ${name}:`, data)
     }
 
     if (process.env.NODE_ENV === 'production') {
@@ -235,7 +257,7 @@ export class PerformanceMonitor {
   }
 
   // 커스텀 메트릭을 분석 서비스로 전송
-  private sendCustomMetricToAnalytics(name: string, data: any) {
+  private sendCustomMetricToAnalytics(name: string, data: unknown): void {
     fetch('/api/analytics/custom-metrics', {
       method: 'POST',
       headers: {
@@ -258,6 +280,100 @@ export class PerformanceMonitor {
   // 특정 메트릭 가져오기
   public getMetric(name: string): WebVitalsMetric | undefined {
     return this.metrics.get(name)
+  }
+
+  /**
+   * 캐시 히트/미스 추적
+   */
+  public trackCacheHit(cacheName: string, hit: boolean): void {
+    const existing = this.cacheMetrics.get(cacheName) || {
+      name: cacheName,
+      hitRate: 0,
+      size: 0,
+      hits: 0,
+      misses: 0,
+    }
+
+    if (hit) {
+      existing.hits++
+    } else {
+      existing.misses++
+    }
+
+    const total = existing.hits + existing.misses
+    existing.hitRate = total > 0 ? existing.hits / total : 0
+
+    this.cacheMetrics.set(cacheName, existing)
+  }
+
+  /**
+   * 캐시 크기 업데이트
+   */
+  public updateCacheSize(cacheName: string, size: number): void {
+    const existing = this.cacheMetrics.get(cacheName) || {
+      name: cacheName,
+      hitRate: 0,
+      size: 0,
+      hits: 0,
+      misses: 0,
+    }
+
+    existing.size = size
+    this.cacheMetrics.set(cacheName, existing)
+  }
+
+  /**
+   * 전체 캐시 통계 가져오기
+   */
+  public getOverallCacheStats(): OverallCacheStats {
+    const caches: Record<string, CacheMetrics> = {}
+    let totalSize = 0
+    let totalHits = 0
+    let totalMisses = 0
+
+    for (const [name, metrics] of this.cacheMetrics.entries()) {
+      caches[name] = { ...metrics }
+      totalSize += metrics.size
+      totalHits += metrics.hits
+      totalMisses += metrics.misses
+    }
+
+    const totalRequests = totalHits + totalMisses
+    const hitRate = totalRequests > 0 ? totalHits / totalRequests : 0
+
+    return {
+      totalSize,
+      hitRate,
+      caches,
+    }
+  }
+
+  /**
+   * 성능 메트릭 로깅
+   */
+  public logMetrics(customMetrics?: Record<string, number>): void {
+    if (process.env.NODE_ENV === 'development') {
+      console.group('📊 Performance Metrics')
+
+      // Web Vitals
+      for (const [name, metric] of this.metrics.entries()) {
+        console.log(`${name}: ${metric.value.toFixed(2)} (${metric.rating})`)
+      }
+
+      // Cache metrics
+      const cacheStats = this.getOverallCacheStats()
+      console.log(`Cache Hit Rate: ${(cacheStats.hitRate * 100).toFixed(2)}%`)
+      console.log(`Total Cache Size: ${cacheStats.totalSize}`)
+
+      // Custom metrics
+      if (customMetrics) {
+        for (const [name, value] of Object.entries(customMetrics)) {
+          console.log(`${name}: ${value}`)
+        }
+      }
+
+      console.groupEnd()
+    }
   }
 
   // 성능 리포트 생성
@@ -308,41 +424,136 @@ export interface PerformanceReport {
 // 전역 성능 모니터 인스턴스
 export const performanceMonitor = PerformanceMonitor.getInstance()
 
+// 편의 함수들
+export function getPerformanceMonitor(): PerformanceMonitor {
+  return PerformanceMonitor.getInstance()
+}
+
+/**
+ * Bundle information interface
+ */
+export interface BundleInfo {
+  scripts: Array<{
+    src: string
+    async: boolean
+    defer: boolean
+  }>
+  stylesheets: Array<{
+    href: string
+  }>
+  totalScripts: number
+  totalStylesheets: number
+}
+
+// 번들 크기 분석 함수
+export function analyzeBundleSize(): BundleInfo | undefined {
+  if (typeof window === 'undefined') return undefined
+
+  const scripts = Array.from(document.querySelectorAll('script[src]'))
+  const stylesheets = Array.from(
+    document.querySelectorAll('link[rel="stylesheet"]')
+  )
+
+  const bundleInfo: BundleInfo = {
+    scripts: scripts.map(script => ({
+      src: (script as HTMLScriptElement).src,
+      async: (script as HTMLScriptElement).async,
+      defer: (script as HTMLScriptElement).defer,
+    })),
+    stylesheets: stylesheets.map(link => ({
+      href: (link as HTMLLinkElement).href,
+    })),
+    totalScripts: scripts.length,
+    totalStylesheets: stylesheets.length,
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    console.group('📦 Bundle Analysis')
+    console.log('Scripts:', bundleInfo.totalScripts)
+    console.log('Stylesheets:', bundleInfo.totalStylesheets)
+    console.log('Details:', bundleInfo)
+    console.groupEnd()
+  }
+
+  return bundleInfo
+}
+
+/**
+ * Performance monitor hook return type
+ */
+export interface UsePerformanceMonitorReturn {
+  report: PerformanceReport | null
+  isLoading: boolean
+  refresh: () => void
+}
+
 // React Hook for performance monitoring
-export function usePerformanceMonitor() {
+export function usePerformanceMonitor(): UsePerformanceMonitorReturn {
   const [report, setReport] = useState<PerformanceReport | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const refresh = useCallback(() => {
+    if (typeof window === 'undefined') return
+
+    const monitor = PerformanceMonitor.getInstance()
+    setReport(monitor.generateReport())
+    setIsLoading(false)
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const monitor = PerformanceMonitor.getInstance()
-
     // 5초 후 초기 리포트 생성
     const timer = setTimeout(() => {
-      setReport(monitor.generateReport())
+      refresh()
     }, 5000)
 
     // 30초마다 리포트 업데이트
     const interval = setInterval(() => {
-      setReport(monitor.generateReport())
+      refresh()
     }, 30000)
 
     return () => {
       clearTimeout(timer)
       clearInterval(interval)
     }
-  }, [])
+  }, [refresh])
 
-  return report
+  return {
+    report,
+    isLoading,
+    refresh,
+  }
+}
+
+/**
+ * Modal performance metrics interface
+ */
+export interface ModalPerformanceMetrics {
+  startTime: number
+  endTime: number
+  loadDuration: number
+  timestamp: number
+}
+
+/**
+ * Modal performance hook return type
+ */
+export interface UseModalPerformanceReturn {
+  startModalLoad: () => void
+  endModalLoad: () => void
+  logMetrics: () => void
+  loadDuration: number | null
+  isLoading: boolean
 }
 
 // React Hook for modal performance monitoring
-export function useModalPerformance() {
+export function useModalPerformance(): UseModalPerformanceReturn {
   const [startTime, setStartTime] = useState<number | null>(null)
   const [endTime, setEndTime] = useState<number | null>(null)
   const [loadDuration, setLoadDuration] = useState<number | null>(null)
 
-  const startModalLoad = useCallback(() => {
+  const startModalLoad = useCallback((): void => {
     const now = performance.now()
     setStartTime(now)
     setEndTime(null)
@@ -353,7 +564,7 @@ export function useModalPerformance() {
     }
   }, [])
 
-  const endModalLoad = useCallback(() => {
+  const endModalLoad = useCallback((): void => {
     const now = performance.now()
     setEndTime(now)
 
@@ -363,13 +574,17 @@ export function useModalPerformance() {
 
       if (process.env.NODE_ENV === 'development') {
         console.log('[Modal Performance] 모달 로딩 완료:', now)
+        console.log(
+          '[Modal Performance] 로딩 시간:',
+          `${duration.toFixed(2)}ms`
+        )
       }
     }
   }, [startTime])
 
-  const logMetrics = useCallback(() => {
+  const logMetrics = useCallback((): void => {
     if (startTime && endTime && loadDuration) {
-      const metrics = {
+      const metrics: ModalPerformanceMetrics = {
         startTime,
         endTime,
         loadDuration,
@@ -377,6 +592,7 @@ export function useModalPerformance() {
       }
 
       if (process.env.NODE_ENV === 'development') {
+        console.log('[Modal Performance] Metrics:', metrics)
       }
 
       // 프로덕션 환경에서는 분석 서비스로 전송

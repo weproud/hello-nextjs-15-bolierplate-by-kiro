@@ -1,8 +1,8 @@
-import { createStore } from 'zustand/vanilla'
+import type { PaginationMeta } from '@/types'
+import type { Post } from '@prisma/client'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import type { Post } from '@prisma/client'
-import type { PaginationMeta } from '@/types'
+import { createStore } from 'zustand/vanilla'
 
 // Post with author information
 export interface PostWithAuthor extends Post {
@@ -80,8 +80,10 @@ const initialState = {
   pagination: {
     page: 1,
     limit: 10,
-    total: 0,
+    totalCount: 0,
     totalPages: 0,
+    hasNextPage: false,
+    hasPreviousPage: false,
   },
   filters: {
     search: '',
@@ -108,26 +110,35 @@ export const createPostsStore = () => {
         addPost: (post: PostWithAuthor) =>
           set(state => {
             state.posts.unshift(post)
-            state.pagination.total += 1
+            state.pagination.totalCount += 1
           }),
 
         updatePost: (id: string, updates: Partial<PostWithAuthor>) =>
           set(state => {
             const index = state.posts.findIndex(p => p.id === id)
             if (index !== -1) {
-              state.posts[index] = { ...state.posts[index], ...updates }
+              state.posts[index] = {
+                ...state.posts[index],
+                ...updates,
+              } as PostWithAuthor
             }
 
             // 현재 포스트도 업데이트
             if (state.currentPost?.id === id) {
-              state.currentPost = { ...state.currentPost, ...updates }
+              state.currentPost = {
+                ...state.currentPost,
+                ...updates,
+              } as PostWithAuthor
             }
           }),
 
         removePost: (id: string) =>
           set(state => {
             state.posts = state.posts.filter(p => p.id !== id)
-            state.pagination.total = Math.max(0, state.pagination.total - 1)
+            state.pagination.totalCount = Math.max(
+              0,
+              state.pagination.totalCount - 1
+            )
 
             // 현재 포스트가 삭제된 포스트라면 초기화
             if (state.currentPost?.id === id) {

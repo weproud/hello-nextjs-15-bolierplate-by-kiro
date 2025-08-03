@@ -1,8 +1,8 @@
-import { createStore } from 'zustand/vanilla'
+import type { PaginationMeta } from '@/types'
+import type { Project } from '@prisma/client'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import type { Project } from '@prisma/client'
-import type { PaginationMeta } from '@/types'
+import { createStore } from 'zustand/vanilla'
 
 // Project with user information
 export interface ProjectWithUser extends Project {
@@ -94,8 +94,10 @@ const initialState = {
   pagination: {
     page: 1,
     limit: 12,
-    total: 0,
+    totalCount: 0,
     totalPages: 0,
+    hasNextPage: false,
+    hasPreviousPage: false,
   },
   filters: {
     search: '',
@@ -127,26 +129,35 @@ export const createProjectsStore = () => {
         addProject: (project: ProjectWithUser) =>
           set(state => {
             state.projects.unshift(project)
-            state.pagination.total += 1
+            state.pagination.totalCount += 1
           }),
 
         updateProject: (id: string, updates: Partial<ProjectWithUser>) =>
           set(state => {
             const index = state.projects.findIndex(p => p.id === id)
             if (index !== -1) {
-              state.projects[index] = { ...state.projects[index], ...updates }
+              state.projects[index] = {
+                ...state.projects[index],
+                ...updates,
+              } as ProjectWithUser
             }
 
             // 현재 프로젝트도 업데이트
             if (state.currentProject?.id === id) {
-              state.currentProject = { ...state.currentProject, ...updates }
+              state.currentProject = {
+                ...state.currentProject,
+                ...updates,
+              } as ProjectWithUser
             }
           }),
 
         removeProject: (id: string) =>
           set(state => {
             state.projects = state.projects.filter(p => p.id !== id)
-            state.pagination.total = Math.max(0, state.pagination.total - 1)
+            state.pagination.totalCount = Math.max(
+              0,
+              state.pagination.totalCount - 1
+            )
 
             // 현재 프로젝트가 삭제된 프로젝트라면 초기화
             if (state.currentProject?.id === id) {
@@ -164,7 +175,7 @@ export const createProjectsStore = () => {
               updatedAt: new Date(),
             }
             state.projects.unshift(duplicatedProject)
-            state.pagination.total += 1
+            state.pagination.totalCount += 1
           }),
 
         setCurrentProject: (project: ProjectWithUser | null) =>

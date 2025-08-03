@@ -300,7 +300,7 @@ export const i18nUtils = {
       }
     }
 
-    return value || key
+    return typeof value === 'string' ? value : key
   },
 
   /**
@@ -333,8 +333,10 @@ export const i18nUtils = {
   getBrowserLocale(): Locale {
     if (typeof window === 'undefined') return DEFAULT_LOCALE
 
-    const browserLocale = navigator.language.split('-')[0]
-    return this.isValidLocale(browserLocale) ? browserLocale : DEFAULT_LOCALE
+    const browserLocale = navigator.language?.split('-')[0]
+    return browserLocale && this.isValidLocale(browserLocale)
+      ? browserLocale
+      : DEFAULT_LOCALE
   },
 
   /**

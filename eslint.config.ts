@@ -1,9 +1,10 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 import { FlatCompat } from '@eslint/eslintrc'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
+import type { Linter } from 'eslint'
 import prettierPlugin from 'eslint-plugin-prettier'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -12,7 +13,8 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 })
 
-const eslintConfig = [
+// Type-safe ESLint configuration
+const eslintConfig: Linter.FlatConfig[] = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   ...compat.extends('prettier'), // Disable ESLint rules that conflict with Prettier
   {
@@ -44,7 +46,6 @@ const eslintConfig = [
         },
       ],
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/prefer-const': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
       '@typescript-eslint/no-non-null-assertion': 'warn',
@@ -239,6 +240,20 @@ const eslintConfig = [
       // Allow console in config files and scripts
       'no-console': 'off',
       '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
+  {
+    files: [
+      '**/*.test.{js,ts,tsx}',
+      '**/*.spec.{js,ts,tsx}',
+      '**/test/**/*.{js,ts,tsx}',
+    ],
+    rules: {
+      // Test-specific rule relaxations
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      'no-console': 'off',
     },
   },
 ]

@@ -2,13 +2,13 @@
  * Cache initialization and setup utilities
  */
 
-import { cacheWarming, cacheHealth } from './strategies'
 import { PerformanceMonitor } from '../performance-monitor'
+import { cacheHealth, cacheWarming } from './strategies'
 
 /**
  * Cache initialization configuration
  */
-interface CacheInitConfig {
+export interface CacheInitConfig {
   warmUp?: {
     static?: boolean
     user?: boolean
@@ -23,12 +23,18 @@ interface CacheInitConfig {
     enabled?: boolean
     interval?: number
   }
+  memory?: {
+    maxSize?: number
+    compressionThreshold?: number
+  }
 }
 
 /**
  * Initialize caching system
  */
-export async function initializeCache(config: CacheInitConfig = {}) {
+export async function initializeCache(
+  config: CacheInitConfig = {}
+): Promise<void> {
   const {
     warmUp = { static: true, user: false },
     monitoring = {
@@ -45,7 +51,7 @@ export async function initializeCache(config: CacheInitConfig = {}) {
     if (warmUp.static || warmUp.user) {
       console.log('[Cache] Warming up cache...')
 
-      const warmUpPromises = []
+      const warmUpPromises: Promise<void>[] = []
 
       if (warmUp.static) {
         warmUpPromises.push(cacheWarming.static())
@@ -71,16 +77,17 @@ export async function initializeCache(config: CacheInitConfig = {}) {
     console.log('[Cache] Caching system initialized successfully')
   } catch (error) {
     console.error('[Cache] Failed to initialize caching system:', error)
+    throw error
   }
 }
 
 /**
  * Set up cache monitoring
  */
-function setupCacheMonitoring(interval: number) {
+function setupCacheMonitoring(interval: number): void {
   const monitor = PerformanceMonitor.getInstance()
 
-  setInterval(() => {
+  const monitoringInterval = setInterval(() => {
     if (process.env.NODE_ENV === 'development') {
       // Log cache health report
       cacheHealth.logHealthReport()
@@ -94,14 +101,21 @@ function setupCacheMonitoring(interval: number) {
     }
   }, interval)
 
+  // Store interval reference for cleanup if needed
+  if (typeof global !== 'undefined') {
+    ;(
+      global as { cacheMonitoringInterval?: NodeJS.Timeout }
+    ).cacheMonitoringInterval = monitoringInterval
+  }
+
   console.log(`[Cache] Monitoring enabled with ${interval}ms interval`)
 }
 
 /**
  * Set up cache cleanup
  */
-function setupCacheCleanup(interval: number) {
-  setInterval(() => {
+function setupCacheCleanup(interval: number): void {
+  const cleanupInterval = setInterval(() => {
     // Check cache health and perform cleanup if needed
     const health = cacheHealth.checkHealth()
 
@@ -116,25 +130,50 @@ function setupCacheCleanup(interval: number) {
     }
   }, interval)
 
+  // Store interval reference for cleanup if needed
+  if (typeof global !== 'undefined') {
+    ;(
+      global as { cacheCleanupInterval?: NodeJS.Timeout }
+    ).cacheCleanupInterval = cleanupInterval
+  }
+
   console.log(`[Cache] Cleanup enabled with ${interval}ms interval`)
+}
+
+/**
+ * API handler type
+ */
+export type ApiHandler = (req: unknown, res: unknown) => Promise<unknown>
+
+/**
+ * Cache middleware options
+ */
+export interface CacheMiddlewareOptions {
+  ttl?: number
+  tags?: readonly string[]
+  key?: (req: unknown) => string
 }
 
 /**
  * Cache middleware for Next.js API routes
  */
 export function withCache(
-  handler: (req: any, res: any) => Promise<any>,
-  options: {
-    ttl?: number
-    tags?: string[]
-    key?: (req: any) => string
-  } = {}
-) {
-  return async (req: any, res: any) => {
-    const { ttl = 300, tags = [], key } = options
+  handler: ApiHandler,
+  options: CacheMiddlewareOptions = {}
+): ApiHandler {
+  return async (req: unknown, res: unknown): Promise<unknown> => {
+    const { ttl = 300, key } = options
 
     // Generate cache key
-    const cacheKey = key ? key(req) : `${req.method}:${req.url}`
+    const reqObj = req as { method?: string; url?: string }
+    const resObj = res as {
+      setHeader: (name: string, value: string) => void
+      json: (data: unknown) => unknown
+    }
+
+    const cacheKey = key
+      ? key(req)
+      : `${reqObj.method || 'GET'}:${reqObj.url || ''}`
 
     // Try to get from cache first
     const { globalCache } = await import('./memory')
@@ -142,10 +181,13 @@ export function withCache(
 
     if (cached) {
       // Set cache headers
-      res.setHeader('X-Cache', 'HIT')
-      res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate`)
+      resObj.setHeader('X-Cache', 'HIT')
+      resObj.setHeader(
+        'Cache-Control',
+        `s-maxage=${ttl}, stale-while-revalidate`
+      )
 
-      return res.json(cached)
+      return resObj.json(cached)
     }
 
     // Execute handler
@@ -155,35 +197,41 @@ export function withCache(
     globalCache.set(cacheKey, result, ttl * 1000)
 
     // Set cache headers
-    res.setHeader('X-Cache', 'MISS')
-    res.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate`)
+    resObj.setHeader('X-Cache', 'MISS')
+    resObj.setHeader('Cache-Control', `s-maxage=${ttl}, stale-while-revalidate`)
 
     return result
   }
 }
 
 /**
+ * Cache decorator options
+ */
+export interface CacheDecoratorOptions {
+  ttl?: number
+  key?: (...args: readonly unknown[]) => string
+}
+
+/**
  * Cache decorator for class methods
  */
-export function cached(
-  options: {
-    ttl?: number
-    key?: (...args: any[]) => string
-  } = {}
-) {
+export function cached(options: CacheDecoratorOptions = {}) {
   return function (
-    target: any,
+    target: unknown,
     propertyName: string,
     descriptor: PropertyDescriptor
-  ) {
-    const originalMethod = descriptor.value
+  ): PropertyDescriptor {
+    const originalMethod = descriptor.value as (
+      ...args: unknown[]
+    ) => Promise<unknown>
     const { ttl = 300000, key } = options // 5 minutes default
 
-    descriptor.value = async function (...args: any[]) {
+    descriptor.value = async function (...args: unknown[]): Promise<unknown> {
       // Generate cache key
+      const targetObj = target as { constructor: { name: string } }
       const cacheKey = key
         ? key(...args)
-        : `${target.constructor.name}:${propertyName}:${JSON.stringify(args)}`
+        : `${targetObj.constructor.name}:${propertyName}:${JSON.stringify(args)}`
 
       // Try to get from cache
       const { globalCache } = await import('./memory')

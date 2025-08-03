@@ -23,34 +23,8 @@ export * from './post'
 // NextAuth Types - NextAuth 관련 타입들
 export * from './next-auth'
 
-// Re-export commonly used types for convenience
-export type {
-  // Common
-  BaseEntity,
-  Result,
-  LoadingState,
-  Theme,
-  WithClassName,
-  WithChildren,
-  AppError,
-} from './common'
-
-export type {
-  // API
-  ApiResponse,
-  PaginatedResponse,
-  PaginationMeta,
-} from './api'
-
-export type {
-  // Database
-  UserWithProjects,
-  ProjectWithUser,
-  CreateUserInput,
-  UpdateUserInput,
-  CreateProjectInput,
-  UpdateProjectInput,
-} from './database'
+// Note: Commonly used types are already exported via export * above
+// No need for explicit re-exports to avoid duplication
 
 // Application-specific aggregate types
 export interface AppState {

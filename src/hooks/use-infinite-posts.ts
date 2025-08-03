@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
 import { getPostsAction } from '@/lib/actions/post-actions'
 import type { Post } from '@/types'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UseInfinitePostsOptions {
   initialPosts?: Post[]
@@ -64,7 +64,7 @@ export function useInfinitePosts({
 
       try {
         const result = await getPostsAction({
-          cursor: isRefresh ? null : cursor,
+          cursor: isRefresh ? undefined : cursor || undefined,
           limit,
           published,
           authorId,
@@ -73,7 +73,7 @@ export function useInfinitePosts({
         console.log('getPostsAction result:', result)
 
         if (result?.data?.success && Array.isArray(result.data.posts)) {
-          const newPosts = result.data.posts
+          const newPosts = result.data.posts as Post[]
           const pagination = result.data.pagination
 
           if (isRefresh) {
@@ -99,10 +99,10 @@ export function useInfinitePosts({
         } else {
           console.error('getPostsAction failed:', result)
           throw new Error(
-            result?.data?.error?.message ||
-              result?.data?.error ||
-              result?.error?.message ||
-              result?.error ||
+            (typeof result?.data?.error === 'string'
+              ? result.data.error
+              : result?.data?.error?.message) ||
+              result?.serverError ||
               '포스트를 불러오는데 실패했습니다.'
           )
         }
