@@ -43,6 +43,7 @@ CREATE TABLE "users" (
     "display_name" VARCHAR(255),
     "password" TEXT,
     "is_admin" BOOLEAN NOT NULL DEFAULT false,
+    "last_login_at" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

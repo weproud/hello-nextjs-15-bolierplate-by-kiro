@@ -48,16 +48,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: env.AUTH_GOOGLE_ID,
       clientSecret: env.AUTH_GOOGLE_SECRET,
       profile(profile) {
-        const role = getUserRole(profile.email)
-        const permissions = ROLE_PERMISSIONS[role]
-
         return {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role,
-          permissions,
           lastLoginAt: new Date(),
         }
       },
@@ -72,9 +67,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, user }) {
       if (user) {
         session.user.id = user.id
-        session.user.role = user.role
-        session.user.permissions = user.permissions
-        session.user.lastLoginAt = user.lastLoginAt
 
         // 세션 갱신 시 마지막 로그인 시간 업데이트
         if (user.id) {
@@ -93,9 +85,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id
-        token.role = user.role
-        token.permissions = user.permissions
-        token.lastLoginAt = user.lastLoginAt
       }
 
       // 계정 연결 시 추가 정보 저장
