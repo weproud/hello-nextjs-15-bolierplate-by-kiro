@@ -45,38 +45,38 @@ function parseEnv() {
   }
 }
 
-export const env = parseEnv()
+export const Envs = parseEnv()
 
 // Type-safe environment variables
 export type Env = z.infer<typeof envSchema>
 
 // Environment checks
-export const isDevelopment = env.NODE_ENV === 'development'
-export const isProduction = env.NODE_ENV === 'production'
-export const isTest = env.NODE_ENV === 'test'
+export const isDevelopment = Envs.NODE_ENV === 'development'
+export const isProduction = Envs.NODE_ENV === 'production'
+export const isTest = Envs.NODE_ENV === 'test'
 
 // Database configuration
 export const databaseConfig = {
-  url: env.DATABASE_URL,
-  directUrl: env.DIRECT_URL,
+  url: Envs.DATABASE_URL,
+  directUrl: Envs.DIRECT_URL,
 }
 
 // Supabase configuration
 export const supabaseConfig = {
-  url: env.NEXT_PUBLIC_SUPABASE_URL,
-  anonKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  bucketUrl: env.NEXT_PUBLIC_SUPABASE_BUCKET_URL,
-  serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY,
+  url: Envs.NEXT_PUBLIC_SUPABASE_URL,
+  anonKey: Envs.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  bucketUrl: Envs.NEXT_PUBLIC_SUPABASE_BUCKET_URL,
+  serviceRoleKey: Envs.SUPABASE_SERVICE_ROLE_KEY,
 }
 
 // Auth configuration
 export const authConfig = {
-  secret: env.AUTH_SECRET,
-  url: env.AUTH_URL,
+  secret: Envs.AUTH_SECRET,
+  url: Envs.AUTH_URL,
   providers: {
     google: {
-      clientId: env.AUTH_GOOGLE_ID,
-      clientSecret: env.AUTH_GOOGLE_SECRET,
+      clientId: Envs.AUTH_GOOGLE_ID,
+      clientSecret: Envs.AUTH_GOOGLE_SECRET,
     },
   },
 }
