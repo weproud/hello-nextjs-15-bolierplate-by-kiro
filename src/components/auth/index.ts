@@ -5,29 +5,29 @@
  */
 
 // Core auth components
-export { AuthProvider } from './auth-provider'
-export { ProtectedRoute } from './protected-route'
-export { ProtectedRouteClient } from './protected-route-client'
-export { ClientProtectedRoute } from './client-protected-route'
+export { AuthProvider } from '@/components/auth/auth-provider'
+export { ClientProtectedRoute } from '@/components/auth/client-protected-route'
+export { ProtectedRoute } from '@/components/auth/protected-route'
+export { ProtectedRouteClient } from '@/components/auth/protected-route-client'
 
 // Auth UI components
-export { SignInForm } from './signin-form'
-export { SignInModal } from './signin-modal'
-export { SignInModalLite } from './signin-modal-lite'
-export { SignOutDialog } from './signout-dialog'
-export { UserProfile } from './user-profile'
+export { SignInForm } from '@/components/auth/signin-form'
+export { SignInModal } from '@/components/auth/signin-modal'
+export { SignInModalLite } from '@/components/auth/signin-modal-lite'
+export { SignOutDialog } from '@/components/auth/signout-dialog'
+export { UserProfile } from '@/components/auth/user-profile'
 
 // Auth layout components
-export { AuthLayout } from './auth-layout'
-export { NavigationHeader } from './navigation-header'
-export { LoginRequired } from './login-required'
+export { AuthLayout } from '@/components/auth/auth-layout'
+export { LoginRequired } from '@/components/auth/login-required'
+export { NavigationHeader } from '@/components/auth/navigation-header'
 
 // Auth error handling
-export { AuthError } from './auth-error'
-export { ModalErrorBoundary } from './modal-error-boundary'
+export { AuthError } from '@/components/auth/auth-error'
+export { ModalErrorBoundary } from '@/components/auth/modal-error-boundary'
 
 // Auth utilities and test components
-export { AuthTest } from './auth-test'
+export { AuthTest } from '@/components/auth/auth-test'
 
 // Types (if any are exported from individual components)
-export type { AuthProviderProps } from './auth-provider'
+export type { AuthProviderProps } from '@/components/auth/auth-provider'

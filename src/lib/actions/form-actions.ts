@@ -637,7 +637,6 @@ export function createTypedFormAction<TSchema extends z.ZodType>(
   handler: (data: z.infer<TSchema>) => Promise<any>
 ) {
   return action.inputSchema(schema).action(async ({ parsedInput }) => {
-    'use server'
     return await handler(parsedInput)
   })
 }
