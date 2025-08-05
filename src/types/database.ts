@@ -4,8 +4,7 @@
  * 데이터베이스 엔티티 및 관련 타입들을 정의합니다.
  */
 
-import type { User, Project, Account, Session } from '@prisma/client'
-import type { BaseEntity } from './common'
+import type { Account, Project, Session, User } from '@prisma/client'
 
 // Base Database Types - Prisma 타입을 확장한 기본 타입들
 export type DatabaseUser = User

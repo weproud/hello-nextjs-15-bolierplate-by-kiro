@@ -1,7 +1,7 @@
-import { ReactNode, Suspense } from 'react'
-import { HybridExamplesClient } from './hybrid-examples-client'
 import { auth } from '@/auth'
+import { HybridExamplesClient } from '@/components/patterns/hybrid-examples-client'
 import { prisma } from '@/lib/prisma'
+import { ReactNode, Suspense } from 'react'
 
 /**
  * Example 1: Server-Client Boundary Pattern

@@ -5,34 +5,34 @@
  */
 
 // Main layout components
-export { SidebarLayout } from './sidebar-layout'
-export { SidebarLayoutClient } from './sidebar-layout-client'
-export { SidebarLayoutServer } from './sidebar-layout-server'
+export { SidebarLayout } from '@/components/layout/sidebar-layout'
+export { SidebarLayoutClient } from '@/components/layout/sidebar-layout-client'
+export { SidebarLayoutServer } from '@/components/layout/sidebar-layout-server'
 
 // Sidebar components
-export { AppSidebar } from './app-sidebar'
-export { AppSidebarMenu } from './app-sidebar-menu'
-export { AppSidebarUser } from './app-sidebar-user'
-export { ProjectSwitcher } from './project-switcher'
+export { AppSidebar } from '@/components/layout/app-sidebar'
+export { AppSidebarMenu } from '@/components/layout/app-sidebar-menu'
+export { AppSidebarUser } from '@/components/layout/app-sidebar-user'
+export { ProjectSwitcher } from '@/components/layout/project-switcher'
 
 // Page layout components
 export {
-  PageLayout,
-  PageHeader,
-  PageContent,
-  Section,
   CardGrid,
   EmptyState,
-} from './page-layout'
+  PageContent,
+  PageHeader,
+  PageLayout,
+  Section,
+} from '@/components/layout/page-layout'
 
 // Responsive layout components
 export {
-  Container,
-  Grid,
-  Flex,
-  Stack,
-  Show,
-  Hide,
   AspectRatio,
+  Container,
+  Flex,
+  Grid,
+  Hide,
   ResponsiveText,
-} from './responsive-layout'
+  Show,
+  Stack,
+} from '@/components/layout/responsive-layout'

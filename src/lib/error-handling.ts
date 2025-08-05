@@ -1,7 +1,7 @@
 import type {
   AppError as AppErrorType,
   ValidationError as ValidationErrorType,
-} from '../types/common'
+} from '@/types/common'
 
 // Error classes
 export class AppErrorClass extends Error implements AppErrorType {

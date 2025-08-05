@@ -1,5 +1,4 @@
-import type { Project, Prisma } from '@prisma/client'
-import { prisma } from '@/lib/prisma'
+import { dbErrors, prisma } from '@/lib/prisma'
 import {
   AbstractRepository,
   BaseRepository,
@@ -7,8 +6,8 @@ import {
   type PaginatedResult,
   type PaginationOptions,
   type SortOptions,
-} from './base-repository'
-import { dbErrors } from '@/lib/prisma'
+} from '@/lib/repositories/base-repository'
+import type { Prisma, Project } from '@prisma/client'
 
 /**
  * Project 모델에 대한 Repository 클래스

@@ -16,7 +16,7 @@ export const cachePreloading = {
   userDashboard: async (userId: string) => {
     try {
       const { PrismaCacheWrapper } = await import('./prisma')
-      const { prisma } = await import('../prisma')
+      const { prisma } = await import('@/lib/prisma')
 
       const cachedPrisma = new PrismaCacheWrapper(prisma)
 
@@ -61,7 +61,7 @@ export const cachePreloading = {
   projectDetails: async (projectId: string) => {
     try {
       const { PrismaCacheWrapper } = await import('./prisma')
-      const { prisma } = await import('../prisma')
+      const { prisma } = await import('@/lib/prisma')
 
       const cachedPrisma = new PrismaCacheWrapper(prisma)
 
@@ -235,7 +235,7 @@ export const cacheAnalytics = {
    */
   getHitRateAnalysis: () => {
     try {
-      const { PerformanceMonitor } = require('../performance')
+      const { PerformanceMonitor } = require('@/lib/performance')
       const monitor = PerformanceMonitor.getInstance()
 
       return {

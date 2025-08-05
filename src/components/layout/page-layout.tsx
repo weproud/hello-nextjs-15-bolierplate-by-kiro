@@ -6,13 +6,18 @@
 
 'use client'
 
-import * as React from 'react'
-import { ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import {
+  Container,
+  Flex,
+  ResponsiveText,
+  Stack,
+} from '@/components/layout/responsive-layout'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Container, Flex, Stack, ResponsiveText } from './responsive-layout'
+import { cn } from '@/lib/utils'
+import { ArrowLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import * as React from 'react'
 
 // Page Header Component
 interface PageHeaderProps {

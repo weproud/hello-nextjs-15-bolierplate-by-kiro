@@ -1,0 +1,453 @@
+{
+  "timestamp": "2025-08-05T01:26:58.946Z",
+  "totalModules": 132,
+  "totalDependencies": 232,
+  "circularDependencies": [],
+  "dependencyGraph": {
+    "@/components/auth/auth-error": [
+      "@/components/ui/card",
+      "@/components/ui/button"
+    ],
+    "@/components/auth/auth-layout": [
+      "@/components/theme-toggle",
+      "@/components/ui/button"
+    ],
+    "@/components/auth/auth-provider": [],
+    "@/components/auth/client-protected-route": [
+      "@/components/ui/card",
+      "@/components/ui/button"
+    ],
+    "@/components/auth/index": [],
+    "@/components/auth/login-required": [
+      "@/components/ui/button",
+      "@/components/ui/card"
+    ],
+    "@/components/auth/modal-error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card"
+    ],
+    "@/components/auth/navigation-header": [
+      "@/components/theme-toggle",
+      "@/components/ui/button"
+    ],
+    "@/components/auth/protected-route-client": [
+      "@/components/auth/login-required"
+    ],
+    "@/components/auth/protected-route": [],
+    "@/components/auth/signin-form": [
+      "@/components/ui/button"
+    ],
+    "@/components/auth/signin-modal-lite": [
+      "@/components/ui/button",
+      "@/components/auth/signin-form"
+    ],
+    "@/components/auth/signin-modal": [
+      "@/components/ui/button",
+      "@/components/auth/modal-error-boundary",
+      "@/components/ui/card",
+      "@/components/auth/signin-form"
+    ],
+    "@/components/auth/signout-dialog": [
+      "@/components/ui/dialog",
+      "@/components/ui/button"
+    ],
+    "@/components/auth/user-profile": [
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/avatar"
+    ],
+    "@/components/dashboard/dashboard-activity": [
+      "@/components/ui/card",
+      "@/components/ui/button"
+    ],
+    "@/components/dashboard/dashboard-stats": [
+      "@/components/ui/card"
+    ],
+    "@/components/dashboard/index": [],
+    "@/components/editor/editor-toolbar": [
+      "@/components/ui/button",
+      "@/components/ui/separator"
+    ],
+    "@/components/editor/index": [],
+    "@/components/editor/tiptap-editor": [],
+    "@/components/error/component-error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/error-boundary-examples": [
+      "@/components/error/unified-error-boundary",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/tabs"
+    ],
+    "@/components/error/error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card"
+    ],
+    "@/components/error/error-fallback-client": [
+      "@/components/ui/button"
+    ],
+    "@/components/error/error-fallback-optimized": [
+      "@/components/error/error-fallback-client",
+      "@/components/ui/card"
+    ],
+    "@/components/error/error-fallback": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/error-handling-examples": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/error"
+    ],
+    "@/components/error/error-recovery": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/progress",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/global-error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/hierarchical-error-boundary": [
+      "@/components/error/component-error-boundary",
+      "@/components/error/error-fallback",
+      "@/components/error/global-error-boundary",
+      "@/components/error/route-error-boundary"
+    ],
+    "@/components/error/index": [],
+    "@/components/error/page-error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/route-error-boundary": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge"
+    ],
+    "@/components/error/unified-error-boundary": [
+      "@/components/error/component-error-boundary",
+      "@/components/error/error-recovery",
+      "@/components/error/global-error-boundary",
+      "@/components/error/route-error-boundary"
+    ],
+    "@/components/error-boundary-examples": [
+      "@/components/error/component-error-boundary",
+      "@/components/error/page-error-boundary"
+    ],
+    "@/components/error-handler-provider": [],
+    "@/components/features-section": [
+      "@/components/ui/selectable-card"
+    ],
+    "@/components/forms/advanced-form": [
+      "@/components/ui/button",
+      "@/components/ui/form",
+      "@/components/ui/form-error",
+      "@/components/ui/input"
+    ],
+    "@/components/forms/advanced-safe-action-examples": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/checkbox",
+      "@/components/ui/select",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/progress"
+    ],
+    "@/components/forms/comprehensive-form-example": [
+      "@/components/ui/input",
+      "@/components/ui/button",
+      "@/components/ui/form"
+    ],
+    "@/components/forms/contact-form-safe-action": [
+      "@/components/ui/input",
+      "@/components/ui/button",
+      "@/components/ui/form"
+    ],
+    "@/components/forms/contact-form": [
+      "@/components/forms/enhanced-form",
+      "@/components/ui/input"
+    ],
+    "@/components/forms/enhanced-form": [
+      "@/components/ui/button",
+      "@/components/ui/form-error",
+      "@/components/ui/form-field"
+    ],
+    "@/components/forms/form-field-components": [
+      "@/components/ui/input",
+      "@/components/ui/button",
+      "@/components/ui/checkbox",
+      "@/components/ui/select",
+      "@/components/ui/form"
+    ],
+    "@/components/forms/form-lazy": [
+      "@/components/ui/skeleton",
+      "@/components/ui/card"
+    ],
+    "@/components/forms/form-static-content": [],
+    "@/components/forms/index": [],
+    "@/components/forms/multi-step-form": [
+      "@/components/ui/input",
+      "@/components/ui/button"
+    ],
+    "@/components/forms/project-form-enhanced": [
+      "@/components/ui/card"
+    ],
+    "@/components/forms/project-form": [
+      "@/components/ui/button",
+      "@/components/ui/form",
+      "@/components/ui/input",
+      "@/components/ui/card",
+      "@/components/ui/progress-indicators"
+    ],
+    "@/components/forms/safe-action-example": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/card"
+    ],
+    "@/components/forms/simple-form-example": [
+      "@/components/ui/form"
+    ],
+    "@/components/forms/survey-form": [
+      "@/components/forms/enhanced-form",
+      "@/components/ui/button"
+    ],
+    "@/components/global-error-boundary": [
+      "@/components/error/error-boundary"
+    ],
+    "@/components/index": [],
+    "@/components/layout/app-sidebar-menu": [
+      "@/components/ui/collapsible",
+      "@/components/ui/sidebar"
+    ],
+    "@/components/layout/app-sidebar-user": [
+      "@/components/ui/avatar",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/sidebar"
+    ],
+    "@/components/layout/app-sidebar": [
+      "@/components/layout/app-sidebar-user",
+      "@/components/layout/project-switcher",
+      "@/components/ui/sidebar",
+      "@/components/layout/app-sidebar-menu",
+      "@/components/ui/logo"
+    ],
+    "@/components/layout/index": [],
+    "@/components/layout/page-layout": [
+      "@/components/layout/responsive-layout",
+      "@/components/ui/button",
+      "@/components/ui/separator"
+    ],
+    "@/components/layout/project-switcher": [
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/sidebar",
+      "@/components/projects/create-project-modal"
+    ],
+    "@/components/layout/responsive-layout": [],
+    "@/components/layout/sidebar-layout-client": [
+      "@/components/layout/app-sidebar",
+      "@/components/ui/breadcrumb",
+      "@/components/ui/separator",
+      "@/components/ui/sidebar"
+    ],
+    "@/components/layout/sidebar-layout-server": [
+      "@/components/layout/sidebar-layout-client"
+    ],
+    "@/components/layout/sidebar-layout": [
+      "@/components/layout/app-sidebar",
+      "@/components/layout/responsive-layout",
+      "@/components/ui/breadcrumb",
+      "@/components/ui/separator",
+      "@/components/ui/sidebar"
+    ],
+    "@/components/lazy/lazy-components": [
+      "@/components/ui/skeleton",
+      "@/components/editor/tiptap-editor",
+      "@/components/ui/modal",
+      "@/components/ui/dialog",
+      "@/components/ui/sheet",
+      "@/components/ui/data-table",
+      "@/components/charts/chart",
+      "@/components/forms/project-form-enhanced",
+      "@/components/forms/post-form"
+    ],
+    "@/components/loading/server-client-coordination": [],
+    "@/components/patterns/hybrid-examples-client": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/tabs"
+    ],
+    "@/components/patterns/hybrid-examples": [
+      "@/components/patterns/hybrid-examples-client"
+    ],
+    "@/components/patterns/server-client-boundary": [],
+    "@/components/performance/performance-monitor": [
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/progress"
+    ],
+    "@/components/performance-optimized-examples": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/input",
+      "@/components/ui/skeleton"
+    ],
+    "@/components/posts/index": [],
+    "@/components/posts/infinite-post-list-demo": [
+      "@/components/posts/infinite-post-list"
+    ],
+    "@/components/posts/infinite-post-list": [
+      "@/components/posts/post-card",
+      "@/components/ui/alert",
+      "@/components/ui/button",
+      "@/components/ui/skeleton"
+    ],
+    "@/components/posts/infinite-posts-demo": [
+      "@/components/ui/button"
+    ],
+    "@/components/posts/post-card": [
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/avatar"
+    ],
+    "@/components/posts/post-form": [
+      "@/components/ui/button",
+      "@/components/ui/form",
+      "@/components/ui/input",
+      "@/components/ui/card",
+      "@/components/ui/switch",
+      "@/components/editor/tiptap-editor"
+    ],
+    "@/components/projects/create-project-modal": [
+      "@/components/ui/dialog",
+      "@/components/forms/project-form"
+    ],
+    "@/components/projects/index": [],
+    "@/components/projects/project-crud-examples": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/dialog",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/alert-dialog"
+    ],
+    "@/components/projects/project-crud-lazy": [
+      "@/components/ui/card"
+    ],
+    "@/components/projects/project-list-client": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/badge",
+      "@/components/ui/input"
+    ],
+    "@/components/projects/project-list-server": [
+      "@/components/projects/project-list-client"
+    ],
+    "@/components/projects/project-list": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/badge"
+    ],
+    "@/components/providers/accessibility-provider": [],
+    "@/components/providers": [
+      "@/components/auth/auth-provider",
+      "@/components/error-handler-provider",
+      "@/components/theme-provider"
+    ],
+    "@/components/store-example": [],
+    "@/components/theme-provider": [],
+    "@/components/theme-toggle": [
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu"
+    ],
+    "@/components/ui/alert-dialog": [
+      "@/components/ui/button"
+    ],
+    "@/components/ui/alert": [],
+    "@/components/ui/aspect-ratio": [],
+    "@/components/ui/avatar": [],
+    "@/components/ui/badge": [],
+    "@/components/ui/breadcrumb": [],
+    "@/components/ui/button": [],
+    "@/components/ui/card": [],
+    "@/components/ui/checkbox": [],
+    "@/components/ui/collapsible": [],
+    "@/components/ui/dialog": [],
+    "@/components/ui/dropdown-menu": [],
+    "@/components/ui/form-error": [],
+    "@/components/ui/form-field": [],
+    "@/components/ui/form": [
+      "@/components/ui/label"
+    ],
+    "@/components/ui/hover-card": [],
+    "@/components/ui/image-upload": [
+      "@/components/ui/button",
+      "@/components/ui/progress"
+    ],
+    "@/components/ui/index": [],
+    "@/components/ui/input": [
+      "@/components/ui/variants"
+    ],
+    "@/components/ui/label": [],
+    "@/components/ui/logo": [],
+    "@/components/ui/menubar": [],
+    "@/components/ui/optimized-image": [
+      "@/components/ui/skeleton"
+    ],
+    "@/components/ui/progress-indicators": [
+      "@/components/ui/progress"
+    ],
+    "@/components/ui/progress": [],
+    "@/components/ui/select": [],
+    "@/components/ui/selectable-card": [],
+    "@/components/ui/separator": [],
+    "@/components/ui/sheet": [],
+    "@/components/ui/sidebar": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/separator",
+      "@/components/ui/sheet",
+      "@/components/ui/skeleton",
+      "@/components/ui/tooltip"
+    ],
+    "@/components/ui/skeleton-components": [
+      "@/components/ui/skeleton",
+      "@/components/ui/card"
+    ],
+    "@/components/ui/skeleton": [
+      "@/components/ui/variants"
+    ],
+    "@/components/ui/skip-link": [],
+    "@/components/ui/sonner": [],
+    "@/components/ui/spinner": [
+      "@/components/ui/variants"
+    ],
+    "@/components/ui/switch": [],
+    "@/components/ui/table": [],
+    "@/components/ui/textarea": [],
+    "@/components/ui/theme-transition": [],
+    "@/components/ui/tooltip": [],
+    "@/components/ui/variants": []
+  }
+}

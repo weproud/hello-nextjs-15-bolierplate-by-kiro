@@ -5,7 +5,7 @@
  * used throughout the application.
  */
 
-export * from './constants'
-export * from './navigation'
-export * from './forms'
-export * from './mock-data'
+export * from '@/data/constants'
+export * from '@/data/forms'
+export * from '@/data/mock-data'
+export * from '@/data/navigation'

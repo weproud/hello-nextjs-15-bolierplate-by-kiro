@@ -2,8 +2,8 @@
  * Cache configuration and setup
  */
 
-import { cacheWarmingScheduler } from './advanced-strategies'
-import { initializeCache } from './init'
+import { cacheWarmingScheduler } from '@/lib/cache/advanced-strategies'
+import { initializeCache } from '@/lib/cache/init'
 
 /**
  * Cache configuration interface

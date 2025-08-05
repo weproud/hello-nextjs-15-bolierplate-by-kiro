@@ -1,12 +1,15 @@
 'use client'
 
-import React, { memo, useCallback, useMemo } from 'react'
+import {
+  EnhancedForm,
+  EnhancedFormField,
+  FormSection,
+} from '@/components/forms/enhanced-form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { useFormWithValidation } from '@/hooks/use-form'
-import { EnhancedForm, EnhancedFormField, FormSection } from './enhanced-form'
-import { contactSchema, type ContactInput } from '@/lib/validations/common'
 import { submitContact } from '@/lib/actions/form-actions'
+import { contactSchema, type ContactInput } from '@/lib/validations/common'
+import { memo, useCallback, useMemo } from 'react'
 
 export const ContactForm = memo(function ContactForm() {
   const defaultValues = useMemo(

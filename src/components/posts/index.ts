@@ -5,27 +5,27 @@
  */
 
 // Core post components
-export { PostForm } from './post-form'
-export { PostCard } from './post-card'
-export { InfinitePostList } from './infinite-post-list'
+export { InfinitePostList } from '@/components/posts/infinite-post-list'
+export { PostCard } from '@/components/posts/post-card'
+export { PostForm } from '@/components/posts/post-form'
 
 // Demo and test components
-export { PostCardTest } from './post-card-test'
-export { InfinitePostListDemo } from './infinite-post-list-demo'
-export { InfinitePostsDemo } from './infinite-posts-demo'
+export { InfinitePostListDemo } from '@/components/posts/infinite-post-list-demo'
+export { InfinitePostsDemo } from '@/components/posts/infinite-posts-demo'
+export { PostCardTest } from '@/components/posts/post-card-test'
 
 // Re-export types from the central types system
 export type {
-  Post,
-  PostFormData,
-  PostCardProps,
-  PostFormProps,
-  InfinitePostListProps,
-  UseInfinitePostsReturn,
-  PostActionResult,
   CreatePostResult,
-  UpdatePostResult,
   DeletePostResult,
   GetPostResult,
   GetPostsResult,
+  InfinitePostListProps,
+  Post,
+  PostActionResult,
+  PostCardProps,
+  PostFormData,
+  PostFormProps,
+  UpdatePostResult,
+  UseInfinitePostsReturn,
 } from '@/types'

@@ -1,15 +1,14 @@
-import type { Post, Prisma } from '@prisma/client'
-import { prisma } from '@/lib/prisma'
+import { dbErrors, prisma } from '@/lib/prisma'
 import {
   AbstractRepository,
   BaseRepository,
-  NotFoundError,
   DuplicateError,
+  NotFoundError,
   type PaginatedResult,
   type PaginationOptions,
   type SortOptions,
-} from './base-repository'
-import { dbErrors } from '@/lib/prisma'
+} from '@/lib/repositories/base-repository'
+import type { Post, Prisma } from '@prisma/client'
 
 /**
  * Post 모델에 대한 Repository 클래스

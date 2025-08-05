@@ -1,9 +1,9 @@
 'use client'
 
+import { useErrorHandler } from '@/hooks/use-error-handler'
+import type { AppError } from '@/lib/error-handling'
 import { useCallback, useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { useErrorHandler } from './use-error-handler'
-import type { AppError } from '../lib/error-handling'
 
 interface ServerActionResult<T = any> {
   success: boolean

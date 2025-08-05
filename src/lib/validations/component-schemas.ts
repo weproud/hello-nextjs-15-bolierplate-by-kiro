@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { emailSchema, nameSchema } from './common'
 
 /**
  * Component validation schemas

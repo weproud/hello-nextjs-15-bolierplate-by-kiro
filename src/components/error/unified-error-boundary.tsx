@@ -1,12 +1,12 @@
 'use client'
 
-import React, { type ReactNode, type ErrorInfo } from 'react'
-import { GlobalErrorBoundary } from './global-error-boundary'
-import { RouteErrorBoundary } from './route-error-boundary'
-import { ComponentErrorBoundary } from './component-error-boundary'
-import { ErrorRecovery } from './error-recovery'
-import { type AppError } from '@/lib/error-handler'
+import { ComponentErrorBoundary } from '@/components/error/component-error-boundary'
+import { ErrorRecovery } from '@/components/error/error-recovery'
+import { GlobalErrorBoundary } from '@/components/error/global-error-boundary'
+import { RouteErrorBoundary } from '@/components/error/route-error-boundary'
 import { type ErrorRecoveryAction } from '@/lib/error-boundary-system'
+import { type AppError } from '@/lib/error-handler'
+import React, { type ErrorInfo, type ReactNode } from 'react'
 
 /**
  * 통합 에러 바운더리 시스템

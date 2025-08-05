@@ -89,7 +89,7 @@ export const getUserProjectsAPI = withCache(
       return res.status(400).json({ error: 'User ID required' })
     }
 
-    const { prisma } = await import('../prisma')
+    const { prisma } = await import('@/lib/prisma')
     const cachedPrisma = new PrismaCacheWrapper(prisma)
 
     const projects = await cachedPrisma.project.findMany(userId)
@@ -166,7 +166,7 @@ export async function onProjectStatusChange(
   newStatus: string
 ) {
   // Update project status
-  const { prisma } = await import('../prisma')
+  const { prisma } = await import('@/lib/prisma')
   await prisma.project.update({
     where: { id: projectId },
     data: { title: newStatus },
@@ -189,7 +189,7 @@ export async function onProjectStatusChange(
 export async function batchUpdateProjects(
   updates: Array<{ projectId: string; userId: string; data: any }>
 ) {
-  const { prisma } = await import('../prisma')
+  const { prisma } = await import('@/lib/prisma')
 
   // Perform batch updates
   const updatePromises = updates.map(({ projectId, data }) =>

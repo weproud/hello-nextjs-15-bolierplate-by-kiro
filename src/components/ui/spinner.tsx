@@ -1,8 +1,8 @@
-import * as React from 'react'
 import { type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
+import { spinnerVariants } from '@/components/ui/variants'
 import { cn } from '@/lib/utils'
-import { spinnerVariants } from './variants'
 
 export interface SpinnerProps
   extends React.ComponentProps<'div'>,

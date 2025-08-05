@@ -5,7 +5,7 @@
  * 각 에러에 대한 사용자 친화적 메시지와 복구 옵션을 제공합니다.
  */
 
-import { type ErrorType, type ErrorSeverity } from './error-handler'
+import { type ErrorSeverity, type ErrorType } from '@/lib/error-handler'
 
 export interface ErrorTypeDefinition {
   type: ErrorType

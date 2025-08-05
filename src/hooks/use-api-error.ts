@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
-import { handleError, logError, type AppError } from '../lib/error-handling'
+import { handleError, logError, type AppError } from '@/lib/error-handling'
 
 interface ApiErrorOptions {
   showToast?: boolean

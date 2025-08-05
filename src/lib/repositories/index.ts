@@ -17,16 +17,25 @@ export {
   type PaginatedResult,
   type PaginationOptions,
   type SortOptions,
-} from './base-repository'
+} from '@/lib/repositories/base-repository'
 
 // User Repository
-export { UserRepository, userRepository } from './user-repository'
+export {
+  UserRepository,
+  userRepository,
+} from '@/lib/repositories/user-repository'
 
 // Post Repository
-export { PostRepository, postRepository } from './post-repository'
+export {
+  PostRepository,
+  postRepository,
+} from '@/lib/repositories/post-repository'
 
 // Project Repository
-export { ProjectRepository, projectRepository } from './project-repository'
+export {
+  ProjectRepository,
+  projectRepository,
+} from '@/lib/repositories/project-repository'
 
 /**
  * 모든 Repository 인스턴스를 포함하는 객체

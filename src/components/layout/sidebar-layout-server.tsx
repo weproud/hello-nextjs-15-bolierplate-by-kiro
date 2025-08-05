@@ -1,7 +1,7 @@
-import { type ReactNode } from 'react'
-import { SidebarLayoutClient } from './sidebar-layout-client'
 import { auth } from '@/auth'
+import { SidebarLayoutClient } from '@/components/layout/sidebar-layout-client'
 import { prisma } from '@/lib/prisma'
+import { type ReactNode } from 'react'
 
 /**
  * Server Component - Sidebar layout with server-side data

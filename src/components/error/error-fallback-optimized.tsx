@@ -1,7 +1,6 @@
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ErrorFallbackClient } from '@/components/error/error-fallback-client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ErrorFallbackClient } from './error-fallback-client'
+import { AlertTriangle } from 'lucide-react'
 
 interface ErrorFallbackProps {
   error?: Error

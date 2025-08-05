@@ -4,8 +4,8 @@
  * 에디터 관련 타입들을 정의합니다.
  */
 
+import type { BaseComponentProps } from '@/types/common'
 import type { Editor } from '@tiptap/react'
-import type { BaseComponentProps } from './common'
 
 // Tiptap Editor Types - Tiptap 에디터 관련 타입들
 export interface TiptapEditorProps extends BaseComponentProps {

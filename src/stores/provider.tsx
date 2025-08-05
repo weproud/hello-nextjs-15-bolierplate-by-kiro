@@ -1,8 +1,12 @@
 'use client'
 
+import {
+  createAppStore,
+  type AppState,
+  type AppStore,
+} from '@/stores/app-store'
 import { createContext, useContext, useRef, type ReactNode } from 'react'
 import { useStore } from 'zustand'
-import { createAppStore, type AppStore, type AppState } from './app-store'
 
 const AppStoreContext = createContext<AppStore | null>(null)
 

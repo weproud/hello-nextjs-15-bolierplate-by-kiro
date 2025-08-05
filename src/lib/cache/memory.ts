@@ -94,7 +94,7 @@ export class MemoryCache<T = unknown> {
   private trackCacheHit(hit: boolean): void {
     if (process.env.NODE_ENV === 'development') {
       // Import performance monitor dynamically to avoid circular dependencies
-      import('../performance-monitor')
+      import('@/lib/performance-monitor')
         .then(({ PerformanceMonitor }) => {
           const monitor = PerformanceMonitor.getInstance()
           monitor.trackCacheHit(this.name, hit)

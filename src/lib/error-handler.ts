@@ -5,13 +5,13 @@
  * 분류, 로깅, 리포팅을 담당합니다.
  */
 
-import { createLogger } from './logger'
 import {
   classifyErrorAdvanced,
-  determineErrorSeverityAdvanced,
   createUserFriendlyErrorMessage,
+  determineErrorSeverityAdvanced,
   type ErrorContext as ErrorTypeContext,
-} from './error-types'
+} from '@/lib/error-types'
+import { createLogger } from '@/lib/logger'
 
 const logger = createLogger('error-handler')
 

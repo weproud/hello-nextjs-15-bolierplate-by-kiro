@@ -4,7 +4,7 @@
  * 포스트 관련 타입들을 정의합니다.
  */
 
-import type { BaseEntity } from './common'
+import type { BaseEntity } from '@/types/common'
 
 // Post Entity Types - 포스트 엔티티 타입들
 export interface Post extends BaseEntity {

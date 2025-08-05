@@ -1,8 +1,8 @@
-import * as React from 'react'
 import { type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
+import { skeletonVariants } from '@/components/ui/variants'
 import { cn } from '@/lib/utils'
-import { skeletonVariants } from './variants'
 
 export interface SkeletonProps
   extends React.ComponentProps<'div'>,
@@ -83,8 +83,8 @@ SkeletonButton.displayName = 'SkeletonButton'
 
 export {
   Skeleton,
-  SkeletonText,
   SkeletonAvatar,
   SkeletonButton,
+  SkeletonText,
   skeletonVariants,
 }

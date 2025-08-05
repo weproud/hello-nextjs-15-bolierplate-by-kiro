@@ -2,8 +2,12 @@
  * Static data caching for configuration and constants
  */
 
-import { MemoryCache } from './memory'
-import { CACHE_TAGS, CACHE_DURATION, createCachedFunction } from './nextjs'
+import { MemoryCache } from '@/lib/cache/memory'
+import {
+  CACHE_DURATION,
+  CACHE_TAGS,
+  createCachedFunction,
+} from '@/lib/cache/nextjs'
 
 // Static cache instance with longer TTL
 const staticCache = new MemoryCache()

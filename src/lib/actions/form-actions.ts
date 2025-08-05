@@ -1,10 +1,8 @@
 'use server'
 
 import { createLogger } from '@/lib/logger'
+import { actionClient } from '@/lib/safe-action'
 import { ApiResponse } from '@/lib/type-utils'
-import { revalidatePath } from 'next/cache'
-import { z } from 'zod'
-import { actionClient } from '../safe-action'
 import {
   contactSchema,
   feedbackSchema,
@@ -12,14 +10,16 @@ import {
   projectSchema,
   registerSchema,
   teamInviteSchema,
-} from '../validations/common'
+} from '@/lib/validations/common'
 import {
   batchDeleteSchema,
   fileUploadSchema,
   multiStepFormSchema,
   newsletterSubscriptionSchema,
   searchItemsSchema,
-} from '../validations/form-action-schemas'
+} from '@/lib/validations/form-action-schemas'
+import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
 
 const logger = createLogger('form-actions')
 

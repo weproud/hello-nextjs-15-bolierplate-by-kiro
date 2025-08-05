@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
-import { ErrorBoundary } from './error/error-boundary'
+import { ErrorBoundary } from '@/components/error/error-boundary'
 import type { AppError } from '@/types'
+import React from 'react'
 
 interface GlobalErrorBoundaryProps {
   children: React.ReactNode

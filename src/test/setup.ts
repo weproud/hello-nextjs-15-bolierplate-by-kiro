@@ -166,8 +166,8 @@ vi.mock('@/lib/env', () => ({
 }))
 
 // Setup global test utilities
-import { testEnvironment } from './fixtures'
-import { mockConsole, mockWebAPIs } from './mocks'
+import { testEnvironment } from '@/test/fixtures'
+import { mockConsole, mockWebAPIs } from '@/test/mocks'
 
 // Setup web APIs
 mockWebAPIs()

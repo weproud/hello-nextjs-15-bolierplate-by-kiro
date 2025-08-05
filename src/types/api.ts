@@ -4,7 +4,7 @@
  * API 요청, 응답 및 관련 기능을 위한 타입 정의들입니다.
  */
 
-import type { BaseEntity } from './common'
+import type { BaseEntity } from '@/types/common'
 
 // HTTP Methods
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
@@ -271,13 +271,13 @@ export class ApiError extends Error {
   }
 }
 
-export class ValidationError extends ApiError {
+export class ApiValidationError extends ApiError {
   constructor(
     message: string,
     public errors: Record<string, string[]>
   ) {
     super(message, 422, 'VALIDATION_ERROR', { errors })
-    this.name = 'ValidationError'
+    this.name = 'ApiValidationError'
   }
 }
 

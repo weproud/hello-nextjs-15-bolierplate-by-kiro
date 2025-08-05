@@ -1,4 +1,4 @@
-import { ProjectListClient } from './project-list-client'
+import { ProjectListClient } from '@/components/projects/project-list-client'
 
 interface Project {
   id: string

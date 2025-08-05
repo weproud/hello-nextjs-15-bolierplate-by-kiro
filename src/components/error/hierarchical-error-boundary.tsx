@@ -1,11 +1,11 @@
 'use client'
 
-import React, { Component, type ErrorInfo, type ReactNode } from 'react'
-import { ErrorFallback } from './error-fallback'
+import { ComponentErrorBoundary as NewComponentErrorBoundary } from '@/components/error/component-error-boundary'
+import { ErrorFallback } from '@/components/error/error-fallback'
+import { GlobalErrorBoundary as NewGlobalErrorBoundary } from '@/components/error/global-error-boundary'
+import { RouteErrorBoundary as NewRouteErrorBoundary } from '@/components/error/route-error-boundary'
 import { type AppError } from '@/lib/error-handler'
-import { GlobalErrorBoundary as NewGlobalErrorBoundary } from './global-error-boundary'
-import { RouteErrorBoundary as NewRouteErrorBoundary } from './route-error-boundary'
-import { ComponentErrorBoundary as NewComponentErrorBoundary } from './component-error-boundary'
+import React, { Component, type ErrorInfo, type ReactNode } from 'react'
 
 // 레거시 타입 정의 (하위 호환성을 위해 유지)
 export type ErrorBoundaryLevel =

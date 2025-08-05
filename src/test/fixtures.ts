@@ -1,4 +1,4 @@
-import type { TestPost, TestProject, TestSession, TestUser } from './types'
+import type { TestPost, TestProject, TestSession, TestUser } from '@/test/types'
 
 /**
  * Test fixtures with proper typing

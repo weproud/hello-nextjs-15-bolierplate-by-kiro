@@ -1,13 +1,13 @@
 'use client'
 
+import { useUser } from '@/contexts/user-context'
 import {
   createContext,
   useContext,
+  useEffect,
   useReducer,
   type ReactNode,
-  useEffect,
 } from 'react'
-import { useUser } from './user-context'
 
 // Project interfaces
 export interface Project {

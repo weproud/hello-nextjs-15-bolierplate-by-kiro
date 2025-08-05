@@ -5,9 +5,9 @@
  */
 
 // Dashboard components
-export { DashboardStats } from './dashboard-stats'
-export { DashboardActivity } from './dashboard-activity'
+export { DashboardActivity } from '@/components/dashboard/dashboard-activity'
+export { DashboardStats } from '@/components/dashboard/dashboard-stats'
 
 // Types
-export type { DashboardStatsProps } from './dashboard-stats'
-export type { DashboardActivityProps } from './dashboard-activity'
+export type { DashboardActivityProps } from '@/components/dashboard/dashboard-activity'
+export type { DashboardStatsProps } from '@/components/dashboard/dashboard-stats'

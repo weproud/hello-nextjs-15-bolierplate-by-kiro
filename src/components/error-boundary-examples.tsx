@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
-import { ComponentErrorBoundary } from './component-error-boundary'
-import { PageErrorBoundary } from './page-error-boundary'
+import { ComponentErrorBoundary } from '@/components/error/component-error-boundary'
+import { PageErrorBoundary } from '@/components/error/page-error-boundary'
 import { useErrorBoundary } from '@/hooks/use-error-boundary'
 import { createAppError, ERROR_CODES } from '@/lib/error-handling'
+import React, { useState } from 'react'
 
 // Component that throws an error
 const ErrorThrowingComponent: React.FC<{ shouldError: boolean }> = ({

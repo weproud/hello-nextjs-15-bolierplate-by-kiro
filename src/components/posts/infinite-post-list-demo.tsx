@@ -1,6 +1,6 @@
 'use client'
 
-import { InfinitePostList } from './infinite-post-list'
+import { InfinitePostList } from '@/components/posts/infinite-post-list'
 import type { Post } from '@/types'
 
 // 데모용 포스트 데이터

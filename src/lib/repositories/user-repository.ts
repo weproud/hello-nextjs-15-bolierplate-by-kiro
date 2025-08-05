@@ -1,5 +1,4 @@
 import { dbErrors, prisma } from '@/lib/prisma'
-import type { Prisma, User } from '@prisma/client'
 import {
   AbstractRepository,
   BaseRepository,
@@ -8,7 +7,8 @@ import {
   type PaginatedResult,
   type PaginationOptions,
   type SortOptions,
-} from './base-repository'
+} from '@/lib/repositories/base-repository'
+import type { Prisma, User } from '@prisma/client'
 
 /**
  * User 모델에 대한 Repository 클래스

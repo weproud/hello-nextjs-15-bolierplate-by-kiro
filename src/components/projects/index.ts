@@ -5,18 +5,18 @@
  */
 
 // Core project components
-export { ProjectList } from './project-list'
-export { ProjectListClient } from './project-list-client'
-export { ProjectListServer } from './project-list-server'
-export { CreateProjectModal } from './create-project-modal'
+export { CreateProjectModal } from '@/components/projects/create-project-modal'
+export { ProjectList } from '@/components/projects/project-list'
+export { ProjectListClient } from '@/components/projects/project-list-client'
+export { ProjectListServer } from '@/components/projects/project-list-server'
 
 // CRUD and example components
-export { ProjectCrudExamples } from './project-crud-examples'
-export { ProjectCrudLazy } from './project-crud-lazy'
+export { ProjectCrudExamples } from '@/components/projects/project-crud-examples'
+export { ProjectCrudLazy } from '@/components/projects/project-crud-lazy'
 
 // Re-export types from the central types system
 export type {
-  ProjectWithUser,
   CreateProjectInput,
+  ProjectWithUser,
   UpdateProjectInput,
 } from '@/types'

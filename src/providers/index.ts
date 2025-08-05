@@ -10,8 +10,8 @@
  */
 
 // 새로운 통합 provider들
-export { ClientProviders } from './client-providers'
-export { ServerProviders } from './server-providers'
+export { ClientProviders } from '@/providers/client-providers'
+export { ServerProviders } from '@/providers/server-providers'
 
 // 개별 provider들 (필요시 직접 사용 가능)
 export { AuthProvider } from '@/components/auth/auth-provider'

@@ -1,12 +1,15 @@
 'use client'
 
-import React, { useState, memo, useCallback, useMemo } from 'react'
-import { Input } from '@/components/ui/input'
+import {
+  EnhancedForm,
+  EnhancedFormField,
+  FormSection,
+} from '@/components/forms/enhanced-form'
 import { Button } from '@/components/ui/button'
 import { useFormWithValidation } from '@/hooks/use-form'
-import { EnhancedForm, EnhancedFormField, FormSection } from './enhanced-form'
-import { surveySchema, type SurveyInput } from '@/lib/validations/common'
 import { createTypedFormAction } from '@/lib/actions/form-actions'
+import { surveySchema, type SurveyInput } from '@/lib/validations/common'
+import { memo, useCallback, useMemo, useState } from 'react'
 
 // Create a server action for the survey
 const submitSurvey = createTypedFormAction(

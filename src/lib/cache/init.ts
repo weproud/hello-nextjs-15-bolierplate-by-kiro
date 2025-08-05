@@ -2,7 +2,7 @@
  * Cache initialization and setup utilities
  */
 
-import { PerformanceMonitor } from '../performance-monitor'
+import { PerformanceMonitor } from '@/lib/performance-monitor'
 import { cacheHealth, cacheWarming } from './strategies'
 
 /**

@@ -1,5 +1,5 @@
+import { emailSchema, nameSchema } from '@/lib/validations/common'
 import { z } from 'zod'
-import { emailSchema, nameSchema, phoneSchema } from './common'
 
 /**
  * Form action validation schemas

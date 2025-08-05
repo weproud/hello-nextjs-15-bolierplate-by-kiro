@@ -1,0 +1,787 @@
+{
+  "timestamp": "2025-08-05T01:33:07.057Z",
+  "summary": {
+    "totalFiles": 13,
+    "totalHooks": 35,
+    "totalDependencies": 8,
+    "externalDependencies": 7,
+    "circularDependencies": 0,
+    "typeIssues": 0
+  },
+  "patterns": {
+    "formHooks": [
+      {
+        "hook": "useFormAction",
+        "module": "@/hooks/use-form-action"
+      },
+      {
+        "hook": "useOptimisticFormAction",
+        "module": "@/hooks/use-form-action"
+      },
+      {
+        "hook": "useBatchFormAction",
+        "module": "@/hooks/use-form-action"
+      },
+      {
+        "hook": "useRetryableFormAction",
+        "module": "@/hooks/use-form-action"
+      },
+      {
+        "hook": "useFormWithAction",
+        "module": "@/hooks/use-form-with-action"
+      },
+      {
+        "hook": "useMultiStepFormWithAction",
+        "module": "@/hooks/use-form-with-action"
+      },
+      {
+        "hook": "useFormWithValidation",
+        "module": "@/hooks/use-form"
+      },
+      {
+        "hook": "useProgressiveForm",
+        "module": "@/hooks/use-form"
+      },
+      {
+        "hook": "useConditionalForm",
+        "module": "@/hooks/use-form"
+      },
+      {
+        "hook": "useAutoSaveForm",
+        "module": "@/hooks/use-form"
+      }
+    ],
+    "errorHooks": [
+      {
+        "hook": "useApiError",
+        "module": "@/hooks/use-api-error"
+      },
+      {
+        "hook": "useFetchWithError",
+        "module": "@/hooks/use-api-error"
+      },
+      {
+        "hook": "useErrorHandler",
+        "module": "@/hooks/use-error-handler"
+      },
+      {
+        "hook": "useGlobalErrorHandler",
+        "module": "@/hooks/use-error-handler"
+      },
+      {
+        "hook": "useServerActionErrorHandler",
+        "module": "@/hooks/use-error-handler"
+      },
+      {
+        "hook": "useServerActionError",
+        "module": "@/hooks/use-server-action-error"
+      }
+    ],
+    "stateHooks": [
+      {
+        "hook": "useGlobalLoading",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useRouteLoading",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useComponentLoading",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useDataLoading",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useProgress",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useMultipleLoading",
+        "module": "@/hooks/use-loading-state"
+      },
+      {
+        "hook": "useAsyncLoading",
+        "module": "@/hooks/use-loading-state"
+      }
+    ],
+    "apiHooks": [],
+    "utilityHooks": [
+      {
+        "hook": "useRealtimeValidation",
+        "module": "@/hooks/use-form"
+      },
+      {
+        "hook": "useInfinitePosts",
+        "module": "@/hooks/use-infinite-posts"
+      },
+      {
+        "hook": "useInfiniteUserPosts",
+        "module": "@/hooks/use-infinite-posts"
+      },
+      {
+        "hook": "useInfinitePublishedPosts",
+        "module": "@/hooks/use-infinite-posts"
+      },
+      {
+        "hook": "useInfiniteAllPosts",
+        "module": "@/hooks/use-infinite-posts"
+      },
+      {
+        "hook": "useKeyboardNavigation",
+        "module": "@/hooks/use-keyboard-navigation"
+      },
+      {
+        "hook": "useIsMobile",
+        "module": "@/hooks/use-mobile"
+      },
+      {
+        "hook": "usePerformance",
+        "module": "@/hooks/use-performance"
+      },
+      {
+        "hook": "useComponentPerformance",
+        "module": "@/hooks/use-performance"
+      },
+      {
+        "hook": "useMemoryUsage",
+        "module": "@/hooks/use-performance"
+      },
+      {
+        "hook": "useBundleAnalyzer",
+        "module": "@/hooks/use-performance"
+      },
+      {
+        "hook": "usePerformanceDebugger",
+        "module": "@/hooks/use-performance"
+      }
+    ]
+  },
+  "hookComplexity": {
+    "useApiError": 3,
+    "useFetchWithError": 3,
+    "useErrorHandler": 4,
+    "useGlobalErrorHandler": 4,
+    "useServerActionErrorHandler": 4,
+    "useFormAction": 1,
+    "useOptimisticFormAction": 1,
+    "useBatchFormAction": 1,
+    "useRetryableFormAction": 1,
+    "useFormWithAction": 2,
+    "useMultiStepFormWithAction": 2,
+    "useFormWithValidation": 1,
+    "useProgressiveForm": 1,
+    "useRealtimeValidation": 1,
+    "useConditionalForm": 1,
+    "useAutoSaveForm": 1,
+    "useInfinitePosts": 5,
+    "useInfiniteUserPosts": 5,
+    "useInfinitePublishedPosts": 5,
+    "useInfiniteAllPosts": 5,
+    "useKeyboardNavigation": 3,
+    "useGlobalLoading": 3,
+    "useRouteLoading": 3,
+    "useComponentLoading": 3,
+    "useDataLoading": 3,
+    "useProgress": 3,
+    "useMultipleLoading": 3,
+    "useAsyncLoading": 3,
+    "useIsMobile": 2,
+    "usePerformance": 6,
+    "useComponentPerformance": 6,
+    "useMemoryUsage": 6,
+    "useBundleAnalyzer": 6,
+    "usePerformanceDebugger": 6,
+    "useServerActionError": 3
+  },
+  "hookDependencies": {
+    "useApiError": {
+      "internal": [],
+      "external": [
+        "react",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState",
+        "useCallback"
+      ]
+    },
+    "useFetchWithError": {
+      "internal": [],
+      "external": [
+        "react",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState",
+        "useCallback"
+      ]
+    },
+    "useErrorHandler": {
+      "internal": [],
+      "external": [
+        "react",
+        "sonner",
+        "next/navigation"
+      ],
+      "reactHooks": [
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useGlobalErrorHandler": {
+      "internal": [],
+      "external": [
+        "react",
+        "sonner",
+        "next/navigation"
+      ],
+      "reactHooks": [
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useServerActionErrorHandler": {
+      "internal": [],
+      "external": [
+        "react",
+        "sonner",
+        "next/navigation"
+      ],
+      "reactHooks": [
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useFormAction": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState"
+      ]
+    },
+    "useOptimisticFormAction": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState"
+      ]
+    },
+    "useBatchFormAction": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState"
+      ]
+    },
+    "useRetryableFormAction": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState"
+      ]
+    },
+    "useFormWithAction": {
+      "internal": [],
+      "external": [
+        "@hookform/resolvers/zod",
+        "next-safe-action/hooks",
+        "react",
+        "react-hook-form",
+        "sonner",
+        "zod"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect"
+      ]
+    },
+    "useMultiStepFormWithAction": {
+      "internal": [],
+      "external": [
+        "@hookform/resolvers/zod",
+        "next-safe-action/hooks",
+        "react",
+        "react-hook-form",
+        "sonner",
+        "zod"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect"
+      ]
+    },
+    "useFormWithValidation": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ],
+      "reactHooks": [
+        "useEffect"
+      ]
+    },
+    "useProgressiveForm": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ],
+      "reactHooks": [
+        "useEffect"
+      ]
+    },
+    "useRealtimeValidation": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ],
+      "reactHooks": [
+        "useEffect"
+      ]
+    },
+    "useConditionalForm": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ],
+      "reactHooks": [
+        "useEffect"
+      ]
+    },
+    "useAutoSaveForm": {
+      "internal": [],
+      "external": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ],
+      "reactHooks": [
+        "useEffect"
+      ]
+    },
+    "useInfinitePosts": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useInfiniteUserPosts": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useInfinitePublishedPosts": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useInfiniteAllPosts": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useKeyboardNavigation": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback",
+        "useRef"
+      ]
+    },
+    "useGlobalLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useRouteLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useComponentLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useDataLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useProgress": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useMultipleLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useAsyncLoading": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useEffect",
+        "useCallback"
+      ]
+    },
+    "useIsMobile": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect"
+      ]
+    },
+    "usePerformance": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef"
+      ]
+    },
+    "useComponentPerformance": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef"
+      ]
+    },
+    "useMemoryUsage": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef"
+      ]
+    },
+    "useBundleAnalyzer": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef"
+      ]
+    },
+    "usePerformanceDebugger": {
+      "internal": [],
+      "external": [
+        "react"
+      ],
+      "reactHooks": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef"
+      ]
+    },
+    "useServerActionError": {
+      "internal": [
+        "@/hooks/use-error-handler"
+      ],
+      "external": [
+        "react",
+        "sonner"
+      ],
+      "reactHooks": [
+        "useState",
+        "useCallback"
+      ]
+    }
+  },
+  "circularDependencies": [],
+  "typeIssues": [],
+  "externalDependencies": {
+    "react": 12,
+    "sonner": 5,
+    "next/navigation": 1,
+    "react-hook-form": 3,
+    "@hookform/resolvers/zod": 2,
+    "next-safe-action/hooks": 1,
+    "zod": 2
+  },
+  "dependencyGraph": {
+    "@/hooks/index": {
+      "imports": [],
+      "hooks": [],
+      "externalDeps": []
+    },
+    "@/hooks/use-api-error": {
+      "imports": [
+        "@/lib/error-handling"
+      ],
+      "hooks": [
+        "useApiError",
+        "useFetchWithError"
+      ],
+      "externalDeps": [
+        "react",
+        "sonner"
+      ]
+    },
+    "@/hooks/use-error-boundary": {
+      "imports": [
+        "@/lib/error-handling"
+      ],
+      "hooks": [],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-error-handler": {
+      "imports": [
+        "@/lib/auth-error-handler",
+        "@/lib/error-handling"
+      ],
+      "hooks": [
+        "useErrorHandler",
+        "useGlobalErrorHandler",
+        "useServerActionErrorHandler"
+      ],
+      "externalDeps": [
+        "react",
+        "sonner",
+        "next/navigation"
+      ]
+    },
+    "@/hooks/use-form-action": {
+      "imports": [],
+      "hooks": [
+        "useFormAction",
+        "useOptimisticFormAction",
+        "useBatchFormAction",
+        "useRetryableFormAction"
+      ],
+      "externalDeps": [
+        "react",
+        "react-hook-form",
+        "sonner"
+      ]
+    },
+    "@/hooks/use-form-with-action": {
+      "imports": [],
+      "hooks": [
+        "useFormWithAction",
+        "useMultiStepFormWithAction"
+      ],
+      "externalDeps": [
+        "@hookform/resolvers/zod",
+        "next-safe-action/hooks",
+        "react",
+        "react-hook-form",
+        "sonner",
+        "zod"
+      ]
+    },
+    "@/hooks/use-form": {
+      "imports": [],
+      "hooks": [
+        "useFormWithValidation",
+        "useProgressiveForm",
+        "useRealtimeValidation",
+        "useConditionalForm",
+        "useAutoSaveForm"
+      ],
+      "externalDeps": [
+        "react",
+        "react-hook-form",
+        "@hookform/resolvers/zod",
+        "zod"
+      ]
+    },
+    "@/hooks/use-infinite-posts": {
+      "imports": [
+        "@/lib/actions/post-actions"
+      ],
+      "hooks": [
+        "useInfinitePosts",
+        "useInfiniteUserPosts",
+        "useInfinitePublishedPosts",
+        "useInfiniteAllPosts"
+      ],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-keyboard-navigation": {
+      "imports": [],
+      "hooks": [
+        "useKeyboardNavigation"
+      ],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-loading-state": {
+      "imports": [
+        "@/contexts/loading-context"
+      ],
+      "hooks": [
+        "useGlobalLoading",
+        "useRouteLoading",
+        "useComponentLoading",
+        "useDataLoading",
+        "useProgress",
+        "useMultipleLoading",
+        "useAsyncLoading"
+      ],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-mobile": {
+      "imports": [],
+      "hooks": [
+        "useIsMobile"
+      ],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-performance": {
+      "imports": [
+        "@/lib/performance/bundle-analyzer"
+      ],
+      "hooks": [
+        "usePerformance",
+        "useComponentPerformance",
+        "useMemoryUsage",
+        "useBundleAnalyzer",
+        "usePerformanceDebugger"
+      ],
+      "externalDeps": [
+        "react"
+      ]
+    },
+    "@/hooks/use-server-action-error": {
+      "imports": [
+        "@/hooks/use-error-handler"
+      ],
+      "hooks": [
+        "useServerActionError"
+      ],
+      "externalDeps": [
+        "react",
+        "sonner"
+      ]
+    }
+  }
+}

@@ -451,11 +451,11 @@ export const conditionalValidationSchema = z.discriminatedUnion('userType', [
 
 // Multi-step form schemas - re-exported from form-action-schemas
 export {
+  multiStepFormSchema,
   basicInfoSchema as step1Schema,
   preferencesSchema as step2Schema,
   verificationSchema as step3Schema,
-  multiStepFormSchema,
-} from './form-action-schemas'
+} from '@/lib/validations/form-action-schemas'
 
 // Dynamic form builder schema
 export const formBuilderSchema = z.object({
@@ -538,9 +538,9 @@ export type ConditionalValidationInput = z.infer<
 >
 // Multi-step form types - re-exported from form-action-schemas
 export type {
+  MultiStepFormInput,
   BasicInfoInput as Step1Input,
   PreferencesInput as Step2Input,
   VerificationInput as Step3Input,
-  MultiStepFormInput,
-} from './form-action-schemas'
+} from '@/lib/validations/form-action-schemas'
 export type FormBuilderInput = z.infer<typeof formBuilderSchema>

@@ -1,11 +1,11 @@
-import { AuthError } from 'next-auth'
 import {
-  AuthenticationError,
-  AuthorizationError,
   ActionError,
   ActionLogger,
+  AuthenticationError,
+  AuthorizationError,
   type AppError,
-} from './error-handling'
+} from '@/lib/error-handling'
+import { AuthError } from 'next-auth'
 
 /**
  * NextAuth 에러 타입

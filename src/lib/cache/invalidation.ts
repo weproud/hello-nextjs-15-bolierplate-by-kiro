@@ -1,5 +1,5 @@
-import { revalidateTag, revalidatePath } from 'next/cache'
-import { CACHE_TAGS } from './strategies'
+import { CACHE_TAGS } from '@/lib/cache/strategies'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 /**
  * Cache Invalidation Utilities

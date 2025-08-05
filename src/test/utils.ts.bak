@@ -1,0 +1,54 @@
+import { render, RenderOptions } from '@testing-library/react'
+import { ReactElement, ReactNode } from 'react'
+import { SessionProvider } from 'next-auth/react'
+import { ThemeProvider } from 'next-themes'
+import type { Session } from 'next-auth'
+
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+  session?: Session | null
+  theme?: string
+}
+
+interface AllTheProvidersProps {
+  children: ReactNode
+  session?: Session | null
+  theme?: string
+}
+
+function AllTheProviders({ children, session = null, theme = 'light' }: AllTheProvidersProps) {
+  return (
+    <SessionProvider session={session}>
+      <ThemeProvider attribute="class" defaultTheme={theme} enableSystem={false}>
+        {children}
+      </ThemeProvider>
+    </SessionProvider>
+  )
+}
+
+export function renderWithProviders(
+  ui: ReactElement,
+  { session, theme, ...renderOptions }: CustomRenderOptions = {}
+) {
+  return render(ui, {
+    wrapper: (props) => <AllTheProviders {...props} session={session} theme={theme} />,
+    ...renderOptions,
+  })
+}
+
+export const mockUser = {
+  id: 'test-user-id',
+  name: 'Test User',
+  email: 'test@example.com',
+  image: 'https://example.com/avatar.jpg',
+  role: 'USER' as const,
+  createdAt: new Date('2024-01-01'),
+  updatedAt: new Date('2024-01-01'),
+}
+
+export const mockSession: Session = {
+  user: mockUser,
+  expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+}
+
+export * from '@testing-library/react'
+export { default as userEvent } from '@testing-library/user-event'

@@ -1,7 +1,7 @@
 'use client'
 
+import { handleError, logError } from '@/lib/error-handling'
 import { toast } from 'sonner'
-import { handleError, logError } from './error-handling'
 
 // Global error handler for unhandled promise rejections
 export function setupGlobalErrorHandling() {

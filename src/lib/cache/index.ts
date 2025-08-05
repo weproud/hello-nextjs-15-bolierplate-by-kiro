@@ -5,34 +5,39 @@
 import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache'
 
 // Memory cache
-export * from './memory'
+export * from '@/lib/cache/memory'
 
 // Next.js caching
-export * from './nextjs'
+export * from '@/lib/cache/nextjs'
 
 // Prisma query caching
-export * from './prisma'
+export * from '@/lib/cache/prisma'
 
 // Static data caching
-export * from './static'
+export * from '@/lib/cache/static'
 
 // Cache strategies and management
-export * from './strategies'
+export * from '@/lib/cache/strategies'
 
 // Advanced cache strategies
-export * from './advanced-strategies'
+export * from '@/lib/cache/advanced-strategies'
 
 // Cache initialization
-export * from './init'
+export * from '@/lib/cache/init'
 
 // Cache examples and patterns
-export * from './examples'
+export * from '@/lib/cache/examples'
 
 // Cache validation and testing
-export * from './validate'
+export * from '@/lib/cache/validate'
 
 // Re-export commonly used utilities
-export { globalCache, MemoryCache, projectCache, userCache } from './memory'
+export {
+  globalCache,
+  MemoryCache,
+  projectCache,
+  userCache,
+} from '@/lib/cache/memory'
 
 export {
   apiCache,
@@ -41,20 +46,20 @@ export {
   cacheInvalidation,
   pageCache,
   routeConfig,
-} from './nextjs'
+} from '@/lib/cache/nextjs'
 
 export {
   PrismaCacheWrapper,
   prismaMemoryCache,
   withPrismaCache,
-} from './prisma'
+} from '@/lib/cache/prisma'
 
 export {
   configCache,
   constantsCache,
   featureFlagsCache,
   staticCacheUtils,
-} from './static'
+} from '@/lib/cache/static'
 
 export {
   cacheConfig,
@@ -62,9 +67,13 @@ export {
   invalidationPatterns,
   routeCacheConfig,
   setupCache,
-} from './config'
+} from '@/lib/cache/config'
 
-export { cacheHealth, cacheStrategies, cacheWarming } from './strategies'
+export {
+  cacheHealth,
+  cacheStrategies,
+  cacheWarming,
+} from '@/lib/cache/strategies'
 
 export {
   cacheAnalytics,
@@ -73,14 +82,14 @@ export {
   cacheWarmingScheduler,
   distributedCachePrep,
   smartInvalidation,
-} from './advanced-strategies'
+} from '@/lib/cache/advanced-strategies'
 
 export {
   cached,
   cacheUtils as initCacheUtils,
   initializeCache,
   withCache,
-} from './init'
+} from '@/lib/cache/init'
 
 // Cache configuration
 export const CACHE_CONFIG = {
@@ -259,7 +268,7 @@ export const cachedFetchers = {
 }
 
 // Export memory cache instance from memory module
-export { memoryCache } from './memory'
+export { memoryCache } from '@/lib/cache/memory'
 
 /**
  * Local storage cache utilities

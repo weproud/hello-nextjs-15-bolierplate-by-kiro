@@ -2,8 +2,8 @@ import { type VariantProps } from 'class-variance-authority'
 import { Eye, EyeOff } from 'lucide-react'
 import * as React from 'react'
 
+import { enhancedInputVariants } from '@/components/ui/variants'
 import { cn } from '@/lib/utils'
-import { enhancedInputVariants } from './variants'
 
 export interface InputProps
   extends Omit<React.ComponentProps<'input'>, 'size'>,

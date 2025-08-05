@@ -5,15 +5,15 @@
  */
 
 // Main editor components
-export { TiptapEditor } from './tiptap-editor'
-export { EditorToolbar } from './editor-toolbar'
+export { EditorToolbar } from '@/components/editor/editor-toolbar'
+export { TiptapEditor } from '@/components/editor/tiptap-editor'
 
 // Test and demo components
-export { EditorTest } from './editor-test'
+export { EditorTest } from '@/components/editor/editor-test'
 
 // Re-export types from the central types system
 export type {
+  EditorToolbarProps,
   TiptapEditorProps,
   TiptapEditorRef,
-  EditorToolbarProps,
 } from '@/types'

@@ -5,6 +5,6 @@
  * throughout the application.
  */
 
-export * from './app-context'
-export * from './user-context'
-export * from './project-context'
+export * from '@/contexts/app-context'
+export * from '@/contexts/project-context'
+export * from '@/contexts/user-context'

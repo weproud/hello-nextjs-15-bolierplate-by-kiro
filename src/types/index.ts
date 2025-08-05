@@ -6,22 +6,22 @@
  */
 
 // Common Types - 공통 타입들
-export * from './common'
+export * from '@/types/common'
 
 // API Types - API 관련 타입들
-export * from './api'
+export * from '@/types/api'
 
 // Database Types - 데이터베이스 관련 타입들
-export * from './database'
+export * from '@/types/database'
 
 // Editor Types - 에디터 관련 타입들
-export * from './editor'
+export * from '@/types/editor'
 
 // Post Types - 포스트 관련 타입들
-export * from './post'
+export * from '@/types/post'
 
 // NextAuth Types - NextAuth 관련 타입들
-export * from './next-auth'
+export * from '@/types/next-auth'
 
 // Note: Commonly used types are already exported via export * above
 // No need for explicit re-exports to avoid duplication

@@ -8,7 +8,7 @@
  * - 네트워크 복구 (Network Recovery)
  */
 
-import { type AppError, type ErrorType } from './error-handler'
+import { type AppError, type ErrorType } from '@/lib/error-handler'
 
 export interface RetryConfig {
   maxAttempts: number

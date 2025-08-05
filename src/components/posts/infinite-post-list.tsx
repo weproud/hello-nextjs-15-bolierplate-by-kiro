@@ -1,16 +1,16 @@
 'use client'
 
-import { memo } from 'react'
 import { AlertCircle, RefreshCw } from 'lucide-react'
+import { memo } from 'react'
 
-import { PostCard } from './post-card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import { PostCard } from '@/components/posts/post-card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { useInfinitePosts } from '@/hooks/use-infinite-posts'
-import type { Post } from '@/types'
 import { cn } from '@/lib/utils'
+import type { Post } from '@/types'
 
 interface InfinitePostListProps {
   initialPosts?: Post[]

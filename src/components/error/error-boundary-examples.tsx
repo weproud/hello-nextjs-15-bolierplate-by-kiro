@@ -1,17 +1,17 @@
 'use client'
 
-import React, { useState } from 'react'
+import {
+  ErrorBoundaryDebugger,
+  ErrorBoundaryTester,
+  HierarchicalErrorBoundaryWrapper,
+  UnifiedErrorBoundary,
+  withComponentErrorBoundary,
+} from '@/components/error/unified-error-boundary'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import {
-  UnifiedErrorBoundary,
-  HierarchicalErrorBoundaryWrapper,
-  withComponentErrorBoundary,
-  ErrorBoundaryTester,
-  ErrorBoundaryDebugger,
-} from './unified-error-boundary'
+import React, { useState } from 'react'
 
 /**
  * 에러 바운더리 시스템 사용 예제 컴포넌트

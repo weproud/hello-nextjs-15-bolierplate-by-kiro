@@ -5,25 +5,25 @@
  */
 
 // Core error boundary components
-export { ErrorBoundary } from './error-boundary'
-export { GlobalErrorBoundary } from './global-error-boundary'
-export { PageErrorBoundary } from './page-error-boundary'
-export { ComponentErrorBoundary } from './component-error-boundary'
-export { RouteErrorBoundary } from './route-error-boundary'
-export { HierarchicalErrorBoundary } from './hierarchical-error-boundary'
-export { UnifiedErrorBoundary } from './unified-error-boundary'
+export { ComponentErrorBoundary } from '@/components/error/component-error-boundary'
+export { ErrorBoundary } from '@/components/error/error-boundary'
+export { GlobalErrorBoundary } from '@/components/error/global-error-boundary'
+export { HierarchicalErrorBoundary } from '@/components/error/hierarchical-error-boundary'
+export { PageErrorBoundary } from '@/components/error/page-error-boundary'
+export { RouteErrorBoundary } from '@/components/error/route-error-boundary'
+export { UnifiedErrorBoundary } from '@/components/error/unified-error-boundary'
 
 // Error fallback components
-export { ErrorFallback } from './error-fallback'
-export { ErrorFallbackClient } from './error-fallback-client'
-export { ErrorFallbackOptimized } from './error-fallback-optimized'
+export { ErrorFallback } from '@/components/error/error-fallback'
+export { ErrorFallbackClient } from '@/components/error/error-fallback-client'
+export { ErrorFallbackOptimized } from '@/components/error/error-fallback-optimized'
 
 // Error recovery components
-export { ErrorRecovery } from './error-recovery'
+export { ErrorRecovery } from '@/components/error/error-recovery'
 
 // Test and example components
-export { ErrorBoundaryTest } from './error-boundary-test'
-export { ErrorBoundaryExamples } from './error-boundary-examples'
+export { ErrorBoundaryExamples } from '@/components/error/error-boundary-examples'
+export { ErrorBoundaryTest } from '@/components/error/error-boundary-test'
 
 // Re-export types from the central types system
-export type { ErrorFallbackProps, AppError } from '@/types'
+export type { AppError, ErrorFallbackProps } from '@/types'

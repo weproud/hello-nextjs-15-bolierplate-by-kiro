@@ -1,7 +1,11 @@
+import {
+  createTestPost,
+  createTestProject,
+  createTestUser,
+} from '@/test/fixtures'
+import type { MockPrismaClient } from '@/test/types'
 import type { Mock } from 'vitest'
 import { vi } from 'vitest'
-import { createTestPost, createTestProject, createTestUser } from './fixtures'
-import type { MockPrismaClient } from './types'
 
 /**
  * Comprehensive mock utilities with proper typing

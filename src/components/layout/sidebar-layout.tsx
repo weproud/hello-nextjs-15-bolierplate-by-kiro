@@ -1,13 +1,7 @@
 'use client'
 
-import * as React from 'react'
 import { AppSidebar } from '@/components/layout/app-sidebar'
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
-import { Separator } from '@/components/ui/separator'
+import { Container, Flex, Show } from '@/components/layout/responsive-layout'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,9 +10,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Container, Flex, Show } from './responsive-layout'
+import { Separator } from '@/components/ui/separator'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 import { useMediaQuery } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
+import * as React from 'react'
 
 interface SidebarLayoutProps {
   children: React.ReactNode

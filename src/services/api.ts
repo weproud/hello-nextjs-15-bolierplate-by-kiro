@@ -5,7 +5,7 @@
  * with proper error handling and type safety.
  */
 
-import { getCurrentSession } from './auth'
+import { getCurrentSession } from '@/services/auth'
 
 export interface ApiResponse<T = unknown> {
   data?: T

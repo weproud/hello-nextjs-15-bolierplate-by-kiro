@@ -7,9 +7,9 @@
 
 import { auth, signIn, signOut } from '@/auth'
 import { createLogger } from '@/lib/logger'
+import type { AuthUser, IAuthService } from '@/services/interfaces'
 import type { UserRole } from '@/types/next-auth'
 import { redirect } from 'next/navigation'
-import type { AuthUser, IAuthService } from './interfaces'
 
 const logger = createLogger('auth-service')
 

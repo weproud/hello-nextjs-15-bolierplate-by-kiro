@@ -5,181 +5,190 @@
  */
 
 // Core UI Components
-export { Button, buttonVariants } from './button'
-export { Input, inputVariants } from './input'
-export { Textarea } from './textarea'
-export { Label } from './label'
-export { Badge, badgeVariants } from './badge'
-export { Avatar, AvatarImage, AvatarFallback } from './avatar'
-export { Spinner, spinnerVariants } from './spinner'
+export { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+export { Badge, badgeVariants } from '@/components/ui/badge'
+export { Button, buttonVariants } from '@/components/ui/button'
+export { Input, inputVariants } from '@/components/ui/input'
+export { Label } from '@/components/ui/label'
 export {
   Skeleton,
-  SkeletonText,
   SkeletonAvatar,
   SkeletonButton,
+  SkeletonText,
   skeletonVariants,
-} from './skeleton'
+} from '@/components/ui/skeleton'
+export { Spinner, spinnerVariants } from '@/components/ui/spinner'
+export { Textarea } from '@/components/ui/textarea'
 
 // Layout Components
 export {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
-} from './card'
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 // Form Components
 export {
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   useFormField,
-} from './form'
+} from '@/components/ui/form'
 
 export {
+  CheckboxField,
   FormField as EnhancedFormField,
   InputField,
-  TextareaField,
   SelectField,
-  CheckboxField,
-} from './form-field'
+  TextareaField,
+} from '@/components/ui/form-field'
 
-export { FormError } from './form-error'
+export { FormError } from '@/components/ui/form-error'
 
 // Interactive Components
-export { Checkbox } from './checkbox'
-export { Switch } from './switch'
+export { Checkbox } from '@/components/ui/checkbox'
 export {
   Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
   SelectContent,
-  SelectLabel,
+  SelectGroup,
   SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
+  SelectLabel,
   SelectScrollDownButton,
-} from './select'
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+export { Switch } from '@/components/ui/switch'
 
 // Feedback Components
-export { Alert, AlertTitle, AlertDescription, alertVariants } from './alert'
+export {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  alertVariants,
+} from '@/components/ui/alert'
 export {
   AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-} from './alert-dialog'
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
-export { Progress } from './progress'
-export { ProgressIndicators } from './progress-indicators'
+export { Progress } from '@/components/ui/progress'
+export { ProgressIndicators } from '@/components/ui/progress-indicators'
 
 // Navigation Components
 export {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
-} from './breadcrumb'
+} from '@/components/ui/breadcrumb'
 
 export {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuGroup,
-  DropdownMenuPortal,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
-} from './dropdown-menu'
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export {
   Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-  MenubarSeparator,
-  MenubarLabel,
   MenubarCheckboxItem,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
   MenubarRadioGroup,
   MenubarRadioItem,
-  MenubarPortal,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
-  MenubarGroup,
-  MenubarSub,
-  MenubarShortcut,
-} from './menubar'
+  MenubarTrigger,
+} from '@/components/ui/menubar'
 
 // Layout & Structure Components
-export { Separator } from './separator'
-export { AspectRatio } from './aspect-ratio'
+export { AspectRatio } from '@/components/ui/aspect-ratio'
 export {
   Collapsible,
-  CollapsibleTrigger,
   CollapsibleContent,
-} from './collapsible'
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+export { Separator } from '@/components/ui/separator'
 
 // Overlay Components
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
   DialogClose,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
-} from './dialog'
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 export {
   Sheet,
-  SheetPortal,
-  SheetOverlay,
-  SheetTrigger,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
-} from './sheet'
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 
-export { HoverCard, HoverCardTrigger, HoverCardContent } from './hover-card'
+export {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 
 export {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
   TooltipProvider,
-} from './tooltip'
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 // Sidebar Components
 export {
@@ -207,25 +216,25 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
-} from './sidebar'
+} from '@/components/ui/sidebar'
 
 // Data Display Components
 export {
   Table,
-  TableHeader,
   TableBody,
+  TableCaption,
+  TableCell,
   TableFooter,
   TableHead,
+  TableHeader,
   TableRow,
-  TableCell,
-  TableCaption,
-} from './table'
+} from '@/components/ui/table'
 
 // Specialized Components
-export { SelectableCard } from './selectable-card'
-export { SkeletonComponents } from './skeleton-components'
-export { Logo } from './logo'
-export { Sonner } from './sonner'
+export { Logo } from '@/components/ui/logo'
+export { SelectableCard } from '@/components/ui/selectable-card'
+export { SkeletonComponents } from '@/components/ui/skeleton-components'
+export { Sonner } from '@/components/ui/sonner'
 
 // Variant Systems
-export { variants } from './variants'
+export { variants } from '@/components/ui/variants'

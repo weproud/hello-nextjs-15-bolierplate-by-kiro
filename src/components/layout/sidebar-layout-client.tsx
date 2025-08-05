@@ -1,13 +1,6 @@
 'use client'
 
-import React, { type ReactNode } from 'react'
-import { AppSidebar } from './app-sidebar'
-import {
-  SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
-import { Separator } from '@/components/ui/separator'
+import { AppSidebar } from '@/components/layout/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,8 +9,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { Separator } from '@/components/ui/separator'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 import { usePathname } from 'next/navigation'
-import { useMemo } from 'react'
+import React, { useMemo, type ReactNode } from 'react'
 
 interface NavigationData {
   user: {

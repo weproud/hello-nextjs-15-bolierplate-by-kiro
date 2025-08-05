@@ -5,7 +5,7 @@
  * across modal and full page contexts.
  */
 
-import { createLogger } from './logger'
+import { createLogger } from '@/lib/logger'
 
 const logger = createLogger('auth-error-utils')
 

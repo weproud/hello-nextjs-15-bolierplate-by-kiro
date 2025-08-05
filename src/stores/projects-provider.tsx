@@ -1,12 +1,12 @@
 'use client'
 
-import { createContext, useContext, useRef, type ReactNode } from 'react'
-import { useStore } from 'zustand'
 import {
   createProjectsStore,
-  type ProjectsStore,
   type ProjectsState,
-} from './projects-store'
+  type ProjectsStore,
+} from '@/stores/projects-store'
+import { createContext, useContext, useRef, type ReactNode } from 'react'
+import { useStore } from 'zustand'
 
 const ProjectsStoreContext = createContext<ProjectsStore | null>(null)
 

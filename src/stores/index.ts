@@ -1,67 +1,71 @@
 // Export store types and interfaces
-export type { AppState, AppStore } from './app-store'
-export type { PostsState, PostsStore, PostWithAuthor } from './posts-store'
+export type { AppState, AppStore } from '@/stores/app-store'
 export type {
+  PostWithAuthor,
+  PostsState,
+  PostsStore,
+} from '@/stores/posts-store'
+export type {
+  ProjectWithUser,
   ProjectsState,
   ProjectsStore,
-  ProjectWithUser,
-} from './projects-store'
+} from '@/stores/projects-store'
 
 // Export the provider-based approach (recommended for SSR)
 export {
   AppStoreProvider,
-  useAppStore,
-  // Specialized hooks
-  useUser,
-  useTheme,
-  useSidebar,
-  useNotifications,
-  usePreferences,
-  useAppLoading,
-  useAppError,
   // Action hooks
   useAppActions,
-  useUserActions,
-  useUIActions,
+  useAppError,
+  useAppLoading,
+  useAppStore,
   useNotificationActions,
-} from './provider'
+  useNotifications,
+  usePreferences,
+  useSidebar,
+  useTheme,
+  useUIActions,
+  // Specialized hooks
+  useUser,
+  useUserActions,
+} from '@/stores/provider'
 
 // Export posts store
 export {
   PostsStoreProvider,
-  usePostsStore,
-  usePosts,
   useCurrentPost,
-  usePostsLoading,
-  usePostsError,
-  usePostsPagination,
-  usePostsFilters,
+  usePosts,
   usePostsActions,
   usePostsDataActions,
-  usePostsLoadingActions,
+  usePostsError,
   usePostsFilterActions,
+  usePostsFilters,
+  usePostsLoading,
+  usePostsLoadingActions,
+  usePostsPagination,
   usePostsPaginationActions,
-} from './posts-provider'
+  usePostsStore,
+} from '@/stores/posts-provider'
 
 // Export projects store
 export {
   ProjectsStoreProvider,
-  useProjectsStore,
-  useProjects,
   useCurrentProject,
-  useProjectsLoading,
-  useProjectsError,
-  useProjectsPagination,
-  useProjectsFilters,
-  useProjectsSort,
+  useProjects,
   useProjectsActions,
   useProjectsDataActions,
-  useProjectsLoadingActions,
+  useProjectsError,
   useProjectsFilterActions,
+  useProjectsFilters,
+  useProjectsLoading,
+  useProjectsLoadingActions,
+  useProjectsPagination,
   useProjectsPaginationActions,
-} from './projects-provider'
+  useProjectsSort,
+  useProjectsStore,
+} from '@/stores/projects-provider'
 
 // Export the store factories for advanced use cases
-export { createAppStore } from './app-store'
-export { createPostsStore } from './posts-store'
-export { createProjectsStore } from './projects-store'
+export { createAppStore } from '@/stores/app-store'
+export { createPostsStore } from '@/stores/posts-store'
+export { createProjectsStore } from '@/stores/projects-store'

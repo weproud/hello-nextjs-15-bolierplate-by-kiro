@@ -1,12 +1,12 @@
 'use client'
 
+import { AuthProvider } from '@/components/auth/auth-provider'
+import { ErrorHandlerProvider } from '@/components/error-handler-provider'
+import { ThemeProvider } from '@/components/theme-provider'
+import { AppStoreProvider } from '@/stores/provider'
 import { SessionProvider } from 'next-auth/react'
 import { memo } from 'react'
 import { Toaster } from 'sonner'
-import { AppStoreProvider } from '../stores/provider'
-import { AuthProvider } from './auth/auth-provider'
-import { ErrorHandlerProvider } from './error-handler-provider'
-import { ThemeProvider } from './theme-provider'
 
 import type { ProvidersProps } from '@/types'
 
